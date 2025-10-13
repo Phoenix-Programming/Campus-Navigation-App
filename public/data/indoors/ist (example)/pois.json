@@ -1,0 +1,33 @@
+{
+	"floors": {
+		"1": {
+			"fountain1_f1": {
+				"name": "Water Fountain",
+				"type": "water_fountain",
+				"node": "fountain1_f1"
+			},
+			"vending1_f1": {
+				"name": "Vending Machine",
+				"type": "vending_food",
+				"node": "vending1_f1"
+			},
+			"vending2_f1": {
+				"name": "Vending Machine",
+				"type": "vending_drinks",
+				"node": "vending2_f1"
+			}
+		},
+		"2": {
+			"fountain1_f2": {
+				"name": "Water Fountain",
+				"type": "water_fountain",
+				"node": "fountain_f1"
+			},
+			"vending1_f2": {
+				"name": "Vending Machine",
+				"type": "vending_food",
+				"node": "vending_f1"
+			}
+		}
+	}
+}

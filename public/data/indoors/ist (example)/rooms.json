@@ -1,0 +1,79 @@
+{
+	"floors": {
+		"1": {
+			"room101": {
+				"name": "IST-101",
+				"type": "computer-lab",
+				"doors": [
+					{ "id": "room101_door1", "type": "single", "direction": "inout" },
+					{ "id": "room101_door2", "type": "single", "direction": "exit-only" }
+				],
+				"amenities": ["computers", "whiteboard"]
+			},
+			"room102": {
+				"name": "IST-102",
+				"type": "classroom",
+				"doors": [{ "id": "room201_door", "type": "single", "direction": "inout" }],
+				"amenities": ["seating", "microphone"]
+			},
+			"room103": {
+				"name": "IST-103",
+				"official_name": "John Anderson Physics Lab",
+				"type": "physics-lab",
+				"doors": [
+					{ "id": "room103_door1", "type": "single", "direction": "inout" },
+					{ "id": "room103_door2", "type": "single", "direction": "inout" }
+				],
+				"amenities": ["projector", "whiteboard"]
+			},
+			"room104": {
+				"name": "IST-104",
+				"official_name": "Boring Co. Conference Room",
+				"type": "conference",
+				"doors": [{ "id": "room104_door1", "type": "single", "direction": "inout" }],
+				"amenities": ["screen", "whiteboard"]
+			}
+		},
+		"2": {
+			"room200": {
+				"name": "IST-200",
+				"description": "Insert blurb here",
+				"type": "common",
+				"doors": [{ "id": "room200_door", "type": "double", "direction": "inout" }],
+				"amenities": ["tables", "chairs"]
+			},
+			"room201": {
+				"name": "IST-201",
+				"type": "study",
+				"doors": [{ "id": "room201_door", "type": "single", "direction": "inout" }],
+				"amenities": ["tables", "power outlets"]
+			},
+			"room202": {
+				"name": "IST-202",
+				"type": "office",
+				"doors": [{ "id": "room202_door", "type": "single", "direction": "inout" }],
+				"amenities": ["chairs"]
+			},
+			"room203": {
+				"name": "IST-203",
+				"type": "office",
+				"doors": [{ "id": "room203_door", "type": "single", "direction": "inout" }],
+				"amenities": ["chairs"]
+			},
+			"room204": {
+				"name": "IST-204",
+				"type": "office",
+				"doors": [{ "id": "room204_door", "type": "single", "direction": "inout" }],
+				"amenities": ["chairs"]
+			},
+			"room205": {
+				"name": "IST-205",
+				"doors": [{ "id": "room205_door", "type": "single", "direction": "inout" }],
+				"gender": "family",
+				"disability_friendly": true,
+				"changing_table": true,
+				"female_hygiene_products": true
+			}
+		}
+	}
+}

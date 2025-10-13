@@ -1,0 +1,63 @@
+{
+	"bld_id": "ist",
+	"nodes": [
+		{ "id": "hall1_a", "type": "hall", "floor": 1, "x": 0, "y": 0, "role": "routing" },
+		{ "id": "hall1_b", "type": "hall", "floor": 1, "x": 50, "y": 0, "role": "routing" },
+		{ "id": "hall1_c", "type": "hall", "floor": 1, "x": 100, "y": 0, "role": "routing" },
+
+		{ "id": "room101_door1", "type": "door", "floor": 1, "x": 10, "y": 5, "role": "routing" },
+		{ "id": "room101_door2", "type": "door", "floor": 1, "x": 20, "y": 5, "role": "routing" },
+		{ "id": "room102_door", "type": "door", "floor": 1, "x": 45, "y": 5, "role": "routing" },
+
+		{ "id": "room101", "type": "room", "floor": 1, "x": 15, "y": 0, "role": "destination" },
+		{ "id": "room102", "type": "room", "floor": 1, "x": 55, "y": 5, "role": "destination" },
+
+		{ "id": "stair_a_f1", "type": "stair", "floor": 1, "x": 100, "y": 5, "role": "routing" },
+		{ "id": "main_exit", "type": "door", "floor": 1, "x": 10, "y": 0, "role": "routing" },
+
+		{ "id": "fountain1_f1", "type": "poi", "floor": 1, "x": 52, "y": 3, "role": "poi" },
+
+		{ "id": "hall2_a", "type": "hall", "floor": 2, "x": 0, "y": 0, "role": "routing" },
+		{ "id": "hall2_b", "type": "hall", "floor": 2, "x": 50, "y": 0, "role": "routing" },
+		{ "id": "hall2_c", "type": "hall", "floor": 2, "x": 100, "y": 0, "role": "routing" },
+
+		{ "id": "room201_door", "type": "door", "floor": 2, "x": 10, "y": 5, "role": "routing" },
+		{ "id": "room202_door", "type": "door", "floor": 2, "x": 80, "y": 5, "role": "routing" },
+
+		{ "id": "room201", "type": "room", "floor": 2, "x": 15, "y": 5, "role": "destination" },
+		{ "id": "room202", "type": "room", "floor": 2, "x": 85, "y": 5, "role": "destination" },
+
+		{ "id": "stair_a_f2", "type": "stair", "floor": 2, "x": 100, "y": 5, "role": "routing" },
+
+		{ "id": "vending1_f2", "type": "poi", "floor": 2, "x": 55, "y": 2, "role": "poi" }
+	],
+
+	"edges": [
+		["hall1_a", "hall1_b"],
+		["hall1_b", "hall1_c"],
+
+		["hall1_a", "main_exit"],
+		["hall1_a", "room101_door1"],
+		["hall1_a", "room101_door2"],
+		["hall1_b", "room102_door"],
+		["hall1_c", "stair_a_f1"],
+
+		["room101_door1", "room101"],
+		["room101_door2", "room101"],
+		["room102_door", "room102"],
+
+		{ "from": "room101_door2", "to": "hall1_a" },
+
+		["hall2_a", "hall2_b"],
+		["hall2_b", "hall2_c"],
+
+		["hall2_a", "room201_door"],
+		["hall2_c", "room202_door"],
+		["hall2_c", "stair_a_f2"],
+
+		["room201_door", "room201"],
+		["room202_door", "room202"],
+
+		["stair_a_f1", "stair_a_f2"]
+	]
+}

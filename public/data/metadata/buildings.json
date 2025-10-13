@@ -1,0 +1,11 @@
+{
+	"ist": {
+		"name": "Innovation, Science, & Technology Building",
+		"abbreviation": "IST",
+		"categories": ["academic"],
+		"description": "Insert blurb here",
+		"hours": "6:00 AM - 11:00 PM",
+		"visitor_hours": "8:00 AM - 5:00 PM",
+		"accessibility": ["auto_door", "elevator"]
+	}
+}
