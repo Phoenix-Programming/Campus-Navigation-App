@@ -1,0 +1,15 @@
+{
+	"mosaic_cafe": {
+		"name": "Mosaic Cafe",
+		"floor": 1,
+		"node": "hall2_b",
+		"categories": ["coffee", "breakfast", "snacks", "to-go"],
+		"description": "Coffee, beverages, and snacks",
+		"hours": "7:00 AM - 5:00 PM",
+		"menu": [
+			{ "item": "Latte", "description": "Insert blurb here", "price": 3.5 },
+			{ "item": "Cappuccino", "description": "Insert blurb here", "price": 3.0 },
+			{ "item": "Bagel", "description": "Insert blurb here", "price": 2.0 }
+		]
+	}
+}
