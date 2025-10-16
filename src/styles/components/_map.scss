@@ -1,0 +1,18 @@
+.map-container {
+	height: 725px;
+	width: 100%;
+
+	.layer {
+		&.layer--buildings {
+			stroke: red;
+			fill: red;
+		}
+
+		&.layer--paths { stroke: blue; }
+
+		&.layer--parking-lots {
+			stroke: purple;
+			fill: purple;
+		}
+	}
+}
