@@ -7,6 +7,8 @@ const { BaseLayer, Overlay } = LayersControl;
 
 export default function LeafletMap() {
 	const [layers, setLayers] = useState<LoadedLayer[]>([]);
+	const [cssLoaded, setCssLoaded] = useState(false);
+	const [layerKey, setLayerKey] = useState(0); // Force re-render key
 
 	useEffect(() => {
 		const loadLayers = async () => {
@@ -44,6 +46,46 @@ export default function LeafletMap() {
 		loadLayers();
 	}, []);
 
+	// Check for CSS loading and force layer reload when ready
+	useEffect(() => {
+		const checkCSSLoaded = () => {
+			try {
+				// Create a test element to check if CSS rules are applied
+				const testElement: HTMLDivElement = document.createElement("div");
+				testElement.className = "layer layer--buildings";
+				testElement.style.position = "absolute";
+				testElement.style.visibility = "hidden";
+				document.body.appendChild(testElement);
+
+				const computedStyle: CSSStyleDeclaration = window.getComputedStyle(testElement);
+				const hasStyles: boolean = computedStyle.stroke === "red" || computedStyle.fill === "red";
+
+				document.body.removeChild(testElement);
+
+				if (hasStyles && !cssLoaded) {
+					setCssLoaded(true);
+					// Force layers to re-render by updating the key
+					setLayerKey((prev) => prev + 1);
+				} else if (!hasStyles) {
+					// Retry after a short delay
+					setTimeout(checkCSSLoaded, 100);
+				}
+			} catch (error) {
+				console.warn("CSS check failed:", error);
+				// Fallback: assume loaded after a reasonable delay
+				setTimeout(() => {
+					if (!cssLoaded) {
+						setCssLoaded(true);
+						setLayerKey((prev) => prev + 1);
+					}
+				}, 2000);
+			}
+		};
+
+		// Start checking after layers are loaded
+		if (layers.length > 0 && !cssLoaded) checkCSSLoaded();
+	}, [layers, cssLoaded]);
+
 	const formatLayerName = (id: string): string => {
 		return id
 			.split("_")
@@ -77,8 +119,12 @@ export default function LeafletMap() {
 
 				{layers.map((layer) => {
 					return (
-						<Overlay key={layer.id} checked={layer.defaultShown} name={formatLayerName(layer.id)}>
-							<GeoJSON data={layer.data} pathOptions={{ className: `layer ${formatClassName(layer.id)}` }} />
+						<Overlay key={`${layer.id}-${layerKey}`} checked={layer.defaultShown} name={formatLayerName(layer.id)}>
+							<GeoJSON
+								key={`geojson-${layer.id}-${layerKey}`}
+								data={layer.data}
+								pathOptions={{ className: `layer ${formatClassName(layer.id)}` }}
+							/>
 						</Overlay>
 					);
 				})}
