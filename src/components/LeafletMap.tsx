@@ -59,8 +59,8 @@ export default function LeafletMap() {
 
 	return (
 		<MapContainer
-			center={[28.1482, -81.8485]}
-			zoom={16.75}
+			center={[28.1477, -81.8485]}
+			zoom={16.25}
 			zoomSnap={0}
 			wheelPxPerZoomLevel={5}
 			minZoom={16}
