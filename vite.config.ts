@@ -4,6 +4,16 @@ import path from 'path';
 
 export default defineConfig({
 	base: "/Campus-Navigation-App/",
+	build: {
+		rollupOptions: {
+			output: {
+				assetFileNames: (assetInfo) => {
+					if (assetInfo.names?.some(n => n.endsWith('.css'))) return 'assets/styles.css';
+					return 'assets/[name]-[hash][extname]';
+				}
+			}
+		}
+	},
 	plugins: [
 		react({
 			babel: {
