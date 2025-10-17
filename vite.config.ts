@@ -1,6 +1,6 @@
-import { defineConfig } from 'vite';
-import react from '@vitejs/plugin-react';
-import path from 'path';
+import { defineConfig } from "vite";
+import react from "@vitejs/plugin-react";
+import path from "path";
 
 export default defineConfig({
 	base: "/Campus-Navigation-App/",
@@ -8,8 +8,8 @@ export default defineConfig({
 		rollupOptions: {
 			output: {
 				assetFileNames: (assetInfo) => {
-					if (assetInfo.names?.some(n => n.endsWith('.css'))) return 'assets/styles.css';
-					return 'assets/[name]-[hash][extname]';
+					if (assetInfo.name?.endsWith(".css")) return "assets/styles.css";
+					return "assets/[name]-[hash][extname]";
 				}
 			}
 		}
@@ -17,7 +17,7 @@ export default defineConfig({
 	plugins: [
 		react({
 			babel: {
-				plugins: [['babel-plugin-react-compiler']]
+				plugins: [["babel-plugin-react-compiler"]]
 			}
 		})
 	],
