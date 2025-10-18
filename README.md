@@ -2,6 +2,21 @@
 
 A modern, interactive campus navigation application built with React and TypeScript. This application provides comprehensive navigation capabilities for campus environments, including both indoor and outdoor navigation with detailed mapping data.
 
+## Table of Contents
+
+- [Features](#features)
+- [Tech Stack](#tech-stack)
+- [Getting Started](#getting-started)
+  - [Prerequisites](#prerequisites)
+  - [Installation](#installation)
+  - [Development](#development)
+  - [Building for Production](#building-for-production)
+- [Project Structure](#project-structure)
+- [Available Scripts](#available-scripts)
+- [Contributing](#contributing)
+- [License](#license)
+- [Project Status](#project-status)
+
 ## Features
 
 - **Interactive Campus Maps**: Navigate through outdoor campus areas with detailed building layouts
@@ -39,26 +54,27 @@ campus-navigation-app/
 │       │   └── offices.json            # Office locations
 │       │
 │       └── outdoors/                   # Outdoor mapping data
-│           ├── buildings.geojson       # Building boundaries
 │           ├── index.json              # Outdoor map index
-│           ├── parking_lots.geojson    # Parking areas
-│           └── paths.geojson           # Walking paths
+│           └── *.geojson               # Outdoor GeoJSON data
 │
 ├── src/
-│   ├── assets/                 # Static assets (images, icons)
-│   ├── components/             # Reusable UI components
-│   ├── features/               # Feature-specific modules
-│   ├── hooks/                  # Custom React hooks
-│   ├── pages/                  # Page components
-│   ├── services/               # API and data services
-│   ├── styles/                 # SCSS stylesheets
-│   │   ├── global.scss         # Global styles
-│   │   ├── variables.scss      # SCSS variables
-│   │   └── components/         # Component-specific styles
-│   ├── types/                  # TypeScript type definitions
-│   ├── utils/                  # Utility functions
-│   ├── App.tsx                 # Main application component
-│   └── main.tsx                # Application entry point
+│   ├── assets/                   # Static assets (images, icons)
+│   ├── components/               # Reusable UI components
+│   ├── features/                 # Feature-specific modules
+│   ├── hooks/                    # Custom React hooks
+│   ├── pages/                    # Page components
+│   ├── services/                 # API and data services
+│   ├── styles/                   # SCSS stylesheets
+│   │   ├── abstracts/
+│   │   │   └── variables.scss    # SCSS variables
+│   │   ├── base/
+│   │   │   └── global.scss       # Global styles
+│   │   └── components/           # Component-specific styles
+│   │
+│   ├── types/                    # TypeScript type definitions
+│   ├── utils/                    # Utility functions
+│   ├── App.tsx                   # Main application component
+│   └── main.tsx                  # Application entry point
 │
 ├── tests/                      # Test files mirroring src structure
 │   ├── components/
@@ -69,6 +85,7 @@ campus-navigation-app/
 │   └── setupTests.ts           # Test setup configuration
 │
 ├── .gitignore                  # Git ignored files and folders
+├── CONTRIBUTING.md             # Project contributing documentation
 ├── LICENSE.md                  # Project license
 ├── README.md                   # Project documentation
 ├── eslint.config.js            # ESLint configuration
@@ -81,7 +98,9 @@ campus-navigation-app/
 └── vitest.config.ts            # Vitest testing configuration
 ```
 
-## NPM Scripts *(Defined in [package.json](./package.json))*
+## Available Scripts
+
+The following npm scripts are available for development and production:
 
 - **`npm run dev`**: Start development server with hot reload
 - **`npm run build`**: Build the application for production
@@ -99,7 +118,7 @@ campus-navigation-app/
 - [Node.js (version 18 or higher)](https://nodejs.org/en/download)
 - npm package manager
 
-### Setup
+### Installation
 
 1. **Clone the repository**
 
@@ -114,13 +133,16 @@ campus-navigation-app/
    npm install
    ```
 
-3. **Start the development server**
+### Development
+
+1. **Start the development server**
 
    ```bash
    npm run dev
    ```
 
-4. **Open your browser**
+2. **Open your browser**
+
    Open `http://localhost:5173` in your browser to use the app
 
 ### Building for Production
@@ -141,54 +163,12 @@ campus-navigation-app/
 
 ## Contributing
 
-We welcome contributions to the Campus Navigation App! Please follow these guidelines:
+We welcome contributions to the Campus Navigation App! Please see our [Contributing Guide](./CONTRIBUTING.md) for detailed information on how to get started, our development workflow, coding standards, and the pull request process.
 
-### Workflow
+## License
 
-1. Make sure you have completed the [Getting Started](#getting-started) steps above.
-
-2. Create a feature branch from the current development branch:
-
-   ```bash
-   git checkout -b FName_LInitial_IssueNum_Feature-Name
-   ```
-
-3. Make your changes following the established code style.
-
-4. Write or update tests for your changes.
-
-5. Run the linter to ensure code quality:
-
-   ```bash
-   npm run lint
-   ```
-
-6. Test your changes thoroughly.
-
-7. Commit your changes with a descriptive commit message.
-
-8. Push to your remote branch.
-
-9. Create a pull request and send a link to the team for review.
-
-10. Answer any questions and make necessary changes requested by the team.
-
-### Code Standards
-
-- Follow TypeScript best practices
-- Use functional components with hooks
-- Write comprehensive tests for new features
-- Follow the existing file structure and naming conventions
-- Ensure accessibility standards are met
-- Document complex functions and components
-
-### Pull Request Process
-
-1. Ensure your code passes all tests and linting
-2. Update documentation if needed
-3. Provide a clear description of your changes
-4. Reference any related issues in your PR description
+This project is licensed under the terms specified in the [LICENSE](./LICENSE) file.
 
 ## Project Status
 
-This project is currently in active development. Check the issues and project board for current development priorities and known issues.
+This project is currently in active development. Check the [project board](https://github.com/Phoenix-Programming/Campus-Navigation-App/projects) for current development priorities and known issues.
