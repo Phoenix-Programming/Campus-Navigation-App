@@ -58,7 +58,8 @@ export default function LeafletMap() {
 		const styleMap: Record<string, Record<string, string | number>> = {
 			buildings: { color: "red", fillColor: "red", fillOpacity: 0.6, weight: 2 },
 			paths: { color: "blue", weight: 3, fillOpacity: 0 },
-			parking_lots: { color: "purple", fillColor: "purple", fillOpacity: 0.6, weight: 2 }
+			parking_lots: { color: "purple", fillColor: "purple", fillOpacity: 0.6, weight: 2 },
+			lakes: { color: "cyan", fillColor: "cyan", fillOpacity: 0.5, weight: 2 }
 		};
 		return styleMap[id] || { color: "black", fillColor: "black", fillOpacity: 0.3, weight: 1 };
 	};
