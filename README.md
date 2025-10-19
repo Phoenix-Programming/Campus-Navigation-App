@@ -66,9 +66,9 @@ campus-navigation-app/
 │   ├── services/                 # API and data services
 │   ├── styles/                   # SCSS stylesheets
 │   │   ├── abstracts/
-│   │   │   └── variables.scss    # SCSS variables
+│   │   │   └── _variables.scss    # SCSS variables
 │   │   ├── base/
-│   │   │   └── global.scss       # Global styles
+│   │   │   └── _global.scss       # Global styles
 │   │   └── components/           # Component-specific styles
 │   │
 │   ├── types/                    # TypeScript type definitions
