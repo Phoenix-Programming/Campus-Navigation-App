@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { MapContainer, TileLayer, LayersControl, GeoJSON } from "react-leaflet";
-import type { LayerConfig, LoadedLayer } from "../types/layers";
+import type { GeoJsonObject } from "geojson";
+import type { LayerData, LayerConfig, LoadedLayer } from "../types/layers";
 import "@styles/main.scss";
 
 const { BaseLayer, Overlay } = LayersControl;
@@ -12,29 +13,31 @@ export default function LeafletMap() {
 		const loadLayers = async () => {
 			try {
 				// Load the layers index
-				const indexResponse = await fetch("/Campus-Navigation-App/data/outdoors/index.json");
+				const indexResponse: Response = await fetch("/Campus-Navigation-App/data/outdoors/index.json");
 
 				if (!indexResponse.ok) throw new Error(`Failed to load index: ${indexResponse.status}`);
 
 				const config: LayerConfig = await indexResponse.json();
 
 				// Load all layer data
-				const layerPromises = config.layers.map(async (layerInfo) => {
-					const response = await fetch(`/Campus-Navigation-App/data/outdoors/${layerInfo.file}`);
+				const layerPromises: Promise<LoadedLayer>[] = config.layers.map(
+					async (layerInfo: LayerData): Promise<LoadedLayer> => {
+						const response: Response = await fetch(`/Campus-Navigation-App/data/outdoors/${layerInfo.file}`);
 
-					if (!response.ok) throw new Error(`Failed to load ${layerInfo.id}: ${response.status}`);
+						if (!response.ok) throw new Error(`Failed to load ${layerInfo.id}: ${response.status}`);
 
-					const data = await response.json();
+						const data: GeoJsonObject = await response.json();
 
-					return {
-						id: layerInfo.id,
-						data,
-						type: layerInfo.type,
-						defaultShown: layerInfo.defaultShown
-					};
-				});
+						return {
+							id: layerInfo.id,
+							data,
+							type: layerInfo.type,
+							defaultShown: layerInfo.defaultShown
+						};
+					}
+				);
 
-				const loadedLayers = await Promise.all(layerPromises);
+				const loadedLayers: LoadedLayer[] = await Promise.all(layerPromises);
 				setLayers(loadedLayers);
 			} catch (error) {
 				console.error("Error loading layers:", error);
@@ -42,7 +45,7 @@ export default function LeafletMap() {
 		};
 
 		loadLayers();
-	}, []);
+	});
 
 	const formatLayerName = (id: string): string => {
 		return id

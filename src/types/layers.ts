@@ -1,6 +1,6 @@
 import { type GeoJsonObject } from "geojson";
 
-interface LayerData {
+export interface LayerData {
 	id: string;
 	file: string;
 	type: string;
