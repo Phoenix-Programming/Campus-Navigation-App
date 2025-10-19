@@ -2,6 +2,7 @@
 	"layers": [
 		{ "id": "buildings", "file": "buildings.geojson", "type": "polygon", "defaultShown": true },
 		{ "id": "paths", "file": "paths.geojson", "type": "line", "defaultShown": true },
-		{ "id": "parking_lots", "file": "parking_lots.geojson", "type": "polygon", "defaultShown": true }
+		{ "id": "parking_lots", "file": "parking_lots.geojson", "type": "polygon", "defaultShown": true },
+		{ "id": "lakes", "file": "lakes.geojson", "type": "polygon", "defaultShown": true }
 	]
 }
