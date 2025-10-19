@@ -1,13 +1,13 @@
-import { defineConfig } from 'vite';
-import react from '@vitejs/plugin-react';
-import path from 'path';
+import { defineConfig } from "vite";
+import react from "@vitejs/plugin-react";
+import path from "path";
 
 export default defineConfig({
 	base: "/Campus-Navigation-App/",
 	plugins: [
 		react({
 			babel: {
-				plugins: [['babel-plugin-react-compiler']]
+				plugins: [["babel-plugin-react-compiler"]]
 			}
 		})
 	],

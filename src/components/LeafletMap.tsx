@@ -54,16 +54,19 @@ export default function LeafletMap() {
 			.join(" ");
 	};
 
-	const formatClassName = (id: string): string => {
-		const temp = "layer--" + id.replaceAll("_", "-");
-		console.log(temp);
-		return temp;
+	const getLayerStyle = (id: string): Record<string, string | number> => {
+		const styleMap: Record<string, Record<string, string | number>> = {
+			buildings: { color: "red", fillColor: "red", fillOpacity: 0.6, weight: 2 },
+			paths: { color: "blue", weight: 3, fillOpacity: 0 },
+			parking_lots: { color: "purple", fillColor: "purple", fillOpacity: 0.6, weight: 2 }
+		};
+		return styleMap[id] || { color: "black", fillColor: "black", fillOpacity: 0.3, weight: 1 };
 	};
 
 	return (
 		<MapContainer
-			center={[28.1482, -81.8485]}
-			zoom={16.75}
+			center={[28.1477, -81.8485]}
+			zoom={16.25}
 			zoomSnap={0}
 			wheelPxPerZoomLevel={5}
 			minZoom={16}
@@ -81,7 +84,7 @@ export default function LeafletMap() {
 				{layers.map((layer) => {
 					return (
 						<Overlay key={layer.id} checked={layer.defaultShown} name={formatLayerName(layer.id)}>
-							<GeoJSON data={layer.data} pathOptions={{ className: `layer ${formatClassName(layer.id)}` }} />
+							<GeoJSON data={layer.data} pathOptions={getLayerStyle(layer.id)} />
 						</Overlay>
 					);
 				})}

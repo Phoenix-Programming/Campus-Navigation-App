@@ -3,21 +3,7 @@
 	width: 100%;
 	margin: 0;
 
-	
+
 	box-sizing: border-box;
   	border: 8px solid #5d0f73;
-
-	.layer {
-		&.layer--buildings {
-			stroke: red;
-			fill: red;
-		}
-
-		&.layer--paths { stroke: blue; }
-
-		&.layer--parking-lots {
-			stroke: purple;
-			fill: purple;
-		}
-	}
 }
