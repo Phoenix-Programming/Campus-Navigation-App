@@ -1,0 +1,341 @@
+{
+	"bld_id": "ist",
+	"nodes": [
+		{ "id": "hall_n-s_a_1", "type": "hall", "floor": 1, "x": -1, "y": -1, "role": "routing" },
+		{ "id": "hall_n-s_a_2", "type": "hall", "floor": 1, "x": -1, "y": -1, "role": "routing" },
+		{ "id": "hall_n-s_a_3", "type": "hall", "floor": 1, "x": -1, "y": -1, "role": "routing" },
+		{ "id": "hall_n-s_a_4", "type": "hall", "floor": 1, "x": -1, "y": -1, "role": "routing" },
+		{ "id": "hall_n-s_a_5", "type": "hall", "floor": 1, "x": -1, "y": -1, "role": "routing" },
+		{ "id": "hall_n-s_a_6", "type": "hall", "floor": 1, "x": -1, "y": -1, "role": "routing" },
+		{ "id": "hall_n-s_a_7", "type": "hall", "floor": 1, "x": -1, "y": -1, "role": "routing" },
+
+		{ "id": "hall_n-s_b_1", "type": "hall", "floor": 1, "x": -1, "y": -1, "role": "routing" },
+		{ "id": "hall_n-s_b_2", "type": "hall", "floor": 1, "x": -1, "y": -1, "role": "routing" },
+		{ "id": "hall_n-s_b_3", "type": "hall", "floor": 1, "x": -1, "y": -1, "role": "routing" },
+		{ "id": "hall_n-s_b_4", "type": "hall", "floor": 1, "x": -1, "y": -1, "role": "routing" },
+		{ "id": "hall_n-s_b_5", "type": "hall", "floor": 1, "x": -1, "y": -1, "role": "routing" },
+		{ "id": "hall_n-s_b_6", "type": "hall", "floor": 1, "x": -1, "y": -1, "role": "routing" },
+		{ "id": "hall_n-s_b_7", "type": "hall", "floor": 1, "x": -1, "y": -1, "role": "routing" },
+
+		{ "id": "hall_e-w_c_1", "type": "hall", "floor": 1, "x": -1, "y": -1, "role": "routing" },
+
+		{ "id": "hall_e-w_d_1", "type": "hall", "floor": 1, "x": -1, "y": -1, "role": "routing" },
+
+		{ "id": "hall_e-w_e_1", "type": "hall", "floor": 1, "x": -1, "y": -1, "role": "routing" },
+
+		{ "id": "hall_e-w_f_1", "type": "hall", "floor": 1, "x": -1, "y": -1, "role": "routing" },
+
+		{ "id": "hall_e-w_g_1", "type": "hall", "floor": 1, "x": -1, "y": -1, "role": "routing" },
+
+		{ "id": "rm_1002", "type": "room", "floor": 1, "x": -1, "y": -1, "role": "destination" },
+		{ "id": "rm_1003", "type": "room", "floor": 1, "x": -1, "y": -1, "role": "destination" },
+		{ "id": "rm_1012", "type": "room", "floor": 1, "x": -1, "y": -1, "role": "destination" },
+		{ "id": "rm_1013", "type": "room", "floor": 1, "x": -1, "y": -1, "role": "destination" },
+		{ "id": "rm_1014", "type": "room", "floor": 1, "x": -1, "y": -1, "role": "destination" },
+		{ "id": "rm_1015", "type": "room", "floor": 1, "x": -1, "y": -1, "role": "destination" },
+		{ "id": "rm_1016", "type": "room", "floor": 1, "x": -1, "y": -1, "role": "destination" },
+		{ "id": "rm_1017", "type": "room", "floor": 1, "x": -1, "y": -1, "role": "destination" },
+		{ "id": "rm_1019", "type": "room", "floor": 1, "x": -1, "y": -1, "role": "destination" },
+		{ "id": "rm_1020", "type": "room", "floor": 1, "x": -1, "y": -1, "role": "destination" },
+		{ "id": "rm_1021", "type": "room", "floor": 1, "x": -1, "y": -1, "role": "destination" },
+		{ "id": "rm_1022", "type": "room", "floor": 1, "x": -1, "y": -1, "role": "destination" },
+		{ "id": "rm_1023", "type": "room", "floor": 1, "x": -1, "y": -1, "role": "destination" },
+		{ "id": "rm_1024", "type": "room", "floor": 1, "x": -1, "y": -1, "role": "destination" },
+		{ "id": "rm_1025", "type": "room", "floor": 1, "x": -1, "y": -1, "role": "destination" },
+		{ "id": "rm_1026", "type": "room", "floor": 1, "x": -1, "y": -1, "role": "destination" },
+		{ "id": "rm_1027", "type": "room", "floor": 1, "x": -1, "y": -1, "role": "destination" },
+		{ "id": "rm_1028", "type": "room", "floor": 1, "x": -1, "y": -1, "role": "destination" },
+		{ "id": "rm_1030", "type": "room", "floor": 1, "x": -1, "y": -1, "role": "destination" },
+		{ "id": "rm_1031", "type": "room", "floor": 1, "x": -1, "y": -1, "role": "destination" },
+		{ "id": "rm_1032", "type": "room", "floor": 1, "x": -1, "y": -1, "role": "destination" },
+		{ "id": "rm_1044", "type": "room", "floor": 1, "x": -1, "y": -1, "role": "destination" },
+		{ "id": "rm_1045", "type": "room", "floor": 1, "x": -1, "y": -1, "role": "destination" },
+		{ "id": "rm_1046", "type": "room", "floor": 1, "x": -1, "y": -1, "role": "destination" },
+		{ "id": "rm_1047", "type": "room", "floor": 1, "x": -1, "y": -1, "role": "destination" },
+		{ "id": "rm_1048", "type": "room", "floor": 1, "x": -1, "y": -1, "role": "destination" },
+		{ "id": "rm_1049", "type": "room", "floor": 1, "x": -1, "y": -1, "role": "destination" },
+		{ "id": "rm_1051", "type": "room", "floor": 1, "x": -1, "y": -1, "role": "destination" },
+		{ "id": "rm_1052", "type": "room", "floor": 1, "x": -1, "y": -1, "role": "destination" },
+		{ "id": "rm_1053", "type": "room", "floor": 1, "x": -1, "y": -1, "role": "destination" },
+		{ "id": "rm_1055", "type": "room", "floor": 1, "x": -1, "y": -1, "role": "destination" },
+		{ "id": "rm_1056", "type": "room", "floor": 1, "x": -1, "y": -1, "role": "destination" },
+		{ "id": "rm_1057", "type": "room", "floor": 1, "x": -1, "y": -1, "role": "destination" },
+		{ "id": "rm_1058", "type": "room", "floor": 1, "x": -1, "y": -1, "role": "destination" },
+		{ "id": "rm_1060", "type": "room", "floor": 1, "x": -1, "y": -1, "role": "destination" },
+		{ "id": "rm_1061", "type": "room", "floor": 1, "x": -1, "y": -1, "role": "destination" },
+		{ "id": "rm_1062", "type": "room", "floor": 1, "x": -1, "y": -1, "role": "destination" },
+		{ "id": "rm_1063", "type": "room", "floor": 1, "x": -1, "y": -1, "role": "destination" },
+		{ "id": "rm_1064", "type": "room", "floor": 1, "x": -1, "y": -1, "role": "destination" },
+		{ "id": "rm_1065", "type": "room", "floor": 1, "x": -1, "y": -1, "role": "destination" },
+		{ "id": "rm_1067", "type": "room", "floor": 1, "x": -1, "y": -1, "role": "destination" },
+		{ "id": "rm_1068", "type": "room", "floor": 1, "x": -1, "y": -1, "role": "destination" },
+
+		{ "id": "rm_1002_door1", "type": "door", "floor": 1, "x": -1, "y": -1, "role": "routing" },
+		{ "id": "rm_1002_door2", "type": "door", "floor": 1, "x": -1, "y": -1, "role": "routing" },
+		{ "id": "rm_1003_door1", "type": "door", "floor": 1, "x": -1, "y": -1, "role": "routing" },
+		{ "id": "rm_1003_door2", "type": "door", "floor": 1, "x": -1, "y": -1, "role": "routing" },
+		{ "id": "rm_1012_door1", "type": "door", "floor": 1, "x": -1, "y": -1, "role": "routing" },
+		{ "id": "rm_1012_door2", "type": "door", "floor": 1, "x": -1, "y": -1, "role": "routing" },
+		{ "id": "rm_1013_door1", "type": "door", "floor": 1, "x": -1, "y": -1, "role": "routing" },
+		{ "id": "rm_1013_door2", "type": "door", "floor": 1, "x": -1, "y": -1, "role": "routing" },
+		{ "id": "rm_1014_door1", "type": "door", "floor": 1, "x": -1, "y": -1, "role": "routing" },
+		{ "id": "rm_1014_door2", "type": "door", "floor": 1, "x": -1, "y": -1, "role": "routing" },
+		{ "id": "rm_1015_door1", "type": "door", "floor": 1, "x": -1, "y": -1, "role": "routing" },
+		{ "id": "rm_1015_door2", "type": "door", "floor": 1, "x": -1, "y": -1, "role": "routing" },
+		{ "id": "rm_1016_door1", "type": "door", "floor": 1, "x": -1, "y": -1, "role": "routing" },
+		{ "id": "rm_1016_door2", "type": "door", "floor": 1, "x": -1, "y": -1, "role": "routing" },
+		{ "id": "rm_1017_door1", "type": "door", "floor": 1, "x": -1, "y": -1, "role": "routing" },
+		{ "id": "rm_1017_door2", "type": "door", "floor": 1, "x": -1, "y": -1, "role": "routing" },
+		{ "id": "rm_1019_door1", "type": "door", "floor": 1, "x": -1, "y": -1, "role": "routing" },
+		{ "id": "rm_1019_door2", "type": "door", "floor": 1, "x": -1, "y": -1, "role": "routing" },
+		{ "id": "rm_1020_door1", "type": "door", "floor": 1, "x": -1, "y": -1, "role": "routing" },
+		{ "id": "rm_1020_door2", "type": "door", "floor": 1, "x": -1, "y": -1, "role": "routing" },
+		{ "id": "rm_1021_door1", "type": "door", "floor": 1, "x": -1, "y": -1, "role": "routing" },
+		{ "id": "rm_1021_door2", "type": "door", "floor": 1, "x": -1, "y": -1, "role": "routing" },
+		{ "id": "rm_1022_door1", "type": "door", "floor": 1, "x": -1, "y": -1, "role": "routing" },
+		{ "id": "rm_1022_door2", "type": "door", "floor": 1, "x": -1, "y": -1, "role": "routing" },
+		{ "id": "rm_1023_door1", "type": "door", "floor": 1, "x": -1, "y": -1, "role": "routing" },
+		{ "id": "rm_1023_door2", "type": "door", "floor": 1, "x": -1, "y": -1, "role": "routing" },
+		{ "id": "rm_1024_door1", "type": "door", "floor": 1, "x": -1, "y": -1, "role": "routing" },
+		{ "id": "rm_1024_door2", "type": "door", "floor": 1, "x": -1, "y": -1, "role": "routing" },
+		{ "id": "rm_1025_door1", "type": "door", "floor": 1, "x": -1, "y": -1, "role": "routing" },
+		{ "id": "rm_1025_door2", "type": "door", "floor": 1, "x": -1, "y": -1, "role": "routing" },
+		{ "id": "rm_1026_door1", "type": "door", "floor": 1, "x": -1, "y": -1, "role": "routing" },
+		{ "id": "rm_1026_door2", "type": "door", "floor": 1, "x": -1, "y": -1, "role": "routing" },
+		{ "id": "rm_1027_door1", "type": "door", "floor": 1, "x": -1, "y": -1, "role": "routing" },
+		{ "id": "rm_1027_door2", "type": "door", "floor": 1, "x": -1, "y": -1, "role": "routing" },
+		{ "id": "rm_1028_door1", "type": "door", "floor": 1, "x": -1, "y": -1, "role": "routing" },
+		{ "id": "rm_1028_door2", "type": "door", "floor": 1, "x": -1, "y": -1, "role": "routing" },
+		{ "id": "rm_1030_door1", "type": "door", "floor": 1, "x": -1, "y": -1, "role": "routing" },
+		{ "id": "rm_1030_door2", "type": "door", "floor": 1, "x": -1, "y": -1, "role": "routing" },
+		{ "id": "rm_1031_door1", "type": "door", "floor": 1, "x": -1, "y": -1, "role": "routing" },
+		{ "id": "rm_1031_door2", "type": "door", "floor": 1, "x": -1, "y": -1, "role": "routing" },
+		{ "id": "rm_1032_door1", "type": "door", "floor": 1, "x": -1, "y": -1, "role": "routing" },
+		{ "id": "rm_1032_door2", "type": "door", "floor": 1, "x": -1, "y": -1, "role": "routing" },
+		{ "id": "rm_1044_door1", "type": "door", "floor": 1, "x": -1, "y": -1, "role": "routing" },
+		{ "id": "rm_1044_door2", "type": "door", "floor": 1, "x": -1, "y": -1, "role": "routing" },
+		{ "id": "rm_1045_door1", "type": "door", "floor": 1, "x": -1, "y": -1, "role": "routing" },
+		{ "id": "rm_1045_door2", "type": "door", "floor": 1, "x": -1, "y": -1, "role": "routing" },
+		{ "id": "rm_1046_door1", "type": "door", "floor": 1, "x": -1, "y": -1, "role": "routing" },
+		{ "id": "rm_1046_door2", "type": "door", "floor": 1, "x": -1, "y": -1, "role": "routing" },
+		{ "id": "rm_1047_door1", "type": "door", "floor": 1, "x": -1, "y": -1, "role": "routing" },
+		{ "id": "rm_1047_door2", "type": "door", "floor": 1, "x": -1, "y": -1, "role": "routing" },
+		{ "id": "rm_1048_door1", "type": "door", "floor": 1, "x": -1, "y": -1, "role": "routing" },
+		{ "id": "rm_1048_door2", "type": "door", "floor": 1, "x": -1, "y": -1, "role": "routing" },
+		{ "id": "rm_1049_door1", "type": "door", "floor": 1, "x": -1, "y": -1, "role": "routing" },
+		{ "id": "rm_1049_door2", "type": "door", "floor": 1, "x": -1, "y": -1, "role": "routing" },
+		{ "id": "rm_1051_door1", "type": "door", "floor": 1, "x": -1, "y": -1, "role": "routing" },
+		{ "id": "rm_1051_door2", "type": "door", "floor": 1, "x": -1, "y": -1, "role": "routing" },
+		{ "id": "rm_1052_door1", "type": "door", "floor": 1, "x": -1, "y": -1, "role": "routing" },
+		{ "id": "rm_1052_door2", "type": "door", "floor": 1, "x": -1, "y": -1, "role": "routing" },
+		{ "id": "rm_1053_door1", "type": "door", "floor": 1, "x": -1, "y": -1, "role": "routing" },
+		{ "id": "rm_1053_door2", "type": "door", "floor": 1, "x": -1, "y": -1, "role": "routing" },
+		{ "id": "rm_1055_door1", "type": "door", "floor": 1, "x": -1, "y": -1, "role": "routing" },
+		{ "id": "rm_1055_door2", "type": "door", "floor": 1, "x": -1, "y": -1, "role": "routing" },
+		{ "id": "rm_1056_door1", "type": "door", "floor": 1, "x": -1, "y": -1, "role": "routing" },
+		{ "id": "rm_1056_door2", "type": "door", "floor": 1, "x": -1, "y": -1, "role": "routing" },
+		{ "id": "rm_1057_door1", "type": "door", "floor": 1, "x": -1, "y": -1, "role": "routing" },
+		{ "id": "rm_1057_door2", "type": "door", "floor": 1, "x": -1, "y": -1, "role": "routing" },
+		{ "id": "rm_1058_door1", "type": "door", "floor": 1, "x": -1, "y": -1, "role": "routing" },
+		{ "id": "rm_1058_door2", "type": "door", "floor": 1, "x": -1, "y": -1, "role": "routing" },
+		{ "id": "rm_1060_door1", "type": "door", "floor": 1, "x": -1, "y": -1, "role": "routing" },
+		{ "id": "rm_1060_door2", "type": "door", "floor": 1, "x": -1, "y": -1, "role": "routing" },
+		{ "id": "rm_1061_door1", "type": "door", "floor": 1, "x": -1, "y": -1, "role": "routing" },
+		{ "id": "rm_1061_door2", "type": "door", "floor": 1, "x": -1, "y": -1, "role": "routing" },
+		{ "id": "rm_1062_door1", "type": "door", "floor": 1, "x": -1, "y": -1, "role": "routing" },
+		{ "id": "rm_1062_door2", "type": "door", "floor": 1, "x": -1, "y": -1, "role": "routing" },
+		{ "id": "rm_1063_door1", "type": "door", "floor": 1, "x": -1, "y": -1, "role": "routing" },
+		{ "id": "rm_1063_door2", "type": "door", "floor": 1, "x": -1, "y": -1, "role": "routing" },
+		{ "id": "rm_1064_door1", "type": "door", "floor": 1, "x": -1, "y": -1, "role": "routing" },
+		{ "id": "rm_1064_door2", "type": "door", "floor": 1, "x": -1, "y": -1, "role": "routing" },
+		{ "id": "rm_1065_door1", "type": "door", "floor": 1, "x": -1, "y": -1, "role": "routing" },
+		{ "id": "rm_1065_door2", "type": "door", "floor": 1, "x": -1, "y": -1, "role": "routing" },
+		{ "id": "rm_1067_door1", "type": "door", "floor": 1, "x": -1, "y": -1, "role": "routing" },
+		{ "id": "rm_1067_door2", "type": "door", "floor": 1, "x": -1, "y": -1, "role": "routing" },
+		{ "id": "rm_1068_door1", "type": "door", "floor": 1, "x": -1, "y": -1, "role": "routing" },
+		{ "id": "rm_1068_door2", "type": "door", "floor": 1, "x": -1, "y": -1, "role": "routing" },
+
+		{ "id": "entrance_south", "type": "door", "floor": 1, "x": -1, "y": -1, "role": "routing" },
+		{ "id": "entrance_north", "type": "door", "floor": 1, "x": -1, "y": -1, "role": "routing" },
+		{ "id": "exit_east", "type": "door", "floor": 1, "x": -1, "y": -1, "role": "routing" },
+		{ "id": "exit_west", "type": "door", "floor": 1, "x": -1, "y": -1, "role": "routing" },
+
+		{ "id": "stair_south_f1", "type": "stair", "floor": 1, "x": -1, "y": -1, "role": "routing" },
+		{ "id": "stair_south_f2", "type": "stair", "floor": 2, "x": -1, "y": -1, "role": "routing" },
+
+		{ "id": "stair_north_f1", "type": "stair", "floor": 1, "x": -1, "y": -1, "role": "routing" },
+		{ "id": "stair_north_f2", "type": "stair", "floor": 2, "x": -1, "y": -1, "role": "routing" },
+
+		{ "id": "elevator_f1", "type": "elevator", "floor": 1, "x": -1, "y": -1, "role": "routing" },
+		{ "id": "elevator_f2", "type": "elevator", "floor": 2, "x": -1, "y": -1, "role": "routing" }
+	],
+	"edges": [
+		["hall_n-s_a_1", "hall_n-s_a_2"],
+		["hall_n-s_a_2", "hall_n-s_a_3"],
+		["hall_n-s_a_3", "hall_n-s_a_4"],
+		["hall_n-s_a_4", "hall_n-s_a_5"],
+		["hall_n-s_a_5", "hall_n-s_a_6"],
+		["hall_n-s_a_6", "hall_n-s_a_7"],
+
+		["hall_n-s_b_1", "hall_n-s_b_2"],
+		["hall_n-s_b_2", "hall_n-s_b_3"],
+		["hall_n-s_b_3", "hall_n-s_b_4"],
+		["hall_n-s_b_4", "hall_n-s_b_5"],
+		["hall_n-s_b_5", "hall_n-s_b_6"],
+		["hall_n-s_b_6", "hall_n-s_b_7"],
+
+		["hall_n-s_a_1", "hall_e-w_c_1"],
+		["hall_n-s_b_1", "hall_e-w_c_1"],
+
+		["hall_n-s_a_2", "hall_e-w_d_1"],
+		["hall_n-s_b_2", "hall_e-w_d_1"],
+
+		["hall_n-s_a_4", "hall_e-w_e_1"],
+		["hall_n-s_b_4", "hall_e-w_e_1"],
+
+		["hall_n-s_a_6", "hall_e-w_f_1"],
+		["hall_n-s_b_6", "hall_e-w_f_1"],
+
+		["hall_n-s_a_7", "hall_e-w_g_1"],
+		["hall_n-s_b_7", "hall_e-w_g_1"],
+
+		["rm_1002_door1", "hall_e-w_c_1"], ["rm_1002_door1", "hall_n-s_a_1"],
+		["rm_1002_door2", "hall_n-s_a_1"],
+
+		["rm_1003_door1", "hall_n-s_a_1"], ["rm_1003_door1", "hall_n-s_a_2"],
+		["rm_1003_door2", "hall_n-s_a_1"], ["rm_1003_door2", "hall_n-s_a_2"],
+
+		["rm_1012_door1", "hall_n-s_a_2"], ["rm_1012_door1", "hall_n-s_a_3"],
+		["rm_1012_door2", "hall_n-s_a_2"], ["rm_1012_door2", "hall_n-s_a_3"],
+
+		["rm_1013_door1", "hall_n-s_a_2"], ["rm_1013_door1", "hall_n-s_a_3"],
+		["rm_1013_door2", "hall_n-s_a_2"], ["rm_1013_door2", "hall_n-s_a_3"],
+
+		["rm_1014_door1", "hall_n-s_a_2"], ["rm_1014_door1", "hall_n-s_a_3"],
+		["rm_1014_door2", "hall_n-s_a_2"], ["rm_1014_door2", "hall_n-s_a_3"],
+
+		["rm_1015_door1", "hall_n-s_a_3"], ["rm_1015_door1", "hall_n-s_a_4"],
+		["rm_1015_door2", "hall_n-s_a_3"], ["rm_1015_door2", "hall_n-s_a_4"],
+
+		["rm_1016_door1", "hall_n-s_a_3"], ["rm_1016_door1", "hall_n-s_a_4"],
+		["rm_1016_door2", "hall_n-s_a_3"], ["rm_1016_door2", "hall_n-s_a_4"],
+
+		["rm_1017_door1", "hall_n-s_a_3"], ["rm_1017_door1", "hall_n-s_a_4"],
+		["rm_1017_door2", "hall_n-s_a_3"], ["rm_1017_door2", "hall_n-s_a_4"],
+
+		["rm_1019_door1", "hall_n-s_a_4"], ["rm_1019_door1", "hall_e-w_e_1"],
+		["rm_1019_door2", "hall_n-s_a_4"], ["rm_1019_door2", "hall_e-w_e_1"],
+
+		["rm_1020_door", "hall_e-w_e_1"],
+
+		["rm_1021_door1", "hall_e-w_e_1"], ["rm_1021_door1", "hall_n-s_b_4"],
+		["rm_1021_door2", "hall_e-w_e_1"], ["rm_1021_door2", "hall_n-s_b_4"],
+
+		["rm_1022_door1", "hall_e-w_e_1"], ["rm_1022_door1", "hall_n-s_b_4"],
+		["rm_1022_door2", "hall_e-w_e_1"], ["rm_1022_door2", "hall_n-s_b_4"],
+
+		["rm_1023_door", "hall_e-w_e_1"],
+
+		["rm_1024_door1", "hall_n-s_a_4"], ["rm_1024_door1", "hall_e-w_e_1"],
+		["rm_1024_door2", "hall_n-s_a_4"], ["rm_1024_door2", "hall_e-w_e_1"],
+
+		["rm_1025_door1", "hall_n-s_a_4"], ["rm_1025_door1", "hall_n-s_a_5"],
+		["rm_1025_door2", "hall_n-s_a_4"], ["rm_1025_door2", "hall_n-s_a_5"],
+
+		["rm_1026_door1", "hall_n-s_a_4"], ["rm_1026_door1", "hall_n-s_a_5"],
+		["rm_1026_door2", "hall_n-s_a_4"], ["rm_1026_door2", "hall_n-s_a_5"],
+
+		["rm_1027_door1", "hall_n-s_a_4"], ["rm_1027_door1", "hall_n-s_a_5"],
+		["rm_1027_door2", "hall_n-s_a_4"], ["rm_1027_door2", "hall_n-s_a_5"],
+
+		["rm_1028_door1", "hall_n-s_a_4"], ["rm_1028_door1", "hall_n-s_a_5"],
+		["rm_1028_door2", "hall_n-s_a_4"], ["rm_1028_door2", "hall_n-s_a_5"],
+
+		["rm_1030_door1", "hall_n-s_a_5"], ["rm_1030_door1", "hall_n-s_a_6"],
+		["rm_1030_door2", "hall_n-s_a_5"], ["rm_1030_door2", "hall_n-s_a_6"],
+
+		["rm_1031_door1", "hall_n-s_a_5"], ["rm_1031_door1", "hall_n-s_a_6"],
+		["rm_1031_door2", "hall_n-s_a_5"], ["rm_1031_door2", "hall_n-s_a_6"],
+
+		["rm_1032_door1", "hall_n-s_a_5"], ["rm_1032_door1", "hall_n-s_a_6"],
+		["rm_1032_door2", "hall_n-s_a_5"], ["rm_1032_door2", "hall_n-s_a_6"],
+
+		["rm_1044_door1", "hall_n-s_a_6"], ["rm_1044_door1", "hall_n-s_a_7"],
+		["rm_1044_door2", "hall_n-s_a_6"], ["rm_1044_door2", "hall_n-s_a_7"],
+
+		["rm_1045_door1", "hall_n-s_a_6"], ["rm_1045_door1", "hall_n-s_a_7"],
+		["rm_1045_door2", "hall_n-s_a_7"], ["rm_1045_door2", "hall_e-w_g_1"],
+
+		["rm_1046_door1", "hall_n-s_a_6"], ["rm_1046_door1", "hall_n-s_a_7"],
+		["rm_1046_door2", "hall_n-s_a_6"], ["rm_1046_door2", "hall_n-s_a_7"],
+
+		["rm_1047_door1", "hall_n-s_b_6"], ["rm_1047_door1", "hall_n-s_b_7"],
+		["rm_1047_door2", "hall_n-s_b_6"], ["rm_1047_door2", "hall_n-s_b_7"],
+
+		["rm_1048_door1", "hall_n-s_b_7"], ["rm_1048_door1", "hall_e-w_g_1"],
+		["rm_1048_door2", "hall_n-s_b_6"], ["rm_1048_door2", "hall_n-s_b_7"],
+
+		["rm_1049_door1", "hall_n-s_b_6"], ["rm_1049_door1", "hall_n-s_b_7"],
+		["rm_1049_door2", "hall_n-s_b_6"], ["rm_1049_door2", "hall_n-s_b_7"],
+
+		["rm_1051_door1", "hall_n-s_b_5"], ["rm_1051_door1", "hall_n-s_b_6"],
+		["rm_1051_door2", "hall_n-s_b_5"], ["rm_1051_door2", "hall_n-s_b_6"],
+
+		["rm_1052_door1", "hall_n-s_b_5"], ["rm_1052_door1", "hall_n-s_b_6"],
+		["rm_1052_door2", "hall_n-s_b_5"], ["rm_1052_door2", "hall_n-s_b_6"],
+
+		["rm_1053_door1", "hall_n-s_b_4"], ["rm_1053_door1", "hall_n-s_b_5"],
+		["rm_1053_door2", "hall_n-s_b_5"], ["rm_1053_door2", "hall_n-s_b_6"],
+
+		["rm_1055_door1", "hall_n-s_b_4"], ["rm_1055_door1", "hall_n-s_b_5"],
+		["rm_1055_door2", "hall_n-s_b_4"], ["rm_1055_door2", "hall_n-s_b_5"],
+
+		["rm_1056_door1", "hall_n-s_b_4"], ["rm_1056_door1", "hall_n-s_b_5"],
+		["rm_1056_door2", "hall_n-s_b_4"], ["rm_1056_door2", "hall_n-s_b_5"],
+
+		["rm_1057_door1", "hall_n-s_b_4"], ["rm_1057_door1", "hall_n-s_b_5"],
+		["rm_1057_door2", "hall_n-s_b_4"], ["rm_1057_door2", "hall_n-s_b_5"],
+
+		["rm_1058_door1", "hall_n-s_b_4"], ["rm_1058_door1", "hall_n-s_b_5"],
+		["rm_1058_door2", "hall_n-s_b_4"], ["rm_1058_door2", "hall_n-s_b_5"],
+
+		["rm_1060_door1", "hall_n-s_b_3"], ["rm_1060_door1", "hall_n-s_b_4"],
+		["rm_1060_door2", "hall_n-s_b_3"], ["rm_1060_door2", "hall_n-s_b_4"],
+
+		["rm_1061_door1", "hall_n-s_b_3"], ["rm_1061_door1", "hall_n-s_b_4"],
+		["rm_1061_door2", "hall_n-s_b_3"], ["rm_1061_door2", "hall_n-s_b_4"],
+
+		["rm_1062_door1", "hall_n-s_b_3"], ["rm_1062_door1", "hall_n-s_b_4"],
+		["rm_1062_door2", "hall_n-s_b_3"], ["rm_1062_door2", "hall_n-s_b_4"],
+
+		["rm_1063_door1", "hall_n-s_b_2"],
+		["rm_1063_door1", "hall_n-s_b_3"], ["rm_1063_door2", "hall_n-s_b_3"],
+
+		["rm_1063_door1", "hall_n-s_b_2"], ["rm_1063_door1", "hall_n-s_b_3"],
+		["rm_1063_door2", "hall_n-s_b_2"], ["rm_1063_door2", "hall_n-s_b_3"],
+
+		["rm_1064_door1", "hall_n-s_b_2"], ["rm_1064_door1", "hall_n-s_b_3"],
+		["rm_1064_door2", "hall_n-s_b_2"], ["rm_1064_door2", "hall_n-s_b_3"],
+
+		["rm_1065_door1", "hall_n-s_b_2"], ["rm_1065_door1", "hall_n-s_b_3"],
+		["rm_1065_door2", "hall_n-s_b_2"], ["rm_1065_door2", "hall_n-s_b_3"],
+
+		["rm_1067_door1", "hall_n-s_b_1"], ["rm_1067_door1", "hall_n-s_b_2"],
+		["rm_1067_door2", "hall_n-s_b_1"], ["rm_1067_door2", "hall_n-s_b_2"],
+
+		["rm_1048_door1", "hall_e-w_c_1"], ["rm_1048_door1", "hall_n-s_b_1"],
+		["rm_1048_door2", "hall_n-s_b_1"],
+
+		["hall_e-w_c_1", "entrance_south"],
+		["hall_e-w_g_1", "entrance_north"],
+		{"from": "hall_n-s_a_4", "to": "exit_east"},
+		{"from": "hall_n-s_a_4", "to": "exit_west"},
+
+		["hall_e-w_c_1", "stair_south_f1"],
+
+		["hall_e-w_g_1", "stair_north_f1"],
+
+		["stair_south_f1", "stair_south_f2"],
+		["stair_north_f1", "stair_north_f2"]
+	]
+}

@@ -1,0 +1,387 @@
+{
+	"floors": {
+		"1": {
+			"rm_1002": {
+				"name": "IST-1002",
+				"type": "classroom",
+				"doors": [
+					{ "id": "room1002_door1", "type": "single", "direction": "inout" },
+					{ "id": "room1002_door2", "type": "single", "direction": "inout" }
+				],
+				"amenities": ["desks", "whiteboard", "projector"]
+			},
+			"rm_1003": {
+				"name": "IST-1003",
+				"type": "classroom",
+				"doors": [
+					{ "id": "room1003_door1", "type": "single", "direction": "inout" },
+					{ "id": "room1003_door2", "type": "single", "direction": "inout" }
+				],
+				"amenities": ["desks", "whiteboard", "projector"]
+			},
+			"rm_1012": {
+				"name": "IST-1012",
+				"type": "classroom",
+				"doors": [
+					{ "id": "room1012_door1", "type": "single", "direction": "inout" },
+					{ "id": "room1012_door2", "type": "single", "direction": "inout" }
+				],
+				"amenities": ["desks", "whiteboard", "projector"]
+			},
+			"rm_1013": {
+				"name": "IST-1013",
+				"type": "classroom",
+				"doors": [
+					{ "id": "room1013_door1", "type": "single", "direction": "inout" },
+					{ "id": "room1013_door2", "type": "single", "direction": "inout" }
+				],
+				"amenities": ["desks", "whiteboard", "projector"]
+			},
+			"rm_1014": {
+				"name": "IST-1014",
+				"type": "classroom",
+				"doors": [
+					{ "id": "room1014_door1", "type": "single", "direction": "inout" },
+					{ "id": "room1014_door2", "type": "single", "direction": "inout" }
+				],
+				"amenities": ["desks", "whiteboard", "projector"]
+			},
+			"rm_1015": {
+				"name": "IST-1015",
+				"type": "classroom",
+				"doors": [
+					{ "id": "room1015_door1", "type": "single", "direction": "inout" },
+					{ "id": "room1015_door2", "type": "single", "direction": "inout" }
+				],
+				"amenities": ["desks", "whiteboard", "projector"]
+			},
+			"rm_1016": {
+				"name": "IST-1016",
+				"type": "classroom",
+				"doors": [
+					{ "id": "room1016_door1", "type": "single", "direction": "inout" },
+					{ "id": "room1016_door2", "type": "single", "direction": "inout" }
+				],
+				"amenities": ["desks", "whiteboard", "projector"]
+			},
+			"rm_1017": {
+				"name": "IST-1017",
+				"type": "classroom",
+				"doors": [
+					{ "id": "room1017_door1", "type": "single", "direction": "inout" },
+					{ "id": "room1017_door2", "type": "single", "direction": "inout" }
+				],
+				"amenities": ["desks", "whiteboard", "projector"]
+			},
+			"rm_1019": {
+				"name": "IST-1019",
+				"type": "classroom",
+				"doors": [
+					{ "id": "room1019_door1", "type": "single", "direction": "inout" },
+					{ "id": "room1019_door2", "type": "single", "direction": "inout" }
+				],
+				"amenities": ["desks", "whiteboard", "projector"]
+			},
+			"rm_1020": {
+				"name": "IST-1020",
+				"type": "classroom",
+				"doors": [
+					{ "id": "room1020_door1", "type": "single", "direction": "inout" },
+					{ "id": "room1020_door2", "type": "single", "direction": "inout" }
+				],
+				"amenities": ["desks", "whiteboard", "projector"]
+			},
+			"rm_1021": {
+				"name": "IST-1021",
+				"type": "classroom",
+				"doors": [
+					{ "id": "room1021_door1", "type": "single", "direction": "inout" },
+					{ "id": "room1021_door2", "type": "single", "direction": "inout" }
+				],
+				"amenities": ["desks", "whiteboard", "projector"]
+			},
+			"rm_1022": {
+				"name": "IST-1022",
+				"type": "classroom",
+				"doors": [
+					{ "id": "room1022_door1", "type": "single", "direction": "inout" },
+					{ "id": "room1022_door2", "type": "single", "direction": "inout" }
+				],
+				"amenities": ["desks", "whiteboard", "projector"]
+			},
+			"rm_1023": {
+				"name": "IST-1023",
+				"type": "classroom",
+				"doors": [
+					{ "id": "room1023_door1", "type": "single", "direction": "inout" },
+					{ "id": "room1023_door2", "type": "single", "direction": "inout" }
+				],
+				"amenities": ["desks", "whiteboard", "projector"]
+			},
+			"rm_1024": {
+				"name": "IST-1024",
+				"type": "classroom",
+				"doors": [
+					{ "id": "room1024_door1", "type": "single", "direction": "inout" },
+					{ "id": "room1024_door2", "type": "single", "direction": "inout" }
+				],
+				"amenities": ["desks", "whiteboard", "projector"]
+			},
+			"rm_1025": {
+				"name": "IST-1025",
+				"type": "classroom",
+				"doors": [
+					{ "id": "room1025_door1", "type": "single", "direction": "inout" },
+					{ "id": "room1025_door2", "type": "single", "direction": "inout" }
+				],
+				"amenities": ["desks", "whiteboard", "projector"]
+			},
+			"rm_1026": {
+				"name": "IST-1026",
+				"type": "computer_lab",
+				"doors": [
+					{ "id": "room1026_door1", "type": "single", "direction": "inout" },
+					{ "id": "room1026_door2", "type": "single", "direction": "inout" }
+				],
+				"amenities": ["computers", "desks", "whiteboard", "projector"]
+			},
+			"rm_1027": {
+				"name": "IST-1027",
+				"type": "classroom",
+				"doors": [
+					{ "id": "room1027_door1", "type": "single", "direction": "inout" },
+					{ "id": "room1027_door2", "type": "single", "direction": "inout" }
+				],
+				"amenities": ["desks", "whiteboard", "projector"]
+			},
+			"rm_1028": {
+				"name": "IST-1028",
+				"type": "computer_lab",
+				"doors": [
+					{ "id": "room1028_door1", "type": "single", "direction": "inout" },
+					{ "id": "room1028_door2", "type": "single", "direction": "inout" }
+				],
+				"amenities": ["computers", "desks", "whiteboard", "projector"]
+			},
+			"rm_1030": {
+				"name": "IST-1030",
+				"type": "computer_lab",
+				"doors": [
+					{ "id": "room1030_door1", "type": "single", "direction": "inout" },
+					{ "id": "room1030_door2", "type": "single", "direction": "inout" }
+				],
+				"amenities": ["computers", "desks", "whiteboard", "projector"]
+			},
+			"rm_1031": {
+				"name": "IST-1031",
+				"type": "classroom",
+				"doors": [
+					{ "id": "room1031_door1", "type": "single", "direction": "inout" },
+					{ "id": "room1031_door2", "type": "single", "direction": "inout" }
+				],
+				"amenities": ["desks", "whiteboard", "projector"]
+			},
+			"rm_1032": {
+				"name": "IST-1032",
+				"type": "computer_lab",
+				"doors": [
+					{ "id": "room1032_door1", "type": "single", "direction": "inout" },
+					{ "id": "room1032_door2", "type": "single", "direction": "inout" }
+				],
+				"amenities": ["computers", "desks", "whiteboard", "projector"]
+			},
+			"rm_1044": {
+				"name": "IST-1044",
+				"type": "classroom",
+				"doors": [
+					{ "id": "room1044_door1", "type": "single", "direction": "inout" },
+					{ "id": "room1044_door2", "type": "single", "direction": "inout" }
+				],
+				"amenities": ["desks", "whiteboard", "projector"]
+			},
+			"rm_1045": {
+				"name": "IST-1045",
+				"type": "classroom",
+				"doors": [
+					{ "id": "room1045_door1", "type": "single", "direction": "inout" },
+					{ "id": "room1045_door2", "type": "single", "direction": "inout" }
+				],
+				"amenities": ["desks", "whiteboard", "projector"]
+			},
+			"rm_1046": {
+				"name": "IST-1046",
+				"type": "classroom",
+				"doors": [
+					{ "id": "room1046_door1", "type": "single", "direction": "inout" },
+					{ "id": "room1046_door2", "type": "single", "direction": "inout" }
+				],
+				"amenities": ["desks", "whiteboard", "projector"]
+			},
+			"rm_1047": {
+				"name": "IST-1047",
+				"type": "classroom",
+				"doors": [
+					{ "id": "room1047_door1", "type": "single", "direction": "inout" },
+					{ "id": "room1047_door2", "type": "single", "direction": "inout" }
+				],
+				"amenities": ["desks", "whiteboard", "projector"]
+			},
+			"rm_1048": {
+				"name": "IST-1048",
+				"type": "classroom",
+				"doors": [
+					{ "id": "room1048_door1", "type": "single", "direction": "inout" },
+					{ "id": "room1048_door2", "type": "single", "direction": "inout" }
+				],
+				"amenities": ["desks", "whiteboard", "projector"]
+			},
+			"rm_1049": {
+				"name": "IST-1049",
+				"type": "classroom",
+				"doors": [
+					{ "id": "room1049_door1", "type": "single", "direction": "inout" },
+					{ "id": "room1049_door2", "type": "single", "direction": "inout" }
+				],
+				"amenities": ["desks", "whiteboard", "projector"]
+			},
+			"rm_1051": {
+				"name": "IST-1051",
+				"type": "classroom",
+				"doors": [
+					{ "id": "room1051_door1", "type": "single", "direction": "inout" },
+					{ "id": "room1051_door2", "type": "single", "direction": "inout" }
+				],
+				"amenities": ["desks", "whiteboard", "projector"]
+			},
+			"rm_1052": {
+				"name": "IST-1052",
+				"type": "classroom",
+				"doors": [
+					{ "id": "room1052_door1", "type": "single", "direction": "inout" },
+					{ "id": "room1052_door2", "type": "single", "direction": "inout" }
+				],
+				"amenities": ["desks", "whiteboard", "projector"]
+			},
+			"rm_1053": {
+				"name": "IST-1053",
+				"type": "classroom",
+				"doors": [
+					{ "id": "room1053_door1", "type": "single", "direction": "inout" },
+					{ "id": "room1053_door2", "type": "single", "direction": "inout" }
+				],
+				"amenities": ["desks", "whiteboard", "projector"]
+			},
+			"rm_1055": {
+				"name": "IST-1055",
+				"type": "classroom",
+				"doors": [
+					{ "id": "room1055_door1", "type": "single", "direction": "inout" },
+					{ "id": "room1055_door2", "type": "single", "direction": "inout" }
+				],
+				"amenities": ["desks", "whiteboard", "projector"]
+			},
+			"rm_1056": {
+				"name": "IST-1056",
+				"type": "classroom",
+				"doors": [
+					{ "id": "room1056_door1", "type": "single", "direction": "inout" },
+					{ "id": "room1056_door2", "type": "single", "direction": "inout" }
+				],
+				"amenities": ["desks", "whiteboard", "projector"]
+			},
+			"rm_1057": {
+				"name": "IST-1057",
+				"type": "classroom",
+				"doors": [
+					{ "id": "room1057_door1", "type": "single", "direction": "inout" },
+					{ "id": "room1057_door2", "type": "single", "direction": "inout" }
+				],
+				"amenities": ["desks", "whiteboard", "projector"]
+			},
+			"rm_1058": {
+				"name": "IST-1058",
+				"type": "classroom",
+				"doors": [
+					{ "id": "room1058_door1", "type": "single", "direction": "inout" },
+					{ "id": "room1058_door2", "type": "single", "direction": "inout" }
+				],
+				"amenities": ["desks", "whiteboard", "projector"]
+			},
+			"rm_1060": {
+				"name": "IST-1060",
+				"type": "classroom",
+				"doors": [
+					{ "id": "room1060_door1", "type": "single", "direction": "inout" },
+					{ "id": "room1060_door2", "type": "single", "direction": "inout" }
+				],
+				"amenities": ["desks", "whiteboard", "projector"]
+			},
+			"rm_1061": {
+				"name": "IST-1061",
+				"type": "classroom",
+				"doors": [
+					{ "id": "room1061_door1", "type": "single", "direction": "inout" },
+					{ "id": "room1061_door2", "type": "single", "direction": "inout" }
+				],
+				"amenities": ["desks", "whiteboard", "projector"]
+			},
+			"rm_1062": {
+				"name": "IST-1062",
+				"type": "classroom",
+				"doors": [
+					{ "id": "room1062_door1", "type": "single", "direction": "inout" },
+					{ "id": "room1062_door2", "type": "single", "direction": "inout" }
+				],
+				"amenities": ["desks", "whiteboard", "projector"]
+			},
+			"rm_1063": {
+				"name": "IST-1063",
+				"type": "classroom",
+				"doors": [
+					{ "id": "room1063_door1", "type": "single", "direction": "inout" },
+					{ "id": "room1063_door2", "type": "single", "direction": "inout" }
+				],
+				"amenities": ["desks", "whiteboard", "projector"]
+			},
+			"rm_1064": {
+				"name": "IST-1064",
+				"type": "classroom",
+				"doors": [
+					{ "id": "room1064_door1", "type": "single", "direction": "inout" },
+					{ "id": "room1064_door2", "type": "single", "direction": "inout" }
+				],
+				"amenities": ["desks", "whiteboard", "projector"]
+			},
+			"rm_1065": {
+				"name": "IST-1065",
+				"type": "classroom",
+				"doors": [
+					{ "id": "room1065_door1", "type": "single", "direction": "inout" },
+					{ "id": "room1065_door2", "type": "single", "direction": "inout" }
+				],
+				"amenities": ["desks", "whiteboard", "projector"]
+			},
+			"rm_1067": {
+				"name": "IST-1067",
+				"type": "classroom",
+				"doors": [
+					{ "id": "room1067_door1", "type": "single", "direction": "inout" },
+					{ "id": "room1067_door2", "type": "single", "direction": "inout" }
+				],
+				"amenities": ["desks", "whiteboard", "projector"]
+			},
+			"rm_1068": {
+				"name": "IST-1068",
+				"type": "classroom",
+				"doors": [
+					{ "id": "room1068_door1", "type": "single", "direction": "inout" },
+					{ "id": "room1068_door2", "type": "single", "direction": "inout" }
+				],
+				"amenities": ["desks", "whiteboard", "projector"]
+			}
+		},
+		"2": {
+
+		}
+	}
+}
