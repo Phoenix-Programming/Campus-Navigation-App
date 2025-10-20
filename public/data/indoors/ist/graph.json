@@ -155,8 +155,10 @@
 		{ "id": "rm_1068_door1", "type": "door", "floor": 1, "x": -1, "y": -1, "role": "routing" },
 		{ "id": "rm_1068_door2", "type": "door", "floor": 1, "x": -1, "y": -1, "role": "routing" },
 
-		{ "id": "entrance_south", "type": "door", "floor": 1, "x": -1, "y": -1, "role": "routing" },
-		{ "id": "entrance_north", "type": "door", "floor": 1, "x": -1, "y": -1, "role": "routing" },
+		{ "id": "entrance_south1", "type": "door", "floor": 1, "x": -1, "y": -1, "role": "routing" },
+		{ "id": "entrance_south2", "type": "door", "floor": 1, "x": -1, "y": -1, "role": "routing" },
+		{ "id": "entrance_north1", "type": "door", "floor": 1, "x": -1, "y": -1, "role": "routing" },
+		{ "id": "entrance_north2", "type": "door", "floor": 1, "x": -1, "y": -1, "role": "routing" },
 		{ "id": "exit_east", "type": "door", "floor": 1, "x": -1, "y": -1, "role": "routing" },
 		{ "id": "exit_west", "type": "door", "floor": 1, "x": -1, "y": -1, "role": "routing" },
 
@@ -326,8 +328,10 @@
 		["rm_1048_door1", "hall_e-w_c_1"], ["rm_1048_door1", "hall_n-s_b_1"],
 		["rm_1048_door2", "hall_n-s_b_1"],
 
-		["hall_e-w_c_1", "entrance_south"],
-		["hall_e-w_g_1", "entrance_north"],
+		["hall_e-w_c_1", "entrance_south1"],
+		["hall_e-w_c_1", "entrance_south2"],
+		["hall_e-w_g_1", "entrance_north1"],
+		["hall_e-w_g_1", "entrance_north2"],
 		{"from": "hall_n-s_a_4", "to": "exit_east"},
 		{"from": "hall_n-s_a_4", "to": "exit_west"},
 
