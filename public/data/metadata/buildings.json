@@ -1,4 +1,105 @@
 {
+	"ist": {
+		"name": "Innovation, Science, & Technology Building",
+		"abbreviation": "IST",
+		"categories": ["academic"],
+		"description": null,
+		"hours": "6:00 AM - 11:00 PM",
+		"visitor_hours": "8:00 AM - 5:00 PM",
+		"accessibility": ["auto_door", "elevator"],
+		"doors": [
+			{ "node": "entrance_south1", "type": "double", "direction": "in/out"},
+			{ "node": "entrance_south2", "type": "double", "direction": "in/out"},
+			{ "node": "entrance_north1", "type": "double", "direction": "in/out"},
+			{ "node": "entrance_north2", "type": "double", "direction": "in/out"},
+			{ "node": "exit_east", "type": "double", "direction": "exit"},
+			{ "node": "exit_west", "type": "double", "direction": "exit"}
+		]
+	},
+
+	"barc": {
+		"name": "Barnett Applied Research Center",
+		"abbreviation": "BARC",
+		"categories": ["academic"],
+		"description": null,
+		"hours": "...",
+		"visitor_hours": "...",
+		"accessibility": ["auto_door", "elevator"]
+	},
+
+	"web": {
+		"name": "Gary C. Wendt Engineering Building",
+		"abbreviation": "WEB",
+		"categories": ["academic"],
+		"description": null,
+		"hours": "...",
+		"visitor_hours": "...",
+		"accessibility": ["auto_door", "elevator"]
+	},
+
+	"iff": {
+		"name": "IFF Global Citrus Innovation Center",
+		"abbreviation": "IFF",
+		"categories": ["academic"],
+		"description": null,
+		"hours": "...",
+		"visitor_hours": "...",
+		"accessibility": ["auto_door"]
+	},
+
+	"sdc": {
+		"name": "Student Development Center",
+		"abbreviation": "SDC",
+		"categories": ["..."],
+		"description": null,
+		"hours": {
+			"Monday - Friday": "6:00 AM - 11:00 PM",
+			"Saturday - Sunday": "12:00 PM - 5:00 PM"
+		},
+		"visitor_hours": "...",
+		"accessibility": ["auto_door"]
+	},
+
+	"wc": {
+		"name": "Wellness Center",
+		"abbreviation": "WC",
+		"categories": ["..."],
+		"description": null,
+		"hours": {
+			"Monday - Friday": ["7:30 AM - 9:30 AM", "11:00 AM - 2:00 PM", "5:00 PM - 9:00 PM"],
+			"Saturday - Sunday": ["11:00 AM - 1:00 PM", "5:00 PM - 7:00PM"]
+		},
+		"visitor_hours": "...",
+		"accessibility": ["auto_door"]
+	},
+
+	"p1": {
+		"name": "Phase I",
+		"abbreviation": "P1",
+		"categories": ["residence hall"],
+		"description": null,
+		"hours": "...",
+		"accessibility": ["auto_door", "elevator"]
+	},
+
+	"p2": {
+		"name": "Phase II",
+		"abbreviation": "P2",
+		"categories": ["residence hall"],
+		"description": null,
+		"hours": "...",
+		"accessibility": ["auto_door", "elevator"]
+	},
+
+	"p3": {
+		"name": "Phase III",
+		"abbreviation": "P3",
+		"categories": ["residence hall"],
+		"description": null,
+		"hours": "...",
+		"accessibility": ["auto_door", "elevator"]
+	},
+
 	"ac": {
 		"name": "Admissions Center",
 		"abbreviation": "AC",
@@ -6,103 +107,14 @@
 		"description": "...",
 		"hours": "...",
 		"visitor_hours": "...",
-		"accessibility": ["auto_door", "elevator"]
-	
-	"ist": {
-		"name": "Innovation, Science, & Technology Building",
-		"abbreviation": "IST",
-		"categories": ["academic"],
-		"description": "Insert blurb here",
-		"hours": "6:00 AM - 11:00 PM",
-		"visitor_hours": "8:00 AM - 5:00 PM",
-		"accessibility": ["auto_door", "elevator"]
-	}
-
-	"barc": {
-		"name": "Barnett Applied Research Center",
-		"abbreviation": "BARC",
-		"categories": ["academic"],
-		"description": "Insert blurb here",
-		"hours": "...",
-		"visitor_hours": "...",
-		"accessibility": ["auto_door", "elevator"]
-	}
-
-	"web": {
-		"name": "Gary C. Wendt Engineering Building",
-		"abbreviation": "WEB",
-		"categories": ["academic"],
-		"description": "...",
-		"hours": "...",
-		"visitor_hours": "...",
-		"accessibility": ["auto_door", "elevator"]
-	}
-
-	"iff": {
-		"name": "IFF Global Citrus Innovation Center",
-		"abbreviation": "IFF",
-		"categories": ["academic"],
-		"description": "...",
-		"hours": "...",
-		"visitor_hours": "...",
-		"accessibility": ["auto_door", "elevator"]
-	}
-
-	"sdc": {
-		"name": "Student Development Center",
-		"abbreviation": "SDC",
-		"categories": ["..."],
-		"description": "Insert blurb here",
-		"hours": "Monday - Friday: 6:00 AM - 11:00 PM, Saturday - Sunday: 12:00 PM - 5:00 PM",
-		"visitor_hours": "...",
 		"accessibility": ["auto_door"]
-	}
-
-	"wc": {
-		"name": "Wellness Center",
-		"abbreviation": "WC",
-		"categories": ["..."],
-		"description": "...",
-		"hours": "Monday - Friday: 7:30 AM - 9:30 AM, 11:00 AM - 2:00 PM, 5:00 PM - 9:00 PM, Saturday - Sunday: 11:00 AM - 1:00 PM, 5:00 PM - 7:00PM",
-		"visitor_hours": "...",
-		"accessibility": ["auto_door"]
-	}
-
-	"p1": {
-		"name": "Phase I",
-		"abbreviation": "P1",
-		"categories": ["residence hall"],
-		"description": "...",
-		"hours": "...",
-		"visitor_hours": "...",
-		"accessibility": ["auto_door", "elevator"]
-	}
-
-	"p2": {
-		"name": "Phase II",
-		"abbreviation": "P2",
-		"categories": ["residence hall"],
-		"description": "...",
-		"hours": "...",
-		"visitor_hours": "...",
-		"accessibility": ["auto_door", "elevator"]
-	}
-
-	"p3": {
-		"name": "Phase III",
-		"abbreviation": "P3",
-		"categories": ["residence hall"],
-		"description": "...",
-		"hours": "...",
-		"visitor_hours": "...",
-		"accessibility": ["auto_door", "elevator"]
-	}
+	},
 
 	"ccc": {
 		"name": "Campus Control Center",
 		"abbreviation": "CCC",
 		"categories": ["police"],
-		"description": "...",
+		"description": null,
 		"hours": "...",
 		"visitor_hours": "...",
 		"accessibility": ["..."]
