@@ -163,11 +163,18 @@
 		{ "id": "exit_east", "type": "door", "floor": 1, "x": -1, "y": -1, "role": "routing" },
 		{ "id": "exit_west", "type": "door", "floor": 1, "x": -1, "y": -1, "role": "routing" },
 
-		{ "id": "stair_south_f1", "type": "stair", "floor": 1, "x": -1, "y": -1, "role": "routing" },
-		{ "id": "stair_south_f2", "type": "stair", "floor": 2, "x": -1, "y": -1, "role": "routing" },
+		{ "id": "fountain_south_1_f1", "type": "water_fountain", "floor": 1, "x": -1, "y": -1, "role": "poi" },
+		{ "id": "fountain_south_2_f1", "type": "water_fountain", "floor": 1, "x": -1, "y": -1, "role": "poi" },
+		{ "id": "fountain_north_1_f1", "type": "water_fountain", "floor": 1, "x": -1, "y": -1, "role": "poi" },
+		{ "id": "fountain_north_2_f1", "type": "water_fountain", "floor": 1, "x": -1, "y": -1, "role": "poi" },
 
-		{ "id": "stair_north_f1", "type": "stair", "floor": 1, "x": -1, "y": -1, "role": "routing" },
-		{ "id": "stair_north_f2", "type": "stair", "floor": 2, "x": -1, "y": -1, "role": "routing" },
+		{ "id": "vending_1_f1", "type": "vending", "floor": 1, "x": -1, "y": -1, "role": "poi" },
+
+		{ "id": "stairs_south_f1", "type": "stairs", "floor": 1, "x": -1, "y": -1, "role": "routing" },
+		{ "id": "stairs_south_f2", "type": "stairs", "floor": 2, "x": -1, "y": -1, "role": "routing" },
+
+		{ "id": "stairs_north_f1", "type": "stairs", "floor": 1, "x": -1, "y": -1, "role": "routing" },
+		{ "id": "stairs_north_f2", "type": "stairs", "floor": 2, "x": -1, "y": -1, "role": "routing" },
 
 		{ "id": "elevator_f1", "type": "elevator", "floor": 1, "x": -1, "y": -1, "role": "routing" },
 		{ "id": "elevator_f2", "type": "elevator", "floor": 2, "x": -1, "y": -1, "role": "routing" }
@@ -337,11 +344,11 @@
 		{"from": "hall_n-s_a_4", "to": "exit_east"},
 		{"from": "hall_n-s_a_4", "to": "exit_west"},
 
-		["hall_e-w_c_1", "stair_south_f1"],
+		["hall_e-w_c_1", "stairs_south_f1"],
 
-		["hall_e-w_g_1", "stair_north_f1"],
+		["hall_e-w_g_1", "stairs_north_f1"],
 
-		["stair_south_f1", "stair_south_f2"],
-		["stair_north_f1", "stair_north_f2"]
+		["stairs_south_f1", "stairs_south_f2"],
+		["stairs_north_f1", "stairs_north_f2"]
 	]
 }

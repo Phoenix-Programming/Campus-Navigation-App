@@ -1,7 +1,46 @@
 {
 	"floors": {
 		"1": {
-
+			"fountain_south_1_f1": {
+				"name": "Water Fountain",
+				"type": "water_fountain",
+				"node": "fountain_south_1_f1"
+			},
+			"fountain_south_2_f1": {
+				"name": "Water Fountain",
+				"type": "water_fountain",
+				"node": "fountain_south_2_f1"
+			},
+			"fountain_north_1_f1": {
+				"name": "Water Fountain",
+				"type": "water_fountain",
+				"node": "fountain_north_1_f1"
+			},
+			"fountain_north_2_f1": {
+				"name": "Water Fountain",
+				"type": "water_fountain",
+				"node": "fountain_north_2_f1"
+			},
+			"vending_1_f1": {
+				"name": "Vending Machine",
+				"type": ["vending_food", "vending_drinks"],
+				"node": "vending_1_f1"
+			},
+			"elevator_f1": {
+				"name": "Elevator",
+				"type": "elevator",
+				"node": "elevator_f1"
+			},
+			"stairs_south_f1": {
+				"name": "South Stairs",
+				"type": "stairs",
+				"node": "south_stairs_f1"
+			},
+			"stairs_north_f1": {
+				"name": "North Stairs",
+				"type": "stairs",
+				"node": "north_stairs_f1"
+			}
 		},
 		"2": {
 
