@@ -1,31 +1,32 @@
 {
 	"bld_id": "ist",
 	"nodes": [
-		{ "id": "hall_n-s_a_1", "type": "hall", "floor": 1, "x": -1, "y": -1, "role": "routing" },
-		{ "id": "hall_n-s_a_2", "type": "hall", "floor": 1, "x": -1, "y": -1, "role": "routing" },
-		{ "id": "hall_n-s_a_3", "type": "hall", "floor": 1, "x": -1, "y": -1, "role": "routing" },
-		{ "id": "hall_n-s_a_4", "type": "hall", "floor": 1, "x": -1, "y": -1, "role": "routing" },
-		{ "id": "hall_n-s_a_5", "type": "hall", "floor": 1, "x": -1, "y": -1, "role": "routing" },
-		{ "id": "hall_n-s_a_6", "type": "hall", "floor": 1, "x": -1, "y": -1, "role": "routing" },
-		{ "id": "hall_n-s_a_7", "type": "hall", "floor": 1, "x": -1, "y": -1, "role": "routing" },
+		{ "id": "hall_n-s_a_1", "type": "hall", "floor": 1, "x": 1.6651025, "y": 0.65742534, "role": "routing" },
+		{ "id": "hall_n-s_a_2", "type": "hall", "floor": 1, "x": 1.5138406, "y": 0.58584607, "role": "routing" },
+		{ "id": "hall_n-s_a_3", "type": "hall", "floor": 1, "x": 1.2734423, "y": 0.5165177, "role": "routing" },
+		{ "id": "hall_n-s_a_4", "type": "hall", "floor": 1, "x": 1.0244905, "y": 0.49040705, "role": "routing" },
+		{ "id": "hall_n-s_a_5", "type": "hall", "floor": 1, "x": 0.7747314, "y": 0.51441848, "role": "routing" },
+		{ "id": "hall_n-s_a_6", "type": "hall", "floor": 1, "x": 0.53184694, "y": 0.58858895, "role": "routing" },
+		{ "id": "hall_n-s_a_7", "type": "hall", "floor": 1, "x": 0.36663458, "y": 0.67039931, "role": "routing" },
 
-		{ "id": "hall_n-s_b_1", "type": "hall", "floor": 1, "x": -1, "y": -1, "role": "routing" },
-		{ "id": "hall_n-s_b_2", "type": "hall", "floor": 1, "x": -1, "y": -1, "role": "routing" },
-		{ "id": "hall_n-s_b_3", "type": "hall", "floor": 1, "x": -1, "y": -1, "role": "routing" },
-		{ "id": "hall_n-s_b_4", "type": "hall", "floor": 1, "x": -1, "y": -1, "role": "routing" },
-		{ "id": "hall_n-s_b_5", "type": "hall", "floor": 1, "x": -1, "y": -1, "role": "routing" },
-		{ "id": "hall_n-s_b_6", "type": "hall", "floor": 1, "x": -1, "y": -1, "role": "routing" },
-		{ "id": "hall_n-s_b_7", "type": "hall", "floor": 1, "x": -1, "y": -1, "role": "routing" },
+		{ "id": "hall_n-s_b_1", "type": "hall", "floor": 1, "x": 1.6651025, "y": 0.98809093, "role": "routing" },
+		{ "id": "hall_n-s_b_2", "type": "hall", "floor": 1, "x": 1.5138406, "y": 1.0105554, "role": "routing" },
+		{ "id": "hall_n-s_b_3", "type": "hall", "floor": 1, "x": 1.2734423, "y": 0.98446023, "role": "routing" },
+		{ "id": "hall_n-s_b_4", "type": "hall", "floor": 1, "x": 1.0244905, "y": 0.91255093, "role": "routing" },
+		{ "id": "hall_n-s_b_5", "type": "hall", "floor": 1, "x": 0.7747314, "y": 0.8414191, "role": "routing" },
+		{ "id": "hall_n-s_b_6", "type": "hall", "floor": 1, "x": 0.53184694, "y": 0.91646707, "role": "routing" },
+		{ "id": "hall_n-s_b_7", "type": "hall", "floor": 1, "x": 0.36663458, "y": 0.83529335, "role": "routing" },
 
-		{ "id": "hall_e-w_c_1", "type": "hall", "floor": 1, "x": -1, "y": -1, "role": "routing" },
+		{ "id": "hall_e-w_c_1", "type": "hall", "floor": 1, "x": 1.7300345, "y": 0.7499814, "role": "routing" },
 
-		{ "id": "hall_e-w_d_1", "type": "hall", "floor": 1, "x": -1, "y": -1, "role": "routing" },
+		{ "id": "hall_e-w_d_1", "type": "hall", "floor": 1, "x": 1.4721886, "y": 0.71687526, "role": "routing" },
+		{ "id": "hall_e-w_d_2", "type": "hall", "floor": 1, "x": 1.4721886, "y": 0.79168242, "role": "routing" },
 
-		{ "id": "hall_e-w_e_1", "type": "hall", "floor": 1, "x": -1, "y": -1, "role": "routing" },
+		{ "id": "hall_e-w_e_1", "type": "hall", "floor": 1, "x": 1.0232453, "y": 0.7499814, "role": "routing" },
 
 		{ "id": "hall_e-w_f_1", "type": "hall", "floor": 1, "x": -1, "y": -1, "role": "routing" },
 
-		{ "id": "hall_e-w_g_1", "type": "hall", "floor": 1, "x": -1, "y": -1, "role": "routing" },
+		{ "id": "hall_e-w_g_1", "type": "hall", "floor": 1, "x": 0.32047698, "y": 0.7499814, "role": "routing" },
 
 		{ "id": "rm_1002", "type": "room", "floor": 1, "x": -1, "y": -1, "role": "destination" },
 		{ "id": "rm_1003", "type": "room", "floor": 1, "x": -1, "y": -1, "role": "destination" },
@@ -190,7 +191,8 @@
 		["hall_n-s_b_1", "hall_e-w_c_1"],
 
 		["hall_n-s_a_2", "hall_e-w_d_1"],
-		["hall_n-s_b_2", "hall_e-w_d_1"],
+		["hall_e-w_d_1", "hall_e-w_d_2"],
+		["hall_n-s_b_2", "hall_e-w_d_2"],
 
 		["hall_n-s_a_4", "hall_e-w_e_1"],
 		["hall_n-s_b_4", "hall_e-w_e_1"],
