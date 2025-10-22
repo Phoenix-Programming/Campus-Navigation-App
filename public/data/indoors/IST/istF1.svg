@@ -31,13 +31,13 @@
      inkscape:pagecheckerboard="0"
      inkscape:deskcolor="#505050"
      inkscape:document-units="cm"
-     inkscape:zoom="0.29386122"
-     inkscape:cx="3496.5485"
-     inkscape:cy="2725.7765"
-     inkscape:window-width="3840"
-     inkscape:window-height="2120"
+     inkscape:zoom="0.14693061"
+     inkscape:cx="3821.5318"
+     inkscape:cy="3025.2376"
+     inkscape:window-width="2590"
+     inkscape:window-height="1577"
      inkscape:window-x="-12"
-     inkscape:window-y="-12"
+     inkscape:window-y="1588"
      inkscape:window-maximized="1"
      inkscape:current-layer="layer2"
      showgrid="true"><inkscape:grid
@@ -324,7 +324,7 @@
        inkscape:label="centerHallway" /><circle
        style="fill:#ea0000;fill-opacity:0.69589;stroke:none;stroke-width:0.00326001"
        id="circle84"
-       cx="1.4222111"
+       cx="1.3499506"
        cy="0.7499814"
        r="0.0024999999"
        inkscape:label="mosaicCafe" /><circle
@@ -621,7 +621,7 @@
              cx="0.49054131"
              cy="0.57494897"
              r="0.0024999999"
-             inkscape:label="room1012_door2" /><circle
+             inkscape:label="room1003_door2" /><circle
              style="fill:#00ea47;fill-opacity:0.69589;stroke:none;stroke-width:0.00326001"
              id="circle59"
              cx="0.51134902"
