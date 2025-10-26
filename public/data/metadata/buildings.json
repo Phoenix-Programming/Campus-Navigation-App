@@ -8,12 +8,10 @@
 		"visitor_hours": "8:00 AM - 5:00 PM",
 		"accessibility": ["auto_door", "elevator"],
 		"doors": [
-			{ "node": "entrance_south1", "type": "double", "direction": "in/out"},
-			{ "node": "entrance_south2", "type": "double", "direction": "in/out"},
-			{ "node": "entrance_north1", "type": "double", "direction": "in/out"},
-			{ "node": "entrance_north2", "type": "double", "direction": "in/out"},
-			{ "node": "exit_east", "type": "double", "direction": "exit"},
-			{ "node": "exit_west", "type": "double", "direction": "exit"}
+			{ "node": "entrance_south", "type": "quad", "direction": "in/out"},
+			{ "node": "entrance_north", "type": "quad", "direction": "in/out"},
+			{ "node": "exit_east", "type": "quad", "direction": "exit"},
+			{ "node": "exit_west", "type": "quad", "direction": "exit"}
 		]
 	},
 

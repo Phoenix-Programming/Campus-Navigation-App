@@ -1,0 +1,16 @@
+{
+	"floors": {
+		"1": {
+			"rm_2001": {
+				"department": "Department of Computer Science",
+				"office_holders": [
+					{ "name": "John Doe", "title": "Adjunct Professor" },
+					{ "name": "Jane Smith", "title": "Professor" }
+				]
+			}
+		},
+		"2": {
+
+		}
+	}
+}

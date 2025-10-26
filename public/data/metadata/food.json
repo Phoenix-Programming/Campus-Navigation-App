@@ -2,7 +2,7 @@
 	"mosaic_cafe": {
 		"name": "Mosaic Cafe",
 		"floor": 1,
-		"node": "hall2_b",
+		"node": "...",
 		"categories": ["coffee", "breakfast", "snacks", "to-go"],
 		"description": "Coffee, beverages, and snacks",
 		"hours": "7:00 AM - 5:00 PM",

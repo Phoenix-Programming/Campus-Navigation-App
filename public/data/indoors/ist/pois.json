@@ -3,47 +3,104 @@
 		"1": {
 			"fountain_south_1_f1": {
 				"name": "Water Fountain",
-				"type": "water_fountain",
-				"node": "fountain_south_1_f1"
+				"type": "water_fountain"
 			},
 			"fountain_south_2_f1": {
 				"name": "Water Fountain",
-				"type": "water_fountain",
-				"node": "fountain_south_2_f1"
+				"type": "water_fountain"
 			},
 			"fountain_north_1_f1": {
 				"name": "Water Fountain",
-				"type": "water_fountain",
-				"node": "fountain_north_1_f1"
+				"type": "water_fountain"
 			},
 			"fountain_north_2_f1": {
 				"name": "Water Fountain",
-				"type": "water_fountain",
-				"node": "fountain_north_2_f1"
+				"type": "water_fountain"
 			},
 			"vending_1_f1": {
 				"name": "Vending Machine",
-				"type": ["vending_food", "vending_drinks"],
-				"node": "vending_1_f1"
+				"type": ["vending_food", "vending_drinks"]
 			},
-			"elevator_f1": {
-				"name": "Elevator",
-				"type": "elevator",
-				"node": "elevator_f1"
+			"elevator_south_f1": {
+				"name": "South Elevator",
+				"type": "elevator"
+			},
+			"elevator_north_f1": {
+				"name": "North Elevator",
+				"type": "elevator"
 			},
 			"stairs_south_f1": {
 				"name": "South Stairs",
-				"type": "stairs",
-				"node": "south_stairs_f1"
+				"type": "stairs"
 			},
 			"stairs_north_f1": {
 				"name": "North Stairs",
-				"type": "stairs",
-				"node": "north_stairs_f1"
+				"type": "stairs"
+			},
+			"sga_desk_f1": {
+				"name": "SGA Desk",
+				"type": "desk"
+			},
+			"police_desk_f1": {
+				"name": "University Police Desk",
+				"type": "desk"
+			},
+			"empty_desk_f1": {
+				"name": "Empty Desk",
+				"type": "desk"
+			},
+			"rm_1005": {
+				"name": "Men's Restroom",
+				"type": "restroom",
+				"restroom_type": ["mens", "disability"]
+			},
+			"rm_1006": {
+				"name": "Family Restroom",
+				"type": "restroom",
+				"restroom_type": ["family", "disablility"]
+			},
+			"rm_1007": {
+				"name": "Women's Restroom",
+				"type": "restroom",
+				"restroom_type": ["womens", "disability"]
+			},
+			"rm_1040": {
+				"name": "Women's Restroom",
+				"type": "restroom",
+				"restroom_type": ["womens", "disablility"]
+			},
+			"rm_1042": {
+				"name": "Family Restroom",
+				"type": "restroom",
+				"restroom_type": ["family", "disablility"]
+			},
+			"rm_1043": {
+				"name": "Men's Restroom",
+				"type": "restroom",
+				"restroom_type": ["mens", "disability"]
+			},
+			"rm_1050": {
+				"name": "Mother's Room",
+				"type": "mothers_room"
 			}
 		},
 		"2": {
-
+			"elevator_south_f2": {
+				"name": "South Elevator",
+				"type": "elevator"
+			},
+			"elevator_north_f2": {
+				"name": "North Elevator",
+				"type": "elevator"
+			},
+			"stairs_south_f2": {
+				"name": "South Stairs",
+				"type": "stairs"
+			},
+			"stairs_north_f2": {
+				"name": "North Stairs",
+				"type": "stairs"
+			}
 		}
 	}
 }
