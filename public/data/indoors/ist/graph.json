@@ -42,8 +42,6 @@
 		{ "id": "rm_1011", "type": "room", "floor": 1, "x": -1, "y": -1, "role": "destination" },
 		{ "id": "rm_1012", "type": "room", "floor": 1, "x": -1, "y": -1, "role": "destination" },
 		{ "id": "rm_1013", "type": "room", "floor": 1, "x": -1, "y": -1, "role": "destination" },
-		{ "id": "rm_1013A", "type": "room", "floor": 1, "x": -1, "y": -1, "role": "destination" },
-		{ "id": "rm_1013B", "type": "room", "floor": 1, "x": -1, "y": -1, "role": "destination" },
 		{ "id": "rm_1014", "type": "room", "floor": 1, "x": -1, "y": -1, "role": "destination" },
 		{ "id": "rm_1015", "type": "room", "floor": 1, "x": -1, "y": -1, "role": "destination" },
 		{ "id": "rm_1016", "type": "room", "floor": 1, "x": -1, "y": -1, "role": "destination" },
@@ -80,10 +78,9 @@
 		{ "id": "rm_1055", "type": "room", "floor": 1, "x": -1, "y": -1, "role": "destination" },
 		{ "id": "rm_1056", "type": "room", "floor": 1, "x": -1, "y": -1, "role": "destination" },
 		{ "id": "rm_1057", "type": "room", "floor": 1, "x": -1, "y": -1, "role": "destination" },
-		{ "id": "rm_1057A", "type": "room", "floor": 1, "x": -1, "y": -1, "role": "destination" },
+		{ "id": "rm_1057A", "type": "hallway", "floor": 1, "x": -1, "y": -1, "role": "routing" },
 		{ "id": "rm_1057B", "type": "room", "floor": 1, "x": -1, "y": -1, "role": "destination" },
 		{ "id": "rm_1057C", "type": "room", "floor": 1, "x": -1, "y": -1, "role": "destination" },
-		{ "id": "rm_1057D", "type": "room", "floor": 1, "x": -1, "y": -1, "role": "destination" },
 		{ "id": "rm_1058", "type": "room", "floor": 1, "x": -1, "y": -1, "role": "destination" },
 		{ "id": "rm_1060", "type": "room", "floor": 1, "x": -1, "y": -1, "role": "destination" },
 		{ "id": "rm_1061", "type": "room", "floor": 1, "x": -1, "y": -1, "role": "destination" },
@@ -122,7 +119,6 @@
 		{ "id": "rm_1015_door2", "type": "door", "floor": 1, "x": -1, "y": -1, "role": "routing" },
 		{ "id": "rm_1016_door1", "type": "door", "floor": 1, "x": -1, "y": -1, "role": "routing" },
 		{ "id": "rm_1016_door2", "type": "door", "floor": 1, "x": -1, "y": -1, "role": "routing" },
-		{ "id": "rm_1016A_door1", "type": "door", "floor": 1, "x": -1, "y": -1, "role": "routing" },
 		{ "id": "rm_1017_door1", "type": "door", "floor": 1, "x": -1, "y": -1, "role": "routing" },
 		{ "id": "rm_1017_door2", "type": "door", "floor": 1, "x": -1, "y": -1, "role": "routing" },
 		{ "id": "rm_1018_door1", "type": "door", "floor": 1, "x": -1, "y": -1, "role": "routing" },
@@ -151,7 +147,15 @@
 		{ "id": "rm_1031_door2", "type": "door", "floor": 1, "x": -1, "y": -1, "role": "routing" },
 		{ "id": "rm_1032_door1", "type": "door", "floor": 1, "x": -1, "y": -1, "role": "routing" },
 		{ "id": "rm_1032_door2", "type": "door", "floor": 1, "x": -1, "y": -1, "role": "routing" },
+		{ "id": "rm_1033_door1", "type": "door", "floor": 1, "x": -1, "y": -1, "role": "routing" },
+		{ "id": "rm_1034_door1", "type": "door", "floor": 1, "x": -1, "y": -1, "role": "routing" },
+		{ "id": "rm_1035_door1", "type": "door", "floor": 1, "x": -1, "y": -1, "role": "routing" },
+		{ "id": "rm_1036_door1", "type": "door", "floor": 1, "x": -1, "y": -1, "role": "routing" },
+		{ "id": "rm_1037_door1", "type": "door", "floor": 1, "x": -1, "y": -1, "role": "routing" },
+		{ "id": "rm_1038_door1", "type": "door", "floor": 1, "x": -1, "y": -1, "role": "routing" },
+		{ "id": "rm_1039_door1", "type": "door", "floor": 1, "x": -1, "y": -1, "role": "routing" },
 		{ "id": "rm_1040_door1", "type": "door", "floor": 1, "x": -1, "y": -1, "role": "routing" },
+		{ "id": "rm_1041_door1", "type": "door", "floor": 1, "x": -1, "y": -1, "role": "routing" },
 		{ "id": "rm_1042_door1", "type": "door", "floor": 1, "x": -1, "y": -1, "role": "routing" },
 		{ "id": "rm_1043_door1", "type": "door", "floor": 1, "x": -1, "y": -1, "role": "routing" },
 		{ "id": "rm_1044_door1", "type": "door", "floor": 1, "x": -1, "y": -1, "role": "routing" },
@@ -173,6 +177,8 @@
 		{ "id": "rm_1052_door2", "type": "door", "floor": 1, "x": -1, "y": -1, "role": "routing" },
 		{ "id": "rm_1053_door1", "type": "door", "floor": 1, "x": -1, "y": -1, "role": "routing" },
 		{ "id": "rm_1053_door2", "type": "door", "floor": 1, "x": -1, "y": -1, "role": "routing" },
+		{ "id": "rm_1054_door1", "type": "door", "floor": 1, "x": -1, "y": -1, "role": "routing" },
+		{ "id": "rm_1054_door2", "type": "door", "floor": 1, "x": -1, "y": -1, "role": "routing" },
 		{ "id": "rm_1055_door1", "type": "door", "floor": 1, "x": -1, "y": -1, "role": "routing" },
 		{ "id": "rm_1055_door2", "type": "door", "floor": 1, "x": -1, "y": -1, "role": "routing" },
 		{ "id": "rm_1056_door1", "type": "door", "floor": 1, "x": -1, "y": -1, "role": "routing" },
@@ -187,6 +193,7 @@
 		{ "id": "rm_1057D_door2", "type": "door", "floor": 1, "x": -1, "y": -1, "role": "routing" },
 		{ "id": "rm_1058_door1", "type": "door", "floor": 1, "x": -1, "y": -1, "role": "routing" },
 		{ "id": "rm_1058_door2", "type": "door", "floor": 1, "x": -1, "y": -1, "role": "routing" },
+		{ "id": "rm_1059_door1", "type": "door", "floor": 1, "x": -1, "y": -1, "role": "routing" },
 		{ "id": "rm_1060_door1", "type": "door", "floor": 1, "x": -1, "y": -1, "role": "routing" },
 		{ "id": "rm_1060_door2", "type": "door", "floor": 1, "x": -1, "y": -1, "role": "routing" },
 		{ "id": "rm_1061_door1", "type": "door", "floor": 1, "x": -1, "y": -1, "role": "routing" },
@@ -265,170 +272,241 @@
 
 		["rm_1000_door1", "hall_n-s_a_1"], ["rm_1000_door1", "hall_n-s_a_2"],
 		["rm_1000_door2", "hall_e-w_d_1"], ["rm_1000_door2", "hall_e-w_d_2"],
-
 		["rm_1001_door1", "hall_n-s_b_1"], ["rm_1001_door1", "hall_n-s_b_2"],
 		["rm_1001_door2", "hall_e-w_d_1"], ["rm_1001_door2", "hall_e-w_d_2"],
-
 		["rm_1002_door1", "hall_e-w_c_1"], ["rm_1002_door1", "hall_n-s_a_1"],
 		["rm_1002_door2", "hall_n-s_a_1"],
-
 		["rm_1003_door1", "hall_n-s_a_1"], ["rm_1003_door1", "hall_n-s_a_2"],
 		["rm_1003_door2", "hall_n-s_a_1"], ["rm_1003_door2", "hall_n-s_a_2"],
-
 		["rm_1004_door1", "hall_n-s_a_1"], ["rm_1004_door1", "hall_n-s_a_2"],
-
 		["rm_1005_door1", "hall_e-w_d_1"], ["rm_1005_door1", "hall_e-w_d_2"],
-
 		["rm_1006_door1", "hall_e-w_d_1"], ["rm_1006_door1", "hall_e-w_d_2"],
-
 		["rm_1007_door1", "hall_e-w_d_1"], ["rm_1007_door1", "hall_e-w_d_2"],
-
 		["rm_1008_door1", "hall_n-s_b_2"], ["rm_1008_door1", "hall_e-w_d_2"],
-
 		["rm_1009_door1", "hall_e-w_d_1"], ["rm_1009_door1", "hall_e-w_d_2"],
-
 		["rm_1010_door1", "hall_e-w_d_1"], ["rm_1010_door1", "hall_e-w_d_2"],
-
 		["rm_1011_door1", "hall_n-s_a_2"], ["rm_1011_door1", "hall_e-w_d_1"],
-
 		["rm_1012_door1", "hall_n-s_a_2"], ["rm_1012_door1", "hall_n-s_a_3"],
 		["rm_1012_door2", "hall_n-s_a_2"], ["rm_1012_door2", "hall_n-s_a_3"],
-
 		["rm_1013_door1", "hall_n-s_a_2"], ["rm_1013_door1", "hall_n-s_a_3"],
 		["rm_1013_door2", "hall_n-s_a_2"], ["rm_1013_door2", "hall_n-s_a_3"],
-		//13A & 13B
 		["rm_1014_door1", "hall_n-s_a_2"], ["rm_1014_door1", "hall_n-s_a_3"],
 		["rm_1014_door2", "hall_n-s_a_2"], ["rm_1014_door2", "hall_n-s_a_3"],
-
 		["rm_1015_door1", "hall_n-s_a_3"], ["rm_1015_door1", "hall_n-s_a_4"],
 		["rm_1015_door2", "hall_n-s_a_3"], ["rm_1015_door2", "hall_n-s_a_4"],
-
 		["rm_1016_door1", "hall_n-s_a_3"], ["rm_1016_door1", "hall_n-s_a_4"],
 		["rm_1016_door2", "hall_n-s_a_3"], ["rm_1016_door2", "hall_n-s_a_4"],
-		//16A
 		["rm_1017_door1", "hall_n-s_a_3"], ["rm_1017_door1", "hall_n-s_a_4"],
 		["rm_1017_door2", "hall_n-s_a_3"], ["rm_1017_door2", "hall_n-s_a_4"],
-
 		["rm_1019_door1", "hall_n-s_a_4"], ["rm_1019_door1", "hall_e-w_e_1"],
 		["rm_1019_door2", "hall_n-s_a_4"], ["rm_1019_door2", "hall_e-w_e_1"],
-
 		["rm_1020_door", "hall_e-w_e_1"],
-
 		["rm_1021_door1", "hall_e-w_e_1"], ["rm_1021_door1", "hall_n-s_b_4"],
 		["rm_1021_door2", "hall_e-w_e_1"], ["rm_1021_door2", "hall_n-s_b_4"],
-
 		["rm_1022_door1", "hall_e-w_e_1"], ["rm_1022_door1", "hall_n-s_b_4"],
 		["rm_1022_door2", "hall_e-w_e_1"], ["rm_1022_door2", "hall_n-s_b_4"],
-
 		["rm_1023_door", "hall_e-w_e_1"],
-
 		["rm_1024_door1", "hall_n-s_a_4"], ["rm_1024_door1", "hall_e-w_e_1"],
 		["rm_1024_door2", "hall_n-s_a_4"], ["rm_1024_door2", "hall_e-w_e_1"],
-
 		["rm_1025_door1", "hall_n-s_a_4"], ["rm_1025_door1", "hall_n-s_a_5"],
 		["rm_1025_door2", "hall_n-s_a_4"], ["rm_1025_door2", "hall_n-s_a_5"],
-
 		["rm_1026_door1", "hall_n-s_a_4"], ["rm_1026_door1", "hall_n-s_a_5"],
 		["rm_1026_door2", "hall_n-s_a_4"], ["rm_1026_door2", "hall_n-s_a_5"],
-
 		["rm_1027_door1", "hall_n-s_a_4"], ["rm_1027_door1", "hall_n-s_a_5"],
 		["rm_1027_door2", "hall_n-s_a_4"], ["rm_1027_door2", "hall_n-s_a_5"],
-
 		["rm_1028_door1", "hall_n-s_a_4"], ["rm_1028_door1", "hall_n-s_a_5"],
 		["rm_1028_door2", "hall_n-s_a_4"], ["rm_1028_door2", "hall_n-s_a_5"],
-		//29
+		["rm_1029_door1", "hall_n-s_a_5"], ["rm_1029_door1", "hall_n-s_a_6"],
 		["rm_1030_door1", "hall_n-s_a_5"], ["rm_1030_door1", "hall_n-s_a_6"],
 		["rm_1030_door2", "hall_n-s_a_5"], ["rm_1030_door2", "hall_n-s_a_6"],
-
 		["rm_1031_door1", "hall_n-s_a_5"], ["rm_1031_door1", "hall_n-s_a_6"],
 		["rm_1031_door2", "hall_n-s_a_5"], ["rm_1031_door2", "hall_n-s_a_6"],
-
 		["rm_1032_door1", "hall_n-s_a_5"], ["rm_1032_door1", "hall_n-s_a_6"],
 		["rm_1032_door2", "hall_n-s_a_5"], ["rm_1032_door2", "hall_n-s_a_6"],
-
 		["rm_1033_door1", "hall_n-s_a_6"],
-
 		["rm_1034_door1", "hall_n-s_f_1"], ["rm_1034_door1", "hall_e-w_f_1"],
-
 		["rm_1035_door1", "hall_n-s_f_1"], ["rm_1035_door1", "hall_e-w_f_1"],
-
 		["rm_1036_door1", "hall_e-w_f_1"], ["rm_1036_door1", "hall_e-w_f_2"],
-
 		["rm_1037_door1", "hall_e-w_f_1"], ["rm_1037_door1", "hall_e-w_f_2"],
-
 		["rm_1038_door1", "hall_n-s_b_6"], ["rm_1038_door1", "hall_e-w_f_2"],
-
 		["rm_1039_door1", "hall_n-s_b_6"], ["rm_1036_door1", "hall_e-w_f_2"],
-
 		["rm_1040_door1", "hall_e-w_f_1"], ["rm_1040_door1", "hall_e-w_f_2"],
-
 		["rm_1041_door1", "hall_e-w_f_1"], ["rm_1041_door1", "hall_e-w_f_2"],
-
 		["rm_1042_door1", "hall_e-w_f_1"], ["rm_1042_door1", "hall_e-w_f_2"],
-
 		["rm_1043_door1", "hall_e-w_f_1"], ["rm_1043_door1", "hall_e-w_f_2"],
-
 		["rm_1044_door1", "hall_n-s_a_6"], ["rm_1044_door1", "hall_n-s_a_7"],
 		["rm_1044_door2", "hall_n-s_a_6"], ["rm_1044_door2", "hall_n-s_a_7"],
-
 		["rm_1045_door1", "hall_n-s_a_6"], ["rm_1045_door1", "hall_n-s_a_7"],
 		["rm_1045_door2", "hall_n-s_a_7"], ["rm_1045_door2", "hall_e-w_g_1"],
-
 		["rm_1046_door1", "hall_n-s_a_6"], ["rm_1046_door1", "hall_n-s_a_7"],
-
 		["rm_1047_door1", "hall_n-s_b_6"], ["rm_1047_door1", "hall_n-s_b_7"],
-
 		["rm_1048_door1", "hall_n-s_b_7"], ["rm_1048_door1", "hall_e-w_g_1"],
 		["rm_1048_door2", "hall_n-s_b_6"], ["rm_1048_door2", "hall_n-s_b_7"],
-
 		["rm_1049_door1", "hall_n-s_b_6"], ["rm_1049_door1", "hall_n-s_b_7"],
 		["rm_1049_door2", "hall_n-s_b_6"], ["rm_1049_door2", "hall_n-s_b_7"],
-
 		["rm_1050_door1", "hall_n-s_b_6"],
-
 		["rm_1051_door1", "hall_n-s_b_5"], ["rm_1051_door1", "hall_n-s_b_6"],
 		["rm_1051_door2", "hall_n-s_b_5"], ["rm_1051_door2", "hall_n-s_b_6"],
-		//51A
 		["rm_1052_door1", "hall_n-s_b_5"], ["rm_1052_door1", "hall_n-s_b_6"],
 		["rm_1052_door2", "hall_n-s_b_5"], ["rm_1052_door2", "hall_n-s_b_6"],
-
 		["rm_1053_door1", "hall_n-s_b_4"], ["rm_1053_door1", "hall_n-s_b_5"],
 		["rm_1053_door2", "hall_n-s_b_5"], ["rm_1053_door2", "hall_n-s_b_6"],
-		//54
+		["rm_1054_door1", "hall_n-s_b_5"], ["rm_1054_door1", "hall_n-s_b_6"],
 		["rm_1055_door1", "hall_n-s_b_4"], ["rm_1055_door1", "hall_n-s_b_5"],
 		["rm_1055_door2", "hall_n-s_b_4"], ["rm_1055_door2", "hall_n-s_b_5"],
-
 		["rm_1056_door1", "hall_n-s_b_4"], ["rm_1056_door1", "hall_n-s_b_5"],
 		["rm_1056_door2", "hall_n-s_b_4"], ["rm_1056_door2", "hall_n-s_b_5"],
-
 		["rm_1057_door1", "hall_n-s_b_4"], ["rm_1057_door1", "hall_n-s_b_5"],
 		["rm_1057_door2", "hall_n-s_b_4"], ["rm_1057_door2", "hall_n-s_b_5"],
-		//57A, 57B, 57C, 57D
+		["rm_1057A_door1", "hall_n-s_b_4"], ["rm_1057A_door1", "hall_n-s_b_5"],
+		["rm_1057A_door2", "rm_1057_door1"],
+		["rm_1057B_door1", "rm_1057A_door1"],
+		["rm_1057_door1", "rm_1057A_door2"],
 		["rm_1058_door1", "hall_n-s_b_4"], ["rm_1058_door1", "hall_n-s_b_5"],
 		["rm_1058_door2", "hall_n-s_b_4"], ["rm_1058_door2", "hall_n-s_b_5"],
-		//59
+		["rm_1059_door1", "hall_n-s_a_3"], ["rm_1059_door1", "hall_n-s_a_4"],
 		["rm_1060_door1", "hall_n-s_b_3"], ["rm_1060_door1", "hall_n-s_b_4"],
 		["rm_1060_door2", "hall_n-s_b_3"], ["rm_1060_door2", "hall_n-s_b_4"],
-
 		["rm_1061_door1", "hall_n-s_b_3"], ["rm_1061_door1", "hall_n-s_b_4"],
 		["rm_1061_door2", "hall_n-s_b_3"], ["rm_1061_door2", "hall_n-s_b_4"],
-
 		["rm_1062_door1", "hall_n-s_b_3"], ["rm_1062_door1", "hall_n-s_b_4"],
 		["rm_1062_door2", "hall_n-s_b_3"], ["rm_1062_door2", "hall_n-s_b_4"],
-
 		["rm_1063_door1", "hall_n-s_b_2"],
 		["rm_1063_door1", "hall_n-s_b_3"], ["rm_1063_door2", "hall_n-s_b_3"],
-
 		["rm_1064_door1", "hall_n-s_b_2"], ["rm_1064_door1", "hall_n-s_b_3"],
 		["rm_1064_door2", "hall_n-s_b_2"], ["rm_1064_door2", "hall_n-s_b_3"],
-
 		["rm_1065_door1", "hall_n-s_b_2"], ["rm_1065_door1", "hall_n-s_b_3"],
 		["rm_1065_door2", "hall_n-s_b_2"], ["rm_1065_door2", "hall_n-s_b_3"],
-
 		["rm_1066_door1", "hall_n-s_b_2"],
-
 		["rm_1067_door1", "hall_n-s_b_1"], ["rm_1067_door1", "hall_n-s_b_2"],
 		["rm_1067_door2", "hall_n-s_b_1"], ["rm_1067_door2", "hall_n-s_b_2"],
+
+		["rm_1000_door1", "rm_1000"],
+		["rm_1000_door2", "rm_1000"],
+		["rm_1001_door1", "rm_1001"],
+		["rm_1001_door2", "rm_1001"],
+		["rm_1002_door1", "rm_1002"],
+		["rm_1002_door2", "rm_1002"],
+		["rm_1003_door1", "rm_1003"],
+		["rm_1003_door2", "rm_1003"],
+		["rm_1004_door1", "rm_1004"],
+		["rm_1005_door1", "rm_1005"],
+		["rm_1006_door1", "rm_1006"],
+		["rm_1007_door1", "rm_1007"],
+		["rm_1008_door1", "rm_1008"],
+		["rm_1009_door1", "rm_1009"],
+		["rm_1010_door1", "rm_1010"],
+		["rm_1011_door1", "rm_1011"],
+		["rm_1012_door1", "rm_1012"],
+		["rm_1012_door2", "rm_1012"],
+		["rm_1013_door1", "rm_1013"],
+		["rm_1013_door2", "rm_1013"],
+		["rm_1013A_door1", "rm_1013A"],
+		["rm_1013B_door1", "rm_1013B"],
+		["rm_1014_door1", "rm_1014"],
+		["rm_1014_door2", "rm_1014"],
+		["rm_1015_door1", "rm_1015"],
+		["rm_1015_door2", "rm_1015"],
+		["rm_1016_door1", "rm_1016"],
+		["rm_1016_door2", "rm_1016"],
+		["rm_1017_door1", "rm_1017"],
+		["rm_1017_door2", "rm_1017"],
+		["rm_1018_door1", "rm_1018"],
+		["rm_1019_door1", "rm_1019"],
+		["rm_1019_door2", "rm_1019"],
+		["rm_1020_door1", "rm_1020"],
+		["rm_1021_door1", "rm_1021"],
+		["rm_1021_door2", "rm_1021"],
+		["rm_1022_door1", "rm_1022"],
+		["rm_1022_door2", "rm_1022"],
+		["rm_1023_door1", "rm_1023"],
+		["rm_1024_door1", "rm_1024"],
+		["rm_1024_door2", "rm_1024"],
+		["rm_1025_door1", "rm_1025"],
+		["rm_1025_door2", "rm_1025"],
+		["rm_1026_door1", "rm_1026"],
+		["rm_1026_door2", "rm_1026"],
+		["rm_1027_door1", "rm_1027"],
+		["rm_1027_door2", "rm_1027"],
+		["rm_1028_door1", "rm_1028"],
+		["rm_1028_door2", "rm_1028"],
+		["rm_1029_door1", "rm_1029"],
+		["rm_1029_door2", "rm_1027"],
+		["rm_1030_door1", "rm_1030"],
+		["rm_1030_door2", "rm_1030"],
+		["rm_1031_door1", "rm_1031"],
+		["rm_1031_door2", "rm_1031"],
+		["rm_1032_door1", "rm_1032"],
+		["rm_1032_door2", "rm_1032"],
+		["rm_1033_door1", "rm_1033"],
+		["rm_1034_door1", "rm_1034"],
+		["rm_1035_door1", "rm_1035"],
+		["rm_1036_door1", "rm_1036"],
+		["rm_1037_door1", "rm_1037"],
+		["rm_1038_door1", "rm_1038"],
+		["rm_1039_door1", "rm_1039"],
+		["rm_1040_door1", "rm_1040"],
+		["rm_1041_door1", "rm_1041"],
+		["rm_1042_door1", "rm_1042"],
+		["rm_1043_door1", "rm_1043"],
+		["rm_1044_door1", "rm_1044"],
+		["rm_1044_door2", "rm_1044"],
+		["rm_1045_door1", "rm_1045"],
+		["rm_1045_door2", "rm_1045"],
+		["rm_1046_door1", "rm_1046"],
+		["rm_1047_door1", "rm_1047"],
+		["rm_1048_door1", "rm_1048"],
+		["rm_1048_door2", "rm_1048"],
+		["rm_1049_door1", "rm_1049"],
+		["rm_1049_door2", "rm_1049"],
+		["rm_1050_door1", "rm_1050"],
+		["rm_1051_door1", "rm_1051"],
+		["rm_1051_door2", "rm_1051"],
+		["rm_1051A_door1", "rm_1051"],
+		["rm_1051A_door1", "rm_1051A"],
+		["rm_1051A_door2", "rm_1053"],
+		["rm_1051A_door2", "rm_1051A"],
+		["rm_1052_door1", "rm_1052"],
+		["rm_1052_door2", "rm_1052"],
+		["rm_1053_door1", "rm_1053"],
+		["rm_1053_door2", "rm_1053"],
+		["rm_1054_door1", "rm_1054"],
+		["rm_1054_door2", "rm_1054"],
+		["rm_1054_door2", "rm_1055"],
+		["rm_1055_door1", "rm_1055"],
+		["rm_1055_door2", "rm_1055"],
+		["rm_1056_door1", "rm_1056"],
+		["rm_1056_door2", "rm_1056"],
+		["rm_1057_door1", "rm_1057"],
+		["rm_1057_door2", "rm_1057"],
+		["rm_1057A_door1", "rm_1057A"],
+		["rm_1057A_door2", "rm_1057A"],
+		["rm_1057B_door1", "rm_1057B"],
+		["rm_1057C_door1", "rm_1057C"],
+		["rm_1057D_door1", "rm_1057D"],
+		["rm_1057D_door2", "rm_1057D"],
+		["rm_1057A_door2", "rm_1057"],
+		["rm_1057B_door1", "rm_1057A"],
+		["rm_1057C_door1", "rm_1057A"],
+		["rm_1058_door1", "rm_1058"],
+		["rm_1058_door2", "rm_1058"],
+		["rm_1059_door1", "rm_1059"],
+		["rm_1060_door1", "rm_1060"],
+		["rm_1060_door2", "rm_1060"],
+		["rm_1061_door1", "rm_1061"],
+		["rm_1061_door2", "rm_1061"],
+		["rm_1062_door1", "rm_1062"],
+		["rm_1062_door2", "rm_1062"],
+		["rm_1063_door1", "rm_1063"],
+		["rm_1063_door2", "rm_1063"],
+		["rm_1064_door1", "rm_1064"],
+		["rm_1064_door2", "rm_1064"],
+		["rm_1065_door1", "rm_1065"],
+		["rm_1065_door2", "rm_1065"],
+		["rm_1067_door1", "rm_1067"],
+		["rm_1067_door2", "rm_1067"],
+		["rm_1068_door1", "rm_1068"],
+		["rm_1068_door2", "rm_1068"],
 
 		["hall_e-w_c_1", "entrance_south1"],
 		["hall_e-w_c_1", "entrance_south2"],
@@ -438,9 +516,8 @@
 		{"from": "hall_n-s_a_4", "to": "exit_west"},
 
 		["hall_e-w_c_1", "stairs_south_f1"],
-
 		["hall_e-w_g_1", "stairs_north_f1"],
-
+		
 		["stairs_south_f1", "stairs_south_f2"],
 		["stairs_north_f1", "stairs_north_f2"]
 	]

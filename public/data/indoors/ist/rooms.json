@@ -6,8 +6,8 @@
 				"official_name": "Aula Magna",
 				"type": "auditorium",
 				"doors": [
-					{ "id": "room1000_door1", "type": "single", "direction": "in_out" },
-					{ "id": "room1000_door2", "type": "single", "direction": "in_out" }
+					{ "id": "rm_1000_door1", "type": "single", "direction": "in_out" },
+					{ "id": "rm_1000_door2", "type": "single", "direction": "in_out" }
 				],
 				"connected_to": "rm_1001",
 				"amenities": ["seating", "whiteboard", "projector"]
@@ -17,8 +17,8 @@
 				"official_name": "Aula Magna",
 				"type": "auditorium",
 				"doors": [
-					{ "id": "room1001_door1", "type": "single", "direction": "in_out" },
-					{ "id": "room1001_door2", "type": "single", "direction": "in_out" }
+					{ "id": "rm_1001_door1", "type": "single", "direction": "in_out" },
+					{ "id": "rm_1001_door2", "type": "single", "direction": "in_out" }
 				],
 				"connected_to": "rm_1000",
 				"amenities": ["seating", "whiteboard", "projector"]
@@ -27,8 +27,8 @@
 				"name": "IST-1002",
 				"type": "classroom",
 				"doors": [
-					{ "id": "room1002_door1", "type": "single", "direction": "in_out" },
-					{ "id": "room1002_door2", "type": "single", "direction": "in_out" }
+					{ "id": "rm_1002_door1", "type": "single", "direction": "in_out" },
+					{ "id": "rm_1002_door2", "type": "single", "direction": "in_out" }
 				],
 				"connected_to": "rm_1003",
 				"amenities": ["desks", "whiteboard", "projector"]
@@ -37,8 +37,8 @@
 				"name": "IST-1003",
 				"type": "classroom",
 				"doors": [
-					{ "id": "room1003_door1", "type": "single", "direction": "in_out" },
-					{ "id": "room1003_door2", "type": "single", "direction": "in_out" }
+					{ "id": "rm_1003_door1", "type": "single", "direction": "in_out" },
+					{ "id": "rm_1003_door2", "type": "single", "direction": "in_out" }
 				],
 				"connected_to": "rm_1002",
 				"amenities": ["desks", "whiteboard", "projector"]
@@ -48,7 +48,7 @@
 				"official_name": "Storage",
 				"type": "storage",
 				"doors": [
-					{ "id": "room1004_door1", "type": "single", "direction": "in_out" }
+					{ "id": "rm_1004_door1", "type": "single", "direction": "in_out" }
 				]
 			},
 			"rm_1005": {
@@ -56,7 +56,7 @@
 				"official_name": "Men's Restroom",
 				"type": "restroom",
 				"doors": [
-					{ "id": "room1005_door1", "type": "single", "direction": "in_out" }
+					{ "id": "rm_1005_door1", "type": "single", "direction": "in_out" }
 				]
 			},
 			"rm_1006": {
@@ -64,7 +64,7 @@
 				"official_name": "Family Restroom",
 				"type": "restroom",
 				"doors": [
-					{ "id": "room1006_door1", "type": "single", "direction": "in_out" }
+					{ "id": "rm_1006_door1", "type": "single", "direction": "in_out" }
 				]
 			},
 			"rm_1007": {
@@ -72,7 +72,7 @@
 				"official_name": "Women's Restroom",
 				"type": "restroom",
 				"doors": [
-					{ "id": "room1007_door1", "type": "single", "direction": "in_out" }
+					{ "id": "rm_1007_door1", "type": "single", "direction": "in_out" }
 				]
 			},
 			"rm_1008": {
@@ -80,7 +80,7 @@
 				"official_name": "Electrical",
 				"type": "utility",
 				"doors": [
-					{ "id": "room1008_door1", "type": "single", "direction": "in_out" }
+					{ "id": "rm_1008_door1", "type": "single", "direction": "in_out" }
 				]
 			},
 			"rm_1009": {
@@ -88,7 +88,7 @@
 				"official_name": "Mosaic Cafe",
 				"type": "restraunt",
 				"doors": [
-					{ "id": "room1009_door1", "type": "single", "direction": "in_out" }
+					{ "id": "rm_1009_door1", "type": "single", "direction": "in_out" }
 				]
 			},
 			"rm_1010": {
@@ -96,7 +96,7 @@
 				"official_name": "Service",
 				"type": "storage",
 				"doors": [
-					{ "id": "room1010_door1", "type": "single", "direction": "in_out" }
+					{ "id": "rm_1010_door1", "type": "single", "direction": "in_out" }
 				]
 			},
 			"rm_1011": {
@@ -104,7 +104,7 @@
 				"official_name": "Vending",
 				"type": "vending",
 				"doors": [
-					{ "id": "room1011_door1", "type": "single", "direction": "in_out" }
+					{ "id": "rm_1011_door1", "type": "single", "direction": "in_out" }
 				],
 				"amenities": ["vending_food", "vending_drinks"]
 			},
@@ -112,8 +112,8 @@
 				"name": "IST-1012",
 				"type": "classroom",
 				"doors": [
-					{ "id": "room1012_door1", "type": "single", "direction": "in_out" },
-					{ "id": "room1012_door2", "type": "single", "direction": "in_out" }
+					{ "id": "rm_1012_door1", "type": "single", "direction": "in_out" },
+					{ "id": "rm_1012_door2", "type": "single", "direction": "in_out" }
 				],
 				"amenities": ["desks", "whiteboard", "projector"]
 			},
@@ -122,72 +122,45 @@
 				"official_name": "Bob Stark Engineering Lab",
 				"type": "engineering_lab",
 				"doors": [
-					{ "id": "room1013_door1", "type": "single", "direction": "in_out" },
-					{ "id": "room1013_door2", "type": "single", "direction": "in_out" }
+					{ "id": "rm_1013_door1", "type": "single", "direction": "in_out" },
+					{ "id": "rm_1013_door2", "type": "single", "direction": "in_out" }
 				],
-				"amenities": ["..."]  //fill out
-			},
-			"rm_1013A": {
-				"name": "IST-1013A",
-				"official_name": "Bob Stark Engineering Lab Storage",
-				"type": "storage",
-				"parent": "rm_1013",
-				"doors": [
-					{ "id": "room1013A_door1", "type": "single", "direction": "in_out" }
-				]
-			},
-			"rm_1013B": {
-				"name": "IST-1013B",
-				"official_name": "Bob Stark Engineering Lab Research Area",
-				"type": "research_lab",
-				"doors": [
-					{ "id": "room1013B_door1", "type": "single", "direction": "in_out" }
-				],
-				"amenities": ["..."]  //fill out
+				"amenities": null
 			},
 			"rm_1014": {
 				"name": "IST-1014",
 				"type": "classroom",
 				"doors": [
-					{ "id": "room1014_door1", "type": "single", "direction": "in_out" },
-					{ "id": "room1014_door2", "type": "single", "direction": "in_out" }
+					{ "id": "rm_1014_door1", "type": "single", "direction": "in_out" },
+					{ "id": "rm_1014_door2", "type": "single", "direction": "in_out" }
 				],
 				"amenities": ["desks", "whiteboard", "projector"]
 			},
 			"rm_1015": {
 				"name": "IST-1015",
-				"official_name": "Markerspace",
 				"type": "classroom",
 				"doors": [
-					{ "id": "room1015_door1", "type": "single", "direction": "in_out" },
-					{ "id": "room1015_door2", "type": "single", "direction": "in_out" }
+					{ "id": "rm_1015_door1", "type": "single", "direction": "in_out" },
+					{ "id": "rm_1015_door2", "type": "single", "direction": "in_out" }
 				],
 				"amenities": ["desks", "whiteboard", "projector"]
 			},
 			"rm_1016": {
 				"name": "IST-1016",
-				"type": "classroom",  //not a classroom?
+				"official_name": "Markerspace",
+				"type": "classroom",
 				"doors": [
-					{ "id": "room1016_door1", "type": "single", "direction": "in_out" },
-					{ "id": "room1016_door2", "type": "single", "direction": "in_out" }
+					{ "id": "rm_1016_door1", "type": "single", "direction": "in_out" },
+					{ "id": "rm_1016_door2", "type": "single", "direction": "in_out" }
 				],
-				"amenities": ["desks", "whiteboard", "projector"]
-			},
-			"rm_1016A": {
-				"name": "IST-1016A",
-				"official_name": "IST-1016 Storage",
-				"type": "storage",
-				"parent": "rm_1016",
-				"doors": [
-					{ "id": "room1016A_door1", "type": "double", "direction": "in_out" }
-				]
+				"amenities": null
 			},
 			"rm_1017": {
 				"name": "IST-1017",
 				"type": "classroom",
 				"doors": [
-					{ "id": "room1017_door1", "type": "single", "direction": "in_out" },
-					{ "id": "room1017_door2", "type": "single", "direction": "in_out" }
+					{ "id": "rm_1017_door1", "type": "single", "direction": "in_out" },
+					{ "id": "rm_1017_door2", "type": "single", "direction": "in_out" }
 				],
 				"amenities": ["desks", "whiteboard", "projector"]
 			},
@@ -196,7 +169,7 @@
 				"official_name": "Main Distribution Frame (MDF)",
 				"type": "utility",
 				"doors": [
-					{ "id": "room1018_door1", "type": "single", "direction": "in_out" }
+					{ "id": "rm_1018_door1", "type": "single", "direction": "in_out" }
 				]
 			},
 			"rm_1019": {
@@ -204,8 +177,8 @@
 				"official_name": "Purple Fire Robotics Lab",
 				"type": "robotics_lab",
 				"doors": [
-					{ "id": "room1019_door1", "type": "single", "direction": "in_out" },
-					{ "id": "room1019_door2", "type": "single", "direction": "in_out" }
+					{ "id": "rm_1019_door1", "type": "single", "direction": "in_out" },
+					{ "id": "rm_1019_door2", "type": "single", "direction": "in_out" }
 				]
 			},
 			"rm_1020": {
@@ -213,7 +186,7 @@
 				"official_name": "Mechanical",
 				"type": "utility",
 				"doors": [
-					{ "id": "room1020_door1", "type": "double", "direction": "in_out" }
+					{ "id": "rm_1020_door1", "type": "double", "direction": "in_out" }
 				]
 			},
 			"rm_1021": {
@@ -221,8 +194,8 @@
 				"official_name": "Characterization & Instrumentation Lab",
 				"type": "radiation_lab",
 				"doors": [
-					{ "id": "room1021_door1", "type": "single", "direction": "in_out" },
-					{ "id": "room1021_door2", "type": "single", "direction": "in_out" }
+					{ "id": "rm_1021_door1", "type": "single", "direction": "in_out" },
+					{ "id": "rm_1021_door2", "type": "single", "direction": "in_out" }
 				]
 			},
 			"rm_1022": {
@@ -230,17 +203,17 @@
 				"official_name": "S.I.M. Lab Studio",
 				"type": "studio",
 				"doors": [
-					{ "id": "room1022_door1", "type": "single", "direction": "in_out" },
-					{ "id": "room1022_door2", "type": "single", "direction": "in_out" }
+					{ "id": "rm_1022_door1", "type": "single", "direction": "in_out" },
+					{ "id": "rm_1022_door2", "type": "single", "direction": "in_out" }
 				],
-				"amenities": ["..."]  //fill out
+				"amenities": null
 			},
 			"rm_1023": {
 				"name": "IST-1023",
 				"official_name": "Mechanical",
 				"type": "utility",
 				"doors": [
-					{ "id": "room1023_door1", "type": "double", "direction": "in_out" }
+					{ "id": "rm_1023_door1", "type": "double", "direction": "in_out" }
 				]
 			},
 			"rm_1024": {
@@ -248,8 +221,8 @@
 				"official_name": "Security Operation Center",
 				"type": "misc",
 				"doors": [
-					{ "id": "room1024_door1", "type": "single", "direction": "in_out" },
-					{ "id": "room1024_door2", "type": "single", "direction": "in_out" }
+					{ "id": "rm_1024_door1", "type": "single", "direction": "in_out" },
+					{ "id": "rm_1024_door2", "type": "single", "direction": "in_out" }
 				],
 				"amenities": ["desks", "whiteboard", "projector"]
 			},
@@ -257,16 +230,16 @@
 				"name": "IST-1025",
 				"type": "construction",
 				"doors": [
-					{ "id": "room1025_door1", "type": "single", "direction": "in_out" },
-					{ "id": "room1025_door2", "type": "single", "direction": "in_out" }
+					{ "id": "rm_1025_door1", "type": "single", "direction": "in_out" },
+					{ "id": "rm_1025_door2", "type": "single", "direction": "in_out" }
 				]
 			},
 			"rm_1026": {
 				"name": "IST-1026",
 				"type": "computer_lab",
 				"doors": [
-					{ "id": "room1026_door1", "type": "single", "direction": "in_out" },
-					{ "id": "room1026_door2", "type": "single", "direction": "in_out" }
+					{ "id": "rm_1026_door1", "type": "single", "direction": "in_out" },
+					{ "id": "rm_1026_door2", "type": "single", "direction": "in_out" }
 				],
 				"amenities": ["computers", "desks", "whiteboard", "projector"]
 			},
@@ -275,16 +248,16 @@
 				"official_name": "Technology Support Lab",
 				"type": "it",
 				"doors": [
-					{ "id": "room1027_door1", "type": "single", "direction": "in_out" },
-					{ "id": "room1027_door2", "type": "single", "direction": "in_out" }
+					{ "id": "rm_1027_door1", "type": "single", "direction": "in_out" },
+					{ "id": "rm_1027_door2", "type": "single", "direction": "in_out" }
 				]
 			},
 			"rm_1028": {
 				"name": "IST-1028",
 				"type": "computer_lab",
 				"doors": [
-					{ "id": "room1028_door1", "type": "single", "direction": "in_out" },
-					{ "id": "room1028_door2", "type": "single", "direction": "in_out" }
+					{ "id": "rm_1028_door1", "type": "single", "direction": "in_out" },
+					{ "id": "rm_1028_door2", "type": "single", "direction": "in_out" }
 				],
 				"amenities": ["computers", "desks", "whiteboard", "projector"]
 			},
@@ -292,16 +265,16 @@
 				"name": "IST-1029",
 				"type": "prep",
 				"doors": [
-					{ "id": "room1029_door1", "type": "single", "direction": "in_out" },
-					{ "id": "room1029_door2", "type": "single", "direction": "in_out" }  //this is in ist-1027
+					{ "id": "rm_1029_door1", "type": "single", "direction": "in_out" },
+					{ "id": "rm_1029_door2", "type": "single", "direction": "in_out" }
 				]
 			},
 			"rm_1030": {
 				"name": "IST-1030",
 				"type": "computer_lab",
 				"doors": [
-					{ "id": "room1030_door1", "type": "single", "direction": "in_out" },
-					{ "id": "room1030_door2", "type": "single", "direction": "in_out" }
+					{ "id": "rm_1030_door1", "type": "single", "direction": "in_out" },
+					{ "id": "rm_1030_door2", "type": "single", "direction": "in_out" }
 				],
 				"amenities": ["computers", "desks", "whiteboard", "projector"]
 			},
@@ -309,17 +282,17 @@
 				"name": "IST-1031",
 				"type": "environmental_lab",
 				"doors": [
-					{ "id": "room1031_door1", "type": "single", "direction": "in_out" },
-					{ "id": "room1031_door2", "type": "single", "direction": "in_out" }
+					{ "id": "rm_1031_door1", "type": "single", "direction": "in_out" },
+					{ "id": "rm_1031_door2", "type": "single", "direction": "in_out" }
 				],
-				"amenities": ["..."]  //fill out
+				"amenities": null
 			},
 			"rm_1032": {
 				"name": "IST-1032",
 				"type": "computer_lab",
 				"doors": [
-					{ "id": "room1032_door1", "type": "single", "direction": "in_out" },
-					{ "id": "room1032_door2", "type": "single", "direction": "in_out" }
+					{ "id": "rm_1032_door1", "type": "single", "direction": "in_out" },
+					{ "id": "rm_1032_door2", "type": "single", "direction": "in_out" }
 				],
 				"amenities": ["computers", "desks", "whiteboard", "projector"]
 			},
@@ -328,7 +301,7 @@
 				"official_name": "Storage",
 				"type": "storage",
 				"doors": [
-					{ "id": "room1033_door1", "type": "single", "direction": "in_out" }
+					{ "id": "rm_1033_door1", "type": "single", "direction": "in_out" }
 				]
 			},
 			"rm_1034": {
@@ -336,7 +309,7 @@
 				"official_name": "Electrical",
 				"type": "utility",
 				"doors": [
-					{ "id": "room1034_door1", "type": "single", "direction": "in_out" }
+					{ "id": "rm_1034_door1", "type": "single", "direction": "in_out" }
 				]
 			},
 			"rm_1035": {
@@ -344,7 +317,7 @@
 				"official_name": "Electrical",
 				"type": "utility",
 				"doors": [
-					{ "id": "room1035_door1", "type": "single", "direction": "in_out" }
+					{ "id": "rm_1035_door1", "type": "single", "direction": "in_out" }
 				]
 			},
 			"rm_1036": {
@@ -352,7 +325,7 @@
 				"official_name": "Storage",
 				"type": "storage",
 				"doors": [
-					{ "id": "room1036_door1", "type": "single", "direction": "in_out" }
+					{ "id": "rm_1036_door1", "type": "single", "direction": "in_out" }
 				]
 			},
 			"rm_1037": {
@@ -360,7 +333,7 @@
 				"official_name": "Boiler",
 				"type": "utility",
 				"doors": [
-					{ "id": "room1037_door1", "type": "single", "direction": "in_out" }
+					{ "id": "rm_1037_door1", "type": "single", "direction": "in_out" }
 				]
 			},
 			"rm_1038": {
@@ -368,7 +341,7 @@
 				"official_name": "Audio Visual (AV)",
 				"type": "utility",
 				"doors": [
-					{ "id": "room1038_door1", "type": "single", "direction": "in_out" }
+					{ "id": "rm_1038_door1", "type": "single", "direction": "in_out" }
 				]
 			},
 			"rm_1039": {
@@ -376,7 +349,7 @@
 				"official_name": "Uninterruptible Power Supply (UPS)",
 				"type": "utility",
 				"doors": [
-					{ "id": "room1039_door1", "type": "single", "direction": "in_out" }
+					{ "id": "rm_1039_door1", "type": "single", "direction": "in_out" }
 				]
 			},
 			"rm_1040": {
@@ -384,7 +357,7 @@
 				"official_name": "Women's Restroom",
 				"type": "restroom",
 				"doors": [
-					{ "id": "room1040_door1", "type": "single", "direction": "in_out" }
+					{ "id": "rm_1040_door1", "type": "single", "direction": "in_out" }
 				]
 			},
 			"rm_1041": {
@@ -392,7 +365,7 @@
 				"official_name": "Janitorial",
 				"type": "janitorial",
 				"doors": [
-					{ "id": "room1041_door1", "type": "single", "direction": "in_out" }
+					{ "id": "rm_1041_door1", "type": "single", "direction": "in_out" }
 				]
 			},
 			"rm_1042": {
@@ -400,7 +373,7 @@
 				"official_name": "Family Restroom",
 				"type": "restroom",
 				"doors": [
-					{ "id": "room1042_door1", "type": "single", "direction": "in_out" }
+					{ "id": "rm_1042_door1", "type": "single", "direction": "in_out" }
 				]
 			},
 			"rm_1043": {
@@ -408,15 +381,15 @@
 				"official_name": "Men's Restroom",
 				"type": "restroom",
 				"doors": [
-					{ "id": "room1043_door1", "type": "single", "direction": "in_out" }
+					{ "id": "rm_1043_door1", "type": "single", "direction": "in_out" }
 				]
 			},
 			"rm_1044": {
 				"name": "IST-1044",
 				"type": "classroom",
 				"doors": [
-					{ "id": "room1044_door1", "type": "single", "direction": "in_out" },
-					{ "id": "room1044_door2", "type": "single", "direction": "in_out" }
+					{ "id": "rm_1044_door1", "type": "single", "direction": "in_out" },
+					{ "id": "rm_1044_door2", "type": "single", "direction": "in_out" }
 				],
 				"amenities": ["desks", "whiteboard", "projector"]
 			},
@@ -424,8 +397,8 @@
 				"name": "IST-1045",
 				"type": "classroom",
 				"doors": [
-					{ "id": "room1045_door1", "type": "single", "direction": "in_out" },
-					{ "id": "room1045_door2", "type": "single", "direction": "in_out" }
+					{ "id": "rm_1045_door1", "type": "single", "direction": "in_out" },
+					{ "id": "rm_1045_door2", "type": "single", "direction": "in_out" }
 				],
 				"amenities": ["desks", "whiteboard", "projector"]
 			},
@@ -433,7 +406,7 @@
 				"name": "IST-1046",
 				"type": "conference",
 				"doors": [
-					{ "id": "room1046_door1", "type": "single", "direction": "in_out" }
+					{ "id": "rm_1046_door1", "type": "single", "direction": "in_out" }
 				],
 				"amenities": ["conference_table", "chairs", "screen", "camera"]
 			},
@@ -441,7 +414,7 @@
 				"name": "IST-1047",
 				"type": "conference",
 				"doors": [
-					{ "id": "room1047_door1", "type": "single", "direction": "in_out" }
+					{ "id": "rm_1047_door1", "type": "single", "direction": "in_out" }
 				],
 				"amenities": ["conference_table", "chairs", "screen", "camera"]
 			},
@@ -449,8 +422,8 @@
 				"name": "IST-1048",
 				"type": "classroom",
 				"doors": [
-					{ "id": "room1048_door1", "type": "single", "direction": "in_out" },
-					{ "id": "room1048_door2", "type": "single", "direction": "in_out" }
+					{ "id": "rm_1048_door1", "type": "single", "direction": "in_out" },
+					{ "id": "rm_1048_door2", "type": "single", "direction": "in_out" }
 				],
 				"amenities": ["desks", "whiteboard", "projector"]
 			},
@@ -458,8 +431,8 @@
 				"name": "IST-1049",
 				"type": "classroom",
 				"doors": [
-					{ "id": "room1049_door1", "type": "single", "direction": "in_out" },
-					{ "id": "room1049_door2", "type": "single", "direction": "in_out" }
+					{ "id": "rm_1049_door1", "type": "single", "direction": "in_out" },
+					{ "id": "rm_1049_door2", "type": "single", "direction": "in_out" }
 				],
 				"amenities": ["desks", "whiteboard", "projector"]
 			},
@@ -468,16 +441,16 @@
 				"official_name": "Mother's Room",
 				"type": "mothers_room",
 				"doors": [
-					{ "id": "room1050_door1", "type": "single", "direction": "in_out" }
+					{ "id": "rm_1050_door1", "type": "single", "direction": "in_out" }
 				],
-				"amenities": ["..."]  //fill out
+				"amenities": null
 			},
 			"rm_1051": {
 				"name": "IST-1051",
 				"type": "physics_lab",
 				"doors": [
-					{ "id": "room1051_door1", "type": "single", "direction": "in_out" },
-					{ "id": "room1051_door2", "type": "single", "direction": "in_out" }
+					{ "id": "rm_1051_door1", "type": "single", "direction": "in_out" },
+					{ "id": "rm_1051_door2", "type": "single", "direction": "in_out" }
 				],
 				"amenities": ["desks", "whiteboard", "projector"]
 			},
@@ -486,17 +459,17 @@
 				"type": "prep",
 				"parent": "rm_1051",
 				"doors": [
-					{ "id": "room1051A_door1", "type": "single", "direction": "in_out" },  //in 1053
-					{ "id": "room1051A_door2", "type": "single", "direction": "in_out" }  //in 1051
+					{ "id": "rm_1051A_door1", "type": "single", "direction": "in_out" },
+					{ "id": "rm_1051A_door2", "type": "single", "direction": "in_out" }
 				],
-				"amenities": ["..."]  //fill out
+				"amenities": null
 			},
 			"rm_1052": {
 				"name": "IST-1052",
 				"type": "environmental_lab",
 				"doors": [
-					{ "id": "room1052_door1", "type": "single", "direction": "in_out" },
-					{ "id": "room1052_door2", "type": "single", "direction": "in_out" }
+					{ "id": "rm_1052_door1", "type": "single", "direction": "in_out" },
+					{ "id": "rm_1052_door2", "type": "single", "direction": "in_out" }
 				],
 				"amenities": ["desks", "whiteboard", "projector"]
 			},
@@ -504,8 +477,8 @@
 				"name": "IST-1053",
 				"type": "classroom",
 				"doors": [
-					{ "id": "room1053_door1", "type": "single", "direction": "in_out" },
-					{ "id": "room1053_door2", "type": "single", "direction": "in_out" }
+					{ "id": "rm_1053_door1", "type": "single", "direction": "in_out" },
+					{ "id": "rm_1053_door2", "type": "single", "direction": "in_out" }
 				],
 				"amenities": ["desks", "whiteboard", "projector"]
 			},
@@ -513,7 +486,8 @@
 				"name": "IST-1054",
 				"type": "prep",
 				"doors": [
-					{ "id": "room1054_door1", "type": "single", "direction": "in_out" }
+					{ "id": "rm_1054_door1", "type": "single", "direction": "in_out" },
+					{ "id": "rm_1054_door2", "type": "single", "direction": "in_out" }
 				]
 			},
 			"rm_1055": {
@@ -521,8 +495,8 @@
 				"official_name": "IFF",
 				"type": "research_lab",
 				"doors": [
-					{ "id": "room1055_door1", "type": "single", "direction": "in_out" },
-					{ "id": "room1055_door2", "type": "single", "direction": "in_out" }
+					{ "id": "rm_1055_door1", "type": "single", "direction": "in_out" },
+					{ "id": "rm_1055_door2", "type": "single", "direction": "in_out" }
 				]
 			},
 			"rm_1056": {
@@ -530,8 +504,8 @@
 				"official_name": "Vestcor Research Lab (Health Systems Engineering)",
 				"type": "research_lab",
 				"doors": [
-					{ "id": "room1056_door1", "type": "single", "direction": "in_out" },
-					{ "id": "room1056_door2", "type": "single", "direction": "in_out" }
+					{ "id": "rm_1056_door1", "type": "single", "direction": "in_out" },
+					{ "id": "rm_1056_door2", "type": "single", "direction": "in_out" }
 				],
 				"amenities": ["desks", "whiteboard", "projector"]
 			},
@@ -540,25 +514,16 @@
 				"official_name": "S.I.M. Lab Editing Room",
 				"type": "media_lab",
 				"doors": [
-					{ "id": "room1057_door1", "type": "single", "direction": "in_out" }
+					{ "id": "rm_1057_door1", "type": "single", "direction": "in_out" }
 				],
 				"amenities": ["computers"]
-			},
-			"rm_1057A": {
-				"name": "IST-1057A",
-				"type": "hallway",
-				"parent": "rm_1057",
-				"doors": [
-					{ "id": "room1057A_door1", "type": "single", "direction": "in_out", "access": "staff_only" },  //from hallway
-					{ "id": "room1057A_door2", "type": "single", "direction": "in_out" }  //from sim lab
-				]
 			},
 			"rm_1057B": {
 				"name": "IST-1057B",
 				"type": "office",
 				"parent": "rm_1057",
 				"doors": [
-					{ "id": "room1057B_door1", "type": "single", "direction": "in_out" }
+					{ "id": "rm_1057B_door1", "type": "single", "direction": "in_out" }
 				]
 			},
 			"rm_1057C": {
@@ -567,17 +532,7 @@
 				"type": "recording",
 				"parent": "rm_1057",
 				"doors": [
-					{ "id": "room1057C_door1", "type": "single", "direction": "in_out" }
-				]
-			},
-			"rm_1057D": {
-				"name": "IST-1057D",
-				"official_name": "IST-1057 Storage",
-				"type": "storage",
-				"parent": "rm_1057",
-				"doors": [
-					{ "id": "room1057D_door1", "type": "single", "direction": "in_out", "access": "staff_only" },  //from hallway
-					{ "id": "room1057D_door2", "type": "single", "direction": "in_out" }  //from sim lab
+					{ "id": "rm_1057C_door1", "type": "single", "direction": "in_out" }
 				]
 			},
 			"rm_1058": {
@@ -585,43 +540,43 @@
 				"official_name": "Beck Kryger Captial Partners Research Lab",
 				"type": "research_lab",
 				"doors": [
-					{ "id": "room1058_door1", "type": "single", "direction": "in_out" },
-					{ "id": "room1058_door2", "type": "single", "direction": "in_out" }
+					{ "id": "rm_1058_door1", "type": "single", "direction": "in_out" },
+					{ "id": "rm_1058_door2", "type": "single", "direction": "in_out" }
 				],
-				"amenities": ["..."]  //fill out
+				"amenities": null
 			},
 			"rm_1059": {
 				"name": "IST-1059",
 				"official_name": "Intermediate Distribution Frame (IDF)",
 				"type": "utility",
 				"doors": [
-					{ "id": "room1059_door1", "type": "single", "direction": "in_out" }
+					{ "id": "rm_1059_door1", "type": "single", "direction": "in_out" }
 				]
 			},
 			"rm_1060": {
 				"name": "IST-1060",
 				"type": "classroom",
 				"doors": [
-					{ "id": "room1060_door1", "type": "single", "direction": "in_out" },
-					{ "id": "room1060_door2", "type": "single", "direction": "in_out" }
+					{ "id": "rm_1060_door1", "type": "single", "direction": "in_out" },
+					{ "id": "rm_1060_door2", "type": "single", "direction": "in_out" }
 				],
 				"amenities": ["desks", "whiteboard", "projector"]
 			},
 			"rm_1061": {
 				"name": "IST-1061",
-				"type": "lab",  //clarify during the day
+				"type": "lab",
 				"doors": [
-					{ "id": "room1061_door1", "type": "single", "direction": "in_out" },
-					{ "id": "room1061_door2", "type": "single", "direction": "in_out" }
+					{ "id": "rm_1061_door1", "type": "single", "direction": "in_out" },
+					{ "id": "rm_1061_door2", "type": "single", "direction": "in_out" }
 				],
-				"amenities": ["..."]  //fill out
+				"amenities": null
 			},
 			"rm_1062": {
 				"name": "IST-1062",
 				"type": "classroom",
 				"doors": [
-					{ "id": "room1062_door1", "type": "single", "direction": "in_out" },
-					{ "id": "room1062_door2", "type": "single", "direction": "in_out" }
+					{ "id": "rm_1062_door1", "type": "single", "direction": "in_out" },
+					{ "id": "rm_1062_door2", "type": "single", "direction": "in_out" }
 				],
 				"amenities": ["desks", "whiteboard", "projector"]
 			},
@@ -629,8 +584,8 @@
 				"name": "IST-1063",
 				"type": "classroom",
 				"doors": [
-					{ "id": "room1063_door1", "type": "single", "direction": "in_out" },
-					{ "id": "room1063_door2", "type": "single", "direction": "in_out" }
+					{ "id": "rm_1063_door1", "type": "single", "direction": "in_out" },
+					{ "id": "rm_1063_door2", "type": "single", "direction": "in_out" }
 				],
 				"amenities": ["desks", "whiteboard", "projector"]
 			},
@@ -638,8 +593,8 @@
 				"name": "IST-1064",
 				"type": "classroom",
 				"doors": [
-					{ "id": "room1064_door1", "type": "single", "direction": "in_out" },
-					{ "id": "room1064_door2", "type": "single", "direction": "in_out" }
+					{ "id": "rm_1064_door1", "type": "single", "direction": "in_out" },
+					{ "id": "rm_1064_door2", "type": "single", "direction": "in_out" }
 				],
 				"amenities": ["desks", "whiteboard", "projector"]
 			},
@@ -647,8 +602,8 @@
 				"name": "IST-1065",
 				"type": "classroom",
 				"doors": [
-					{ "id": "room1065_door1", "type": "single", "direction": "in_out" },
-					{ "id": "room1065_door2", "type": "single", "direction": "in_out" }
+					{ "id": "rm_1065_door1", "type": "single", "direction": "in_out" },
+					{ "id": "rm_1065_door2", "type": "single", "direction": "in_out" }
 				],
 				"amenities": ["desks", "whiteboard", "projector"]
 			},
@@ -657,15 +612,15 @@
 				"official_name": "Storage",
 				"type": "storage",
 				"doors": [
-					{ "id": "room1066_door1", "type": "single", "direction": "in_out" }
+					{ "id": "rm_1066_door1", "type": "single", "direction": "in_out" }
 				]
 			},
 			"rm_1067": {
 				"name": "IST-1067",
 				"type": "classroom",
 				"doors": [
-					{ "id": "room1067_door1", "type": "single", "direction": "in_out" },
-					{ "id": "room1067_door2", "type": "single", "direction": "in_out" }
+					{ "id": "rm_1067_door1", "type": "single", "direction": "in_out" },
+					{ "id": "rm_1067_door2", "type": "single", "direction": "in_out" }
 				],
 				"connected_to": "rm_1068",
 				"amenities": ["desks", "whiteboard", "projector"]
@@ -674,8 +629,8 @@
 				"name": "IST-1068",
 				"type": "classroom",
 				"doors": [
-					{ "id": "room1068_door1", "type": "single", "direction": "in_out" },
-					{ "id": "room1068_door2", "type": "single", "direction": "in_out" }
+					{ "id": "rm_1068_door1", "type": "single", "direction": "in_out" },
+					{ "id": "rm_1068_door2", "type": "single", "direction": "in_out" }
 				],
 				"connected_to": "rm_1067",
 				"amenities": ["desks", "whiteboard", "projector"]
