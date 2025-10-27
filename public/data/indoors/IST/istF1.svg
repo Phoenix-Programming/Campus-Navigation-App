@@ -30,9 +30,9 @@
      inkscape:pagecheckerboard="0"
      inkscape:deskcolor="#505050"
      inkscape:document-units="cm"
-     inkscape:zoom="1.1754449"
-     inkscape:cx="5654.8802"
-     inkscape:cy="2742.7913"
+     inkscape:zoom="0.29386122"
+     inkscape:cx="2882.3129"
+     inkscape:cy="3406.3698"
      inkscape:window-width="3840"
      inkscape:window-x="-12"
      inkscape:window-y="-12"
@@ -61,10 +61,9 @@
          id="stop3" /></linearGradient></defs><g
      inkscape:groupmode="layer"
      id="layer2"
-     inkscape:label="Walls"
-     sodipodi:insensitive="true"><path
+     inkscape:label="Walls"><path
        style="fill:#bfbfbf;fill-opacity:0.69589;fill-rule:nonzero;stroke:#ccabe2;stroke-width:0.00826;stroke-dasharray:none;stroke-opacity:1"
-       d="m 0.16099452,1.0436392 c 0,0 0.36798747,0.2559359 0.83656671,0.2419294 0.45329937,4e-7 0.84675317,-0.2763088 0.84675317,-0.2763088 0,0 -0.00403,-0.42675112 -0.00448,-0.42630093 C 1.8393806,0.58340906 1.4674137,0.29620444 0.99374133,0.31403082 0.52006881,0.3318572 0.34180497,0.46428177 0.1686344,0.56360018 -0.00453618,0.66291858 0.0782291,0.99016005 0.16099452,1.0436392 Z"
+       d="m 0.19299122,0.99826332 c 0,0 0.36544084,0.25911928 0.83402008,0.24511278 0.4532993,4e-7 0.8467531,-0.27630886 0.8467531,-0.27630886 0,0 -0.00403,-0.4330537 -0.00448,-0.43260351 C 1.8688306,0.53491392 1.4961741,0.25377224 1.022291,0.26463531 0.59813877,0.27435838 0.36834207,0.40659016 0.19808447,0.52140762 0.03334254,0.63250545 0.01523694,0.86375106 0.19299122,0.99826332 Z"
        id="path3"
        sodipodi:nodetypes="ccccssc"
        inkscape:label="Foundation" /><g
