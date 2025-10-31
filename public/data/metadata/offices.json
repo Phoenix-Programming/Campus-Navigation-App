@@ -1,5 +1,5 @@
 {
-	"financial_aid_office": {
+	"registrars_office": {
 		"name": "Registrar's Office",
 		"floor": 2,
 		"node": "hall1_c",
@@ -12,7 +12,7 @@
 			"website": "https://www.floridapoly.edu/registrar"
 		}
 	},
-	"auxiliary_services": {
+	"career_services": {
 		"name": "Career Services",
 		"floor": 2,
 		"node": "hall2_a",
