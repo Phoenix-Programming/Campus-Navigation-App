@@ -2,9 +2,6 @@ import requests
 import json
 from bs4 import BeautifulSoup, Tag
 
-type FacultyMember = dict[str, str]
-type FacultyList = list[FacultyMember]
-
 FACULTY_URL: str = 'https://floridapoly.edu/faculty/'
 HEADERS: dict[str, str] = {
 	'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
@@ -39,7 +36,7 @@ def get_faculty_list() -> str:
 
 	# iterate over each faculty member's entry
 	rows: list = list(table.children)
-	faculty: FacultyList = []
+	faculty: list[dict[str, str]] = []
 
 	for i, row in enumerate(rows):
 		# remove the labels
@@ -47,8 +44,7 @@ def get_faculty_list() -> str:
 		for label in labels:
 			label.decompose()
 
-		# flatten the heirarchy
-		rows[i] = row.find_all('div')
+		# extract relevant information and flatten the heirarchy
 		rows[i] = sum([col.find_all(['span', 'a']) for col in row], [])
 
 		# extract the faculty member's information
@@ -60,7 +56,7 @@ def get_faculty_list() -> str:
 		department: str = rows[i][7].get_text()
 		office: str = rows[i][8].get_text()
 
-		person: FacultyMember = {
+		person: dict[str, str] = {
 			'name': name,
 			'title': title,
 			'department': department,
