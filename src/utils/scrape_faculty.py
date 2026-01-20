@@ -38,7 +38,7 @@ def get_faculty_list() -> str:
 			'title': f.get('Title'),
 			'department': f.get('Organizations_group'),
 			'page': (
-	   			'https://floridapoly.edu/faculty/bios/' + str(f.get('firstName')) + '-' + str(f.get('lastName')) + '/?email=' + str(f.get('email'))
+	   			'https://floridapoly.edu/faculty/bios/' + str(f.get('firstName')).replace(' ', '-') + '-' + str(f.get('lastName')).replace(' ', '-') + '/?email=' + str(f.get('email'))
 		  		if f.get('firstName') and f.get('lastName') and f.get('email')
 				else None
 			),
