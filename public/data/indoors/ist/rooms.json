@@ -637,7 +637,985 @@
 			}
 		},
 		"2": {
-
+			"commons": {
+				"name": "IST Commons",
+				"official_name": "Saddle Creeek Logistics Commons",
+				"type": "common"
+			},
+			"rm_1000": {
+				"name": "IST-1000",
+				"type": "office",
+				"doors": [
+					{ "id": "rm_1000_door3", "type": "double", "direction": "in_out" },
+					{ "id": "rm_1000_door4", "type": "double", "direction": "in_out" }
+				],
+				"connected_to": "rm_1001"
+			},
+			"rm_1001": {
+				"name": "IST-1001",
+				"type": "office",
+				"doors": [
+					{ "id": "rm_1001_door3", "type": "double", "direction": "in_out" },
+					{ "id": "rm_1001_door4", "type": "double", "direction": "in_out" }
+				],
+				"connected_to": "rm_1000"
+			},
+			"rm_2000": {
+				"name": "IST-2000",
+				"type": "office",
+				"doors": [
+					{ "id": "rm_2000_door1", "type": "single", "direction": "in_out" }
+				]
+			},
+			"rm_2001": {
+				"name": "IST-2001",
+				"official_name": "Family Restroom",
+				"type": "restroom",
+				"doors": [
+					{ "id": "rm_2001_door1", "type": "single", "direction": "in_out" }
+				]
+			},
+			"rm_2002": {
+				"name": "IST-2002",
+				"type": "office",
+				"doors": [
+					{ "id": "rm_2002_door1", "type": "single", "direction": "in_out" }
+				]
+			},
+			"rm_2003": {
+				"name": "IST-2003",
+				"type": "janitorial",
+				"doors": [
+					{ "id": "rm_2003_door1", "type": "single", "direction": "in_out" }
+				]
+			},
+			"rm_2004": {
+				"name": "IST-2004",
+				"type": "office",
+				"doors": [
+					{ "id": "rm_2004_door1", "type": "single", "direction": "in_out" }
+				]
+			},
+			"rm_2005": {
+				"name": "IST-2005",
+				"type": "office",
+				"doors": [
+					{ "id": "rm_2005_door1", "type": "single", "direction": "in_out" }
+				]
+			},
+			"rm_2006": {
+				"name": "IST-2006",
+				"official_name": "Men's Restroom",
+				"type": "restroom",
+				"doors": [
+					{ "id": "rm_2006_door1", "type": "single", "direction": "in_out" }
+				]
+			},
+			"rm_2007": {
+				"name": "IST-2007",
+				"type": "office",
+				"doors": [
+					{ "id": "rm_2007_door1", "type": "single", "direction": "in_out" }
+				]
+			},
+			"rm_2008": {
+				"name": "IST-2008",
+				"type": "office",
+				"doors": [
+					{ "id": "rm_2008_door1", "type": "single", "direction": "in_out" }
+				]
+			},
+			"rm_2009": {
+				"name": "IST-2009",
+				"type": "office",
+				"doors": [
+					{ "id": "rm_2009_door1", "type": "single", "direction": "in_out" }
+				]
+			},
+			"rm_2010": {
+				"name": "IST-2010",
+				"official_name": "Boring Business Systems Faculty and Staff Workroom",
+				"type": "breakroom",
+				"doors": [
+					{ "id": "rm_2010_door1", "type": "single", "direction": "in_out" }
+				]
+			},
+			"rm_2011": {
+				"name": "IST-2011",
+				"type": "office",
+				"doors": [
+					{ "id": "rm_2011_door1", "type": "single", "direction": "in_out" }
+				]
+			},
+			"rm_2012": {
+				"name": "IST-2012",
+				"type": "office",
+				"doors": [
+					{ "id": "rm_2012_door1", "type": "single", "direction": "in_out" }
+				]
+			},
+			"rm_2013": {
+				"name": "IST-2013",
+				"type": "office",
+				"doors": [
+					{ "id": "rm_2013_door1", "type": "single", "direction": "in_out" }
+				]
+			},
+			"rm_2014": {
+				"name": "IST-2014",
+				"type": "office",
+				"doors": [
+					{ "id": "rm_2014_door1", "type": "single", "direction": "in_out" }
+				]
+			},
+			"rm_2015": {
+				"name": "IST-2015",
+				"type": "office",
+				"doors": [
+					{ "id": "rm_2015_door1", "type": "single", "direction": "in_out" }
+				]
+			},
+			"rm_2016": {
+				"name": "IST-2016",
+				"official_name": "Applied Mathematics Shared Conference Room",
+				"type": "conference",
+				"doors": [
+					{ "id": "rm_2016_door1", "type": "single", "direction": "in_out" }
+				]
+			},
+			"rm_2017": {
+				"name": "IST-2017",
+				"type": "office",
+				"doors": [
+					{ "id": "rm_2017_door1", "type": "single", "direction": "in_out" }
+				]
+			},
+			"rm_2018": {
+				"name": "IST-2018",
+				"type": "office",
+				"doors": [
+					{ "id": "rm_2018_door1", "type": "single", "direction": "in_out" }
+				]
+			},
+			"rm_2019": {
+				"name": "IST-2019",
+				"official_name": "WellDyne Collaboration Room",
+				"type": "office",
+				"doors": [
+					{ "id": "rm_2019_door1", "type": "single", "direction": "in_out" }
+				]
+			},
+			"rm_2020": {
+				"name": "IST-2020",
+				"type": "office",
+				"doors": [
+					{ "id": "rm_2020_door1", "type": "single", "direction": "in_out" }
+				]
+			},
+			"rm_2021": {
+				"name": "IST-2021",
+				"type": "office",
+				"doors": [
+					{ "id": "rm_2021_door1", "type": "single", "direction": "in_out" }
+				]
+			},
+			"rm_2022": {
+				"name": "IST-2022",
+				"type": "office",
+				"doors": [
+					{ "id": "rm_2022_door1", "type": "single", "direction": "in_out" }
+				]
+			},
+			"rm_2023": {
+				"name": "IST-2023",
+				"type": "office",
+				"doors": [
+					{ "id": "rm_2023_door1", "type": "single", "direction": "in_out" }
+				]
+			},
+			"rm_2024": {
+				"name": "IST-2024",
+				"type": "office",
+				"doors": [
+					{ "id": "rm_2024_door1", "type": "single", "direction": "in_out" }
+				]
+			},
+			"rm_2025": {
+				"name": "IST-2025",
+				"type": "office",
+				"doors": [
+					{ "id": "rm_2025_door1", "type": "single", "direction": "in_out" }
+				]
+			},
+			"rm_2026": {
+				"name": "IST-2026",
+				"type": "office",
+				"doors": [
+					{ "id": "rm_2026_door1", "type": "single", "direction": "in_out" }
+				]
+			},
+			"rm_2027A": {
+				"name": "IST-2027A",
+				"type": "office",
+				"doors": [
+					{ "id": "rm_2027A_door1", "type": "single", "direction": "in_out" }
+				]
+			},
+			"rm_2027B": {
+				"name": "IST-2027B",
+				"official_name": "Adjunct Office",
+				"type": "office",
+				"doors": [
+					{ "id": "rm_2027B_door1", "type": "single", "direction": "in_out" }
+				]
+			},
+			"rm_2027C": {
+				"name": "IST-2027C",
+				"type": "lab",
+				"doors": [
+					{ "id": "rm_2027C_door1", "type": "single", "direction": "in_out" }
+				]
+			},
+			"rm_2027D": {
+				"name": "IST-2027D",
+				"type": "office",
+				"doors": [
+					{ "id": "rm_2027D_door1", "type": "single", "direction": "in_out" }
+				]
+			},
+			"rm_2028D": {
+				"name": "IST-2028D",
+				"official_name": "Adjunct Office",
+				"type": "office",
+				"doors": [
+					{ "id": "rm_2028D_door1", "type": "single", "direction": "in_out" }
+				]
+			},
+			"rm_2028C": {
+				"name": "IST-2028C",
+				"official_name": "Fullbright Scholar Office",
+				"type": "office",
+				"doors": [
+					{ "id": "rm_2028C_door1", "type": "single", "direction": "in_out" }
+				]
+			},
+			"rm_2028B": {
+				"name": "IST-2028B",
+				"official_name": "Fullbright Scholar Office",
+				"type": "office",
+				"doors": [
+					{ "id": "rm_2028B_door1", "type": "single", "direction": "in_out" }
+				]
+			},
+			"rm_2028A": {
+				"name": "IST-2028A",
+				"official_name": "Office of Academic Affairs",
+				"type": "office",
+				"doors": [
+					{ "id": "rm_2028A_door1", "type": "single", "direction": "in_out" }
+				]
+			},
+			"rm_2029": {
+				"name": "IST-2029",
+				"type": "office",
+				"doors": [
+					{ "id": "rm_2029_door1", "type": "single", "direction": "in_out" }
+				]
+			},
+			"rm_2030": {
+				"name": "IST-2030",
+				"type": "office",
+				"doors": [
+					{ "id": "rm_2030_door1", "type": "single", "direction": "in_out" }
+				]
+			},
+			"rm_2031": {
+				"name": "IST-2031",
+				"type": "office",
+				"doors": [
+					{ "id": "rm_2031_door1", "type": "single", "direction": "in_out" }
+				]
+			},
+			"rm_2032": {
+				"name": "IST-2032",
+				"type": "office",
+				"doors": [
+					{ "id": "rm_2032_door1", "type": "single", "direction": "in_out" }
+				]
+			},
+			"rm_2033": {
+				"name": "IST-2033",
+				"type": "office",
+				"doors": [
+					{ "id": "rm_2033_door1", "type": "single", "direction": "in_out" }
+				]
+			},
+			"rm_2034": {
+				"name": "IST-2034",
+				"type": "office",
+				"doors": [
+					{ "id": "rm_2034_door1", "type": "single", "direction": "in_out" }
+				]
+			},
+			"rm_2035": {
+				"name": "IST-2035",
+				"official_name": "Office of International Student Studies",
+				"type": "office",
+				"doors": [
+					{ "id": "rm_2035_door1", "type": "single", "direction": "in_out" }
+				]
+			},
+			"rm_2036": {
+				"name": "IST-2036",
+				"official_name": "Duke Energy Collaboration Room",
+				"type": "office",
+				"doors": [
+					{ "id": "rm_2036_door1", "type": "single", "direction": "in_out" }
+				]
+			},
+			"rm_2037": {
+				"name": "IST-2037",
+				"official_name": "Office of Graduate Studies",
+				"type": "office",
+				"doors": [
+					{ "id": "rm_2037_door1", "type": "single", "direction": "in_out" }
+				]
+			},
+			"rm_2038": {
+				"name": "IST-2038",
+				"type": "office",
+				"doors": [
+					{ "id": "rm_2038_door1", "type": "single", "direction": "in_out" }
+				]
+			},
+			"rm_2039": {
+				"name": "IST-2039",
+				"type": "office",
+				"doors": [
+					{ "id": "rm_2039_door1", "type": "single", "direction": "in_out" }
+				]
+			},
+			"rm_2040": {
+				"name": "IST-2040",
+				"type": "office",
+				"doors": [
+					{ "id": "rm_2040_door1", "type": "single", "direction": "in_out" }
+				]
+			},
+			"rm_2041": {
+				"name": "IST-2041",
+				"type": "office",
+				"doors": [
+					{ "id": "rm_2041_door1", "type": "single", "direction": "in_out" }
+				]
+			},
+			"rm_2042": {
+				"name": "IST-2042",
+				"type": "office",
+				"doors": [
+					{ "id": "rm_2042_door1", "type": "single", "direction": "in_out" }
+				]
+			},
+			"rm_2043": {
+				"name": "IST-2043",
+				"type": "office",
+				"doors": [
+					{ "id": "rm_2043_door1", "type": "single", "direction": "in_out" }
+				]
+			},
+			"rm_2044": {
+				"name": "IST-2044",
+				"official_name": "Office of Institutional Research and Effectiveness",
+				"type": "office",
+				"doors": [
+					{ "id": "rm_2044_door1", "type": "single", "direction": "in_out" }
+				]
+			},
+			"rm_2045": {
+				"name": "IST-2045",
+				"official_name": "Boring Business Systems Faculty and Staff Workroom",
+				"type": "breakroom",
+				"doors": [
+					{ "id": "rm_2045_door1", "type": "single", "direction": "in_out" }
+				]
+			},
+			"rm_2046": {
+				"name": "IST-2046",
+				"type": "office",
+				"doors": [
+					{ "id": "rm_2046_door1", "type": "single", "direction": "in_out" }
+				]
+			},
+			"rm_2047": {
+				"name": "IST-2047",
+				"type": "office",
+				"doors": [
+					{ "id": "rm_2047_door1", "type": "single", "direction": "in_out" }
+				]
+			},
+			"rm_2048": {
+				"name": "IST-2048",
+				"type": "office",
+				"doors": [
+					{ "id": "rm_2048_door1", "type": "single", "direction": "in_out" }
+				]
+			},
+			"rm_2049": {
+				"name": "IST-2049",
+				"official_name": "Women's Restroom",
+				"type": "restroom",
+				"doors": [
+					{ "id": "rm_2049_door1", "type": "single", "direction": "in_out" }
+				]
+			},
+			"rm_2050": {
+				"name": "IST-2050",
+				"type": "office",
+				"doors": [
+					{ "id": "rm_2050_door1", "type": "single", "direction": "in_out" }
+				]
+			},
+			"rm_2051": {
+				"name": "IST-2051",
+				"type": "electrical",
+				"doors": [
+					{ "id": "rm_2051_door1", "type": "single", "direction": "in_out" }
+				]
+			},
+			"rm_2052": {
+				"name": "IST-2052",
+				"official_name": "Office of the University Registrar",
+				"type": "office",
+				"doors": [
+					{ "id": "rm_2052_door1", "type": "single", "direction": "in_out" }
+				]
+			},
+			"rm_2053": {
+				"name": "IST-2053",
+				"official_name": "Office of the University Registrar",
+				"type": "office",
+				"doors": [
+					{ "id": "rm_2053_door1", "type": "single", "direction": "in_out" }
+				]
+			},
+			"rm_2054": {
+				"name": "IST-2054",
+				"type": "office",
+				"doors": [
+					{ "id": "rm_2054_door1", "type": "single", "direction": "in_out" }
+				]
+			},
+			"rm_2055": {
+				"name": "IST-2055",
+				"official_name": "Office of the Provost",
+				"type": "office",
+				"doors": [
+					{ "id": "rm_2055_door1", "type": "double", "direction": "in_out" }
+				]
+			},
+			"rm_2055A": {
+				"name": "IST-2055A",
+				"type": "office",
+				"doors": [
+					{ "id": "rm_2055A_door1", "type": "single", "direction": "in_out" }
+				],
+				"connected_to": "rm_2055"
+			},
+			"rm_2055B": {
+				"name": "IST-2055B",
+				"type": "office",
+				"doors": [
+					{ "id": "rm_2055B_door1", "type": "single", "direction": "in_out" }
+				],
+				"connected_to": "rm_2055"
+			},
+			"rm_2055?": {
+				"name": "IST-2055C",
+				"type": "office",
+				"doors": [
+					{ "id": "rm_2055?_door1", "type": "single", "direction": "in_out" }
+				]
+			},
+			"rm_2056": {
+				"name": "IST-2056",
+				"official_name": "Office of the President",
+				"type": "office",
+				"doors": [
+					{ "id": "rm_2056_door1", "type": "double", "direction": "in_out" }
+				]
+			},
+			"rm_2056A": {
+				"name": "IST-2056A",
+				"type": "office",
+				"doors": [
+					{ "id": "rm_2056A_door1", "type": "single", "direction": "in_out" }
+				],
+				"connected_to": "rm_2056"
+			},
+			"rm_2056B": {
+				"name": "IST-2056B",
+				"type": "office",
+				"doors": [
+					{ "id": "rm_2056B_door1", "type": "single", "direction": "in_out" }
+				],
+				"connected_to": "rm_2056"
+			},
+			"rm_2056C": {
+				"name": "IST-2056C",
+				"official_name": "Roof Scuttle",
+				"type": "office",
+				"doors": [
+					{ "id": "rm_2056C_door1", "type": "single", "direction": "in_out" }
+				],
+				"connected_to": "rm_2056"
+			},
+			"rm_2057": {
+				"name": "IST-2057",
+				"type": "office",
+				"doors": [
+					{ "id": "rm_2057_door1", "type": "single", "direction": "in_out" }
+				]
+			},
+			"rm_2058": {
+				"name": "IST-2058",
+				"official_name": "Family Restroom",
+				"type": "restroom",
+				"doors": [
+					{ "id": "rm_2058_door1", "type": "single", "direction": "in_out" }
+				]
+			},
+			"rm_2059": {
+				"name": "IST-2059",
+				"official_name": "Writing Center",
+				"type": "office",
+				"doors": [
+					{ "id": "rm_2059_door1", "type": "single", "direction": "in_out" }
+				],
+				"connected_to": "rm_2061"
+			},
+			"rm_2060": {
+				"name": "IST-2060",
+				"official_name": "OLA Control",
+				"type": "mechanical",
+				"doors": [
+					{ "id": "rm_2060_door1", "type": "single", "direction": "in_out" }
+				]
+			},
+			"rm_2061": {
+				"name": "IST-2061",
+				"type": "office",
+				"doors": [
+					{ "id": "rm_2061_door1", "type": "single", "direction": "in_out" }
+				],
+				"connected_to": "rm_2059"
+			},
+			"rm_2062": {
+				"name": "IST-2062",
+				"type": "office",
+				"doors": [
+					{ "id": "rm_2062_door1", "type": "single", "direction": "in_out" }
+				]
+			},
+			"rm_2063": {
+				"name": "IST-2063",
+				"official_name": "Men's Restroom",
+				"type": "restroom",
+				"doors": [
+					{ "id": "rm_2063_door1", "type": "single", "direction": "in_out" }
+				]
+			},
+			"rm_2064": {
+				"name": "IST-2064",
+				"type": "office",
+				"doors": [
+					{ "id": "rm_2064_door1", "type": "single", "direction": "in_out" }
+				]
+			},
+			"rm_2065": {
+				"name": "IST-2065",
+				"type": "office",
+				"doors": [
+					{ "id": "rm_2065_door1", "type": "single", "direction": "in_out" }
+				]
+			},
+			"rm_2066": {
+				"name": "IST-2066",
+				"type": "office",
+				"doors": [
+					{ "id": "rm_2066_door1", "type": "single", "direction": "in_out" }
+				]
+			},
+			"rm_2067": {
+				"name": "IST-2067",
+				"type": "breakroom",
+				"doors": [
+					{ "id": "rm_2067_door1", "type": "single", "direction": "in_out" }
+				]
+			},
+			"rm_2068": {
+				"name": "IST-2068",
+				"type": "office",
+				"doors": [
+					{ "id": "rm_2068_door1", "type": "single", "direction": "in_out" }
+				]
+			},
+			"rm_2069": {
+				"name": "IST-2069",
+				"type": "office",
+				"doors": [
+					{ "id": "rm_2069_door1", "type": "single", "direction": "in_out" }
+				]
+			},
+			"rm_2070": {
+				"name": "IST-2070",
+				"type": "office",
+				"doors": [
+					{ "id": "rm_2070_door1", "type": "single", "direction": "in_out" }
+				]
+			},
+			"rm_2071": {
+				"name": "IST-2071",
+				"type": "office",
+				"doors": [
+					{ "id": "rm_2071_door1", "type": "single", "direction": "in_out" }
+				]
+			},
+			"rm_2072": {
+				"name": "IST-2072",
+				"official_name": "Office of the Librian",
+				"type": "office",
+				"doors": [
+					{ "id": "rm_2072_door1", "type": "single", "direction": "in_out" }
+				]
+			},
+			"rm_2073": {
+				"name": "IST-2073",
+				"official_name": "Campbell Family Collaboration Room",
+				"type": "office",
+				"doors": [
+					{ "id": "rm_2073_door1", "type": "single", "direction": "in_out" }
+				]
+			},
+			"rm_2074": {
+				"name": "IST-2074",
+				"type": "office",
+				"doors": [
+					{ "id": "rm_2074_door1", "type": "single", "direction": "in_out" }
+				]
+			},
+			"rm_2075": {
+				"name": "IST-2075",
+				"type": "office",
+				"doors": [
+					{ "id": "rm_2075_door1", "type": "single", "direction": "in_out" }
+				]
+			},
+			"rm_2076": {
+				"name": "IST-2076",
+				"official_name": "Heacock Family Collaboration Room",
+				"type": "office",
+				"doors": [
+					{ "id": "rm_2076_door1", "type": "single", "direction": "in_out" }
+				]
+			},
+			"rm_2077": {
+				"name": "IST-2077",
+				"type": "office",
+				"doors": [
+					{ "id": "rm_2077_door1", "type": "single", "direction": "in_out" }
+				]
+			},
+			"rm_2078": {
+				"name": "IST-2078",
+				"type": "office",
+				"doors": [
+					{ "id": "rm_2078_door1", "type": "single", "direction": "in_out" }
+				]
+			},
+			"rm_2079": {
+				"name": "IST-2079",
+				"type": "office",
+				"doors": [
+					{ "id": "rm_2079_door1", "type": "single", "direction": "in_out" }
+				]
+			},
+			"rm_2080": {
+				"name": "IST-2080",
+				"type": "office",
+				"doors": [
+					{ "id": "rm_2080_door1", "type": "single", "direction": "in_out" }
+				]
+			},
+			"rm_2081": {
+				"name": "IST-2081",
+				"type": "office",
+				"doors": [
+					{ "id": "rm_2081_door1", "type": "single", "direction": "in_out" }
+				]
+			},
+			"rm_2082": {
+				"name": "IST-2082",
+				"type": "office",
+				"doors": [
+					{ "id": "rm_2082_door1", "type": "single", "direction": "in_out" }
+				]
+			},
+			"rm_2083": {
+				"name": "IST-2083",
+				"type": "office",
+				"doors": [
+					{ "id": "rm_2083_door1", "type": "single", "direction": "in_out" }
+				]
+			},
+			"rm_2084A": {
+				"name": "IST-2084A",
+				"type": "office",
+				"doors": [
+					{ "id": "rm_2084A_door1", "type": "single", "direction": "in_out" }
+				]
+			},
+			"rm_2084B": {
+				"name": "IST-2084B",
+				"type": "office",
+				"doors": [
+					{ "id": "rm_2084B_door1", "type": "single", "direction": "in_out" }
+				]
+			},
+			"rm_2084C": {
+				"name": "IST-2084C",
+				"type": "office",
+				"doors": [
+					{ "id": "rm_2084C_door1", "type": "single", "direction": "in_out" }
+				]
+			},
+			"rm_2084D": {
+				"name": "IST-2084D",
+				"type": "office",
+				"doors": [
+					{ "id": "rm_2084D_door1", "type": "single", "direction": "in_out" }
+				]
+			},
+			"rm_2085D": {
+				"name": "IST-2085D",
+				"official_name": "Office of Student Success",
+				"type": "office",
+				"doors": [
+					{ "id": "rm_2085D_door1", "type": "single", "direction": "in_out" }
+				]
+			},
+			"rm_2085C": {
+				"name": "IST-2085C",
+				"official_name": "Office of Student Success",
+				"type": "office",
+				"doors": [
+					{ "id": "rm_2085C_door1", "type": "single", "direction": "in_out" }
+				]
+			},
+			"rm_2085B": {
+				"name": "IST-2085B",
+				"official_name": "Office of Student Success",
+				"type": "office",
+				"doors": [
+					{ "id": "rm_2085B_door1", "type": "single", "direction": "in_out" }
+				]
+			},
+			"rm_2085A": {
+				"name": "IST-2085A",
+				"official_name": "Office of Student Success",
+				"type": "office",
+				"doors": [
+					{ "id": "rm_2085A_door1", "type": "single", "direction": "in_out" }
+				]
+			},
+			"rm_2086": {
+				"name": "IST-2086",
+				"official_name": "Office of Student Success",
+				"type": "office",
+				"doors": [
+					{ "id": "rm_2086_door1", "type": "single", "direction": "in_out" }
+				]
+			},
+			"rm_2087": {
+				"name": "IST-2087",
+				"official_name": "Office of Student Success",
+				"type": "office",
+				"doors": [
+					{ "id": "rm_2087_door1", "type": "single", "direction": "in_out" }
+				]
+			},
+			"rm_2088": {
+				"name": "IST-2088",
+				"official_name": "Office of Student Success",
+				"type": "office",
+				"doors": [
+					{ "id": "rm_2088_door1", "type": "single", "direction": "in_out" }
+				]
+			},
+			"rm_2089": {
+				"name": "IST-2089",
+				"type": "office",
+				"doors": [
+					{ "id": "rm_2089_door1", "type": "single", "direction": "in_out" }
+				]
+			},
+			"rm_2090": {
+				"name": "IST-2090",
+				"type": "office",
+				"doors": [
+					{ "id": "rm_2090_door1", "type": "single", "direction": "in_out" }
+				]
+			},
+			"rm_2091": {
+				"name": "IST-2091",
+				"type": "office",
+				"doors": [
+					{ "id": "rm_2091_door1", "type": "single", "direction": "in_out" }
+				]
+			},
+			"rm_2092": {
+				"name": "IST-2092",
+				"type": "office",
+				"doors": [
+					{ "id": "rm_2092_door1", "type": "single", "direction": "in_out" }
+				]
+			},
+			"rm_2093": {
+				"name": "IST-2093",
+				"official_name": "Kincart Family Collaboration Room",
+				"type": "office",
+				"doors": [
+					{ "id": "rm_2093_door1", "type": "single", "direction": "in_out" }
+				]
+			},
+			"rm_2094": {
+				"name": "IST-2094",
+				"official_name": "Office of Student Success",
+				"type": "office",
+				"doors": [
+					{ "id": "rm_2094_door1", "type": "single", "direction": "in_out" }
+				]
+			},
+			"rm_2095": {
+				"name": "IST-2095",
+				"type": "office",
+				"doors": [
+					{ "id": "rm_2095_door1", "type": "single", "direction": "in_out" }
+				]
+			},
+			"rm_2096": {
+				"name": "IST-2096",
+				"type": "office",
+				"doors": [
+					{ "id": "rm_2096_door1", "type": "single", "direction": "in_out" }
+				]
+			},
+			"rm_2097": {
+				"name": "IST-2097",
+				"type": "office",
+				"doors": [
+					{ "id": "rm_2097_door1", "type": "single", "direction": "in_out" }
+				]
+			},
+			"rm_2098": {
+				"name": "IST-2098",
+				"type": "office",
+				"doors": [
+					{ "id": "rm_2098_door1", "type": "single", "direction": "in_out" }
+				]
+			},
+			"rm_2099": {
+				"name": "IST-2099",
+				"type": "office",
+				"doors": [
+					{ "id": "rm_2099_door1", "type": "single", "direction": "in_out" }
+				]
+			},
+			"rm_2100": {
+				"name": "IST-2100",
+				"type": "office",
+				"doors": [
+					{ "id": "rm_2100_door1", "type": "single", "direction": "in_out" }
+				]
+			},
+			"rm_2101": {
+				"name": "IST-2101",
+				"type": "office",
+				"doors": [
+					{ "id": "rm_2101_door1", "type": "single", "direction": "in_out" }
+				]
+			},
+			"rm_2102": {
+				"name": "IST-2102",
+				"official_name": "Boring Business Systems Faculty and Staff Workroom",
+				"type": "breakroom",
+				"doors": [
+					{ "id": "rm_2102_door1", "type": "single", "direction": "in_out" }
+				]
+			},
+			"rm_2103": {
+				"name": "IST-2103",
+				"type": "office",
+				"doors": [
+					{ "id": "rm_2103_door1", "type": "single", "direction": "in_out" }
+				]
+			},
+			"rm_2104": {
+				"name": "IST-2104",
+				"type": "office",
+				"doors": [
+					{ "id": "rm_2104_door1", "type": "single", "direction": "in_out" }
+				]
+			},
+			"rm_2105": {
+				"name": "IST-2105",
+				"type": "office",
+				"doors": [
+					{ "id": "rm_2105_door1", "type": "single", "direction": "in_out" }
+				]
+			},
+			"rm_2106": {
+				"name": "IST-2106",
+				"official_name": "Women's Restroom",
+				"type": "restroom",
+				"doors": [
+					{ "id": "rm_2106_door1", "type": "single", "direction": "in_out" }
+				]
+			},
+			"rm_2107": {
+				"name": "IST-2107",
+				"type": "office",
+				"doors": [
+					{ "id": "rm_2107_door1", "type": "single", "direction": "in_out" }
+				]
+			},
+			"rm_2108": {
+				"name": "IST-2108",
+				"type": "office",
+				"doors": [
+					{ "id": "rm_2108_door1", "type": "single", "direction": "in_out" }
+				]
+			},
+			"rm_2109": {
+				"name": "IST-2109",
+				"type": "electrical",
+				"doors": [
+					{ "id": "rm_2109_door1", "type": "single", "direction": "in_out" }
+				]
+			},
+			"rm_2110": {
+				"name": "IST-2110",
+				"type": "office",
+				"doors": [
+					{ "id": "rm_2110_door1", "type": "single", "direction": "in_out" }
+				]
+			},
+			"rm_2111": {
+				"name": "IST-2111",
+				"type": "office",
+				"doors": [
+					{ "id": "rm_2111_door1", "type": "single", "direction": "in_out" }
+				]
+			}
 		}
 	}
 }
