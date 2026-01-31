@@ -1129,11 +1129,11 @@
 				],
 				"connected_to": "rm_2055"
 			},
-			"rm_2055?": {
+			"rm_2055C": {
 				"name": "IST-2055C",
 				"type": "office",
 				"doors": [
-					{ "id": "rm_2055?_door1", "type": "single", "direction": "in_out" }
+					{ "id": "rm_2055C_door1", "type": "single", "direction": "in_out" }
 				]
 			},
 			"rm_2056": {
