@@ -1,0 +1,1207 @@
+{
+	"floors": {
+		"1": {
+			"M1100": {
+				"name": "BARC-M1100",
+				"type": "mechanical",
+				"doors": [
+					{ "id": "roomM1100_door1", "type": "double", "direction": "inout" }
+				]
+			},
+			"M1102": {
+				"name": "BARC-M1102",
+				"type": "mechanical",
+				"doors": [
+					{ "id": "roomM1102_door1", "type": "single", "direction": "inout" },
+					{ "id": "roomM1102_door2", "type": "double", "direction": "inout" }
+				]
+			},
+			"C1100": {
+				"name": "BARC-C1100",
+				"type": "lounge",
+				"doors": []
+			},
+			"C1105": {
+				"name": "BARC-M1100",
+				"official_name": "BARC Commons/Atrium",
+				"type": "commons",
+				"doors": []
+			},
+			"1100": {
+				"name": "BARC-1100",
+				"type": "lobby",
+				"doors": [
+					{ "id": "room1100_door1", "type": "double", "direction": "inout" }
+				]
+			},
+			"1101": {
+				"name": "BARC-1101",
+				"official_name": "Conference Room",
+				"type": "conference",
+				"doors": [
+					{ "id": "room1101_door1", "type": "single", "direction": "inout" }
+				]
+			},
+			"1102": {
+				"name": "BARC-1102",
+				"type": "office",
+				"doors": [
+					{ "id": "room1102_door1", "type": "single", "direction": "inout" }
+				]
+			},
+			"1103": {
+				"name": "BARC-1103",
+				"type": "office",
+				"doors": [
+					{ "id": "room1103_door1", "type": "single", "direction": "inout" }
+				]
+			},
+			"1104": {
+				"name": "BARC-1104",
+				"type": "workstation",
+				"doors": [
+					{ "id": "room1104_door1", "type": "single", "direction": "inout" }
+				]
+			},
+			"1105": {
+				"name": "BARC-1105",
+				"type": "office",
+				"doors": [
+					{ "id": "room1105_door1", "type": "single", "direction": "inout" }
+				]
+			},
+			"1106": {
+				"name": "BARC-1106",
+				"type": "office",
+				"doors": [
+					{ "id": "room1106_door1", "type": "single", "direction": "inout" }
+				]
+			},
+			"1107": {
+				"name": "BARC-1107",
+				"type": "office",
+				"doors": [
+					{ "id": "room1107_door1", "type": "single", "direction": "inout" }
+				]
+			},
+			"1108": {
+				"name": "BARC-1108",
+				"type": "office",
+				"doors": [
+					{ "id": "room1108_door1", "type": "single", "direction": "inout" }
+				]
+			},
+			"1109": {
+				"name": "BARC-1109",
+				"type": "office",
+				"doors": [
+					{ "id": "room1109_door1", "type": "single", "direction": "inout" }
+				]
+			},
+			"1110": {
+				"name": "BARC-1110",
+				"type": "office",
+				"doors": [
+					{ "id": "room1110_door1", "type": "single", "direction": "inout" }
+				]
+			},
+			"1111": {
+				"name": "BARC-1111",
+				"type": "office",
+				"doors": [
+					{ "id": "room1111_door1", "type": "single", "direction": "inout" }
+				]
+			},
+			"1112": {
+				"name": "BARC-1112",
+				"type": "office",
+				"doors": [
+					{ "id": "room1112_door1", "type": "single", "direction": "inout" }
+				]
+			},
+			"1113": {
+				"name": "BARC-1113",
+				"type": "office",
+				"doors": [
+					{ "id": "room1113_door1", "type": "single", "direction": "inout" }
+				]
+			},
+			"1114": {
+				"name": "BARC-1114",
+				"type": "office",
+				"doors": [
+					{ "id": "room1114_door1", "type": "single", "direction": "inout" }
+				]
+			},
+			"1115": {
+				"name": "BARC-1115",
+				"official_name": "Esports Arena",
+				"type": "esports",
+				"doors": [
+					{ "id": "room1115_door1", "type": "single", "direction": "inout" },
+					{ "id": "room1115_door2", "type": "double", "direction": "inout", "locked": true }
+				]
+			},
+			"1116": { //TODO: is this connected with 1117
+				"name": "BARC-1116",
+				"type": "materials_lab",
+				"doors": [
+					{ "id": "room1116_door1", "type": "single", "direction": "inout" }
+				]
+			},
+			"1117": {  //TODO: is this connected with 1116?
+				"name": "BARC-1117",
+				"type": "materials_lab",
+				"doors": [
+					{ "id": "room1117_door1", "type": "double", "direction": "inout" }
+				]
+			},
+			"1118": {
+				"name": "BARC-1118",
+				"type": "custodial",
+				"doors": [
+					{ "id": "room1118_door1", "type": "single", "direction": "inout" }
+				]
+			},
+			"1119": {
+				"name": "BARC-1119",
+				"type": "data_closet",
+				"doors": [
+					{ "id": "room1119_door1", "type": "single", "direction": "inout" }
+				]
+			},
+			"1120": {
+				"name": "BARC-1120",
+				"type": "conference",
+				"doors": [
+					{ "id": "room1120_door1", "type": "single", "direction": "inout" }
+				]
+			},
+			"1121": {
+				"name": "BARC-1121",
+				"type": "break_room",
+				"doors": [
+					{ "id": "room1121_door1", "type": "single", "direction": "inout" }
+				]
+			},
+			"1122": {
+				"name": "BARC-1122",
+				"type": "conference",
+				"doors": [
+					{ "id": "room1122_door1", "type": "single", "direction": "inout" }
+				]
+			},
+			"1123": {
+				"name": "BARC-1123",
+				"type": "classroom",
+				"doors": [
+					{ "id": "room1123_door1", "type": "single", "direction": "inout" },
+					{ "id": "room1123_door2", "type": "single", "direction": "inout" }
+				]
+			},
+			"1124": {
+				"name": "BARC-1124",
+				"type": "workstation",
+				"doors": [
+					{ "id": "room1124_door1", "type": "single", "direction": "inout" }
+				]
+			},
+			"1125": {
+				"name": "BARC-1125",
+				"official_name": "Women's Restroom",
+				"type": "restroom",
+				"doors": [
+					{ "id": "room1125_door1", "type": "single", "direction": "inout" }
+				]
+			},
+			"1126": {
+				"name": "BARC-1126",
+				"official_name": "Men's Restroom",
+				"type": "restroom",
+				"doors": [
+					{ "id": "room1126_door1", "type": "single", "direction": "inout" }
+				]
+			},
+			"1127": {
+				"name": "BARC-1127",
+				"type": "electrical",
+				"doors": [
+					{ "id": "room1127_door1", "type": "single", "direction": "inout" }
+				]
+			},
+			"1128": {
+				"name": "BARC-1128",
+				"type": "storage",
+				"doors": [
+					{ "id": "room1128_door1", "type": "single", "direction": "inout" }
+				]
+			},
+			"1129": {
+				"name": "BARC-1129",
+				"type": "hazardous_waste_storage",
+				"doors": [
+					{ "id": "room1129_door1", "type": "single", "direction": "inout" }
+				]
+			},
+			"1130": {
+				"name": "BARC-1130",
+				"type": "storage",
+				"doors": [
+					{ "id": "room1130_door1", "type": "single", "direction": "inout" }
+				]
+			},
+			"1131": {
+				"name": "BARC-1131",
+				"type": "loading_receiving",
+				"doors": [
+					{ "id": "room1131_door1", "type": "single", "direction": "inout" },
+					{ "id": "room1131_door2", "type": "double", "direction": "inout" }
+				]
+			},
+			"1132": {
+				"name": "BARC-1132",
+				"type": "electrical",
+				"doors": [
+					{ "id": "room1132_door1", "type": "single", "direction": "inout" },
+					{ "id": "room1132_door2", "type": "single", "direction": "inout" }
+				]
+			},
+			"1133": {
+				"name": "BARC-1133",
+				"type": "storage",
+				"doors": [
+					{ "id": "room1133_door1", "type": "single", "direction": "inout" }
+				]
+			},
+			"1134": {
+				"name": "BARC-1134",
+				"type": "gas_storage",
+				"doors": [
+					{ "id": "room1134_door1", "type": "single", "direction": "inout" }
+				]
+			},
+			"1135": {
+				"name": "BARC-1135",
+				"type": "checmical_storage",
+				"doors": [
+					{ "id": "room1135_door1", "type": "single", "direction": "inout" }
+				]
+			},
+			"1136": {
+				"name": "BARC-1136",
+				"type": "attic_storage",
+				"doors": [
+					{ "id": "room1136_door1", "type": "single", "direction": "inout" }
+				]
+			},
+			"1137": {
+				"name": "BARC-1137",
+				"type": "water",
+				"doors": [
+					{ "id": "room1137_door1", "type": "single", "direction": "inout" }
+				]
+			},
+			"1138": {
+				"name": "BARC-1138",
+				"type": "electrical",
+				"doors": [
+					{ "id": "room1138_door1", "type": "single", "direction": "inout" }
+				]
+			},
+			"1139": {
+				"name": "BARC-1139",
+				"type": "electrical",
+				"doors": [
+					{ "id": "room1139_door1", "type": "single", "direction": "inout" },
+					{ "id": "room1139_door1", "type": "single", "direction": "inout" }
+				]
+			},
+			"1140": {
+				"name": "BARC-1140",
+				"type": "equipment_closet",
+				"doors": [
+					{ "id": "room1140_door1", "type": "single", "direction": "inout" }
+				]
+			},
+			"1141": {
+				"name": "BARC-1141",
+				"type": "study",
+				"doors": [
+					{ "id": "room1141_door1", "type": "single", "direction": "inout" }
+				]
+			},
+			"1142": {
+				"name": "BARC-1142",
+				"type": "classroom",
+				"doors": [
+					{ "id": "room1142_door1", "type": "single", "direction": "inout" }
+				]
+			},
+			"1143": {
+				"name": "BARC-1143",
+				"official_name": "3D Print Lab",
+				"type": "3d_print_lab",
+				"doors": [
+					{ "id": "room1143_door1", "type": "single", "direction": "inout" }
+				]
+			},
+			"1144": {
+				"name": "BARC-1144",
+				"type": "material_lab",
+				"doors": [
+					{ "id": "room1144_door1", "type": "single", "direction": "inout" }
+				]
+			},
+			"1145": {
+				"name": "BARC-1145",
+				"type": "optics_laser_lab",
+				"doors": [
+					{ "id": "room1145_door1", "type": "single", "direction": "inout" }
+				]
+			},
+			"1146": {
+				"name": "BARC-1146",
+				"type": "electrical",
+				"doors": [
+					{ "id": "room1147_door1", "type": "single", "direction": "inout" }
+				]
+			},
+			"1147": {
+				"name": "BARC-1147",
+				"type": "data_closet",
+				"doors": [
+					{ "id": "room1147_door1", "type": "single", "direction": "inout" }
+				]
+			},
+			"1148": {
+				"name": "BARC-1148",
+				"type": "mechanical_engineering_lab",
+				"doors": [
+					{ "id": "room1148_door1", "type": "single", "direction": "inout" }
+				]
+			},
+			"1149": {
+				"name": "BARC-1149",
+				"type": "study",
+				"doors": [
+					{ "id": "room1149_door1", "type": "single", "direction": "inout" }
+				]
+			},
+			"1150": {
+				"name": "BARC-1150",
+				"type": "study",
+				"doors": [
+					{ "id": "room1150_door1", "type": "single", "direction": "inout" }
+				]
+			},
+			"1151": {
+				"name": "BARC-1151",
+				"type": "mothers_room",
+				"doors": [
+					{ "id": "room1151_door1", "type": "single", "direction": "inout" }
+				]
+			},
+			"1152": {
+				"name": "BARC-1152",
+				"official_name": "Family Restroom",
+				"type": "restroom",
+				"doors": [
+					{ "id": "room1152_door1", "type": "single", "direction": "inout" }
+				]
+			},
+			"1153": {
+				"name": "BARC-1153",
+				"type": "lab",
+				"doors": [
+					{ "id": "room1153_door1", "type": "single", "direction": "inout" }
+				]
+			},
+			"1154": {
+				"name": "BARC-1154",
+				"official_name": "Men's Restroom",
+				"type": "restroom",
+				"doors": [
+					{ "id": "room1154_door1", "type": "single", "direction": "inout" }
+				]
+			},
+			"1155": {
+				"name": "BARC-1155",
+				"official_name": "Women's Restroom",
+				"type": "restroom",
+				"doors": [
+					{ "id": "room1155_door1", "type": "single", "direction": "inout" }
+				]
+			},
+			"1156": {
+				"name": "BARC-1156",
+				"type": "storage",
+				"doors": [
+					{ "id": "room1156_door1", "type": "single", "direction": "inout" }
+				]
+			},
+			"1157": {
+				"name": "BARC-1157",
+				"official_name": "Capstone Lab",
+				"type": "lab",
+				"doors": [
+					{ "id": "room1157_door1", "type": "double", "direction": "inout" }
+				]
+			},
+			"1158": {
+				"name": "BARC-1158",
+				"type": "classroom",
+				"doors": [
+					{ "id": "room1158_door1", "type": "single", "direction": "inout" }
+				]
+			},
+			"1159": {
+				"name": "BARC-1159",
+				"type": "classroom",
+				"doors": [
+					{ "id": "room1159_door1", "type": "single", "direction": "inout" }
+				]
+			},
+			"1160": {
+				"name": "BARC-1160",
+				"type": "equipment_closet",
+				"doors": [
+					{ "id": "room1160_door1", "type": "single", "direction": "inout" }
+				]
+			},
+			"1162": {  //TODO: 1161 missing
+				"name": "BARC-1162",
+				"type": "shop",
+				"doors": [
+					{ "id": "room1162_door1", "type": "double", "direction": "inout" },
+					{ "id": "room1162_door2", "type": "single", "direction": "inout" },
+					{ "id": "room1162_door3", "type": "single", "direction": "inout" }
+				]
+			},
+			"1162A": {
+				"name": "BARC-1162A",
+				"type": "office",
+				"doors": [
+					{ "id": "room1162A_door1", "type": "single", "direction": "inout" }
+				]
+			},
+			"1163": {
+				"name": "BARC-1163",
+				"type": "automotive_shop",
+				"doors": [
+					{ "id": "room1163_door1", "type": "double", "direction": "inout" },
+					{ "id": "room1163_door2", "type": "single", "direction": "inout" },
+					{ "id": "room1163_door3", "type": "single", "direction": "inout" }
+				]
+			},
+			"1163A": {
+				"name": "BARC-1163A",
+				"type": "office",
+				"doors": [
+					{ "id": "room1163A_door1", "type": "single", "direction": "inout" }
+				]
+			},
+			"1170": { //TODO: 1164, 1165, 1166, 1167, 1168, and 1169 missing
+				"name": "BARC-1170",
+				"type": "office",
+				"doors": [
+					{ "id": "room1170_door1", "type": "single", "direction": "inout" }
+				]
+			},
+			"1171": {
+				"name": "BARC-1171",
+				"type": "office",
+				"doors": [
+					{ "id": "room1171_door1", "type": "single", "direction": "inout" }
+				]
+			},
+			"1172": {
+				"name": "BARC-1172",
+				"type": "office",
+				"doors": [
+					{ "id": "room1172_door1", "type": "single", "direction": "inout" }
+				]
+			},
+			"1173": {
+				"name": "BARC-1173",
+				"type": "office",
+				"doors": [
+					{ "id": "room1173_door1", "type": "single", "direction": "inout" }
+				]
+			},
+			"1174": {
+				"name": "BARC-1174",
+				"type": "office",
+				"doors": [
+					{ "id": "room1174_door1", "type": "single", "direction": "inout" }
+				]
+			},
+			"1175": {
+				"name": "BARC-1175",
+				"type": "office",
+				"doors": [
+					{ "id": "room1175_door1", "type": "single", "direction": "inout" }
+				]
+			},
+			"1176": {
+				"name": "BARC-1176",
+				"type": "office",
+				"doors": [
+					{ "id": "room1176_door1", "type": "single", "direction": "inout" }
+				]
+			},
+			"1177": {
+				"name": "BARC-1177",
+				"type": "office",
+				"doors": [
+					{ "id": "room1177_door1", "type": "single", "direction": "inout" }
+				]
+			},
+			"1178": {
+				"name": "BARC-1178",
+				"type": "office",
+				"doors": [
+					{ "id": "room1178_door1", "type": "single", "direction": "inout" }
+				]
+			},
+			"1179": {
+				"name": "BARC-1179",
+				"type": "office",
+				"doors": [
+					{ "id": "room1179_door1", "type": "single", "direction": "inout" }
+				]
+			},
+			"1180": {
+				"name": "BARC-1180",
+				"type": "office",
+				"doors": [
+					{ "id": "room1180_door1", "type": "single", "direction": "inout" }
+				]
+			},
+			"1181": {
+				"name": "BARC-1181",
+				"type": "office",
+				"doors": [
+					{ "id": "room1181_door1", "type": "single", "direction": "inout" }
+				]
+			},
+			"1182": {
+				"name": "BARC-1182",
+				"type": "office",
+				"doors": [
+					{ "id": "room1182_door1", "type": "single", "direction": "inout" }
+				]
+			},
+			"1183": {
+				"name": "BARC-1183",
+				"type": "office",
+				"doors": [
+					{ "id": "room1183_door1", "type": "single", "direction": "inout" }
+				]
+			},
+			"1184": {
+				"name": "BARC-1184",
+				"type": "office",
+				"doors": [
+					{ "id": "room1184_door1", "type": "single", "direction": "inout" }
+				]
+			},
+			"1185": {
+				"name": "BARC-1185",
+				"type": "office",
+				"doors": [
+					{ "id": "room1185_door1", "type": "single", "direction": "inout" }
+				]
+			},
+			"1186": {
+				"name": "BARC-1186",
+				"type": "office",
+				"doors": [
+					{ "id": "room1186_door1", "type": "single", "direction": "inout" }
+				]
+			},
+			"1187": {
+				"name": "BARC-1187",
+				"type": "office",
+				"doors": [
+					{ "id": "room1187_door1", "type": "single", "direction": "inout" }
+				]
+			},
+			"1188": {
+				"name": "BARC-1188",
+				"type": "office",
+				"doors": [
+					{ "id": "room1188_door1", "type": "single", "direction": "inout" }
+				]
+			},
+			"1189": {
+				"name": "BARC-1189",
+				"type": "office",
+				"doors": [
+					{ "id": "room1189_door1", "type": "single", "direction": "inout" }
+				]
+			},
+			"1190": {
+				"name": "BARC-1190",
+				"type": "office",
+				"doors": [
+					{ "id": "room1190_door1", "type": "single", "direction": "inout" }
+				]
+			},
+			"1191": {
+				"name": "BARC-1191",
+				"type": "office",
+				"doors": [
+					{ "id": "room1191_door1", "type": "single", "direction": "inout" }
+				]
+			}
+		},
+		"2": {
+			"2200": {
+				"name": "BARC-2200",
+				"official_name": "Multi-Purpose Room",
+				"type": "multi-purpose_room",
+				"doors": [
+					{ "id": "room2200_door1", "type": "double", "direction": "inout" },
+					{ "id": "room2200_door2", "type": "double", "direction": "inout" },
+					{ "id": "room2200_door3", "type": "single", "direction": "inout" }
+				]
+			},
+			"2201": {
+				"name": "BARC-2201",
+				"type": "pre_function",
+				"doors": []
+			},
+			"2202": {
+				"name": "BARC-2202",
+				"type": "storage",
+				"doors": [
+					{ "id": "room2200_door1", "type": "single", "direction": "inout" }
+				]
+			},
+			"2203": {
+				"name": "BARC-2203",
+				"type": "storage",
+				"doors": [
+					{ "id": "room2203_door1", "type": "single", "direction": "inout" }
+				]
+			},
+			"2204": {
+				"name": "BARC-2204",
+				"type": "av_closet",
+				"doors": [
+					{ "id": "room2204_door1", "type": "single", "direction": "inout" }
+				]
+			},
+			"2205": {
+				"name": "BARC-2205",
+				"type": "catering",
+				"doors": [
+					{ "id": "room2205_door1", "type": "single", "direction": "inout" }
+				]
+			},
+			"2206": {
+				"name": "BARC-2206",
+				"type": "roof_access",
+				"doors": [
+					{ "id": "room2206_door1", "type": "single", "direction": "inout" }
+				]
+			},
+			"2207": {
+				"name": "BARC-2207",
+				"type": "chemistry_lab",
+				"doors": [
+					{ "id": "room2207_door1", "type": "single", "direction": "inout" },
+					{ "id": "room2207_door2", "type": "single", "direction": "inout" }
+				]
+			},
+			"2208": {
+				"name": "BARC-2208",
+				"type": "lab_prep",
+				"doors": [
+					{ "id": "room2208_door1", "type": "single", "direction": "inout" },
+					{ "id": "room2208_door2", "type": "single", "direction": "inout" }
+				]
+			},
+			"2209": {
+				"name": "BARC-2209",
+				"type": "chemistry_lab",
+				"doors": [
+					{ "id": "room2209_door1", "type": "single", "direction": "inout" },
+					{ "id": "room2209_door2", "type": "single", "direction": "inout" }
+				]
+			},
+			"2210": {
+				"name": "BARC-2210",
+				"type": "data_closet",
+				"doors": [
+					{ "id": "room2210_door1", "type": "single", "direction": "inout" }
+				]
+			},
+			"2211": {
+				"name": "BARC-2211",
+				"official_name": "Women's Restroom",
+				"type": "restroom",
+				"doors": [
+					{ "id": "room2211_door1", "type": "single", "direction": "inout" }
+				]
+			},
+			"2212": {
+				"name": "BARC-2212",
+				"official_name": "Men's Restroom",
+				"type": "restroom",
+				"doors": [
+					{ "id": "room2212_door1", "type": "single", "direction": "inout" }
+				]
+			},
+			"2213": {
+				"name": "BARC-2213",
+				"type": "custodial",
+				"doors": [
+					{ "id": "room2213_door1", "type": "single", "direction": "inout" }
+				]
+			},
+			"2214": {
+				"name": "BARC-2214",
+				"type": "support",  //TODO: what is this?
+				"doors": [
+					{ "id": "room2214_door1", "type": "single", "direction": "inout" }
+				]
+			},
+			"2215": {
+				"name": "BARC-2215",
+				"type": "electrical",
+				"doors": [
+					{ "id": "room2215_door1", "type": "single", "direction": "inout" }
+				]
+			},
+			"2216": {
+				"name": "BARC-2216",
+				"type": "study",
+				"doors": [
+					{ "id": "room2216_door1", "type": "single", "direction": "inout" }
+				]
+			},
+			"2217": {
+				"name": "BARC-2217",
+				"type": "dsba", //TODO: what is this?
+				"doors": [
+					{ "id": "room2217_door1", "type": "single", "direction": "inout" },
+					{ "id": "room2217_door2", "type": "single", "direction": "inout" }
+				]
+			},
+			"2219": {  //TODO: 2218 is missing
+				"name": "BARC-2219",
+				"type": "computer_lab",
+				"doors": [
+					{ "id": "room2219_door1", "type": "single", "direction": "inout" }
+				]
+			},
+			"2220": {
+				"name": "BARC-2220",
+				"type": "computer_lab",
+				"doors": [
+					{ "id": "room2220_door1", "type": "single", "direction": "inout" },
+					{ "id": "room2220_door2", "type": "single", "direction": "inout" },
+					{ "id": "room2220_door3", "type": "single", "direction": "inout" }
+				]
+			},
+			"2221": {
+				"name": "BARC-2221",
+				"type": "conference",
+				"doors": [
+					{ "id": "room2221_door1", "type": "single", "direction": "inout" }
+				]
+			},
+			"2222": {
+				"name": "BARC-2222",
+				"type": "storage",
+				"doors": [
+					{ "id": "room2222_door1", "type": "double", "direction": "inout" }
+				]
+			},
+			"2223": {
+				"name": "BARC-2223",
+				"type": "study",
+				"doors": [
+					{ "id": "room2223_door1", "type": "single", "direction": "inout" }
+				]
+			},
+			"2224": {
+				"name": "BARC-2224",
+				"type": "office",
+				"doors": [
+					{ "id": "room2224_door1", "type": "single", "direction": "inout" }
+				]
+			},
+			"2225": {
+				"name": "BARC-2225",
+				"type": "office",
+				"doors": [
+					{ "id": "room2225_door1", "type": "single", "direction": "inout" }
+				]
+			},
+			"2226": {
+				"name": "BARC-2226",
+				"type": "office",
+				"doors": [
+					{ "id": "room2226_door1", "type": "single", "direction": "inout" }
+				]
+			},
+			"2227": {
+				"name": "BARC-2227",
+				"type": "office",
+				"doors": [
+					{ "id": "room2227_door1", "type": "single", "direction": "inout" }
+				]
+			},
+			"2228": {
+				"name": "BARC-2228",
+				"type": "office",
+				"doors": [
+					{ "id": "room2228_door1", "type": "single", "direction": "inout" }
+				]
+			},
+			"2229": {
+				"name": "BARC-2229",
+				"type": "office",
+				"doors": [
+					{ "id": "room2229_door1", "type": "single", "direction": "inout" }
+				]
+			},
+			"2230": {
+				"name": "BARC-2230",
+				"type": "office",
+				"doors": [
+					{ "id": "room2230_door1", "type": "single", "direction": "inout" }
+				]
+			},
+			"2231": {
+				"name": "BARC-2231",
+				"type": "office",
+				"doors": [
+					{ "id": "room2231_door1", "type": "single", "direction": "inout" }
+				]
+			},
+			"2232": {
+				"name": "BARC-2232",
+				"type": "office",
+				"doors": [
+					{ "id": "room2232_door1", "type": "single", "direction": "inout" }
+				]
+			},
+			"2233": {
+				"name": "BARC-2233",
+				"type": "office",
+				"doors": [
+					{ "id": "room2233_door1", "type": "single", "direction": "inout" }
+				]
+			},
+			"2234": {
+				"name": "BARC-2234",
+				"type": "office",
+				"doors": [
+					{ "id": "room2234_door1", "type": "single", "direction": "inout" }
+				]
+			},
+			"2235": {
+				"name": "BARC-2235",
+				"type": "office",
+				"doors": [
+					{ "id": "room2235_door1", "type": "single", "direction": "inout" }
+				]
+			},
+			"2236": {
+				"name": "BARC-2236",
+				"type": "office",
+				"doors": [
+					{ "id": "room2236_door1", "type": "single", "direction": "inout" }
+				]
+			},
+			"2237": {
+				"name": "BARC-2237",
+				"type": "office",
+				"doors": [
+					{ "id": "room2237_door1", "type": "single", "direction": "inout" }
+				]
+			},
+			"2238": {
+				"name": "BARC-2238",
+				"type": "office",
+				"doors": [
+					{ "id": "room2238_door1", "type": "single", "direction": "inout" }
+				]
+			},
+			"2239": {
+				"name": "BARC-2239",
+				"type": "office",
+				"doors": [
+					{ "id": "room2239_door1", "type": "single", "direction": "inout" }
+				]
+			},
+			"2241": { //TODO: 2241 missing
+				"name": "BARC-2241",
+				"type": "lab",
+				"doors": [
+					{ "id": "room2241_door1", "type": "single", "direction": "inout" },
+					{ "id": "room2241_door2", "type": "single", "direction": "inout" }
+				]
+			},
+			"2242": {
+				"name": "BARC-2242",
+				"type": "lab",
+				"doors": [
+					{ "id": "room2242_door1", "type": "single", "direction": "inout" }
+				]
+			},
+			"2243": {
+				"name": "BARC-2243",
+				"type": "lab",
+				"doors": [
+					{ "id": "room2243_door1", "type": "single", "direction": "inout" }
+				]
+			},
+			"2244": {
+				"name": "BARC-2244",
+				"type": "lab",
+				"doors": [
+					{ "id": "room2244_door1", "type": "single", "direction": "inout" }
+				]
+			},
+			"2245": {
+				"name": "BARC-2245",
+				"type": "physics_lab",
+				"doors": [
+					{ "id": "room2245_door1", "type": "single", "direction": "inout" }
+				]
+			},
+			"2246": {
+				"name": "BARC-2246",
+				"type": "electrical",
+				"doors": [
+					{ "id": "room2246_door1", "type": "single", "direction": "inout" }
+				]
+			},
+			"2247": {
+				"name": "BARC-2247",
+				"type": "data_closet",
+				"doors": [
+					{ "id": "room2247_door1", "type": "single", "direction": "inout" }
+				]
+			},
+			"2248": {
+				"name": "BARC-2248",
+				"type": "lab",
+				"doors": [
+					{ "id": "room2248_door1", "type": "single", "direction": "inout" },
+					{ "id": "room2248_door2", "type": "single", "direction": "inout" }
+				]
+			},
+			"2249": {
+				"name": "BARC-2249",
+				"type": "support", //TODO: what is this?
+				"doors": [
+					{ "id": "room2249_door1", "type": "single", "direction": "inout" }
+				]
+			},
+			"2250": {
+				"name": "BARC-2250",
+				"type": "lab",
+				"doors": [
+					{ "id": "room2250_door1", "type": "single", "direction": "inout" }
+				]
+			},
+			"2251": {
+				"name": "BARC-2251",
+				"type": "chemistry_lab",
+				"doors": [
+					{ "id": "room2251_door1", "type": "single", "direction": "inout" }
+				]
+			},
+			"2252": {
+				"name": "BARC-2252",
+				"official_name": "Men's Restroom",
+				"type": "restroom",
+				"doors": [
+					{ "id": "room2252_door1", "type": "single", "direction": "inout" }
+				]
+			},
+			"2253": {
+				"name": "BARC-2253",
+				"official_name": "Women's Restroom",
+				"type": "restroom",
+				"doors": [
+					{ "id": "room2253_door1", "type": "single", "direction": "inout" }
+				]
+			},
+			"2254": {
+				"name": "BARC-2254",
+				"type": "roof_access",
+				"doors": [
+					{ "id": "room2254_door1", "type": "single", "direction": "inout" }
+				]
+			},
+			"2255": {
+				"name": "BARC-2255",
+				"type": "mechanical_engeering_lab",
+				"doors": [
+					{ "id": "room2255_door1", "type": "single", "direction": "inout" },
+					{ "id": "room2255_door2", "type": "single", "direction": "inout" }
+				]
+			},
+			"2256": {
+				"name": "BARC-2256",
+				"type": "lab",
+				"doors": [
+					{ "id": "room2256_door1", "type": "single", "direction": "inout" }
+				]
+			},
+			"2257": {
+				"name": "BARC-2257",
+				"type": "office",
+				"doors": [
+					{ "id": "room2257_door1", "type": "single", "direction": "inout" }
+				]
+			},
+			"2258": {
+				"name": "BARC-2258",
+				"type": "office",
+				"doors": [
+					{ "id": "room2258_door1", "type": "single", "direction": "inout" }
+				]
+			},
+			"2259": {
+				"name": "BARC-2259",
+				"type": "office",
+				"doors": [
+					{ "id": "room2259_door1", "type": "single", "direction": "inout" }
+				]
+			},
+			"2260": {
+				"name": "BARC-2260",
+				"type": "office",
+				"doors": [
+					{ "id": "room2260_door1", "type": "single", "direction": "inout" }
+				]
+			},
+			"2261": {
+				"name": "BARC-2261",
+				"type": "workstation",
+				"doors": [
+					{ "id": "room2261_door1", "type": "single", "direction": "inout" }
+				]
+			},
+			"2262": {
+				"name": "BARC-2262",
+				"type": "office",
+				"doors": [
+					{ "id": "room2262_door1", "type": "single", "direction": "inout" }
+				]
+			},
+			"2263": {
+				"name": "BARC-2263",
+				"type": "office",
+				"doors": [
+					{ "id": "room2263_door1", "type": "single", "direction": "inout" }
+				]
+			},
+			"2264": {
+				"name": "BARC-2264",
+				"type": "office",
+				"doors": [
+					{ "id": "room2264_door1", "type": "single", "direction": "inout" }
+				]
+			},
+			"2265": {
+				"name": "BARC-2265",
+				"type": "office",
+				"doors": [
+					{ "id": "room2265_door1", "type": "single", "direction": "inout" }
+				]
+			},
+			"2266": {
+				"name": "BARC-2266",
+				"type": "conference",
+				"doors": [
+					{ "id": "room2266_door1", "type": "single", "direction": "inout" }
+				]
+			},
+			"2267": {
+				"name": "BARC-2267",
+				"type": "office",
+				"doors": [
+					{ "id": "room2267_door1", "type": "single", "direction": "inout" }
+				]
+			},
+			"2268": {
+				"name": "BARC-2268",
+				"type": "workstation",
+				"doors": [
+					{ "id": "room2268_door1", "type": "single", "direction": "inout" }
+				]
+			},
+			"2269": {
+				"name": "BARC-2269",
+				"type": "office",
+				"doors": [
+					{ "id": "room2269_door1", "type": "single", "direction": "inout" }
+				]
+			},
+			"2270": {
+				"name": "BARC-2270",
+				"type": "office",
+				"doors": [
+					{ "id": "room2270_door1", "type": "single", "direction": "inout" }
+				]
+			},
+			"2271": {
+				"name": "BARC-2271",
+				"type": "office",
+				"doors": [
+					{ "id": "room2271_door1", "type": "single", "direction": "inout" }
+				]
+			},
+			"2272": {
+				"name": "BARC-2272",
+				"type": "workstation",
+				"doors": [
+					{ "id": "room2272_door1", "type": "single", "direction": "inout" }
+				]
+			},
+			"2273": {
+				"name": "BARC-2273",
+				"type": "conference",
+				"doors": [
+					{ "id": "room2273_door1", "type": "single", "direction": "inout" }
+				]
+			},
+			"2274": {
+				"name": "BARC-2274",
+				"type": "office",
+				"doors": [
+					{ "id": "room2274_door1", "type": "single", "direction": "inout" }
+				]
+			},
+			"2275": {
+				"name": "BARC-2275",
+				"type": "office",
+				"doors": [
+					{ "id": "room2275_door1", "type": "single", "direction": "inout" }
+				]
+			},
+			"2276": {
+				"name": "BARC-2276",
+				"type": "office",
+				"doors": [
+					{ "id": "room2276_door1", "type": "single", "direction": "inout" }
+				]
+			},
+			"2277": {
+				"name": "BARC-2277",
+				"type": "roof_access",
+				"doors": [
+					{ "id": "room2277_door1", "type": "single", "direction": "inout" }
+				]
+			}
+		}
+	}
+}
