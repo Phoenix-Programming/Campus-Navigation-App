@@ -241,5 +241,3 @@ __marimo__/
 # Streamlit
 .streamlit/secrets.toml
 /public/data/indoors/BARC/base files
-public/data/indoors/BARC/BARCfloor1.svg
-public/data/indoors/BARC/BARCfloor2.svg
