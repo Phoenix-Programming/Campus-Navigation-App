@@ -3,6 +3,7 @@
 		"1": {
 			"M1100": {
 				"name": "BARC-M1100",
+				"official_name": "Mechanical",
 				"type": "mechanical",
 				"doors": [
 					{ "id": "roomM1100_door1", "type": "double", "direction": "inout" }
@@ -142,15 +143,17 @@
 					{ "id": "room1115_door2", "type": "double", "direction": "inout", "locked": true }
 				]
 			},
-			"1116": { //TODO: is this connected with 1117
+			"1116": {
 				"name": "BARC-1116",
+				"official_name": "Mechanical Engineering Research Lab 1 (Duke Energy Lab)",
 				"type": "materials_lab",
 				"doors": [
 					{ "id": "room1116_door1", "type": "single", "direction": "inout" }
 				]
 			},
-			"1117": {  //TODO: is this connected with 1116?
+			"1117": {
 				"name": "BARC-1117",
+				"official_name": "Mechanical Engineering Research Lab 1",
 				"type": "materials_lab",
 				"doors": [
 					{ "id": "room1117_door1", "type": "double", "direction": "inout" }
@@ -158,6 +161,7 @@
 			},
 			"1118": {
 				"name": "BARC-1118",
+				"official_name": "Custodial Closet",
 				"type": "custodial",
 				"doors": [
 					{ "id": "room1118_door1", "type": "single", "direction": "inout" }
@@ -165,6 +169,7 @@
 			},
 			"1119": {
 				"name": "BARC-1119",
+				"official_name": "Data Closet",
 				"type": "data_closet",
 				"doors": [
 					{ "id": "room1119_door1", "type": "single", "direction": "inout" }
@@ -179,6 +184,7 @@
 			},
 			"1121": {
 				"name": "BARC-1121",
+				"official_name": "Faculty Lounge - Break Room",
 				"type": "break_room",
 				"doors": [
 					{ "id": "room1121_door1", "type": "single", "direction": "inout" }
@@ -186,6 +192,7 @@
 			},
 			"1122": {
 				"name": "BARC-1122",
+				"official_name": "Jake and Sandra Polumbo The Polumbo Group LLC Conference Room",
 				"type": "conference",
 				"doors": [
 					{ "id": "room1122_door1", "type": "single", "direction": "inout" }
@@ -193,6 +200,7 @@
 			},
 			"1123": {
 				"name": "BARC-1123",
+				"official_name": "Dr. Fathema Rashid Classroom",
 				"type": "classroom",
 				"doors": [
 					{ "id": "room1123_door1", "type": "single", "direction": "inout" },
@@ -201,6 +209,7 @@
 			},
 			"1124": {
 				"name": "BARC-1124",
+				"official_name": "Dr. Muhammad H. Rashid Capstone (Capstone Annex)",
 				"type": "workstation",
 				"doors": [
 					{ "id": "room1124_door1", "type": "single", "direction": "inout" }
@@ -224,6 +233,7 @@
 			},
 			"1127": {
 				"name": "BARC-1127",
+				"official_name": "Electrical Room",
 				"type": "electrical",
 				"doors": [
 					{ "id": "room1127_door1", "type": "single", "direction": "inout" }
@@ -231,6 +241,7 @@
 			},
 			"1128": {
 				"name": "BARC-1128",
+				"official_name": "Building Storage",
 				"type": "storage",
 				"doors": [
 					{ "id": "room1128_door1", "type": "single", "direction": "inout" }
@@ -245,6 +256,7 @@
 			},
 			"1130": {
 				"name": "BARC-1130",
+				"official_name": "Event Storage",
 				"type": "storage",
 				"doors": [
 					{ "id": "room1130_door1", "type": "single", "direction": "inout" }
@@ -318,6 +330,7 @@
 			},
 			"1140": {
 				"name": "BARC-1140",
+				"official_name": "Equipment Closet",
 				"type": "equipment_closet",
 				"doors": [
 					{ "id": "room1140_door1", "type": "single", "direction": "inout" }
@@ -325,6 +338,7 @@
 			},
 			"1141": {
 				"name": "BARC-1141",
+				"official_name": "Boring Business Systems Conference Room",
 				"type": "study",
 				"doors": [
 					{ "id": "room1141_door1", "type": "single", "direction": "inout" }
@@ -332,6 +346,7 @@
 			},
 			"1142": {
 				"name": "BARC-1142",
+				"official_name": "Eva Kazmier Memorial Classroom",
 				"type": "classroom",
 				"doors": [
 					{ "id": "room1142_door1", "type": "single", "direction": "inout" }
@@ -339,7 +354,7 @@
 			},
 			"1143": {
 				"name": "BARC-1143",
-				"official_name": "3D Print Lab",
+				"official_name": "3D Print Facility",
 				"type": "3d_print_lab",
 				"doors": [
 					{ "id": "room1143_door1", "type": "single", "direction": "inout" }
@@ -347,6 +362,7 @@
 			},
 			"1144": {
 				"name": "BARC-1144",
+				"official_name": "Materials Charactization Lab",
 				"type": "material_lab",
 				"doors": [
 					{ "id": "room1144_door1", "type": "single", "direction": "inout" }
@@ -354,6 +370,7 @@
 			},
 			"1145": {
 				"name": "BARC-1145",
+				"official_name": "Optics/Laser Lab",
 				"type": "optics_laser_lab",
 				"doors": [
 					{ "id": "room1145_door1", "type": "single", "direction": "inout" }
@@ -361,6 +378,7 @@
 			},
 			"1146": {
 				"name": "BARC-1146",
+				"official_name": "Electrical Room",
 				"type": "electrical",
 				"doors": [
 					{ "id": "room1147_door1", "type": "single", "direction": "inout" }
@@ -368,6 +386,7 @@
 			},
 			"1147": {
 				"name": "BARC-1147",
+				"official_name": "MDF Data Closet",
 				"type": "data_closet",
 				"doors": [
 					{ "id": "room1147_door1", "type": "single", "direction": "inout" }
@@ -375,6 +394,7 @@
 			},
 			"1148": {
 				"name": "BARC-1148",
+				"official_name": "Mechanical Testing Lab",
 				"type": "mechanical_engineering_lab",
 				"doors": [
 					{ "id": "room1148_door1", "type": "single", "direction": "inout" }
@@ -382,6 +402,7 @@
 			},
 			"1149": {
 				"name": "BARC-1149",
+				"official_name": "Study Room",
 				"type": "study",
 				"doors": [
 					{ "id": "room1149_door1", "type": "single", "direction": "inout" }
@@ -389,6 +410,7 @@
 			},
 			"1150": {
 				"name": "BARC-1150",
+				"official_name": "Study Room",
 				"type": "study",
 				"doors": [
 					{ "id": "room1150_door1", "type": "single", "direction": "inout" }
@@ -411,6 +433,7 @@
 			},
 			"1153": {
 				"name": "BARC-1153",
+				"official_name": "Engineering Team Room",
 				"type": "lab",
 				"doors": [
 					{ "id": "room1153_door1", "type": "single", "direction": "inout" }
@@ -434,6 +457,7 @@
 			},
 			"1156": {
 				"name": "BARC-1156",
+				"official_name": "Storage",
 				"type": "storage",
 				"doors": [
 					{ "id": "room1156_door1", "type": "single", "direction": "inout" }
@@ -468,8 +492,9 @@
 					{ "id": "room1160_door1", "type": "single", "direction": "inout" }
 				]
 			},
-			"1162": {  //TODO: 1161 missing
+			"1162": {
 				"name": "BARC-1162",
+				"official_name": "Mike Kalman Fabrication and Applied Science & Technology",
 				"type": "shop",
 				"doors": [
 					{ "id": "room1162_door1", "type": "double", "direction": "inout" },
@@ -486,6 +511,7 @@
 			},
 			"1163": {
 				"name": "BARC-1163",
+				"official_name": "Fabrication and Vehicle Bay",
 				"type": "automotive_shop",
 				"doors": [
 					{ "id": "room1163_door1", "type": "double", "direction": "inout" },
@@ -500,7 +526,7 @@
 					{ "id": "room1163A_door1", "type": "single", "direction": "inout" }
 				]
 			},
-			"1170": { //TODO: 1164, 1165, 1166, 1167, 1168, and 1169 missing
+			"1170": {
 				"name": "BARC-1170",
 				"type": "office",
 				"doors": [
@@ -673,6 +699,7 @@
 			},
 			"2202": {
 				"name": "BARC-2202",
+				"official_name": "Storage",
 				"type": "storage",
 				"doors": [
 					{ "id": "room2200_door1", "type": "single", "direction": "inout" }
@@ -680,6 +707,7 @@
 			},
 			"2203": {
 				"name": "BARC-2203",
+				"official_name": "Storage",
 				"type": "storage",
 				"doors": [
 					{ "id": "room2203_door1", "type": "single", "direction": "inout" }
@@ -687,6 +715,7 @@
 			},
 			"2204": {
 				"name": "BARC-2204",
+				"official_name": "AV Closet",
 				"type": "av_closet",
 				"doors": [
 					{ "id": "room2204_door1", "type": "single", "direction": "inout" }
@@ -694,6 +723,7 @@
 			},
 			"2205": {
 				"name": "BARC-2205",
+				"official_name": "Catering Kitchen",
 				"type": "catering",
 				"doors": [
 					{ "id": "room2205_door1", "type": "single", "direction": "inout" }
@@ -708,6 +738,7 @@
 			},
 			"2207": {
 				"name": "BARC-2207",
+				"official_name": "Carol Jenkins Barnett Chemical Laboratories (Chemistry Teaching Lab)",
 				"type": "chemistry_lab",
 				"doors": [
 					{ "id": "room2207_door1", "type": "single", "direction": "inout" },
@@ -716,6 +747,7 @@
 			},
 			"2208": {
 				"name": "BARC-2208",
+				"official_name": "Chemistry Lab Prep",
 				"type": "lab_prep",
 				"doors": [
 					{ "id": "room2208_door1", "type": "single", "direction": "inout" },
@@ -724,6 +756,7 @@
 			},
 			"2209": {
 				"name": "BARC-2209",
+				"official_name": "Carol Jenkins Barnett Chemical Laboratories (Chemistry Teaching Lab)",
 				"type": "chemistry_lab",
 				"doors": [
 					{ "id": "room2209_door1", "type": "single", "direction": "inout" },
@@ -732,6 +765,7 @@
 			},
 			"2210": {
 				"name": "BARC-2210",
+				"official_name": "Data Closet",
 				"type": "data_closet",
 				"doors": [
 					{ "id": "room2210_door1", "type": "single", "direction": "inout" }
@@ -755,6 +789,7 @@
 			},
 			"2213": {
 				"name": "BARC-2213",
+				"official_name": "Custodial Closet",
 				"type": "custodial",
 				"doors": [
 					{ "id": "room2213_door1", "type": "single", "direction": "inout" }
@@ -762,13 +797,15 @@
 			},
 			"2214": {
 				"name": "BARC-2214",
-				"type": "support",  //TODO: what is this?
+				"official_name": "Cybersecurity Support Facility",
+				"type": "support",
 				"doors": [
 					{ "id": "room2214_door1", "type": "single", "direction": "inout" }
 				]
 			},
 			"2215": {
 				"name": "BARC-2215",
+				"official_name": "Electrical Room",
 				"type": "electrical",
 				"doors": [
 					{ "id": "room2215_door1", "type": "single", "direction": "inout" }
@@ -776,6 +813,7 @@
 			},
 			"2216": {
 				"name": "BARC-2216",
+				"official_name": "Study Room",
 				"type": "study",
 				"doors": [
 					{ "id": "room2216_door1", "type": "single", "direction": "inout" }
@@ -783,14 +821,16 @@
 			},
 			"2217": {
 				"name": "BARC-2217",
-				"type": "dsba", //TODO: what is this?
+				"official_name": "Student Computer Study Lab",
+				"type": "computer_study_lab",
 				"doors": [
 					{ "id": "room2217_door1", "type": "single", "direction": "inout" },
 					{ "id": "room2217_door2", "type": "single", "direction": "inout" }
 				]
 			},
-			"2219": {  //TODO: 2218 is missing
+			"2219": {
 				"name": "BARC-2219",
+				"official_name": "Cybersecurity Lab",
 				"type": "computer_lab",
 				"doors": [
 					{ "id": "room2219_door1", "type": "single", "direction": "inout" }
@@ -798,6 +838,7 @@
 			},
 			"2220": {
 				"name": "BARC-2220",
+				"official_name": "Computer Lab",
 				"type": "computer_lab",
 				"doors": [
 					{ "id": "room2220_door1", "type": "single", "direction": "inout" },
@@ -807,6 +848,7 @@
 			},
 			"2221": {
 				"name": "BARC-2221",
+				"official_name": "Conference Room",
 				"type": "conference",
 				"doors": [
 					{ "id": "room2221_door1", "type": "single", "direction": "inout" }
@@ -814,6 +856,7 @@
 			},
 			"2222": {
 				"name": "BARC-2222",
+				"official_name": "Storage",
 				"type": "storage",
 				"doors": [
 					{ "id": "room2222_door1", "type": "double", "direction": "inout" }
@@ -821,6 +864,7 @@
 			},
 			"2223": {
 				"name": "BARC-2223",
+				"official_name": "Study Room",
 				"type": "study",
 				"doors": [
 					{ "id": "room2223_door1", "type": "single", "direction": "inout" }
@@ -938,8 +982,9 @@
 					{ "id": "room2239_door1", "type": "single", "direction": "inout" }
 				]
 			},
-			"2241": { //TODO: 2241 missing
+			"2241": {
 				"name": "BARC-2241",
+				"official_name": "Engineering Skills & Design Lab",
 				"type": "lab",
 				"doors": [
 					{ "id": "room2241_door1", "type": "single", "direction": "inout" },
@@ -948,6 +993,7 @@
 			},
 			"2242": {
 				"name": "BARC-2242",
+				"official_name": "Computer Science Lab",
 				"type": "lab",
 				"doors": [
 					{ "id": "room2242_door1", "type": "single", "direction": "inout" }
@@ -955,6 +1001,7 @@
 			},
 			"2243": {
 				"name": "BARC-2243",
+				"official_name": "Physics Lab",
 				"type": "lab",
 				"doors": [
 					{ "id": "room2243_door1", "type": "single", "direction": "inout" }
@@ -962,6 +1009,7 @@
 			},
 			"2244": {
 				"name": "BARC-2244",
+				"official_name": "Electrical Engineering Lab",
 				"type": "lab",
 				"doors": [
 					{ "id": "room2244_door1", "type": "single", "direction": "inout" }
@@ -969,6 +1017,7 @@
 			},
 			"2245": {
 				"name": "BARC-2245",
+				"official_name": "Physics Lab",
 				"type": "physics_lab",
 				"doors": [
 					{ "id": "room2245_door1", "type": "single", "direction": "inout" }
@@ -976,6 +1025,7 @@
 			},
 			"2246": {
 				"name": "BARC-2246",
+				"official_name": "Electrical Room",
 				"type": "electrical",
 				"doors": [
 					{ "id": "room2246_door1", "type": "single", "direction": "inout" }
@@ -983,6 +1033,7 @@
 			},
 			"2247": {
 				"name": "BARC-2247",
+				"official_name": "IDF Data Closet",
 				"type": "data_closet",
 				"doors": [
 					{ "id": "room2247_door1", "type": "single", "direction": "inout" }
@@ -990,6 +1041,7 @@
 			},
 			"2248": {
 				"name": "BARC-2248",
+				"official_name": "Environmental Engineering Lab",
 				"type": "lab",
 				"doors": [
 					{ "id": "room2248_door1", "type": "single", "direction": "inout" },
@@ -998,13 +1050,15 @@
 			},
 			"2249": {
 				"name": "BARC-2249",
-				"type": "support", //TODO: what is this?
+				"official_name": "IEEE Student Club",
+				"type": "lab",
 				"doors": [
 					{ "id": "room2249_door1", "type": "single", "direction": "inout" }
 				]
 			},
 			"2250": {
 				"name": "BARC-2250",
+				"official_name": "Shared Support Lab",
 				"type": "lab",
 				"doors": [
 					{ "id": "room2250_door1", "type": "single", "direction": "inout" }
@@ -1012,6 +1066,7 @@
 			},
 			"2251": {
 				"name": "BARC-2251",
+				"official_name": "Chemistry Research Lab",
 				"type": "chemistry_lab",
 				"doors": [
 					{ "id": "room2251_door1", "type": "single", "direction": "inout" }
@@ -1035,6 +1090,7 @@
 			},
 			"2254": {
 				"name": "BARC-2254",
+				"official_name": "Roof Access",
 				"type": "roof_access",
 				"doors": [
 					{ "id": "room2254_door1", "type": "single", "direction": "inout" }
@@ -1042,6 +1098,7 @@
 			},
 			"2255": {
 				"name": "BARC-2255",
+				"official_name": "Mechanical Engineering Research Lab 2",
 				"type": "mechanical_engeering_lab",
 				"doors": [
 					{ "id": "room2255_door1", "type": "single", "direction": "inout" },
@@ -1050,6 +1107,7 @@
 			},
 			"2256": {
 				"name": "BARC-2256",
+				"official_name": "Research Lab",
 				"type": "lab",
 				"doors": [
 					{ "id": "room2256_door1", "type": "single", "direction": "inout" }
@@ -1085,6 +1143,7 @@
 			},
 			"2261": {
 				"name": "BARC-2261",
+				"official_name": "Administrative Assistants Office",
 				"type": "workstation",
 				"doors": [
 					{ "id": "room2261_door1", "type": "single", "direction": "inout" }
@@ -1106,6 +1165,7 @@
 			},
 			"2264": {
 				"name": "BARC-2264",
+				"official_name": "Grant Administration Office",
 				"type": "office",
 				"doors": [
 					{ "id": "room2264_door1", "type": "single", "direction": "inout" }
@@ -1120,6 +1180,7 @@
 			},
 			"2266": {
 				"name": "BARC-2266",
+				"official_name": "Study Room",
 				"type": "conference",
 				"doors": [
 					{ "id": "room2266_door1", "type": "single", "direction": "inout" }
@@ -1134,6 +1195,7 @@
 			},
 			"2268": {
 				"name": "BARC-2268",
+				"official_name": "Admissions Data Processing Office",
 				"type": "workstation",
 				"doors": [
 					{ "id": "room2268_door1", "type": "single", "direction": "inout" }
@@ -1162,6 +1224,7 @@
 			},
 			"2272": {
 				"name": "BARC-2272",
+				"official_name": "University Procurement",
 				"type": "workstation",
 				"doors": [
 					{ "id": "room2272_door1", "type": "single", "direction": "inout" }
@@ -1169,6 +1232,7 @@
 			},
 			"2273": {
 				"name": "BARC-2273",
+				"official_name": "Study Room",
 				"type": "conference",
 				"doors": [
 					{ "id": "room2273_door1", "type": "single", "direction": "inout" }
@@ -1197,6 +1261,7 @@
 			},
 			"2277": {
 				"name": "BARC-2277",
+				"official_name": "Roof Access",
 				"type": "roof_access",
 				"doors": [
 					{ "id": "room2277_door1", "type": "single", "direction": "inout" }
