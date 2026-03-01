@@ -22,53 +22,32 @@ def get_faculty_list() -> str:
 		del tag['style']
 	soup.prettify()
 
-	# extract the faculty directory table
-	first_element: Tag | None = soup.find('div', class_='myth pos1')
-	if not first_element: return r"{}"
+	var_tag: Tag | None = soup.find("script", id="opted-static-directory-js-js-extra")
+	if not var_tag:
+		print("Script tag not found")
+		return r'{}'
 
-	table: Tag | None = first_element.parent
-	if not table: return r"{}"
+	variable: str = var_tag.text.strip()[31:-1]
+	faculty_raw: list[dict[str, str]] = json.loads(variable)['data']['Report_Entry']
+	faculty: list[dict[str, str | None]] = []
 
-	# remove the table headers
-	table_headers: list[Tag] = soup.find_all('div', class_='myth')
-	for header in table_headers:
-		header.decompose()
+	for f in faculty_raw:
+		faculty.append({
+			'firstName': f.get('firstName'),
+			'lastName': f.get('lastName'),
+			'title': f.get('Title'),
+			'department': f.get('Organizations_group'),
+			'page': (
+	   			'https://floridapoly.edu/faculty/bios/' + str(f.get('firstName')).replace(' ', '-') + '-' + str(f.get('lastName')).replace(' ', '-') + '/?email=' + str(f.get('email'))
+		  		if f.get('firstName') and f.get('lastName') and f.get('email')
+				else None
+			),
+			'email': f.get('email'),
+			'phone': f.get('phone'),
+			'officeLocation': f.get('Location'),
+			'office': f.get('Office')
+		})
 
-	# iterate over each faculty member's entry
-	rows: list = list(table.children)
-	faculty: list[dict[str, str]] = []
-
-	for i, row in enumerate(rows):
-		# remove the labels
-		labels: list[Tag] = row.find_all('span', class_='myLabel')
-		for label in labels:
-			label.decompose()
-
-		# extract relevant information and flatten the heirarchy
-		rows[i] = sum([col.find_all(['span', 'a']) for col in row], [])
-
-		# extract the faculty member's information
-		page: str = rows[i][0]['href']
-		name: str = rows[i][1].get_text()
-		title: str = rows[i][2].get_text()
-		email: str = rows[i][3].find('a').get_text()
-		phone: str = rows[i][6].get_text()
-		department: str = rows[i][7].get_text()
-		office: str = rows[i][8].get_text()
-
-		person: dict[str, str] = {
-			'name': name,
-			'title': title,
-			'department': department,
-			'page': 'https://floridapoly.edu' + page,
-			'email': email
-		}
-		if phone: person['phone'] = phone
-		if office: person['office'] = office
-
-		faculty.append(person)
-
-	# convert the python dict to a JSON object
 	json_obj: str = json.dumps(faculty)
 
 	return json_obj
