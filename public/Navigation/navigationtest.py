@@ -57,7 +57,23 @@ class Graph:
             for adjacent, weight in self.graph[node].items():
                 if distances[adjacent] == distance + weight:
                     predecessors[adjacent] = node
-        return distances,predecessors;
+        return distances,predecessors
+    
+    def shortest_path(self, sourceNode, targetNode):
+        _, predecessor = self.shortest_distances(sourceNode);
+        
+        path = [] #path is an empty list
+        current_node = targetNode #start from the target node and work your way backwards still you reach the sourceNode
+
+        while current_node:
+            #while current node exists, backtrack
+            path.append(current_node)
+            current_node = predecessor[current_node]
+
+        #reverse the path and return it
+        path.reverse()
+
+        return path
 
 
 #testing code
@@ -86,4 +102,11 @@ to_F = distances["F"]
 print(f"The shortest distance from B to F is {to_F}")
 
 print("\n")
+print("Predecessor Dictionary: \n")
 print(predecessor, "\n")
+
+path_to_F = G.shortest_path("B","F")
+print(f"The shortest path from B to F is {path_to_F}")
+
+path_to_G = G.shortest_path("A","G")
+print(f"The shortest path from A to G is {path_to_G}")
