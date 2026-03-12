@@ -1,0 +1,26 @@
+{
+  "nodes": [
+    {
+      "node_id": "test1",
+      "connections": [
+        "test2",
+        "test3",
+        "test4"
+      ]
+    },
+    {
+      "node_id": "test2",
+      "connections": [
+        "test1",
+        "test3"
+      ]
+    },
+    {
+      "node_id": "test3",
+      "connections": [
+        "test4",
+        "test5"
+      ]
+    }
+  ]
+}
