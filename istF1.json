@@ -1,0 +1,528 @@
+{
+  "nodes": [
+    {
+      "node_id": "ist_hall_e-w_a_2_f1",
+      "connections": [
+        "ist_hall_e-w_b_2_f1",
+        "ist_entrance_north_1_f1"
+      ]
+    },
+    {
+      "node_id": "ist_hall_e-w_b_2_f1",
+      "connections": [
+        "ist_hall_e-w_a_2_f1",
+        "ist_hall_e-w_c_2_f1"
+      ]
+    },
+    {
+      "node_id": "ist_hall_e-w_c_2_f1",
+      "connections": [
+        "ist_hall_e-w_b_2_f1",
+        "ist_hall_e-w_d_2_f1"
+      ]
+    },
+    {
+      "node_id": "ist_hall_e-w_d_2_f1",
+      "connections": [
+        "ist_hall_e-w_c_2_f1",
+        "ist_hall_e-w_e_2_f1"
+      ]
+    },
+    {
+      "node_id": "ist_hall_e-w_e_2_f1",
+      "connections": [
+        "ist_hall_e-w_d_2_f1",
+        "ist_hall_e-w_f_2_f1"
+      ]
+    },
+    {
+      "node_id": "ist_hall_e-w_f_2_f1",
+      "connections": [
+        "ist_hall_e-w_e_2_f1",
+        "ist_hall_e-w_g_2_f1",
+        "ist_rmdoor_2_1068_f1"
+      ]
+    },
+    {
+      "node_id": "ist_hall_e-w_g_2_f1",
+      "connections": [
+        "ist_hall_e-w_f_2_f1",
+        "ist_rmdoor_1_1068_f1",
+        "ist_rmdoor_2_1068_f1",
+        "ist_entrance_south_1_f1"
+      ]
+    },
+    {
+      "node_id": "ist_hall_e-w_a_1_f1",
+      "connections": [
+        "ist_hall_e-w_b_1_f1",
+        "ist_rmdoor_1_1045_f1",
+        "ist_rmdoor_2_1045_f1",
+        "ist_rmdoor_1_1044_f1",
+        "ist_rmdoor_1_1046_f1",
+        "ist_entrance_north_1_f1"
+      ]
+    },
+    {
+      "node_id": "ist_hall_e-w_b_1_f1",
+      "connections": [
+        "ist_hall_e-w_a_1_f1",
+        "ist_hall_e-w_c_1_f1",
+        "ist_rmdoor_2_1045_f1",
+        "ist_rmdoor_1_1046_f1",
+        "ist_rmdoor_2_1044_f1",
+        "ist_rmdoor_1_1033_f1",
+        "ist_rmdoor_1_1032_f1",
+        "ist_rmdoor_1_1030_f1"
+      ]
+    },
+    {
+      "node_id": "ist_hall_e-w_c_1_f1",
+      "connections": [
+        "ist_hall_e-w_b_1_f1",
+        "ist_hall_e-w_d_1_f1",
+        "ist_rmdoor_2_1032_f1",
+        "ist_rmdoor_2_1030_f1",
+        "ist_rmdoor_1_1028_f1",
+        "ist_rmdoor_1_1026_f1"
+      ]
+    },
+    {
+      "node_id": "ist_hall_e-w_d_1_f1",
+      "connections": [
+        "ist_hall_e-w_c_1_f1",
+        "ist_hall_e-w_e_1_f1",
+        "ist_rmdoor_2_1028_f1",
+        "ist_rmdoor_2_1026_f1",
+        "ist_rmdoor_2_1017_f1",
+        "ist_rmdoor_2_1015_f1"
+      ]
+    },
+    {
+      "node_id": "ist_hall_e-w_e_1_f1",
+      "connections": [
+        "ist_hall_e-w_d_1_f1",
+        "ist_hall_e-w_f_1_f1",
+        "ist_rmdoor_1_1017_f1",
+        "ist_rmdoor_1_1015_f1",
+        "ist_rmdoor_2_1014_f1",
+        "ist_rmdoor_2_1012_f1"
+      ]
+    },
+    {
+      "node_id": "ist_hall_e-w_f_1_f1",
+      "connections": [
+        "ist_hall_e-w_e_1_f1",
+        "ist_hall_e-w_g_1_f1",
+        "ist_rmdoor_1_1014_f1",
+        "ist_rmdoor_1_1012_f1",
+        "ist_rmdoor_1_1004_f1",
+        "ist_rmdoor_2_1003_f1",
+        "ist_rmdoor_2_1002_f1"
+      ]
+    },
+    {
+      "node_id": "ist_hall_e-w_g_1_f1",
+      "connections": [
+        "ist_hall_e-w_f_1_f1",
+        "ist_rmdoor_1_1003_f1",
+        "ist_rmdoor_2_1002_f1",
+        "ist_rmdoor_1_1002_f1",
+        "ist_entrance_south_1_f1"
+      ]
+    },
+    {
+      "node_id": "ist_hall_n-s_a_1_f1",
+      "connections": [
+        "ist_hall_n-s_b_1_f1"
+      ]
+    },
+    {
+      "node_id": "ist_hall_n-s_b_1_f1",
+      "connections": [
+        "ist_hall_n-s_a_1_f1"
+      ]
+    },
+    {
+      "node_id": "ist_hall_n-s_a_3_f1",
+      "connections": [
+        "ist_hall_n-s_b_3_f1"
+      ]
+    },
+    {
+      "node_id": "ist_hall_n-s_b_3_f1",
+      "connections": [
+        "ist_hall_n-s_a_3_f1"
+      ]
+    },
+    {
+      "node_id": "ist_hall_n-s_a_2_f1",
+      "connections": [
+        "ist_hall_n-s_b_2_f1"
+      ]
+    },
+    {
+      "node_id": "ist_hall_n-s_b_2_f1",
+      "connections": [
+        "ist_hall_n-s_a_2_f1",
+        "ist_hall_n-s_c_2_f1"
+      ]
+    },
+    {
+      "node_id": "ist_hall_n-s_c_2_f1",
+      "connections": [
+        "ist_hall_n-s_b_2_f1",
+        "ist_hall_n-s_d_2_f1"
+      ]
+    },
+    {
+      "node_id": "ist_hall_n-s_d_2_f1",
+      "connections": [
+        "ist_hall_n-s_c_2_f1",
+        "ist_hall_n-s_e_2_f1"
+      ]
+    },
+    {
+      "node_id": "ist_hall_n-s_e_2_f1",
+      "connections": [
+        "ist_hall_n-s_d_2_f1"
+      ]
+    },
+    {
+      "node_id": "ist_rmdoor_1_1045_f1",
+      "connections": [
+        "ist_rm_1045_f1",
+        "ist_entrance_north_1_f1",
+        "ist_hall_e-w_a_1_f1"
+      ]
+    },
+    {
+      "node_id": "ist_rm_1045_f1",
+      "connections": [
+        "ist_rmdoor_1_1045_f1",
+        "ist_rmdoor_2_1045_f1"
+      ]
+    },
+    {
+      "node_id": "ist_rmdoor_2_1045_f1",
+      "connections": [
+        "ist_rm_1045_f1",
+        "ist_hall_e-w_b_1_f1",
+        "ist_hall_e-w_a_1_f1"
+      ]
+    },
+    {
+      "node_id": "ist_rmdoor_1_1044_f1",
+      "connections": [
+        "ist_rm_1044_f1",
+        "ist_hall_e-w_a_1_f1"
+      ]
+    },
+    {
+      "node_id": "ist_rm_1044_f1",
+      "connections": [
+        "ist_rmdoor_1_1044_f1",
+        "ist_rmdoor_2_1044_f1"
+      ]
+    },
+    {
+      "node_id": "ist_rmdoor_1_1046_f1",
+      "connections": [
+        "ist_rm_1046_f1",
+        "ist_hall_e-w_a_1_f1",
+        "ist_hall_e-w_b_1_f1"
+      ]
+    },
+    {
+      "node_id": "ist_rm_1046_f1",
+      "connections": [
+        "ist_rmdoor_1_1046_f1"
+      ]
+    },
+    {
+      "node_id": "ist_rmdoor_2_1044_f1",
+      "connections": [
+        "ist_rm_1044_f1",
+        "ist_hall_e-w_b_1_f1"
+      ]
+    },
+    {
+      "node_id": "ist_rmdoor_1_1033_f1",
+      "connections": [
+        "ist_rm_1033_f1",
+        "ist_hall_e-w_b_1_f1"
+      ]
+    },
+    {
+      "node_id": "ist_rm_1033_f1",
+      "connections": [
+        "ist_rmdoor_1_1033_f1"
+      ]
+    },
+    {
+      "node_id": "ist_rmdoor_1_1032_f1",
+      "connections": [
+        "ist_rm_1032_f1",
+        "ist_hall_e-w_b_1_f1"
+      ]
+    },
+    {
+      "node_id": "ist_rm_1032_f1",
+      "connections": [
+        "ist_rmdoor_1_1032_f1",
+        "ist_rmdoor_2_1032_f1"
+      ]
+    },
+    {
+      "node_id": "ist_rmdoor_2_1032_f1",
+      "connections": [
+        "ist_rm_1032_f1",
+        "ist_hall_e-w_c_1_f1"
+      ]
+    },
+    {
+      "node_id": "ist_rmdoor_1_1030_f1",
+      "connections": [
+        "ist_rm_1030_f1",
+        "ist_hall_e-w_b_1_f1"
+      ]
+    },
+    {
+      "node_id": "ist_rm_1030_f1",
+      "connections": [
+        "ist_rmdoor_1_1030_f1",
+        "ist_rmdoor_2_1030_f1"
+      ]
+    },
+    {
+      "node_id": "ist_rmdoor_2_1030_f1",
+      "connections": [
+        "ist_rm_1030_f1",
+        "ist_hall_e-w_c_1_f1"
+      ]
+    },
+    {
+      "node_id": "ist_rmdoor_1_1028_f1",
+      "connections": [
+        "ist_rm_1028_f1",
+        "ist_hall_e-w_c_1_f1"
+      ]
+    },
+    {
+      "node_id": "ist_rm_1028_f1",
+      "connections": [
+        "ist_rmdoor_1_1028_f1",
+        "ist_rmdoor_2_1028_f1"
+      ]
+    },
+    {
+      "node_id": "ist_rmdoor_2_1028_f1",
+      "connections": [
+        "ist_rm_1028_f1",
+        "ist_hall_e-w_d_1_f1"
+      ]
+    },
+    {
+      "node_id": "ist_rmdoor_1_1026_f1",
+      "connections": [
+        "ist_rm_1026_f1",
+        "ist_hall_e-w_c_1_f1"
+      ]
+    },
+    {
+      "node_id": "ist_rm_1026_f1",
+      "connections": [
+        "ist_rmdoor_1_1026_f1",
+        "ist_rmdoor_2_1026_f1"
+      ]
+    },
+    {
+      "node_id": "ist_rmdoor_2_1026_f1",
+      "connections": [
+        "ist_rm_1026_f1",
+        "ist_hall_e-w_d_1_f1"
+      ]
+    },
+    {
+      "node_id": "ist_rmdoor_2_1017_f1",
+      "connections": [
+        "ist_rm_1017_f1",
+        "ist_hall_e-w_d_1_f1"
+      ]
+    },
+    {
+      "node_id": "ist_rm_1017_f1",
+      "connections": [
+        "ist_rmdoor_2_1017_f1",
+        "ist_rmdoor_1_1017_f1"
+      ]
+    },
+    {
+      "node_id": "ist_rmdoor_1_1017_f1",
+      "connections": [
+        "ist_rm_1017_f1",
+        "ist_hall_e-w_e_1_f1"
+      ]
+    },
+    {
+      "node_id": "ist_rmdoor_2_1015_f1",
+      "connections": [
+        "ist_rm_1015_f1",
+        "ist_hall_e-w_d_1_f1"
+      ]
+    },
+    {
+      "node_id": "ist_rm_1015_f1",
+      "connections": [
+        "ist_rmdoor_2_1015_f1",
+        "ist_rmdoor_1_1015_f1"
+      ]
+    },
+    {
+      "node_id": "ist_rmdoor_1_1015_f1",
+      "connections": [
+        "ist_rm_1015_f1",
+        "ist_hall_e-w_e_1_f1"
+      ]
+    },
+    {
+      "node_id": "ist_rmdoor_2_1014_f1",
+      "connections": [
+        "ist_rm_1014_f1",
+        "ist_hall_e-w_e_1_f1"
+      ]
+    },
+    {
+      "node_id": "ist_rm_1014_f1",
+      "connections": [
+        "ist_rmdoor_2_1014_f1",
+        "ist_rmdoor_1_1014_f1"
+      ]
+    },
+    {
+      "node_id": "ist_rmdoor_1_1014_f1",
+      "connections": [
+        "ist_rm_1014_f1",
+        "ist_hall_e-w_f_1_f1"
+      ]
+    },
+    {
+      "node_id": "ist_rmdoor_2_1012_f1",
+      "connections": [
+        "ist_rm_1012_f1",
+        "ist_hall_e-w_e_1_f1"
+      ]
+    },
+    {
+      "node_id": "ist_rm_1012_f1",
+      "connections": [
+        "ist_rmdoor_2_1012_f1",
+        "ist_rmdoor_1_1012_f1"
+      ]
+    },
+    {
+      "node_id": "ist_rmdoor_1_1012_f1",
+      "connections": [
+        "ist_rm_1012_f1",
+        "ist_hall_e-w_f_1_f1"
+      ]
+    },
+    {
+      "node_id": "ist_rmdoor_1_1004_f1",
+      "connections": [
+        "ist_rm_1004_f1",
+        "ist_hall_e-w_f_1_f1"
+      ]
+    },
+    {
+      "node_id": "ist_rm_1004_f1",
+      "connections": [
+        "ist_rmdoor_1_1004_f1"
+      ]
+    },
+    {
+      "node_id": "ist_rmdoor_2_1003_f1",
+      "connections": [
+        "ist_rm_1003_f1",
+        "ist_hall_e-w_f_1_f1"
+      ]
+    },
+    {
+      "node_id": "ist_rm_1003_f1",
+      "connections": [
+        "ist_rmdoor_2_1003_f1",
+        "ist_rmdoor_1_1003_f1"
+      ]
+    },
+    {
+      "node_id": "ist_rmdoor_1_1003_f1",
+      "connections": [
+        "ist_rm_1003_f1",
+        "ist_hall_e-w_g_1_f1"
+      ]
+    },
+    {
+      "node_id": "ist_rmdoor_2_1002_f1",
+      "connections": [
+        "ist_rm_1002_f1",
+        "ist_hall_e-w_f_1_f1",
+        "ist_hall_e-w_g_1_f1"
+      ]
+    },
+    {
+      "node_id": "ist_rm_1002_f1",
+      "connections": [
+        "ist_rmdoor_2_1002_f1",
+        "ist_rmdoor_1_1002_f1"
+      ]
+    },
+    {
+      "node_id": "ist_rmdoor_1_1002_f1",
+      "connections": [
+        "ist_rm_1002_f1",
+        "ist_hall_e-w_g_1_f1",
+        "ist_entrance_south_1_f1"
+      ]
+    },
+    {
+      "node_id": "ist_rmdoor_1_1068_f1",
+      "connections": [
+        "ist_rm_1068_f1",
+        "ist_entrance_south_1_f1",
+        "ist_hall_e-w_g_2_f1"
+      ]
+    },
+    {
+      "node_id": "ist_rm_1068_f1",
+      "connections": [
+        "ist_rmdoor_1_1068_f1",
+        "ist_rmdoor_2_1068_f1"
+      ]
+    },
+    {
+      "node_id": "ist_rmdoor_2_1068_f1",
+      "connections": [
+        "ist_rm_1068_f1",
+        "ist_hall_e-w_g_2_f1",
+        "ist_hall_e-w_f_2_f1"
+      ]
+    },
+    {
+      "node_id": "ist_entrance_north_1_f1",
+      "connections": [
+        "ist_rmdoor_1_1045_f1",
+        "ist_hall_e-w_a_1_f1",
+        "ist_hall_e-w_a_2_f1"
+      ]
+    },
+    {
+      "node_id": "ist_entrance_south_1_f1",
+      "connections": [
+        "ist_rmdoor_1_1002_f1",
+        "ist_rmdoor_1_1068_f1",
+        "ist_hall_e-w_g_2_f1",
+        "ist_hall_e-w_g_1_f1"
+      ]
+    }
+  ]
+}
