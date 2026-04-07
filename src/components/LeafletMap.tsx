@@ -73,6 +73,10 @@ export default function LeafletMap() {
 			minZoom={16}
 			maxZoom={20}
 			className="map-container"
+			maxBounds={[
+				[28.152252975549075, -81.85449203443713],
+				[28.143692836097017, -81.84371128216179]
+			]}
 		>
 			<LayersControl position="topright">
 				<BaseLayer checked name="Map">
