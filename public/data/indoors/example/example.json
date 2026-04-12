@@ -1,95 +1,119 @@
-{
-  "nodes": [
-    {
-      "node_id": "ist_hall_e-w_a_1_f1",
-      "connections": [
-        "ist_hall_e-w_b_1_f1",
-        "ist_entrance_north_1_f1",
-        "ist_rmdoor_1_3_f1",
-        "ist_entrance_south_1_f1"
-      ]
+[
+  {
+    "node_id": "ist_hall_e-w_a_1_f1",
+    "connections": {
+      "ist_hall_e-w_b_1_f1": 3.409374808574974,
+      "ist_entrance_north_1_f1": 1.5846967911898393,
+      "ist_rmdoor_1_3_f1": 1.456790033949602,
+      "ist_entrance_south_1_f1": 3.4612061191390993
     },
-    {
-      "node_id": "ist_hall_e-w_b_1_f1",
-      "connections": [
-        "ist_hall_e-w_a_1_f1",
-        "ist_hall_e-w_c_1_f1",
-        "ist_rmdoor_1_2_f1"
-      ]
+    "type": "hall",
+    "role": "routing"
+  },
+  {
+    "node_id": "ist_hall_e-w_b_1_f1",
+    "connections": {
+      "ist_hall_e-w_a_1_f1": 3.409374808574974,
+      "ist_hall_e-w_c_1_f1": 3.3603129724915166,
+      "ist_rmdoor_1_2_f1": 1.5266206924816101
     },
-    {
-      "node_id": "ist_hall_e-w_c_1_f1",
-      "connections": [
-        "ist_hall_e-w_b_1_f1",
-        "ist_rmdoor_1_1_f1"
-      ]
+    "type": "hall",
+    "role": "routing"
+  },
+  {
+    "node_id": "ist_hall_e-w_c_1_f1",
+    "connections": {
+      "ist_hall_e-w_b_1_f1": 3.3603129724915166,
+      "ist_rmdoor_1_1_f1": 1.5530793671693495
     },
-    {
-      "node_id": "ist_entrance_north_1_f1",
-      "connections": [
-        "ist_hall_e-w_a_1_f1",
-        "ist_entrance_south_1_f1"
-      ]
+    "type": "hall",
+    "role": "routing"
+  },
+  {
+    "node_id": "ist_entrance_north_1_f1",
+    "connections": {
+      "ist_hall_e-w_a_1_f1": 1.5846967911898393,
+      "ist_entrance_south_1_f1": 3.867639430910501
     },
-    {
-      "node_id": "ist_rmdoor_1_3_f1",
-      "connections": [
-        "ist_rm_3_f1",
-        "ist_hall_e-w_a_1_f1"
-      ]
+    "type": "entrance",
+    "role": "routing"
+  },
+  {
+    "node_id": "ist_entrance_south_1_f1",
+    "connections": {
+      "ist_hall_e-w_a_1_f1": 3.4612061191390993,
+      "ist_entrance_north_1_f1": 3.867639430910501,
+      "ist_rmdoor_1_4_f1": 2.1776468602679886
     },
-    {
-      "node_id": "ist_rmdoor_1_2_f1",
-      "connections": [
-        "ist_rm_2_f1",
-        "ist_hall_e-w_b_1_f1"
-      ]
+    "type": "entrance",
+    "role": "routing"
+  },
+  {
+    "node_id": "ist_rm_1_f1",
+    "connections": {
+      "ist_rmdoor_1_1_f1": 1.0322150796869825
     },
-    {
-      "node_id": "ist_rmdoor_1_1_f1",
-      "connections": [
-        "ist_rm_1_f1",
-        "ist_hall_e-w_c_1_f1"
-      ]
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "node_id": "ist_rm_2_f1",
+    "connections": {
+      "ist_rmdoor_1_2_f1": 1.0085458971780374
     },
-    {
-      "node_id": "ist_rmdoor_1_4_f1",
-      "connections": [
-        "ist_rm_4_f1",
-        "ist_entrance_south_1_f1"
-      ]
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "node_id": "ist_rm_3_f1",
+    "connections": {
+      "ist_rmdoor_1_3_f1": 1.042048430586922
     },
-    {
-      "node_id": "ist_entrance_south_1_f1",
-      "connections": [
-        "ist_hall_e-w_a_1_f1",
-        "ist_entrance_north_1_f1",
-        "ist_rmdoor_1_4_f1"
-      ]
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "node_id": "ist_rm_4_f1",
+    "connections": {
+      "ist_rmdoor_1_4_f1": 2.936876980000001
     },
-    {
-      "node_id": "ist_rm_2_f1",
-      "connections": [
-        "ist_rmdoor_1_2_f1"
-      ]
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "node_id": "ist_rmdoor_1_1_f1",
+    "connections": {
+      "ist_rm_1_f1": 1.0322150796869825,
+      "ist_hall_e-w_c_1_f1": 1.5530793671693495
     },
-    {
-      "node_id": "ist_rm_4_f1",
-      "connections": [
-        "ist_rmdoor_1_4_f1"
-      ]
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "node_id": "ist_rmdoor_1_2_f1",
+    "connections": {
+      "ist_rm_2_f1": 1.0085458971780374,
+      "ist_hall_e-w_b_1_f1": 1.5266206924816101
     },
-    {
-      "node_id": "ist_rm_1_f1",
-      "connections": [
-        "ist_rmdoor_1_1_f1"
-      ]
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "node_id": "ist_rmdoor_1_3_f1",
+    "connections": {
+      "ist_rm_3_f1": 1.042048430586922,
+      "ist_hall_e-w_a_1_f1": 1.456790033949602
     },
-    {
-      "node_id": "ist_rm_3_f1",
-      "connections": [
-        "ist_rmdoor_1_3_f1"
-      ]
-    }
-  ]
-}
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "node_id": "ist_rmdoor_1_4_f1",
+    "connections": {
+      "ist_rm_4_f1": 2.936876980000001,
+      "ist_entrance_south_1_f1": 2.1776468602679886
+    },
+    "type": "rmdoor",
+    "role": "routing"
+  }
+]
