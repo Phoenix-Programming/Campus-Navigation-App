@@ -20,8 +20,8 @@ WIP features:
 */
 
 export default function App() {
-    const [svg, setSvg] = useState(null);
-    const [json, setJson] = useState(null);
+    const [svg, setSvg] = useState(null); //saves url to svg to display
+    const [json, setJson] = useState(null); //json object from parsed json
 
   return (
     <div>
@@ -44,7 +44,9 @@ function Upload({ setSvg, setJson }) {
         const f = e.target.files[0];
 
         if (f.type === "application/json") { //check if the uploaded file is a JSON
-          setJson(URL.createObjectURL(f));
+          f.text().then(text => {
+            const data = JSON.parse(text);
+            setJson(data);
 
           if (uplState === 2){ //if the svg file has already been uploaded, set the state to 3 to indicate that both files have been uploaded
             setUplState(3);
@@ -53,6 +55,7 @@ function Upload({ setSvg, setJson }) {
             setUplState(1); //set state to 1 to indicate that the JSON file has been uploaded
           }
           return;
+          });
         }
         else if (f.type === "image/svg+xml") {
           setSvg(URL.createObjectURL(f));
