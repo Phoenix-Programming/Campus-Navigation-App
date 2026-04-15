@@ -1,0 +1,46 @@
+.viewer {
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    background-color: #212121;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #212121;
+}
+
+.instructions {
+    padding: 20px;
+    margin: auto;
+    color: #fff;
+    font-family: Arial, sans-serif;
+    max-width: 300px;
+}
+.upload {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+}
+
+.uploadBtn {
+    padding: 10px 16px;
+    background: #424242;
+    color: white;
+    border-radius: 6px;
+    cursor: pointer;
+    display: inline-block;
+    text-align: center;
+}
+
+.uploadBtn input {
+    display: none;
+}
+
+
+
