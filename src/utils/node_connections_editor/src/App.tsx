@@ -25,7 +25,8 @@ export default function App() {
 
   return (
     <div>
-        <Upload setSvg={setSvg} setJson={setJson} {/*display the upload component*/}/>
+        {/*display the upload component*/}
+        <Upload setSvg={setSvg} setJson={setJson}/>
 
         {json && svg && <SVGViewer src={svg} />} {/*display the SVG viewer if both files have been uploaded*/}
 
