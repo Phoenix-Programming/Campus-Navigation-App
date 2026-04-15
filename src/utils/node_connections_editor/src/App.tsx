@@ -1,18 +1,39 @@
 import { useState, useRef } from 'react'
 import './assets/styles.css'
 
+/*
+
+Campus Navigation Project: FPU
+
+enter the directory of the node_connections_editor with cd src/utils/node_connections_editor
+run with npm run dev
+
+This is the main code for the node_connections_editor. 
+It allows users to upload an SVG file and a JSON file, and then displays the SVG file in a viewer.
+The viewer supports panning and zooming using the middle mouse button and scroll wheel, respectively.
+
+
+
+
+*/
+
 export default function App() {
+    const [svg, setSvg] = useState(null);
+    const [json, setJson] = useState(null);
 
   return (
-    <Upload />
+    <div>
+        <Upload setSvg={setSvg} setJson={setJson} />
+
+        {json && svg && <SVGViewer src={svg} />} {/*display the SVG viewer if both files have been uploaded*/}
+
+    </div>
   )
 }
 
 
 
-function Upload() {
-    const [svg, setSvg] = useState(null);
-    const [json, setJson] = useState(null);
+function Upload({ setSvg, setJson }) {
     const [uplState, setUplState] = useState(0);
 
     function handleChange(e) {
@@ -20,12 +41,23 @@ function Upload() {
 
         if (f.type === "application/json") { //check if the uploaded file is a JSON
           setJson(URL.createObjectURL(f));
-          setUplState(uplState + 1);
+
+          if (uplState === 2){ //if the svg file has already been uploaded, set the state to 3 to indicate that both files have been uploaded
+            setUplState(3);
+          }
+          else if (uplState === 0) {
+            setUplState(1); //set state to 1 to indicate that the JSON file has been uploaded
+          }
           return;
         }
         else if (f.type === "image/svg+xml") {
           setSvg(URL.createObjectURL(f));
-          setUplState(uplState + 1);
+          if (uplState === 1){ //if the json file has already been uploaded, set the state to 3 to indicate that both files have been uploaded
+            setUplState(3);
+          }
+          else if (uplState === 0) {
+            setUplState(2); //set state to 2 to indicate that the SVG file has been uploaded
+          }
           return;
         }
         else {
@@ -36,26 +68,26 @@ function Upload() {
 
     return (
         <div>
-            {uplState < 2 &&
+            {uplState !== 3 &&
             <div className='instructions'>
                 <p>Upload a JSON file containing the graph data and an SVG file containing the graph visualization.</p>
                 <p>Use the middle mouse button to pan around the SVG and the scroll wheel to zoom in and out.</p>
             </div>}
             <div className="upload">
-            {uplState !== 2 && (
+            {uplState !== 3 && (
                 <label className="uploadBtn">
-                    {svg == null ? "Upload SVG" : "SVG Uploaded"}
+                    {uplState === 0 || uplState === 1 ? "Upload SVG" : "SVG Uploaded"}
                     <input type="file" accept=".svg" onChange={handleChange} />
                 </label>
             )}
-            {uplState !== 2 && (
+            {uplState !== 3 && (
                 <label className="uploadBtn">
-                    {json == null ? "Upload JSON" : "JSON Uploaded"}
+                    {uplState === 0 || uplState === 2 ? "Upload JSON" : "JSON Uploaded"}
                     <input type="file" accept=".json" onChange={handleChange} />
                 </label>
             )}
             </div>
-            {json && svg && <SVGViewer src={svg} />} {/*display the SVG viewer if a file has been uploaded*/}
+            
         </div>
     );
 }
