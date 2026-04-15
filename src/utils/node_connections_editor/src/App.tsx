@@ -12,6 +12,8 @@ This is the main code for the node_connections_editor.
 It allows users to upload an SVG file and a JSON file, and then displays the SVG file in a viewer.
 The viewer supports panning and zooming using the middle mouse button and scroll wheel, respectively.
 
+WIP features:
+- The JSON file will be used to add all nodes to the svg as circles and add events to create edges between nodes by clicking on them.
 
 
 
@@ -23,7 +25,7 @@ export default function App() {
 
   return (
     <div>
-        <Upload setSvg={setSvg} setJson={setJson} />
+        <Upload setSvg={setSvg} setJson={setJson} {/*display the upload component*/}/>
 
         {json && svg && <SVGViewer src={svg} />} {/*display the SVG viewer if both files have been uploaded*/}
 
@@ -32,7 +34,8 @@ export default function App() {
 }
 
 
-
+//Component for handling file uploads and displaying instructions to the user
+//hides itself once both files have been uploaded and passes both files to the parent component (App) through the setSvg and setJson functions
 function Upload({ setSvg, setJson }) {
     const [uplState, setUplState] = useState(0);
 
@@ -92,6 +95,7 @@ function Upload({ setSvg, setJson }) {
     );
 }
 
+//Component for displaying the uploaded SVG file and handling panning and zooming interactions
 function SVGViewer({ src }) {
     const [scale, setScale] = useState(0.1);
     const [pos, setPos] = useState({ x: 0, y: 0 });
