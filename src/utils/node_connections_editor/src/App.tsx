@@ -42,48 +42,7 @@ export default function App() {
 
         {json && svg && <SVGViewer src={svg} json={json} setHoveredNode={setHoveredNode} setSelectedNode={setSelect} />} {/*display the SVG viewer if both files have been uploaded*/}
 
-        {json && svg && <div className = "overlay">
-            <div className='connectionsBtn'>
-                Add connection
-            </div>
-            <br></br>
-            <div className='connectionsBtn'>
-                Remove connection
-            </div>
-            {secondSelectedNode &&
-            <>
-                <h1>Selected Node</h1>
-                <div>
-                ID: {secondSelectedNode.id}
-                <br />
-                Type: {secondSelectedNode.type}
-                <br />
-                Role: {secondSelectedNode.role}
-                </div></>
-                }
-            {selectedNode &&
-            <>
-                <h1>Selected Node</h1>
-                <div>
-                ID: {selectedNode.id}
-                <br />
-                Type: {selectedNode.type}
-                <br />
-                Role: {selectedNode.role}
-                </div></>
-                }
-            {hoveredNode && hoveredNode != selectedNode &&
-            <>
-                <h1>Hovering over</h1>
-                <div>
-                ID: {hoveredNode.id}
-                <br />
-                Type: {hoveredNode.type}
-                <br />
-                Role: {hoveredNode.role}
-                </div></>
-                }
-            </div>}
+        {json && svg && <Overlay selectedNode={selectedNode} secondSelectedNode={secondSelectedNode} hoveredNode={hoveredNode}/>}
     </div>
   )
 }
@@ -272,4 +231,53 @@ function Nodes({ json, setHoveredNode, setSelectedNode, selectedNode }) {
             })}
         </div>
         );
+}
+
+//Component for managing and displaying the overlay
+function Overlay({selectedNode, secondSelectedNode, hoveredNode}){
+    return (
+
+        <div className = "overlay">
+            <div className='connectionsBtn'>
+                Add connection
+            </div>
+            <br></br>
+            <div className='connectionsBtn'>
+                Remove connection
+            </div>
+            {secondSelectedNode &&
+            <>
+                <h1>Selected Node</h1>
+                <div>
+                ID: {secondSelectedNode.id}
+                <br />
+                Type: {secondSelectedNode.type}
+                <br />
+                Role: {secondSelectedNode.role}
+                </div></>
+                }
+            {selectedNode &&
+            <>
+                <h1>Selected Node</h1>
+                <div>
+                ID: {selectedNode.id}
+                <br />
+                Type: {selectedNode.type}
+                <br />
+                Role: {selectedNode.role}
+                </div></>
+                }
+            {hoveredNode && hoveredNode != selectedNode &&
+            <>
+                <h1>Hovering over</h1>
+                <div>
+                ID: {hoveredNode.id}
+                <br />
+                Type: {hoveredNode.type}
+                <br />
+                Role: {hoveredNode.role}
+                </div></>
+                }
+        </div>
+    )
 }
