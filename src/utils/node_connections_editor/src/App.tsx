@@ -29,24 +29,61 @@ export default function App() {
 
     const [connections, setConnections] = useState([]); //array of objects for connections between nodes, each object has the format { id: string, connections: string[] }
 
-    
+    function setSelect (node){ //function that is called to select a node
+        if (node !== selectedNode){
+            setSecondSelectedNode(selectedNode);
+        }
+        setSelectedNode(node);
+    }
   return (
     <div>
         {/*display the upload component*/}
         <Upload setSvg={setSvg} setJson={setJson}/>
 
-        {json && svg && <SVGViewer src={svg} json={json} setHoveredNode={setHoveredNode} setSelectedNode={setSelectedNode} />} {/*display the SVG viewer if both files have been uploaded*/}
+        {json && svg && <SVGViewer src={svg} json={json} setHoveredNode={setHoveredNode} setSelectedNode={setSelect} />} {/*display the SVG viewer if both files have been uploaded*/}
 
-        <div className = "overlay">
-            {hoveredNode &&
+        {json && svg && <div className = "overlay">
+            <div className='connectionsBtn'>
+                Add connection
+            </div>
+            <br></br>
+            <div className='connectionsBtn'>
+                Remove connection
+            </div>
+            {secondSelectedNode &&
+            <>
+                <h1>Selected Node</h1>
+                <div>
+                ID: {secondSelectedNode.id}
+                <br />
+                Type: {secondSelectedNode.type}
+                <br />
+                Role: {secondSelectedNode.role}
+                </div></>
+                }
+            {selectedNode &&
+            <>
+                <h1>Selected Node</h1>
+                <div>
+                ID: {selectedNode.id}
+                <br />
+                Type: {selectedNode.type}
+                <br />
+                Role: {selectedNode.role}
+                </div></>
+                }
+            {hoveredNode && hoveredNode != selectedNode &&
+            <>
+                <h1>Hovering over</h1>
                 <div>
                 ID: {hoveredNode.id}
                 <br />
                 Type: {hoveredNode.type}
                 <br />
                 Role: {hoveredNode.role}
-                </div>}
-        </div>
+                </div></>
+                }
+            </div>}
     </div>
   )
 }

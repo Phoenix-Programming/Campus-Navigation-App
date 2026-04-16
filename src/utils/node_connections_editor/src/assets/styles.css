@@ -14,6 +14,13 @@ body {
     background-color: #212121;
 }
 
+h1 {
+    text-align: center;
+    font-size: large;
+    margin-bottom: 0;
+    margin-top: 0;
+    font-family: Arial, sans-serif;
+}
 .instructions {
     padding: 20px;
     margin: auto;
@@ -36,6 +43,7 @@ body {
     cursor: pointer;
     display: inline-block;
     text-align: center;
+    user-select: none;
 }
 
 .uploadBtn input {
@@ -44,6 +52,7 @@ body {
 
 .overlay {
     padding: 15px 15px;
+    line-height: normal;
 
     border-radius: 10px 10px;
     border-width: 5px;
@@ -56,6 +65,20 @@ body {
     z-index: 999999;
     background: rgb(40, 40, 40);
     color: white;
+    user-select: none;
+}
+
+.connectionsBtn {
+    padding: 12px 12px;
+    background: #424242;
+    color: white;
+    border-radius: 6px;
+    cursor: pointer;
+    display: inline-block;
+    text-align: center;
+    user-select: none;
+    width: 16dvb;
+    margin-bottom: 2px;
 }
 
 
