@@ -42,12 +42,19 @@ body {
     display: none;
 }
 
-.node-info {
+.overlay {
+    padding: 15px 15px;
+
+    border-radius: 10px 10px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #6E35AE;
+
     position: fixed;
-    top: 10px;
+    bottom: 10px;
     right: 10px;
     z-index: 999999;
-    background: black;
+    background: rgb(40, 40, 40);
     color: white;
 }
 

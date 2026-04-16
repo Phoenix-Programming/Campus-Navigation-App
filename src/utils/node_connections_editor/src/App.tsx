@@ -23,13 +23,30 @@ export default function App() {
     const [svg, setSvg] = useState(null); //saves url to svg to display
     const [json, setJson] = useState(null); //json object from parsed json
 
+    const [hoveredNode, setHoveredNode] = useState(null); //state to keep track of which node is currently being hovered over (for overlay info)
+    const [selectedNode, setSelectedNode] = useState(null); //state to keep track of which node is currently selected (for edge creation)
+    const [secondSelectedNode, setSecondSelectedNode] = useState(null); //state to keep track of the second node selected for edge creation
+
+    const [connections, setConnections] = useState([]); //array of objects for connections between nodes, each object has the format { id: string, connections: string[] }
+
+    
   return (
     <div>
         {/*display the upload component*/}
         <Upload setSvg={setSvg} setJson={setJson}/>
 
-        {json && svg && <SVGViewer src={svg} json={json} />} {/*display the SVG viewer if both files have been uploaded*/}
+        {json && svg && <SVGViewer src={svg} json={json} setHoveredNode={setHoveredNode} setSelectedNode={setSelectedNode} />} {/*display the SVG viewer if both files have been uploaded*/}
 
+        <div className = "overlay">
+            {hoveredNode &&
+                <div>
+                ID: {hoveredNode.id}
+                <br />
+                Type: {hoveredNode.type}
+                <br />
+                Role: {hoveredNode.role}
+                </div>}
+        </div>
     </div>
   )
 }
@@ -101,7 +118,7 @@ function Upload({ setSvg, setJson }) {
 }
 
 //Component for displaying the uploaded SVG file and handling panning and zooming interactions
-function SVGViewer({ src , json}) {
+function SVGViewer({ src , json, setHoveredNode, selectedNode, setSelectedNode }) {
     const [scale, setScale] = useState(0.1);
     const [pos, setPos] = useState({ x: 0, y: 0 });
     const dragging = useRef(false);
@@ -161,15 +178,15 @@ function SVGViewer({ src , json}) {
                 alt="svg"
                 draggable={false}
             />
-            <Nodes json={json} />
+            <Nodes json={json} setHoveredNode={setHoveredNode} setSelectedNode={setSelectedNode} selectedNode={selectedNode} />
             </div>
         </div>
     );
 }
 
-function Nodes({ json }) {
+function Nodes({ json, setHoveredNode, setSelectedNode, selectedNode }) {
     const scale = 37.65; //scale factor to convert from cm to pixels (1 cm = 37.7952755906 pixels)
-    const [hoveredNode, setHoveredNode] = useState(null);
+    
     const colors = {
         rm: "#262AFF",
         hall: "#21FF37",
@@ -179,7 +196,14 @@ function Nodes({ json }) {
 
     function onNodeClick(node) {
         console.log("Clicked node:", node);
-        // edge creation logic
+        setSelectedNode(prev => {
+            if (prev && prev.id === node.id) {
+                console.log("Deselecting node:", node);
+                return null; //deselect the node if it's already selected
+            }
+            console.log("Selected node:", node);
+            return node;
+        });
     }
 
     return (
@@ -195,11 +219,13 @@ function Nodes({ json }) {
                     width: 100,
                     height: 100,
                     backgroundColor: color,
-                    borderRadius: "50%",
                     position: "absolute",
                     cursor: "pointer",
                     left: node.x * scale * 1.00001,
                     top: node.y * scale * 0.9984,
+                    borderRadius: "50%",
+
+                    border: selectedNode === node ? "5px solid #FFFF00" : "none"
                 }}
                 onClick={() => onNodeClick(node)}
                 onMouseEnter={() => setHoveredNode(node)}
@@ -207,16 +233,6 @@ function Nodes({ json }) {
                 />
             );
             })}
-
-            {hoveredNode && (
-            <div className="node-info">
-                ID: {hoveredNode.id}
-                <br />
-                Type: {hoveredNode.type}
-                <br />
-                Role: {hoveredNode.role}
-            </div>
-            )}
         </div>
         );
 }
