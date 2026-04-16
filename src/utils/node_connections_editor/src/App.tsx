@@ -28,7 +28,7 @@ export default function App() {
         {/*display the upload component*/}
         <Upload setSvg={setSvg} setJson={setJson}/>
 
-        {json && svg && <SVGViewer src={svg} />} {/*display the SVG viewer if both files have been uploaded*/}
+        {json && svg && <SVGViewer src={svg} json={json} />} {/*display the SVG viewer if both files have been uploaded*/}
 
     </div>
   )
@@ -47,6 +47,7 @@ function Upload({ setSvg, setJson }) {
           f.text().then(text => {
             const data = JSON.parse(text);
             setJson(data);
+            console.log(data);
 
           if (uplState === 2){ //if the svg file has already been uploaded, set the state to 3 to indicate that both files have been uploaded
             setUplState(3);
@@ -100,7 +101,7 @@ function Upload({ setSvg, setJson }) {
 }
 
 //Component for displaying the uploaded SVG file and handling panning and zooming interactions
-function SVGViewer({ src }) {
+function SVGViewer({ src , json}) {
     const [scale, setScale] = useState(0.1);
     const [pos, setPos] = useState({ x: 0, y: 0 });
     const dragging = useRef(false);
@@ -149,16 +150,73 @@ function SVGViewer({ src }) {
             onMouseUp={onMouseUp}
             onMouseLeave={onMouseUp}
         >
+            <div className="svgContainer" style={{
+                    transform: `translate(${pos.x}px, ${pos.y}px) scale(${scale})`, //apply both translation and scaling to the image
+                    transformOrigin: "center", //set the origin for scaling to the center of the image
+                    userSelect: "none", //prevent text selection while dragging
+                    position: "relative"
+                }}>
             <img
                 src={src} //display the uploaded SVG image
                 alt="svg"
                 draggable={false}
-                style={{
-                    transform: `translate(${pos.x}px, ${pos.y}px) scale(${scale})`, //apply both translation and scaling to the image
-                    transformOrigin: "center", //set the origin for scaling to the center of the image
-                    userSelect: "none" //prevent text selection while dragging
-                }}
             />
+            <Nodes json={json} />
+            </div>
         </div>
     );
+}
+
+function Nodes({ json }) {
+    const scale = 37.65; //scale factor to convert from cm to pixels (1 cm = 37.7952755906 pixels)
+    const [hoveredNode, setHoveredNode] = useState(null);
+    const colors = {
+        rm: "#262AFF",
+        hall: "#21FF37",
+        rmdoor: "#FF2626",
+        stair: "#FFA500",
+    };
+
+    function onNodeClick(node) {
+        console.log("Clicked node:", node);
+        // edge creation logic
+    }
+
+    return (
+        <div>
+            {json.map((node) => {
+            const color = colors[node.type] ?? "#000000";
+
+            return (
+                <div
+                key={node.id}
+                className="node"
+                style={{
+                    width: 100,
+                    height: 100,
+                    backgroundColor: color,
+                    borderRadius: "50%",
+                    position: "absolute",
+                    cursor: "pointer",
+                    left: node.x * scale * 1.00001,
+                    top: node.y * scale * 0.9984,
+                }}
+                onClick={() => onNodeClick(node)}
+                onMouseEnter={() => setHoveredNode(node)}
+                onMouseLeave={() => {console.log("Mouse left node"); setHoveredNode(null);}}
+                />
+            );
+            })}
+
+            {hoveredNode && (
+            <div className="node-info">
+                ID: {hoveredNode.id}
+                <br />
+                Type: {hoveredNode.type}
+                <br />
+                Role: {hoveredNode.role}
+            </div>
+            )}
+        </div>
+        );
 }

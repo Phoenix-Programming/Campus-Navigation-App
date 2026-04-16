@@ -42,5 +42,14 @@ body {
     display: none;
 }
 
+.node-info {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    z-index: 999999;
+    background: black;
+    color: white;
+}
+
 
 

@@ -1,0 +1,2242 @@
+[
+  {
+    "id": "ist_hall_e-w_a_1_f2",
+    "x": 311.70591161,
+    "y": 176.75363482,
+    "type": "hall",
+    "role": "routing"
+  },
+  {
+    "id": "ist_hall_e-w_a_2_f2",
+    "x": 388.1562514,
+    "y": 176.74382955,
+    "type": "hall",
+    "role": "routing"
+  },
+  {
+    "id": "ist_hall_e-w_b_1_f2",
+    "x": 314.7706879,
+    "y": 197.53374535,
+    "type": "hall",
+    "role": "routing"
+  },
+  {
+    "id": "ist_hall_e-w_b_2_f2",
+    "x": 385.36154472,
+    "y": 196.84581974,
+    "type": "hall",
+    "role": "routing"
+  },
+  {
+    "id": "ist_hall_e-w_c_1_f2",
+    "x": 326.3065148,
+    "y": 229.49543312,
+    "type": "hall",
+    "role": "routing"
+  },
+  {
+    "id": "ist_hall_e-w_c_2_f2",
+    "x": 374.09028638,
+    "y": 229.70709428,
+    "type": "hall",
+    "role": "routing"
+  },
+  {
+    "id": "ist_hall_e-w_d_1_f2",
+    "x": 314.77070685,
+    "y": 261.1925176,
+    "type": "hall",
+    "role": "routing"
+  },
+  {
+    "id": "ist_hall_e-w_d_2_f2",
+    "x": 385.25572361,
+    "y": 261.11314072,
+    "type": "hall",
+    "role": "routing"
+  },
+  {
+    "id": "ist_hall_e-w_e_1_f2",
+    "x": 311.40136093,
+    "y": 281.80030489,
+    "type": "hall",
+    "role": "routing"
+  },
+  {
+    "id": "ist_hall_e-w_e_2_f2",
+    "x": 387.45750368,
+    "y": 281.65725534,
+    "type": "hall",
+    "role": "routing"
+  },
+  {
+    "id": "ist_hall_n-s_a_1_f2",
+    "x": 206.18537722,
+    "y": 201.95377732,
+    "type": "hall",
+    "role": "routing"
+  },
+  {
+    "id": "ist_hall_n-s_a_2_f2",
+    "x": 206.18538341,
+    "y": 256.03517078,
+    "type": "hall",
+    "role": "routing"
+  },
+  {
+    "id": "ist_hall_n-s_a_3_f2",
+    "x": 209.2812555,
+    "y": 229.23084562,
+    "type": "hall",
+    "role": "routing"
+  },
+  {
+    "id": "ist_hall_n-s_a_4_f2",
+    "x": 269.13004793,
+    "y": 249.31273264,
+    "type": "hall",
+    "role": "routing"
+  },
+  {
+    "id": "ist_hall_n-s_b_1_f2",
+    "x": 237.24772361,
+    "y": 192.05685471,
+    "type": "hall",
+    "role": "routing"
+  },
+  {
+    "id": "ist_hall_n-s_b_2_f2",
+    "x": 237.24773073,
+    "y": 265.93209369,
+    "type": "hall",
+    "role": "routing"
+  },
+  {
+    "id": "ist_hall_n-s_b_3_f2",
+    "x": 269.05067105,
+    "y": 212.50917504,
+    "type": "hall",
+    "role": "routing"
+  },
+  {
+    "id": "ist_hall_n-s_b_4_f2",
+    "x": 349.80154776,
+    "y": 257.85878328,
+    "type": "hall",
+    "role": "routing"
+  },
+  {
+    "id": "ist_hall_n-s_c_1_f2",
+    "x": 263.36212027,
+    "y": 184.30456996,
+    "type": "hall",
+    "role": "routing"
+  },
+  {
+    "id": "ist_hall_n-s_c_2_f2",
+    "x": 263.36212817,
+    "y": 273.68437867,
+    "type": "hall",
+    "role": "routing"
+  },
+  {
+    "id": "ist_hall_n-s_c_3_f2",
+    "x": 349.93383203,
+    "y": 200.10019612,
+    "type": "hall",
+    "role": "routing"
+  },
+  {
+    "id": "ist_hall_n-s_c_4_f2",
+    "x": 444.46950098,
+    "y": 243.09501159,
+    "type": "hall",
+    "role": "routing"
+  },
+  {
+    "id": "ist_hall_n-s_d_1_f2",
+    "x": 289.2913,
+    "y": 179.25102334,
+    "type": "hall",
+    "role": "routing"
+  },
+  {
+    "id": "ist_hall_n-s_d_2_f2",
+    "x": 289.29130867,
+    "y": 278.73792544,
+    "type": "hall",
+    "role": "routing"
+  },
+  {
+    "id": "ist_hall_n-s_d_3_f2",
+    "x": 444.39014305,
+    "y": 216.71604875,
+    "type": "hall",
+    "role": "routing"
+  },
+  {
+    "id": "ist_hall_n-s_e_1_f2",
+    "x": 329.94542191,
+    "y": 174.99280761,
+    "type": "hall",
+    "role": "routing"
+  },
+  {
+    "id": "ist_hall_n-s_e_2_f2",
+    "x": 328.97885299,
+    "y": 283.30861092,
+    "type": "hall",
+    "role": "routing"
+  },
+  {
+    "id": "ist_hall_n-s_e_3_f2",
+    "x": 490.46219405,
+    "y": 229.23083874,
+    "type": "hall",
+    "role": "routing"
+  },
+  {
+    "id": "ist_hall_n-s_f_1_f2",
+    "x": 349.83590567,
+    "y": 174.63821059,
+    "type": "hall",
+    "role": "routing"
+  },
+  {
+    "id": "ist_hall_n-s_f_2_f2",
+    "x": 349.75361089,
+    "y": 284.20985242,
+    "type": "hall",
+    "role": "routing"
+  },
+  {
+    "id": "ist_hall_n-s_g_1_f2",
+    "x": 369.43532612,
+    "y": 174.94778233,
+    "type": "hall",
+    "role": "routing"
+  },
+  {
+    "id": "ist_hall_n-s_g_2_f2",
+    "x": 370.46240033,
+    "y": 283.43594677,
+    "type": "hall",
+    "role": "routing"
+  },
+  {
+    "id": "ist_hall_n-s_h_1_f2",
+    "x": 410.40464162,
+    "y": 179.25102872,
+    "type": "hall",
+    "role": "routing"
+  },
+  {
+    "id": "ist_hall_n-s_h_2_f2",
+    "x": 410.40462931,
+    "y": 278.7379245,
+    "type": "hall",
+    "role": "routing"
+  },
+  {
+    "id": "ist_hall_n-s_i_1_f2",
+    "x": 436.33378107,
+    "y": 184.30457549,
+    "type": "hall",
+    "role": "routing"
+  },
+  {
+    "id": "ist_hall_n-s_i_2_f2",
+    "x": 436.33376798,
+    "y": 273.68437788,
+    "type": "hall",
+    "role": "routing"
+  },
+  {
+    "id": "ist_hall_n-s_j_1_f2",
+    "x": 462.4481943,
+    "y": 192.05686047,
+    "type": "hall",
+    "role": "routing"
+  },
+  {
+    "id": "ist_hall_n-s_j_2_f2",
+    "x": 462.44818043,
+    "y": 265.93209314,
+    "type": "hall",
+    "role": "routing"
+  },
+  {
+    "id": "ist_hall_n-s_k_1_f2",
+    "x": 493.51052583,
+    "y": 201.95378338,
+    "type": "hall",
+    "role": "routing"
+  },
+  {
+    "id": "ist_hall_n-s_k_2_f2",
+    "x": 493.51051103,
+    "y": 256.03517052,
+    "type": "hall",
+    "role": "routing"
+  },
+  {
+    "id": "ist_elevator_north_1_f2",
+    "x": 218.48152122,
+    "y": 210.36865817,
+    "type": "elevator",
+    "role": "routing"
+  },
+  {
+    "id": "ist_elevator_south_1_f2",
+    "x": 479.71201568,
+    "y": 247.09021467,
+    "type": "elevator",
+    "role": "routing"
+  },
+  {
+    "id": "ist_commons_north_1_f2",
+    "x": 310.37860357,
+    "y": 229.38959623,
+    "type": "commons",
+    "role": "routing"
+  },
+  {
+    "id": "ist_commons_south_1_f2",
+    "x": 389.36485059,
+    "y": 229.38958935,
+    "type": "commons",
+    "role": "routing"
+  },
+  {
+    "id": "ist_elevatordoor_north_f2",
+    "x": 216.61022132,
+    "y": 203.98959073,
+    "type": "elevatordoor",
+    "role": "routing"
+  },
+  {
+    "id": "ist_elevatordoor_south_f2",
+    "x": 482.38432678,
+    "y": 254.78959408,
+    "type": "elevatordoor",
+    "role": "routing"
+  },
+  {
+    "id": "ist_fountain_north_1_f2",
+    "x": 247.86032452,
+    "y": 264.25021705,
+    "type": "fountain",
+    "role": "routing"
+  },
+  {
+    "id": "ist_fountain_north_2_f2",
+    "x": 248.7306976,
+    "y": 193.8031203,
+    "type": "fountain",
+    "role": "routing"
+  },
+  {
+    "id": "ist_fountain_south_1_f2",
+    "x": 453.39668446,
+    "y": 194.62846809,
+    "type": "fountain",
+    "role": "routing"
+  },
+  {
+    "id": "ist_fountain_south_2_f2",
+    "x": 451.13700662,
+    "y": 264.39397551,
+    "type": "fountain",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rm_1000_f2",
+    "x": 520.92618183,
+    "y": 249.32523791,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rm_1001_f2",
+    "x": 520.16222891,
+    "y": 209.80995371,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rm_2000_f2",
+    "x": 488.43209484,
+    "y": 187.43361883,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rm_2001_f2",
+    "x": 480.80806805,
+    "y": 211.07974063,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rm_2002_f2",
+    "x": 481.88535593,
+    "y": 185.2236283,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rm_2003_f2",
+    "x": 470.54218631,
+    "y": 208.36043196,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rm_2004_f2",
+    "x": 475.47099603,
+    "y": 183.05640201,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rm_2005_f2",
+    "x": 469.07886772,
+    "y": 180.85753675,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rm_2006_f2",
+    "x": 455.50466237,
+    "y": 255.45667575,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rm_2006_f2_(1)",
+    "x": 456.17766157,
+    "y": 203.98413725,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rm_2007_f2",
+    "x": 462.38638558,
+    "y": 178.89508108,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rm_2008_f2",
+    "x": 455.53199179,
+    "y": 176.78731481,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rm_2009_f2",
+    "x": 448.83327912,
+    "y": 174.94865499,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rm_2010_f2",
+    "x": 440.38202246,
+    "y": 198.88362639,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rm_2011_f2",
+    "x": 442.10646434,
+    "y": 173.11332674,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rm_2012_f2",
+    "x": 435.66424864,
+    "y": 171.59980707,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rm_2013_f2",
+    "x": 426.07241985,
+    "y": 196.04703346,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rm_2014_f2",
+    "x": 428.74644113,
+    "y": 170.01270842,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rm_2015_f2",
+    "x": 421.41314605,
+    "y": 168.77477204,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rm_2016_f2",
+    "x": 413.93655828,
+    "y": 193.93540825,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rm_2017_f2",
+    "x": 414.71419023,
+    "y": 167.54609146,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rm_2018_f2",
+    "x": 407.68992372,
+    "y": 166.48280884,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rm_2018_f2_(1)",
+    "x": 399.30531762,
+    "y": 191.43344495,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rm_2020_f2",
+    "x": 400.9056447,
+    "y": 165.79158957,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rm_2021_f2",
+    "x": 394.45064899,
+    "y": 164.92279863,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rm_2022_f2",
+    "x": 387.16343078,
+    "y": 164.24729304,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rm_2023_f2",
+    "x": 380.28094118,
+    "y": 163.65218118,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rm_2024_f2",
+    "x": 373.25332731,
+    "y": 163.26129362,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rm_2025_f2",
+    "x": 366.6642189,
+    "y": 162.91815978,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rm_2026_f2",
+    "x": 359.69161558,
+    "y": 162.71517652,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rm_2027A_f2",
+    "x": 378.14629806,
+    "y": 189.08326278,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rm_2027B_f2",
+    "x": 372.47354799,
+    "y": 188.57501832,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rm_2027C_f2",
+    "x": 366.33469243,
+    "y": 187.59660417,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rm_2027D_f2",
+    "x": 360.24108952,
+    "y": 187.26286191,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rm_2028A_f2",
+    "x": 321.517565,
+    "y": 188.7231072,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rm_2028B_f2",
+    "x": 327.60295756,
+    "y": 188.08811109,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rm_2028C_f2",
+    "x": 333.84716072,
+    "y": 187.71770248,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rm_2028D_f2",
+    "x": 339.85319535,
+    "y": 187.2679012,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rm_2029_f2",
+    "x": 339.35172141,
+    "y": 162.33318646,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rm_2030_f2",
+    "x": 332.37911788,
+    "y": 162.53616972,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rm_2031_f2",
+    "x": 325.79000927,
+    "y": 162.87930358,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rm_2032_f2",
+    "x": 318.76239519,
+    "y": 163.27019115,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rm_2033_f2",
+    "x": 311.87990538,
+    "y": 163.86530303,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rm_2034_f2",
+    "x": 304.59268695,
+    "y": 164.54080863,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rm_2035_f2",
+    "x": 298.13769105,
+    "y": 165.4095996,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rm_2036_f2",
+    "x": 300.05314781,
+    "y": 191.45662964,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rm_2037_f2",
+    "x": 291.35341183,
+    "y": 166.1008189,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rm_2038_f2",
+    "x": 284.32914511,
+    "y": 167.16410154,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rm_2039_f2",
+    "x": 286.11630601,
+    "y": 193.45915592,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rm_2040_f2",
+    "x": 277.63018908,
+    "y": 168.39278216,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rm_2041_f2",
+    "x": 270.29689379,
+    "y": 169.63071858,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rm_2042_f2",
+    "x": 272.88713615,
+    "y": 196.0256288,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rm_2043_f2",
+    "x": 263.37908607,
+    "y": 171.21781728,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rm_2044_f2",
+    "x": 256.93687018,
+    "y": 172.73133699,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rm_2045_f2",
+    "x": 260.10774863,
+    "y": 198.8302039,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rm_2046_f2",
+    "x": 250.21005519,
+    "y": 174.56666529,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rm_2047_f2",
+    "x": 243.51134232,
+    "y": 176.40532517,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rm_2048_f2",
+    "x": 236.65694832,
+    "y": 178.5130915,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rm_2049_f2",
+    "x": 244.30262272,
+    "y": 203.29652722,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rm_2050_f2",
+    "x": 229.96446598,
+    "y": 180.47554723,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rm_2051_f2",
+    "x": 230.57290419,
+    "y": 208.30668765,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rm_2052_f2",
+    "x": 223.57233748,
+    "y": 182.67441256,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rm_2053_f2",
+    "x": 217.15797739,
+    "y": 184.84163892,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rm_2054_f2",
+    "x": 210.61123828,
+    "y": 187.05162951,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rm_2055A_f2",
+    "x": 187.05627161,
+    "y": 196.2372868,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rm_2055B???_f2",
+    "x": 173.40376364,
+    "y": 202.93123756,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rm_2055C???_f2",
+    "x": 163.11147527,
+    "y": 214.0172916,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rm_2055_f2",
+    "x": 186.62427771,
+    "y": 214.37998546,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rm_2056A???_f2",
+    "x": 180.09773651,
+    "y": 258.91709856,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rm_2056B???_f2",
+    "x": 163.29668905,
+    "y": 244.41791437,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rm_2056_f2",
+    "x": 185.62967615,
+    "y": 245.75996031,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rm_2057_f2",
+    "x": 209.84725158,
+    "y": 271.31958168,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rm_2058_f2",
+    "x": 219.67718288,
+    "y": 247.04320622,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rm_2059_f2",
+    "x": 216.39399069,
+    "y": 273.52957228,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rm_2060_f2",
+    "x": 228.96627074,
+    "y": 250.13292358,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rm_2061_f2",
+    "x": 222.80835078,
+    "y": 275.69679864,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rm_2062_f2",
+    "x": 229.20047928,
+    "y": 277.89566396,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rm_2063_f2",
+    "x": 243.53863602,
+    "y": 255.07468398,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rm_2064_f2",
+    "x": 235.89296162,
+    "y": 279.85811969,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rm_2065_f2",
+    "x": 242.74735562,
+    "y": 281.96588602,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rm_2066_f2",
+    "x": 249.44606849,
+    "y": 283.8045459,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rm_2067_f2",
+    "x": 259.34376192,
+    "y": 259.54100729,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rm_2068_f2",
+    "x": 256.17288347,
+    "y": 285.6398742,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rm_2069_f2",
+    "x": 262.61509937,
+    "y": 287.15339392,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rm_2070_f2",
+    "x": 272.12314945,
+    "y": 262.3455824,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rm_2071_f2",
+    "x": 269.53290708,
+    "y": 288.74049261,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rm_2072_f2",
+    "x": 276.86620238,
+    "y": 289.97842903,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rm_2073_f2",
+    "x": 285.35231931,
+    "y": 264.91205528,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rm_2074_f2",
+    "x": 283.56515841,
+    "y": 291.20710965,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rm_2075_f2",
+    "x": 290.58942512,
+    "y": 292.2703923,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rm_2076_f2",
+    "x": 299.28916111,
+    "y": 266.91458156,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rm_2077_f2",
+    "x": 297.37370435,
+    "y": 292.9616116,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rm_2078_f2",
+    "x": 303.82870025,
+    "y": 293.83040256,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rm_2079_f2",
+    "x": 311.11591868,
+    "y": 294.50590817,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rm_2080_f2",
+    "x": 317.99840848,
+    "y": 295.10102005,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rm_2081_f2",
+    "x": 325.02602257,
+    "y": 295.49190761,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rm_2082_f2",
+    "x": 331.61513117,
+    "y": 295.83504147,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rm_2083_f2",
+    "x": 338.58773471,
+    "y": 296.03802473,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rm_2084A_f2",
+    "x": 321.73713669,
+    "y": 270.48256231,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rm_2084B_f2",
+    "x": 327.55006595,
+    "y": 270.69105926,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rm_2084C_f2",
+    "x": 333.63549009,
+    "y": 271.01407416,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rm_2084D_f2",
+    "x": 340.06484072,
+    "y": 271.27314798,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rm_2085A_f2",
+    "x": 378.24424638,
+    "y": 269.89730307,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rm_2085B_f2",
+    "x": 372.608633,
+    "y": 270.42647807,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rm_2085C_f2",
+    "x": 365.967577,
+    "y": 270.92918991,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rm_2085D_f2",
+    "x": 359.8292581,
+    "y": 271.14085107,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rm_2086_f2",
+    "x": 360.45556368,
+    "y": 296.42001651,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rm_2087_f2",
+    "x": 367.42816721,
+    "y": 296.21703325,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rm_2088_f2",
+    "x": 374.01727581,
+    "y": 295.87389939,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rm_2089_f2",
+    "x": 381.0448899,
+    "y": 295.48301182,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rm_2090_f2",
+    "x": 387.9273797,
+    "y": 294.88789994,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rm_2091_f2",
+    "x": 395.21459813,
+    "y": 294.21239433,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rm_2092_f2",
+    "x": 401.66959404,
+    "y": 293.34360337,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rm_2093_f2",
+    "x": 399.75413728,
+    "y": 267.29657333,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rm_2094_f2",
+    "x": 408.45387326,
+    "y": 292.65238407,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rm_2095_f2",
+    "x": 415.47813998,
+    "y": 291.58910143,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rm_2096_f2",
+    "x": 413.69097907,
+    "y": 265.29404705,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rm_2097_f2",
+    "x": 422.17709601,
+    "y": 290.3604208,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rm_2098_f2",
+    "x": 429.5103913,
+    "y": 289.12248439,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rm_2099_f2",
+    "x": 426.92014894,
+    "y": 262.72757417,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rm_2100_f2",
+    "x": 436.42819902,
+    "y": 287.53538569,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rm_2101_f2",
+    "x": 442.87041491,
+    "y": 286.02186597,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rm_2102_f2",
+    "x": 439.69953646,
+    "y": 259.92299907,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rm_2103_f2",
+    "x": 449.5972299,
+    "y": 284.18653768,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rm_2104_f2",
+    "x": 456.29594277,
+    "y": 282.3478778,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rm_2105_f2",
+    "x": 463.15033677,
+    "y": 280.24011147,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rm_2107_f2",
+    "x": 469.8428191,
+    "y": 278.27765573,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rm_2108_f2",
+    "x": 476.23494761,
+    "y": 276.07879041,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rm_2109_f2",
+    "x": 471.11251133,
+    "y": 249.55517381,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rm_2110_f2",
+    "x": 482.6493077,
+    "y": 273.91156405,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rm_2111_f2",
+    "x": 489.1960468,
+    "y": 271.70157346,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rmdoor_1_1000_f2",
+    "x": 499.94192909,
+    "y": 251.7439465,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rmdoor_1_2000_f2",
+    "x": 486.78098558,
+    "y": 193.85603085,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rmdoor_1_2001_f2",
+    "x": 483.44798389,
+    "y": 204.26127402,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rmdoor_1_2002_f2",
+    "x": 480.00761373,
+    "y": 191.47477175,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rmdoor_1_2003_f2",
+    "x": 474.03192649,
+    "y": 201.30067989,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rmdoor_1_2004_f2",
+    "x": 473.81640006,
+    "y": 189.49040654,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rmdoor_1_2005_f2",
+    "x": 467.1224493,
+    "y": 187.21499065,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rmdoor_1_2006_f2",
+    "x": 457.7766551,
+    "y": 196.05914987,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rmdoor_1_2006_f2_(1)",
+    "x": 457.68794979,
+    "y": 262.22145181,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rmdoor_1_2007_f2",
+    "x": 460.29618269,
+    "y": 185.12478538,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rmdoor_1_2008_f2",
+    "x": 453.57576876,
+    "y": 183.14040121,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rmdoor_1_2009_f2",
+    "x": 446.90824959,
+    "y": 181.20894655,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rmdoor_1_2010_f2",
+    "x": 446.50931254,
+    "y": 192.62430286,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rmdoor_1_2011_f2",
+    "x": 440.50536213,
+    "y": 179.54206044,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rmdoor_1_2012_f2",
+    "x": 433.75845345,
+    "y": 177.76935639,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rmdoor_1_2013_f2",
+    "x": 431.44504175,
+    "y": 188.59317556,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rmdoor_1_2014_f2",
+    "x": 427.38202917,
+    "y": 176.31138091,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rmdoor_1_2015_f2",
+    "x": 420.3970151,
+    "y": 175.04415501,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rmdoor_1_2016_f2",
+    "x": 419.1335092,
+    "y": 186.50615345,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rmdoor_1_2017_f2",
+    "x": 414.02055924,
+    "y": 174.03873134,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rmdoor_1_2018_f2",
+    "x": 407.43239801,
+    "y": 173.21852145,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rmdoor_1_2018_f2_(1)",
+    "x": 405.42549173,
+    "y": 184.56995562,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rmdoor_1_2020_f2",
+    "x": 400.31509967,
+    "y": 172.21311357,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rmdoor_1_2021_f2",
+    "x": 393.96510697,
+    "y": 171.57809851,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rmdoor_1_2022_f2",
+    "x": 386.63613484,
+    "y": 170.86372868,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rmdoor_1_2023_f2",
+    "x": 379.78343663,
+    "y": 170.36101684,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rmdoor_1_2024_f2",
+    "x": 373.0630227,
+    "y": 169.8583208,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rmdoor_1_2025_f2",
+    "x": 366.42193512,
+    "y": 169.51435957,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rmdoor_1_2026_f2",
+    "x": 359.52616321,
+    "y": 169.39237004,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rmdoor_1_2027A_f2",
+    "x": 378.43498332,
+    "y": 180.80100635,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rmdoor_1_2027B_f2",
+    "x": 372.84159101,
+    "y": 180.5257641,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rmdoor_1_2027C_f2",
+    "x": 366.95243013,
+    "y": 180.16877655,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rmdoor_1_2027D_f2",
+    "x": 360.10446877,
+    "y": 179.79968479,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rmdoor_1_2028A_f2",
+    "x": 320.88257521,
+    "y": 180.91789272,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rmdoor_1_2028B_f2",
+    "x": 326.78278872,
+    "y": 180.46811039,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rmdoor_1_2028C_f2",
+    "x": 333.07985507,
+    "y": 180.25643344,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rmdoor_1_2028D_f2",
+    "x": 339.93258486,
+    "y": 179.8595585,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rmdoor_1_2029_f2",
+    "x": 339.63173208,
+    "y": 169.39237004,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rmdoor_1_2030_f2",
+    "x": 332.73596016,
+    "y": 169.51435957,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rmdoor_1_2031_f2",
+    "x": 326.09487259,
+    "y": 169.8583208,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rmdoor_1_2032_f2",
+    "x": 319.37445865,
+    "y": 170.36101684,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rmdoor_1_2033_f2",
+    "x": 312.52175413,
+    "y": 170.86372868,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rmdoor_1_2034_f2",
+    "x": 305.19278831,
+    "y": 171.57809851,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rmdoor_1_2035_f2",
+    "x": 298.84278299,
+    "y": 172.21311357,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rmdoor_1_2036_f2",
+    "x": 293.73240987,
+    "y": 184.52493034,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rmdoor_1_2037_f2",
+    "x": 291.72549412,
+    "y": 173.21852145,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rmdoor_1_2038_f2",
+    "x": 285.13736446,
+    "y": 174.03873134,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rmdoor_1_2039_f2",
+    "x": 284.81986641,
+    "y": 185.89206892,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rmdoor_1_2040_f2",
+    "x": 278.76089597,
+    "y": 175.04415501,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rmdoor_1_2041_f2",
+    "x": 271.77589138,
+    "y": 176.31138091,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rmdoor_1_2042_f2",
+    "x": 271.51132282,
+    "y": 188.16748481,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rmdoor_1_2043_f2",
+    "x": 265.39943867,
+    "y": 177.76935639,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rmdoor_1_2044_f2",
+    "x": 258.65256157,
+    "y": 179.54206044,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rmdoor_1_2045_f2",
+    "x": 258.75839847,
+    "y": 190.97207887,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rmdoor_1_2046_f2",
+    "x": 252.2496457,
+    "y": 181.20894655,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rmdoor_1_2047_f2",
+    "x": 245.58213916,
+    "y": 183.14040121,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rmdoor_1_2048_f2",
+    "x": 238.86172523,
+    "y": 185.12478538,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rmdoor_1_2049_f2",
+    "x": 241.69276666,
+    "y": 196.07853935,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rmdoor_1_2050_f2",
+    "x": 232.0354523,
+    "y": 187.21499065,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rmdoor_1_2051_f2",
+    "x": 228.02248921,
+    "y": 200.40777523,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rmdoor_1_2052_f2",
+    "x": 225.34150469,
+    "y": 189.49040654,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rmdoor_1_2053_f2",
+    "x": 219.15024682,
+    "y": 191.47477175,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rmdoor_1_2054_f2",
+    "x": 212.37690339,
+    "y": 193.85603085,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rmdoor_1_2055A_f2",
+    "x": 186.42125655,
+    "y": 204.33353301,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rmdoor_1_2055B_f2",
+    "x": 180.01832173,
+    "y": 206.63541522,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rmdoor_1_2055C_f2",
+    "x": 169.14394464,
+    "y": 212.58854877,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rmdoor_1_2055_f2",
+    "x": 199.43878736,
+    "y": 206.5560415,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rmdoor_1_2056A_f2",
+    "x": 181.76458156,
+    "y": 252.30252468,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rmdoor_1_2056B_f2",
+    "x": 169.48790587,
+    "y": 244.60315025,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rmdoor_1_2056_f2",
+    "x": 198.89763761,
+    "y": 253.01725136,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rmdoor_1_2057_f2",
+    "x": 212.15408222,
+    "y": 264.44395715,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rmdoor_1_2058_f2",
+    "x": 216.7476056,
+    "y": 254.66898588,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rmdoor_1_2059_f2",
+    "x": 218.92742565,
+    "y": 266.82521625,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rmdoor_1_2060_f2",
+    "x": 224.20377464,
+    "y": 256.95919967,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rmdoor_1_2061_f2",
+    "x": 225.11868353,
+    "y": 268.80958146,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rmdoor_1_2062_f2",
+    "x": 231.81263113,
+    "y": 271.08499735,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rmdoor_1_2063_f2",
+    "x": 241.4699455,
+    "y": 262.22145181,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rmdoor_1_2064_f2",
+    "x": 238.69181462,
+    "y": 273.17520262,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rmdoor_1_2065_f2",
+    "x": 245.35931799,
+    "y": 275.15958679,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rmdoor_1_2066_f2",
+    "x": 251.39657158,
+    "y": 276.64086122,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rmdoor_1_2067_f2",
+    "x": 254.93409442,
+    "y": 266.60760877,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rmdoor_1_2068_f2",
+    "x": 258.42974041,
+    "y": 278.75792756,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rmdoor_1_2069_f2",
+    "x": 264.45631714,
+    "y": 280.26053042,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rmdoor_1_2070_f2",
+    "x": 267.14681009,
+    "y": 269.23212694,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rmdoor_1_2071_f2",
+    "x": 271.55307021,
+    "y": 281.98860709,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rmdoor_1_2072_f2",
+    "x": 278.53807481,
+    "y": 283.25583299,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rmdoor_1_2073_f2",
+    "x": 280.45535367,
+    "y": 271.32747011,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rmdoor_1_2074_f2",
+    "x": 284.9145433,
+    "y": 284.26125666,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rmdoor_1_2075_f2",
+    "x": 291.50267295,
+    "y": 285.08146971,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rmdoor_1_2076_f2",
+    "x": 293.77969305,
+    "y": 274.00015567,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rmdoor_1_2077_f2",
+    "x": 298.61996182,
+    "y": 286.08687443,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rmdoor_1_2078_f2",
+    "x": 304.96996715,
+    "y": 286.72188949,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rmdoor_1_2079_f2",
+    "x": 312.29893296,
+    "y": 287.43625932,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rmdoor_1_2080_f2",
+    "x": 319.15163749,
+    "y": 287.93897431,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rmdoor_1_2081_f2",
+    "x": 325.87205142,
+    "y": 288.4416672,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rmdoor_1_2082_f2",
+    "x": 332.513139,
+    "y": 288.78562843,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rmdoor_1_2083_f2",
+    "x": 339.40891091,
+    "y": 288.90761796,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rmdoor_1_2084A_f2",
+    "x": 320.88257521,
+    "y": 277.43795847,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rmdoor_1_2084B_f2",
+    "x": 326.75632555,
+    "y": 277.80836708,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rmdoor_1_2084C_f2",
+    "x": 333.0533919,
+    "y": 278.12309881,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rmdoor_1_2084D_f2",
+    "x": 339.66324788,
+    "y": 278.44696003,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rmdoor_1_2085A_f2",
+    "x": 378.93219409,
+    "y": 277.59669013,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rmdoor_1_2085B_f2",
+    "x": 373.42886499,
+    "y": 277.75543758,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rmdoor_1_2085C_f2",
+    "x": 366.45525093,
+    "y": 278.0911188,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rmdoor_1_2085D_f2",
+    "x": 359.97063712,
+    "y": 278.5132727,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rmdoor_1_2086_f2",
+    "x": 360.13367931,
+    "y": 288.90761796,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rmdoor_1_2087_f2",
+    "x": 366.64475629,
+    "y": 288.78562843,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rmdoor_1_2088_f2",
+    "x": 373.28584386,
+    "y": 288.4416672,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rmdoor_1_2089_f2",
+    "x": 380.0062578,
+    "y": 287.93897431,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rmdoor_1_2090_f2",
+    "x": 386.85895601,
+    "y": 287.43625932,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rmdoor_1_2091_f2",
+    "x": 394.18792814,
+    "y": 286.72188949,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rmdoor_1_2092_f2",
+    "x": 400.53792083,
+    "y": 286.08687443,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rmdoor_1_2093_f2",
+    "x": 406.04870257,
+    "y": 273.80276505,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rmdoor_1_2094_f2",
+    "x": 407.65521917,
+    "y": 285.08146971,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rmdoor_1_2095_f2",
+    "x": 414.24338041,
+    "y": 284.26125666,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rmdoor_1_2096_f2",
+    "x": 419.65411999,
+    "y": 271.64393237,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rmdoor_1_2097_f2",
+    "x": 420.61983627,
+    "y": 283.25583299,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rmdoor_1_2098_f2",
+    "x": 427.60485033,
+    "y": 281.98860709,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rmdoor_1_2099_f2",
+    "x": 432.38969486,
+    "y": 269.55950605,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rmdoor_1_2100_f2",
+    "x": 433.98127462,
+    "y": 280.53063161,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rmdoor_1_2101_f2",
+    "x": 440.7281833,
+    "y": 278.75792756,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rmdoor_1_2102_f2",
+    "x": 445.07891182,
+    "y": 266.30925072,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rmdoor_1_2103_f2",
+    "x": 447.13107075,
+    "y": 277.09104145,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rmdoor_1_2104_f2",
+    "x": 453.79858992,
+    "y": 275.15958679,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rmdoor_1_2105_f2",
+    "x": 460.51900385,
+    "y": 273.17520262,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rmdoor_1_2107_f2",
+    "x": 467.34527047,
+    "y": 271.08499735,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rmdoor_1_2108_f2",
+    "x": 474.03922123,
+    "y": 268.80958146,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rmdoor_1_2109_f2",
+    "x": 473.61836839,
+    "y": 257.12822607,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rmdoor_1_2110_f2",
+    "x": 480.23049805,
+    "y": 266.82521625,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rmdoor_1_2111_f2",
+    "x": 487.00380675,
+    "y": 264.44395715,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "ist_rmdoor_3_1001_f2",
+    "x": 499.71910793,
+    "y": 206.5560415,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "ist_stair_east_1_f2",
+    "x": 349.84954778,
+    "y": 155.87881898,
+    "type": "stair",
+    "role": "routing"
+  },
+  {
+    "id": "ist_stair_north_1_f2",
+    "x": 198.12302812,
+    "y": 184.10687618,
+    "type": "stair",
+    "role": "routing"
+  },
+  {
+    "id": "ist_stair_north_2_f2",
+    "x": 198.16875408,
+    "y": 273.68437867,
+    "type": "stair",
+    "role": "routing"
+  },
+  {
+    "id": "ist_stair_north_3_f2",
+    "x": 172.01583031,
+    "y": 229.29616039,
+    "type": "stair",
+    "role": "routing"
+  },
+  {
+    "id": "ist_stair_south_1_f2",
+    "x": 501.52719305,
+    "y": 184.30457549,
+    "type": "stair",
+    "role": "routing"
+  },
+  {
+    "id": "ist_stair_south_2_f2",
+    "x": 501.52717801,
+    "y": 273.68437788,
+    "type": "stair",
+    "role": "routing"
+  },
+  {
+    "id": "ist_stair_south_3_f2",
+    "x": 527.72761655,
+    "y": 229.29615351,
+    "type": "stair",
+    "role": "routing"
+  },
+  {
+    "id": "ist_stair_west_1_f2",
+    "x": 349.80622144,
+    "y": 302.52148276,
+    "type": "stair",
+    "role": "routing"
+  }
+]
