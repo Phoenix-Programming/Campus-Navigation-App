@@ -30,43 +30,66 @@ export default function App() {
     const [edges, setConnections] = useState([]); //array of objects for connections between nodes, each object has the format { id: string, connections: string[] }
 
     const createConnection = () => {
-        if (!selectedNode || !secondSelectedNode) return; //ake sure both exist
+    console.log("selected:", selectedNode);
+    console.log("second:", secondSelectedNode);
+    if (!selectedNode || !secondSelectedNode) return;
 
-        setConnections(prev => {
-            const newConnection = { //create new connection object
-                node_id: selectedNode.id,
-                connections: [secondSelectedNode.id]
-            };
+    const id1 = selectedNode.id;
+    const id2 = secondSelectedNode.id;
 
-            return [...prev, newConnection]; //append it to the array
-        });
+    setConnections(prev => {
+        let updated = [...prev]; //copy edges
+
+        const addConnection = (from, to) => {
+            const existing = updated.find(e => e.id === from); //find object with matching id
+
+            if (existing) { //if it exists
+                if (!existing.connections.includes(to)) { // if it doesn't include the connection already
+                    existing.connections.push(to); //add the connection to it
+                }
+            } else {
+                updated.push({ id: from, connections: [to] }); // if it doesn't exist, add a whole object to the array
+            }
+        };
+
+        // make it bidirectional
+        addConnection(id1, id2);
+        addConnection(id2, id1);
+
+        return updated;
+    });
     };
 
     const removeConnection = () => {
-        if (!selectedNode || !secondSelectedNode) return;
+    if (!selectedNode || !secondSelectedNode) return;
 
-        setConnections(prev => {
-            for (let i = 0; i < edges.length; i++){
-                let conn = edges[i];
-                if (conn.id === selectedNode || conn.id === secondSelectedNode){// if either the  main id is a selected node
-                    if (conn.connections === selectedNode || conn.connections === secondSelectedNode){ //check if a selected node is connected to that node
-                    edges[i]
-                    }
-                }
+    const id1 = selectedNode.id;
+    const id2 = secondSelectedNode.id;
+
+    setConnections(prev => {
+        return prev.map(conn => { // for all connections in edges
+            if (conn.id === id1) {
+                return {
+                    ...conn,
+                    connections: conn.connections.filter(c => c !== id2) //keep all connections that do not have id2
+                };
             }
+
+            if (conn.id === id2) {
+                return {
+                    ...conn,
+                    connections: conn.connections.filter(c => c !== id1) //keep all connections that do not have id1
+                };
+            }
+
+            return conn;
         });
+    });
     };
 
-    function checkConnection(id1, id2){//check if a connection exists, remove duplicates, and return index of object, then index of array
-        if (!edges){return};
-
-        for (let i = 0; i < edges.length; i++){ //for each object
-            let conn = edges[i]
-            for (let j = 0; j < conn.connections.length; j++){ // for each connection listed
-                
-            }
-        }
-        return false;
+    function checkConnection(id1, id2) {
+    const node = edges.find(e => e.id === id1);
+    return node?.connections.includes(id2) || false;
     }
 
     function setSelect(node) {
@@ -91,7 +114,7 @@ export default function App() {
         <>
         <SVGViewer src={svg} json={json} setHoveredNode={setHoveredNode} setSelectedNode={setSelect} selectedNode={selectedNode} secondSelectedNode={secondSelectedNode} connections = {edges}/>
         
-        <NodeOverlay selectedNode={selectedNode} secondSelectedNode={secondSelectedNode} hoveredNode={hoveredNode} createConnection = {createConnection}/>
+        <NodeOverlay selectedNode={selectedNode} secondSelectedNode={secondSelectedNode} hoveredNode={hoveredNode} createConnection = {createConnection} removeConnection = {removeConnection}/>
         
         <ConnectionsOverlay edges = {edges} setConnections={setConnections} />
         
@@ -253,7 +276,7 @@ function Nodes({ json, setHoveredNode, setSelectedNode, selectedNode, secondSele
     //A connection is a object, containing node_id and connections[]
     const edges = connections.flatMap(conn => //for each connection, create a edge for each connection inside it
         conn.connections.map(targetId => ({ //targetId is each string inside the connections[] array inside the connection
-            from: conn.node_id,
+            from: conn.id,
             to: targetId
         }))
     );
@@ -333,7 +356,7 @@ function Nodes({ json, setHoveredNode, setSelectedNode, selectedNode, secondSele
 }
 
 //Component for managing and displaying the node management overlay
-function NodeOverlay({selectedNode, secondSelectedNode, hoveredNode, createConnection}){
+function NodeOverlay({selectedNode, secondSelectedNode, hoveredNode, createConnection, removeConnection}){
     return (
         
         <div className = "overlay">
@@ -341,7 +364,7 @@ function NodeOverlay({selectedNode, secondSelectedNode, hoveredNode, createConne
                 Add connection
             </div>
             <br></br>
-            <div className='connectionsBtn'>
+            <div className='connectionsBtn' onClick={removeConnection}>
                 Remove connection
             </div>
             {secondSelectedNode &&
