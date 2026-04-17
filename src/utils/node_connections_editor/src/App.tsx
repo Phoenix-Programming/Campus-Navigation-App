@@ -27,10 +27,10 @@ export default function App() {
     const [selectedNode, setSelectedNode] = useState(null); //state to keep track of which node is currently selected (for edge creation)
     const [secondSelectedNode, setSecondSelectedNode] = useState(null); //state to keep track of the second node selected for edge creation
 
-    const [connections, setConnections] = useState([]); //array of objects for connections between nodes, each object has the format { id: string, connections: string[] }
+    const [edges, setConnections] = useState([]); //array of objects for connections between nodes, each object has the format { id: string, connections: string[] }
 
     const createConnection = () => {
-        if (!selectedNode || !secondSelectedNode) return;
+        if (!selectedNode || !secondSelectedNode) return; //ake sure both exist
 
         setConnections(prev => {
             const newConnection = { //create new connection object
@@ -41,6 +41,33 @@ export default function App() {
             return [...prev, newConnection]; //append it to the array
         });
     };
+
+    const removeConnection = () => {
+        if (!selectedNode || !secondSelectedNode) return;
+
+        setConnections(prev => {
+            for (let i = 0; i < edges.length; i++){
+                let conn = edges[i];
+                if (conn.id === selectedNode || conn.id === secondSelectedNode){// if either the  main id is a selected node
+                    if (conn.connections === selectedNode || conn.connections === secondSelectedNode){ //check if a selected node is connected to that node
+                    edges[i]
+                    }
+                }
+            }
+        });
+    };
+
+    function checkConnection(id1, id2){//check if a connection exists, remove duplicates, and return index of object, then index of array
+        if (!edges){return};
+
+        for (let i = 0; i < edges.length; i++){ //for each object
+            let conn = edges[i]
+            for (let j = 0; j < conn.connections.length; j++){ // for each connection listed
+                
+            }
+        }
+        return false;
+    }
 
     function setSelect(node) {
         setSelectedNode(prev => {
@@ -62,11 +89,11 @@ export default function App() {
 
         {json && svg && 
         <>
-        <SVGViewer src={svg} json={json} setHoveredNode={setHoveredNode} setSelectedNode={setSelect} selectedNode={selectedNode} secondSelectedNode={secondSelectedNode} connections = {connections}/>
+        <SVGViewer src={svg} json={json} setHoveredNode={setHoveredNode} setSelectedNode={setSelect} selectedNode={selectedNode} secondSelectedNode={secondSelectedNode} connections = {edges}/>
         
         <NodeOverlay selectedNode={selectedNode} secondSelectedNode={secondSelectedNode} hoveredNode={hoveredNode} createConnection = {createConnection}/>
         
-        <ConnectionsOverlay connections = {connections} setConnections={setConnections} />
+        <ConnectionsOverlay edges = {edges} setConnections={setConnections} />
         
         
         
@@ -321,7 +348,7 @@ function NodeOverlay({selectedNode, secondSelectedNode, hoveredNode, createConne
             <>
                 <h1>Selected Node</h1>
                 <div>
-                ID: {secondSelectedNode.id}
+                ID: <div label className = "info">{secondSelectedNode.id}</div>
                 <br />
                 Type: {secondSelectedNode.type}
                 <br />
@@ -355,7 +382,7 @@ function NodeOverlay({selectedNode, secondSelectedNode, hoveredNode, createConne
 }
 
 //Component for managing and displaying the connections json overlay
-function ConnectionsOverlay({connections, setConnections}){
+function ConnectionsOverlay({edges, setConnections}){
 
     const [nConnections, setnConnections] = useState(null); //number of connections loaded WIP
 
