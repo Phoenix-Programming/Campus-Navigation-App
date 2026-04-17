@@ -67,12 +67,17 @@ export default function LeafletMap() {
 	return (
 		<MapContainer
 			center={[28.1477, -81.8485]}
-			zoom={16.25}
+			zoom={17}
 			zoomSnap={0}
-			wheelPxPerZoomLevel={5}
-			minZoom={16}
+			wheelPxPerZoomLevel={15}
+			minZoom={17}
 			maxZoom={20}
 			className="map-container"
+			maxBounds={[
+				[28.152252975549075, -81.85449203443713],
+				[28.143692836097017, -81.84371128216179]
+			]}
+			maxBoundsViscosity={1.0}
 		>
 			<LayersControl position="topright">
 				<BaseLayer checked name="Map">
