@@ -81,5 +81,25 @@ h1 {
     margin-bottom: 2px;
 }
 
+.connectionsBtn input {
+    display: none;
+}
 
+.connectionsOverlay {
+    padding: 15px 15px;
+    line-height: normal;
+
+    border-radius: 10px 10px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #6E35AE;
+
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    z-index: 999999;
+    background: rgb(40, 40, 40);
+    color: white;
+    user-select: none;
+}
 

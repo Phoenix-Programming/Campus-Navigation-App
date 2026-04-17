@@ -29,6 +29,19 @@ export default function App() {
 
     const [connections, setConnections] = useState([]); //array of objects for connections between nodes, each object has the format { id: string, connections: string[] }
 
+    const createConnection = () => {
+        if (!selectedNode || !secondSelectedNode) return;
+
+        setConnections(prev => {
+            const newConnection = { //create new connection object
+                node_id: selectedNode.id,
+                connections: [secondSelectedNode.id]
+            };
+
+            return [...prev, newConnection]; //append it to the array
+        });
+    };
+
     function setSelect(node) {
         setSelectedNode(prev => {
             if (prev && prev.id === node.id) {
@@ -38,16 +51,27 @@ export default function App() {
             
             setSecondSelectedNode(prev);
             return node;
-    });
-}
+        });
+    }
+
+    
   return (
     <div>
         {/*display the upload component*/}
         <Upload setSvg={setSvg} setJson={setJson}/>
 
-        {json && svg && <SVGViewer src={svg} json={json} setHoveredNode={setHoveredNode} setSelectedNode={setSelect} selectedNode={selectedNode} secondSelectedNode={secondSelectedNode} />} {/*display the SVG viewer if both files have been uploaded*/}
-
-        {json && svg && <Overlay selectedNode={selectedNode} secondSelectedNode={secondSelectedNode} hoveredNode={hoveredNode}/>}
+        {json && svg && 
+        <>
+        <SVGViewer src={svg} json={json} setHoveredNode={setHoveredNode} setSelectedNode={setSelect} selectedNode={selectedNode} secondSelectedNode={secondSelectedNode} connections = {connections}/>
+        
+        <NodeOverlay selectedNode={selectedNode} secondSelectedNode={secondSelectedNode} hoveredNode={hoveredNode} createConnection = {createConnection}/>
+        
+        <ConnectionsOverlay connections = {connections} setConnections={setConnections} />
+        
+        
+        
+        </>
+        } {/*display the SVG viewer and overlays if both files have been uploaded*/}
     </div>
   )
 }
@@ -119,7 +143,7 @@ function Upload({ setSvg, setJson }) {
 }
 
 //Component for displaying the uploaded SVG file and handling panning and zooming interactions
-function SVGViewer({ src , json, setHoveredNode, setSelectedNode, selectedNode, secondSelectedNode }) {
+function SVGViewer({ src , json, setHoveredNode, setSelectedNode, selectedNode, secondSelectedNode, connections}) {
     const [scale, setScale] = useState(0.1);
     const [pos, setPos] = useState({ x: 0, y: 0 });
     const dragging = useRef(false);
@@ -179,21 +203,33 @@ function SVGViewer({ src , json, setHoveredNode, setSelectedNode, selectedNode, 
                 alt="svg"
                 draggable={false}
             />
-            <Nodes json={json} setHoveredNode={setHoveredNode} setSelectedNode={setSelectedNode} selectedNode={selectedNode} secondSelectedNode={secondSelectedNode}/>
+            <Nodes json={json} setHoveredNode={setHoveredNode} setSelectedNode={setSelectedNode} selectedNode={selectedNode} secondSelectedNode={secondSelectedNode} connections={connections}/>
             </div>
         </div>
     );
 }
 
-function Nodes({ json, setHoveredNode, setSelectedNode, selectedNode, secondSelectedNode }) {
+function Nodes({ json, setHoveredNode, setSelectedNode, selectedNode, secondSelectedNode, connections }) {
     const scale = 37.65; //scale factor to convert from cm to pixels (1 cm = 37.7952755906 pixels)
     
+    const nodesById = Object.fromEntries(
+        json.map(node => [node.id, node])
+    );
+
     const colors = {
         rm: "#262AFF",
         hall: "#21FF37",
         rmdoor: "#FF2626",
         stair: "#FFA500",
     };
+
+    //A connection is a object, containing node_id and connections[]
+    const edges = connections.flatMap(conn => //for each connection, create a edge for each connection inside it
+        conn.connections.map(targetId => ({ //targetId is each string inside the connections[] array inside the connection
+            from: conn.node_id,
+            to: targetId
+        }))
+    );
 
     function onNodeClick(node) {
         setSelectedNode(node);
@@ -223,7 +259,8 @@ function Nodes({ json, setHoveredNode, setSelectedNode, selectedNode, secondSele
                     top: node.y * scale * 0.9984,
                     borderRadius: "50%",
 
-                    border: getBorder()
+                    border: getBorder(),
+                    zIndex: 1,
                 }}
                 onClick={() => onNodeClick(node)}
                 onMouseEnter={() => setHoveredNode(node)}
@@ -231,16 +268,49 @@ function Nodes({ json, setHoveredNode, setSelectedNode, selectedNode, secondSele
                 />
             );
             })}
+
+
+
+            {edges.map((edge) => { //for each edge
+                const from = nodesById[edge.from]; //grab the object of the node
+                const to = nodesById[edge.to];
+
+                if (!from || !to) return null; //if either don't exist, don't render
+
+                const dx = (to.x - from.x) * scale * 1.00001;
+                const dy = (to.y - from.y) * scale * 0.9984;
+
+                const length = Math.sqrt(dx * dx + dy * dy); //trig
+                const angle = Math.atan2(dy, dx) * (180 / Math.PI);
+
+                return (
+                    <div
+                        key={`${edge.from}-${edge.to}`}
+                        style={{
+                            position: "absolute",
+                            left: from.x * scale * 1.00001 +55 ,
+                            top: from.y * scale * 0.999 +50,
+                            width: length,
+                            height: 10,
+                            backgroundColor: "#50928d",
+                            transform: `rotate(${angle}deg)`,
+                            transformOrigin: "0 0",
+                            pointerEvents: "none",
+                            zIndex: 0,
+                        }}
+                    />
+                );
+            })}
         </div>
         );
 }
 
-//Component for managing and displaying the overlay
-function Overlay({selectedNode, secondSelectedNode, hoveredNode}){
+//Component for managing and displaying the node management overlay
+function NodeOverlay({selectedNode, secondSelectedNode, hoveredNode, createConnection}){
     return (
-
+        
         <div className = "overlay">
-            <div className='connectionsBtn'>
+            <div className='connectionsBtn' onClick={createConnection}>
                 Add connection
             </div>
             <br></br>
@@ -280,6 +350,40 @@ function Overlay({selectedNode, secondSelectedNode, hoveredNode}){
                 Role: {hoveredNode.role}
                 </div></>
                 }
+        </div>
+    )
+}
+
+//Component for managing and displaying the connections json overlay
+function ConnectionsOverlay({connections, setConnections}){
+
+    const [nConnections, setnConnections] = useState(null); //number of connections loaded WIP
+
+    function handleChange(e){
+        const f = e.target.files[0]
+        if (f.type === "application/json"){
+            f.text().then(text => {
+                const data = JSON.parse(text);
+                setConnections(data.nodes);
+                console.log(data.nodes);
+            });
+        }
+    }
+    
+    return (
+        <div className='connectionsOverlay'>
+            <div className='connectionsBtn'>
+                Save connections as Json
+            </div>
+            <br></br>
+            <label className='connectionsBtn'> {/*Button to upload json of connections*/}
+                Upload existing Json
+                <input type="file" accept=".json" onChange={handleChange} />
+            </label>
+            <br></br>
+            <h1>
+            {nConnections && (<>{nConnections} connections loaded</>)} 
+            </h1>
         </div>
     )
 }
