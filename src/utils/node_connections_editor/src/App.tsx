@@ -29,18 +29,23 @@ export default function App() {
 
     const [connections, setConnections] = useState([]); //array of objects for connections between nodes, each object has the format { id: string, connections: string[] }
 
-    function setSelect (node){ //function that is called to select a node
-        if (node !== selectedNode){
-            setSecondSelectedNode(selectedNode);
-        }
-        setSelectedNode(node);
-    }
+    function setSelect(node) {
+        setSelectedNode(prev => {
+            if (prev && prev.id === node.id) {
+                setSecondSelectedNode(null);
+                return null;
+            }
+            
+            setSecondSelectedNode(prev);
+            return node;
+    });
+}
   return (
     <div>
         {/*display the upload component*/}
         <Upload setSvg={setSvg} setJson={setJson}/>
 
-        {json && svg && <SVGViewer src={svg} json={json} setHoveredNode={setHoveredNode} setSelectedNode={setSelect} />} {/*display the SVG viewer if both files have been uploaded*/}
+        {json && svg && <SVGViewer src={svg} json={json} setHoveredNode={setHoveredNode} setSelectedNode={setSelect} selectedNode={selectedNode} secondSelectedNode={secondSelectedNode} />} {/*display the SVG viewer if both files have been uploaded*/}
 
         {json && svg && <Overlay selectedNode={selectedNode} secondSelectedNode={secondSelectedNode} hoveredNode={hoveredNode}/>}
     </div>
@@ -114,7 +119,7 @@ function Upload({ setSvg, setJson }) {
 }
 
 //Component for displaying the uploaded SVG file and handling panning and zooming interactions
-function SVGViewer({ src , json, setHoveredNode, selectedNode, setSelectedNode }) {
+function SVGViewer({ src , json, setHoveredNode, setSelectedNode, selectedNode, secondSelectedNode }) {
     const [scale, setScale] = useState(0.1);
     const [pos, setPos] = useState({ x: 0, y: 0 });
     const dragging = useRef(false);
@@ -174,13 +179,13 @@ function SVGViewer({ src , json, setHoveredNode, selectedNode, setSelectedNode }
                 alt="svg"
                 draggable={false}
             />
-            <Nodes json={json} setHoveredNode={setHoveredNode} setSelectedNode={setSelectedNode} selectedNode={selectedNode} />
+            <Nodes json={json} setHoveredNode={setHoveredNode} setSelectedNode={setSelectedNode} selectedNode={selectedNode} secondSelectedNode={secondSelectedNode}/>
             </div>
         </div>
     );
 }
 
-function Nodes({ json, setHoveredNode, setSelectedNode, selectedNode }) {
+function Nodes({ json, setHoveredNode, setSelectedNode, selectedNode, secondSelectedNode }) {
     const scale = 37.65; //scale factor to convert from cm to pixels (1 cm = 37.7952755906 pixels)
     
     const colors = {
@@ -191,21 +196,18 @@ function Nodes({ json, setHoveredNode, setSelectedNode, selectedNode }) {
     };
 
     function onNodeClick(node) {
-        console.log("Clicked node:", node);
-        setSelectedNode(prev => {
-            if (prev && prev.id === node.id) {
-                console.log("Deselecting node:", node);
-                return null; //deselect the node if it's already selected
-            }
-            console.log("Selected node:", node);
-            return node;
-        });
+        setSelectedNode(node);
     }
 
     return (
         <div>
             {json.map((node) => {
             const color = colors[node.type] ?? "#000000";
+            const getBorder = () => {
+                if (selectedNode?.id === node.id) return "5px solid #ffff00";
+                if (secondSelectedNode?.id === node.id) return "5px solid #00ffff";
+                return "none";
+            };
 
             return (
                 <div
@@ -221,7 +223,7 @@ function Nodes({ json, setHoveredNode, setSelectedNode, selectedNode }) {
                     top: node.y * scale * 0.9984,
                     borderRadius: "50%",
 
-                    border: selectedNode === node ? "5px solid #FFFF00" : "none"
+                    border: getBorder()
                 }}
                 onClick={() => onNodeClick(node)}
                 onMouseEnter={() => setHoveredNode(node)}
