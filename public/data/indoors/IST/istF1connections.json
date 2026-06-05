@@ -1,212 +1,212 @@
 {
   "nodes": [
     {
-      "node_id": "ist_hall_n-s_a_2_f1",
+      "id": "ist_hall_n-s_a_2_f1",
       "connections": [
         "ist_hall_n-s_b_2_f1"
       ]
     },
     {
-      "node_id": "ist_hall_n-s_b_2_f1",
+      "id": "ist_hall_n-s_b_2_f1",
       "connections": [
         "ist_hall_n-s_a_2_f1",
         "ist_hall_n-s_c_2_f1"
       ]
     },
     {
-      "node_id": "ist_hall_n-s_c_2_f1",
+      "id": "ist_hall_n-s_c_2_f1",
       "connections": [
         "ist_hall_n-s_b_2_f1",
         "ist_hall_n-s_d_2_f1"
       ]
     },
     {
-      "node_id": "ist_hall_n-s_d_2_f1",
+      "id": "ist_hall_n-s_d_2_f1",
       "connections": [
         "ist_hall_n-s_c_2_f1",
         "ist_hall_n-s_e_2_f1"
       ]
     },
     {
-      "node_id": "ist_hall_n-s_e_2_f1",
+      "id": "ist_hall_n-s_e_2_f1",
       "connections": [
         "ist_hall_n-s_d_2_f1"
       ]
     },
     {
-      "node_id": "ist_hall_n-s_a_3_f1",
+      "id": "ist_hall_n-s_a_3_f1",
       "connections": [
         "ist_hall_n-s_b_3_f1",
         "ist_hall_e-w_s_1_f1"
       ]
     },
     {
-      "node_id": "ist_hall_n-s_b_3_f1",
+      "id": "ist_hall_n-s_b_3_f1",
       "connections": [
         "ist_hall_n-s_a_3_f1"
       ]
     },
     {
-      "node_id": "ist_hall_n-s_a_1_f1",
+      "id": "ist_hall_n-s_a_1_f1",
       "connections": [
         "ist_hall_n-s_b_1_f1"
       ]
     },
     {
-      "node_id": "ist_hall_n-s_b_1_f1",
+      "id": "ist_hall_n-s_b_1_f1",
       "connections": [
         "ist_hall_n-s_a_1_f1"
       ]
     },
     {
-      "node_id": "ist_hall_e-w_a_2_f1",
+      "id": "ist_hall_e-w_a_2_f1",
       "connections": [
         "ist_hall_e-w_b_2_f1",
         "ist_entrance_north_1_f1"
       ]
     },
     {
-      "node_id": "ist_hall_e-w_b_2_f1",
+      "id": "ist_hall_e-w_b_2_f1",
       "connections": [
         "ist_hall_e-w_a_2_f1",
         "ist_hall_e-w_c_2_f1"
       ]
     },
     {
-      "node_id": "ist_hall_e-w_c_2_f1",
+      "id": "ist_hall_e-w_c_2_f1",
       "connections": [
         "ist_hall_e-w_b_2_f1",
         "ist_hall_e-w_d_2_f1"
       ]
     },
     {
-      "node_id": "ist_hall_e-w_d_2_f1",
+      "id": "ist_hall_e-w_d_2_f1",
       "connections": [
         "ist_hall_e-w_c_2_f1",
         "ist_hall_e-w_e_2_f1"
       ]
     },
     {
-      "node_id": "ist_hall_e-w_e_2_f1",
+      "id": "ist_hall_e-w_e_2_f1",
       "connections": [
         "ist_hall_e-w_d_2_f1",
         "ist_hall_e-w_f_2_f1"
       ]
     },
     {
-      "node_id": "ist_hall_e-w_f_2_f1",
+      "id": "ist_hall_e-w_f_2_f1",
       "connections": [
         "ist_hall_e-w_e_2_f1",
         "ist_hall_e-w_g_2_f1"
       ]
     },
     {
-      "node_id": "ist_hall_e-w_g_2_f1",
+      "id": "ist_hall_e-w_g_2_f1",
       "connections": [
         "ist_hall_e-w_f_2_f1",
         "ist_hall_e-w_h_2_f1"
       ]
     },
     {
-      "node_id": "ist_hall_e-w_h_2_f1",
+      "id": "ist_hall_e-w_h_2_f1",
       "connections": [
         "ist_hall_e-w_g_2_f1",
         "ist_hall_e-w_i_2_f1"
       ]
     },
     {
-      "node_id": "ist_hall_e-w_i_2_f1",
+      "id": "ist_hall_e-w_i_2_f1",
       "connections": [
         "ist_hall_e-w_h_2_f1",
         "ist_hall_e-w_j_2_f1"
       ]
     },
     {
-      "node_id": "ist_hall_e-w_j_2_f1",
+      "id": "ist_hall_e-w_j_2_f1",
       "connections": [
         "ist_hall_e-w_i_2_f1",
         "ist_hall_e-w_k_2_f1"
       ]
     },
     {
-      "node_id": "ist_hall_e-w_k_2_f1",
+      "id": "ist_hall_e-w_k_2_f1",
       "connections": [
         "ist_hall_e-w_j_2_f1",
         "ist_hall_e-w_l_2_f1"
       ]
     },
     {
-      "node_id": "ist_hall_e-w_l_2_f1",
+      "id": "ist_hall_e-w_l_2_f1",
       "connections": [
         "ist_hall_e-w_k_2_f1",
         "ist_hall_e-w_m_2_f1"
       ]
     },
     {
-      "node_id": "ist_hall_e-w_m_2_f1",
+      "id": "ist_hall_e-w_m_2_f1",
       "connections": [
         "ist_hall_e-w_l_2_f1",
         "ist_hall_e-w_n_2_f1"
       ]
     },
     {
-      "node_id": "ist_hall_e-w_n_2_f1",
+      "id": "ist_hall_e-w_n_2_f1",
       "connections": [
         "ist_hall_e-w_m_2_f1",
         "ist_hall_e-w_o_2_f1"
       ]
     },
     {
-      "node_id": "ist_hall_e-w_o_2_f1",
+      "id": "ist_hall_e-w_o_2_f1",
       "connections": [
         "ist_hall_e-w_n_2_f1",
         "ist_hall_e-w_p_2_f1"
       ]
     },
     {
-      "node_id": "ist_hall_e-w_p_2_f1",
+      "id": "ist_hall_e-w_p_2_f1",
       "connections": [
         "ist_hall_e-w_o_2_f1",
         "ist_hall_e-w_q_2_f1"
       ]
     },
     {
-      "node_id": "ist_hall_e-w_q_2_f1",
+      "id": "ist_hall_e-w_q_2_f1",
       "connections": [
         "ist_hall_e-w_p_2_f1",
         "ist_hall_e-w_r_2_f1"
       ]
     },
     {
-      "node_id": "ist_hall_e-w_r_2_f1",
+      "id": "ist_hall_e-w_r_2_f1",
       "connections": [
         "ist_hall_e-w_q_2_f1",
         "ist_hall_e-w_s_2_f1"
       ]
     },
     {
-      "node_id": "ist_hall_e-w_s_2_f1",
+      "id": "ist_hall_e-w_s_2_f1",
       "connections": [
         "ist_hall_e-w_r_2_f1",
         "ist_hall_e-w_t_2_f1"
       ]
     },
     {
-      "node_id": "ist_hall_e-w_t_2_f1",
+      "id": "ist_hall_e-w_t_2_f1",
       "connections": [
         "ist_hall_e-w_s_2_f1",
         "ist_hall_e-w_u_2_f1"
       ]
     },
     {
-      "node_id": "ist_hall_e-w_u_2_f1",
+      "id": "ist_hall_e-w_u_2_f1",
       "connections": [
         "ist_hall_e-w_t_2_f1",
         "ist_hall_e-w_v_1_f1"
       ]
     },
     {
-      "node_id": "ist_hall_e-w_a_1_f1",
+      "id": "ist_hall_e-w_a_1_f1",
       "connections": [
         "ist_hall_e-w_b_1_f1",
         "ist_rmdoor_2_1045_f1",
@@ -214,7 +214,7 @@
       ]
     },
     {
-      "node_id": "ist_hall_e-w_b_1_f1",
+      "id": "ist_hall_e-w_b_1_f1",
       "connections": [
         "ist_hall_e-w_a_1_f1",
         "ist_hall_e-w_c_1_f1",
@@ -223,7 +223,7 @@
       ]
     },
     {
-      "node_id": "ist_hall_e-w_c_1_f1",
+      "id": "ist_hall_e-w_c_1_f1",
       "connections": [
         "ist_hall_e-w_b_1_f1",
         "ist_hall_e-w_d_1_f1",
@@ -232,7 +232,7 @@
       ]
     },
     {
-      "node_id": "ist_hall_e-w_d_1_f1",
+      "id": "ist_hall_e-w_d_1_f1",
       "connections": [
         "ist_hall_e-w_c_1_f1",
         "ist_hall_e-w_e_1_f1",
@@ -243,7 +243,7 @@
       ]
     },
     {
-      "node_id": "ist_hall_e-w_e_1_f1",
+      "id": "ist_hall_e-w_e_1_f1",
       "connections": [
         "ist_hall_e-w_d_1_f1",
         "ist_hall_e-w_f_1_f1",
@@ -252,7 +252,7 @@
       ]
     },
     {
-      "node_id": "ist_hall_e-w_f_1_f1",
+      "id": "ist_hall_e-w_f_1_f1",
       "connections": [
         "ist_hall_e-w_e_1_f1",
         "ist_hall_e-w_g_1_f1",
@@ -262,7 +262,7 @@
       ]
     },
     {
-      "node_id": "ist_hall_e-w_g_1_f1",
+      "id": "ist_hall_e-w_g_1_f1",
       "connections": [
         "ist_hall_e-w_f_1_f1",
         "ist_hall_e-w_h_1_f1",
@@ -271,7 +271,7 @@
       ]
     },
     {
-      "node_id": "ist_hall_e-w_h_1_f1",
+      "id": "ist_hall_e-w_h_1_f1",
       "connections": [
         "ist_hall_e-w_g_1_f1",
         "ist_hall_e-w_i_1_f1",
@@ -281,7 +281,7 @@
       ]
     },
     {
-      "node_id": "ist_hall_e-w_i_1_f1",
+      "id": "ist_hall_e-w_i_1_f1",
       "connections": [
         "ist_hall_e-w_h_1_f1",
         "ist_hall_e-w_j_1_f1",
@@ -292,7 +292,7 @@
       ]
     },
     {
-      "node_id": "ist_hall_e-w_j_1_f1",
+      "id": "ist_hall_e-w_j_1_f1",
       "connections": [
         "ist_hall_e-w_i_1_f1",
         "ist_hall_e-w_k_1_f1",
@@ -303,7 +303,7 @@
       ]
     },
     {
-      "node_id": "ist_hall_e-w_k_1_f1",
+      "id": "ist_hall_e-w_k_1_f1",
       "connections": [
         "ist_hall_e-w_j_1_f1",
         "ist_hall_e-w_l_1_f1",
@@ -314,7 +314,7 @@
       ]
     },
     {
-      "node_id": "ist_hall_e-w_l_1_f1",
+      "id": "ist_hall_e-w_l_1_f1",
       "connections": [
         "ist_hall_e-w_k_1_f1",
         "ist_hall_e-w_m_1_f1",
@@ -324,7 +324,7 @@
       ]
     },
     {
-      "node_id": "ist_hall_e-w_m_1_f1",
+      "id": "ist_hall_e-w_m_1_f1",
       "connections": [
         "ist_hall_e-w_l_1_f1",
         "ist_hall_e-w_n_1_f1",
@@ -333,7 +333,7 @@
       ]
     },
     {
-      "node_id": "ist_hall_e-w_n_1_f1",
+      "id": "ist_hall_e-w_n_1_f1",
       "connections": [
         "ist_hall_e-w_m_1_f1",
         "ist_hall_e-w_o_1_f1",
@@ -345,7 +345,7 @@
       ]
     },
     {
-      "node_id": "ist_hall_e-w_o_1_f1",
+      "id": "ist_hall_e-w_o_1_f1",
       "connections": [
         "ist_hall_e-w_n_1_f1",
         "ist_hall_e-w_p_1_f1",
@@ -357,7 +357,7 @@
       ]
     },
     {
-      "node_id": "ist_hall_e-w_p_1_f1",
+      "id": "ist_hall_e-w_p_1_f1",
       "connections": [
         "ist_hall_e-w_o_1_f1",
         "ist_hall_e-w_q_1_f1",
@@ -369,7 +369,7 @@
       ]
     },
     {
-      "node_id": "ist_hall_e-w_q_1_f1",
+      "id": "ist_hall_e-w_q_1_f1",
       "connections": [
         "ist_hall_e-w_p_1_f1",
         "ist_hall_e-w_r_1_f1",
@@ -381,7 +381,7 @@
       ]
     },
     {
-      "node_id": "ist_hall_e-w_r_1_f1",
+      "id": "ist_hall_e-w_r_1_f1",
       "connections": [
         "ist_hall_e-w_q_1_f1",
         "ist_hall_e-w_s_1_f1",
@@ -391,7 +391,7 @@
       ]
     },
     {
-      "node_id": "ist_hall_e-w_s_1_f1",
+      "id": "ist_hall_e-w_s_1_f1",
       "connections": [
         "ist_hall_e-w_r_1_f1",
         "ist_hall_e-w_t_1_f1",
@@ -404,7 +404,7 @@
       ]
     },
     {
-      "node_id": "ist_hall_e-w_t_1_f1",
+      "id": "ist_hall_e-w_t_1_f1",
       "connections": [
         "ist_hall_e-w_s_1_f1",
         "ist_hall_e-w_u_1_f1",
@@ -414,7 +414,7 @@
       ]
     },
     {
-      "node_id": "ist_hall_e-w_u_1_f1",
+      "id": "ist_hall_e-w_u_1_f1",
       "connections": [
         "ist_hall_e-w_t_1_f1",
         "ist_hall_e-w_v_1_f1",
@@ -422,7 +422,7 @@
       ]
     },
     {
-      "node_id": "ist_hall_e-w_v_1_f1",
+      "id": "ist_hall_e-w_v_1_f1",
       "connections": [
         "ist_hall_e-w_u_1_f1",
         "ist_rmdoor_1_1001_f1",
@@ -434,7 +434,7 @@
       ]
     },
     {
-      "node_id": "ist_entrance_north_1_f1",
+      "id": "ist_entrance_north_1_f1",
       "connections": [
         "ist_rmdoor_1_1045_f1",
         "ist_hall_e-w_a_1_f1",
@@ -443,41 +443,41 @@
       ]
     },
     {
-      "node_id": "ist_rmdoor_1_1048_f1",
+      "id": "ist_rmdoor_1_1048_f1",
       "connections": [
         "ist_rm_1048_f1",
         "ist_entrance_north_1_f1"
       ]
     },
     {
-      "node_id": "ist_rm_1048_f1",
+      "id": "ist_rm_1048_f1",
       "connections": [
         "ist_rmdoor_1_1048_f1"
       ]
     },
     {
-      "node_id": "ist_rmdoor_2_1045_f1",
+      "id": "ist_rmdoor_2_1045_f1",
       "connections": [
         "ist_rm_1045_f1",
         "ist_hall_e-w_a_1_f1"
       ]
     },
     {
-      "node_id": "ist_rm_1045_f1",
+      "id": "ist_rm_1045_f1",
       "connections": [
         "ist_rmdoor_2_1045_f1",
         "ist_rmdoor_1_1045_f1"
       ]
     },
     {
-      "node_id": "ist_rmdoor_1_1045_f1",
+      "id": "ist_rmdoor_1_1045_f1",
       "connections": [
         "ist_rm_1045_f1",
         "ist_entrance_north_1_f1"
       ]
     },
     {
-      "node_id": "ist_rmdoor_1_1033_f1",
+      "id": "ist_rmdoor_1_1033_f1",
       "connections": [
         "ist_rm_1033_f1",
         "ist_hall_e-w_c_1_f1",
@@ -485,13 +485,13 @@
       ]
     },
     {
-      "node_id": "ist_rm_1033_f1",
+      "id": "ist_rm_1033_f1",
       "connections": [
         "ist_rmdoor_1_1033_f1"
       ]
     },
     {
-      "node_id": "ist_rmdoor_1_1027_f1",
+      "id": "ist_rmdoor_1_1027_f1",
       "connections": [
         "ist_rm_1027_f1",
         "ist_hall_e-w_i_1_f1",
@@ -499,20 +499,20 @@
       ]
     },
     {
-      "node_id": "ist_rm_1027_f1",
+      "id": "ist_rm_1027_f1",
       "connections": [
         "ist_rmdoor_1_1027_f1",
         "ist_rmdoor_2_1027_f1"
       ]
     },
     {
-      "node_id": "ist_vending_south_1_f1",
+      "id": "ist_vending_south_1_f1",
       "connections": [
         "ist_hall_e-w_s_1_f1"
       ]
     },
     {
-      "node_id": "ist_rmdoor_2_1003_f1",
+      "id": "ist_rmdoor_2_1003_f1",
       "connections": [
         "ist_rm_1003_f1",
         "ist_hall_e-w_s_1_f1",
@@ -520,14 +520,14 @@
       ]
     },
     {
-      "node_id": "ist_rm_1003_f1",
+      "id": "ist_rm_1003_f1",
       "connections": [
         "ist_rmdoor_2_1003_f1",
         "ist_rmdoor_1_1003_f1"
       ]
     },
     {
-      "node_id": "ist_rmdoor_1_1029_f1",
+      "id": "ist_rmdoor_1_1029_f1",
       "connections": [
         "ist_rm_1029_f1",
         "ist_hall_e-w_h_1_f1",
@@ -535,26 +535,26 @@
       ]
     },
     {
-      "node_id": "ist_rm_1029_f1",
+      "id": "ist_rm_1029_f1",
       "connections": [
         "ist_rmdoor_1_1029_f1"
       ]
     },
     {
-      "node_id": "ist_rmdoor_1_1034_f1",
+      "id": "ist_rmdoor_1_1034_f1",
       "connections": [
         "ist_rm_1034_f1",
         "ist_hall_e-w_d_1_f1"
       ]
     },
     {
-      "node_id": "ist_rm_1034_f1",
+      "id": "ist_rm_1034_f1",
       "connections": [
         "ist_rmdoor_1_1034_f1"
       ]
     },
     {
-      "node_id": "ist_rmdoor_1_1012_f1",
+      "id": "ist_rmdoor_1_1012_f1",
       "connections": [
         "ist_rm_1012_f1",
         "ist_hall_e-w_r_1_f1",
@@ -562,28 +562,28 @@
       ]
     },
     {
-      "node_id": "ist_rm_1012_f1",
+      "id": "ist_rm_1012_f1",
       "connections": [
         "ist_rmdoor_1_1012_f1",
         "ist_rmdoor_2_1012_f1"
       ]
     },
     {
-      "node_id": "ist_rmdoor_2_1026_f1",
+      "id": "ist_rmdoor_2_1026_f1",
       "connections": [
         "ist_rm_1026_f1",
         "ist_hall_e-w_l_1_f1"
       ]
     },
     {
-      "node_id": "ist_rm_1026_f1",
+      "id": "ist_rm_1026_f1",
       "connections": [
         "ist_rmdoor_2_1026_f1",
         "ist_rmdoor_1_1026_f1"
       ]
     },
     {
-      "node_id": "ist_rmdoor_2_1028_f1",
+      "id": "ist_rmdoor_2_1028_f1",
       "connections": [
         "ist_rm_1028_f1",
         "ist_hall_e-w_j_1_f1",
@@ -591,14 +591,14 @@
       ]
     },
     {
-      "node_id": "ist_rm_1028_f1",
+      "id": "ist_rm_1028_f1",
       "connections": [
         "ist_rmdoor_2_1028_f1",
         "ist_rmdoor_1_1028_f1"
       ]
     },
     {
-      "node_id": "ist_rmdoor_1_1015_f1",
+      "id": "ist_rmdoor_1_1015_f1",
       "connections": [
         "ist_rm_1015_f1",
         "ist_hall_e-w_o_1_f1",
@@ -606,20 +606,20 @@
       ]
     },
     {
-      "node_id": "ist_rm_1015_f1",
+      "id": "ist_rm_1015_f1",
       "connections": [
         "ist_rmdoor_1_1015_f1",
         "ist_rmdoor_2_1015_f1"
       ]
     },
     {
-      "node_id": "ist_fountain_south_1_f1",
+      "id": "ist_fountain_south_1_f1",
       "connections": [
         "ist_hall_e-w_s_1_f1"
       ]
     },
     {
-      "node_id": "ist_rmdoor_1_1016_f1",
+      "id": "ist_rmdoor_1_1016_f1",
       "connections": [
         "ist_rm_1016_f1",
         "ist_hall_e-w_o_1_f1",
@@ -627,42 +627,42 @@
       ]
     },
     {
-      "node_id": "ist_rm_1016_f1",
+      "id": "ist_rm_1016_f1",
       "connections": [
         "ist_rmdoor_1_1016_f1",
         "ist_rmdoor_2_1016_f1"
       ]
     },
     {
-      "node_id": "ist_rmdoor_2_1044_f1",
+      "id": "ist_rmdoor_2_1044_f1",
       "connections": [
         "ist_rm_1044_f1",
         "ist_hall_e-w_c_1_f1"
       ]
     },
     {
-      "node_id": "ist_rm_1044_f1",
+      "id": "ist_rm_1044_f1",
       "connections": [
         "ist_rmdoor_2_1044_f1",
         "ist_rmdoor_1_1044_f1"
       ]
     },
     {
-      "node_id": "ist_rmdoor_2_1025_f1",
+      "id": "ist_rmdoor_2_1025_f1",
       "connections": [
         "ist_rm_1025_f1",
         "ist_hall_e-w_l_1_f1"
       ]
     },
     {
-      "node_id": "ist_rm_1025_f1",
+      "id": "ist_rm_1025_f1",
       "connections": [
         "ist_rmdoor_2_1025_f1",
         "ist_rmdoor_1_1025_f1"
       ]
     },
     {
-      "node_id": "ist_rmdoor_2_1031_f1",
+      "id": "ist_rmdoor_2_1031_f1",
       "connections": [
         "ist_rm_1031_f1",
         "ist_hall_e-w_g_1_f1",
@@ -670,14 +670,14 @@
       ]
     },
     {
-      "node_id": "ist_rm_1031_f1",
+      "id": "ist_rm_1031_f1",
       "connections": [
         "ist_rmdoor_2_1031_f1",
         "ist_rmdoor_1_1031_f1"
       ]
     },
     {
-      "node_id": "ist_rmdoor_2_1002_f1",
+      "id": "ist_rmdoor_2_1002_f1",
       "connections": [
         "ist_rm_1002_f1",
         "ist_hall_e-w_t_1_f1",
@@ -685,28 +685,28 @@
       ]
     },
     {
-      "node_id": "ist_rm_1002_f1",
+      "id": "ist_rm_1002_f1",
       "connections": [
         "ist_rmdoor_2_1002_f1",
         "ist_rmdoor_1_1002_f1"
       ]
     },
     {
-      "node_id": "ist_rmdoor_1_1032_f1",
+      "id": "ist_rmdoor_1_1032_f1",
       "connections": [
         "ist_rm_1032_f1",
         "ist_hall_e-w_e_1_f1"
       ]
     },
     {
-      "node_id": "ist_rm_1032_f1",
+      "id": "ist_rm_1032_f1",
       "connections": [
         "ist_rmdoor_1_1032_f1",
         "ist_rmdoor_2_1032_f1"
       ]
     },
     {
-      "node_id": "ist_rmdoor_2_1027_f1",
+      "id": "ist_rmdoor_2_1027_f1",
       "connections": [
         "ist_rm_1027_f1",
         "ist_hall_e-w_j_1_f1",
@@ -714,7 +714,7 @@
       ]
     },
     {
-      "node_id": "ist_rmdoor_2_1017_f1",
+      "id": "ist_rmdoor_2_1017_f1",
       "connections": [
         "ist_rm_1017_f1",
         "ist_hall_e-w_m_1_f1",
@@ -722,14 +722,14 @@
       ]
     },
     {
-      "node_id": "ist_rm_1017_f1",
+      "id": "ist_rm_1017_f1",
       "connections": [
         "ist_rmdoor_2_1017_f1",
         "ist_rmdoor_1_1017_f1"
       ]
     },
     {
-      "node_id": "ist_rmdoor_2_1014_f1",
+      "id": "ist_rmdoor_2_1014_f1",
       "connections": [
         "ist_rm_1014_f1",
         "ist_hall_e-w_p_1_f1",
@@ -737,14 +737,14 @@
       ]
     },
     {
-      "node_id": "ist_rm_1014_f1",
+      "id": "ist_rm_1014_f1",
       "connections": [
         "ist_rmdoor_2_1014_f1",
         "ist_rmdoor_1_1014_f1"
       ]
     },
     {
-      "node_id": "ist_rmdoor_2_1015_f1",
+      "id": "ist_rmdoor_2_1015_f1",
       "connections": [
         "ist_rm_1015_f1",
         "ist_hall_e-w_n_1_f1",
@@ -752,20 +752,20 @@
       ]
     },
     {
-      "node_id": "ist_rmdoor_1_1035_f1",
+      "id": "ist_rmdoor_1_1035_f1",
       "connections": [
         "ist_rm_1035_f1",
         "ist_hall_e-w_d_1_f1"
       ]
     },
     {
-      "node_id": "ist_rm_1035_f1",
+      "id": "ist_rm_1035_f1",
       "connections": [
         "ist_rmdoor_1_1035_f1"
       ]
     },
     {
-      "node_id": "ist_rmdoor_1_1026_f1",
+      "id": "ist_rmdoor_1_1026_f1",
       "connections": [
         "ist_rm_1026_f1",
         "ist_hall_e-w_j_1_f1",
@@ -773,20 +773,20 @@
       ]
     },
     {
-      "node_id": "ist_rmdoor_1_1004_f1",
+      "id": "ist_rmdoor_1_1004_f1",
       "connections": [
         "ist_rm_1004_f1",
         "ist_hall_e-w_s_1_f1"
       ]
     },
     {
-      "node_id": "ist_rm_1004_f1",
+      "id": "ist_rm_1004_f1",
       "connections": [
         "ist_rmdoor_1_1004_f1"
       ]
     },
     {
-      "node_id": "ist_rmdoor_1_1030_f1",
+      "id": "ist_rmdoor_1_1030_f1",
       "connections": [
         "ist_rm_1030_f1",
         "ist_hall_e-w_f_1_f1",
@@ -794,14 +794,14 @@
       ]
     },
     {
-      "node_id": "ist_rm_1030_f1",
+      "id": "ist_rm_1030_f1",
       "connections": [
         "ist_rmdoor_1_1030_f1",
         "ist_rmdoor_2_1030_f1"
       ]
     },
     {
-      "node_id": "ist_rmdoor_1_1014_f1",
+      "id": "ist_rmdoor_1_1014_f1",
       "connections": [
         "ist_rm_1014_f1",
         "ist_hall_e-w_p_1_f1",
@@ -809,7 +809,7 @@
       ]
     },
     {
-      "node_id": "ist_rmdoor_1_1017_f1",
+      "id": "ist_rmdoor_1_1017_f1",
       "connections": [
         "ist_rm_1017_f1",
         "ist_hall_e-w_n_1_f1",
@@ -817,7 +817,7 @@
       ]
     },
     {
-      "node_id": "ist_rmdoor_2_1012_f1",
+      "id": "ist_rmdoor_2_1012_f1",
       "connections": [
         "ist_rm_1012_f1",
         "ist_hall_e-w_q_1_f1",
@@ -825,14 +825,14 @@
       ]
     },
     {
-      "node_id": "ist_rmdoor_2_1032_f1",
+      "id": "ist_rmdoor_2_1032_f1",
       "connections": [
         "ist_rm_1032_f1",
         "ist_hall_e-w_f_1_f1"
       ]
     },
     {
-      "node_id": "ist_rmdoor_2_1030_f1",
+      "id": "ist_rmdoor_2_1030_f1",
       "connections": [
         "ist_rm_1030_f1",
         "ist_hall_e-w_h_1_f1",
@@ -840,20 +840,20 @@
       ]
     },
     {
-      "node_id": "ist_rmdoor_1_1046_f1",
+      "id": "ist_rmdoor_1_1046_f1",
       "connections": [
         "ist_rm_1046_f1",
         "ist_hall_e-w_b_1_f1"
       ]
     },
     {
-      "node_id": "ist_rm_1046_f1",
+      "id": "ist_rm_1046_f1",
       "connections": [
         "ist_rmdoor_1_1046_f1"
       ]
     },
     {
-      "node_id": "ist_rmdoor_1_1001_f1",
+      "id": "ist_rmdoor_1_1001_f1",
       "connections": [
         "ist_rm_1001_f1",
         "ist_hall_e-w_t_1_f1",
@@ -861,32 +861,32 @@
       ]
     },
     {
-      "node_id": "ist_rm_1001_f1",
+      "id": "ist_rm_1001_f1",
       "connections": [
         "ist_rmdoor_1_1001_f1"
       ]
     },
     {
-      "node_id": "ist_entrance_south_1_f1",
+      "id": "ist_entrance_south_1_f1",
       "connections": [
         "ist_hall_e-w_v_1_f1"
       ]
     },
     {
-      "node_id": "ist_fountain_north_1_f1",
+      "id": "ist_fountain_north_1_f1",
       "connections": [
         "ist_hall_e-w_d_1_f1"
       ]
     },
     {
-      "node_id": "ist_rmdoor_1_1028_f1",
+      "id": "ist_rmdoor_1_1028_f1",
       "connections": [
         "ist_rm_1028_f1",
         "ist_hall_e-w_i_1_f1"
       ]
     },
     {
-      "node_id": "ist_rmdoor_1_1025_f1",
+      "id": "ist_rmdoor_1_1025_f1",
       "connections": [
         "ist_rm_1025_f1",
         "ist_hall_e-w_k_1_f1",
@@ -894,7 +894,7 @@
       ]
     },
     {
-      "node_id": "ist_rmdoor_1_1031_f1",
+      "id": "ist_rmdoor_1_1031_f1",
       "connections": [
         "ist_rm_1031_f1",
         "ist_hall_e-w_e_1_f1",
@@ -902,7 +902,7 @@
       ]
     },
     {
-      "node_id": "ist_rmdoor_2_1016_f1",
+      "id": "ist_rmdoor_2_1016_f1",
       "connections": [
         "ist_rm_1016_f1",
         "ist_hall_e-w_n_1_f1",
@@ -910,14 +910,14 @@
       ]
     },
     {
-      "node_id": "ist_rmdoor_1_1002_f1",
+      "id": "ist_rmdoor_1_1002_f1",
       "connections": [
         "ist_rm_1002_f1",
         "ist_hall_e-w_v_1_f1"
       ]
     },
     {
-      "node_id": "ist_rmdoor_2_1013_f1",
+      "id": "ist_rmdoor_2_1013_f1",
       "connections": [
         "ist_rm_1013_f1",
         "ist_hall_e-w_p_1_f1",
@@ -925,14 +925,14 @@
       ]
     },
     {
-      "node_id": "ist_rm_1013_f1",
+      "id": "ist_rm_1013_f1",
       "connections": [
         "ist_rmdoor_2_1013_f1",
         "ist_rmdoor_1_1013_f1"
       ]
     },
     {
-      "node_id": "ist_rmdoor_1_1003_f1",
+      "id": "ist_rmdoor_1_1003_f1",
       "connections": [
         "ist_rm_1003_f1",
         "ist_hall_e-w_t_1_f1",
@@ -940,7 +940,7 @@
       ]
     },
     {
-      "node_id": "ist_rmdoor_1_1018_f1",
+      "id": "ist_rmdoor_1_1018_f1",
       "connections": [
         "ist_rm_1018_f1",
         "ist_hall_e-w_m_1_f1",
@@ -948,20 +948,20 @@
       ]
     },
     {
-      "node_id": "ist_rm_1018_f1",
+      "id": "ist_rm_1018_f1",
       "connections": [
         "ist_rmdoor_1_1018_f1"
       ]
     },
     {
-      "node_id": "ist_rmdoor_1_1044_f1",
+      "id": "ist_rmdoor_1_1044_f1",
       "connections": [
         "ist_rm_1044_f1",
         "ist_hall_e-w_b_1_f1"
       ]
     },
     {
-      "node_id": "ist_rmdoor_1_1013_f1",
+      "id": "ist_rmdoor_1_1013_f1",
       "connections": [
         "ist_rm_1013_f1",
         "ist_hall_e-w_q_1_f1",

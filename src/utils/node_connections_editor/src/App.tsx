@@ -11,10 +11,12 @@ run with npm run dev
 This is the main code for the node_connections_editor. 
 It allows users to upload an SVG file and a JSON file, and then displays the SVG file in a viewer.
 The viewer supports panning and zooming using the middle mouse button and scroll wheel, respectively.
+The JSON file will be used to add all nodes to the svg as circles and add events to create edges between nodes by clicking on them.
+Connections can be exported or imported to continue saved work
 
 WIP features:
-- The JSON file will be used to add all nodes to the svg as circles and add events to create edges between nodes by clicking on them.
-
+- keyboard shortcuts
+- undo last connection made
 
 
 */
@@ -22,6 +24,7 @@ WIP features:
 export default function App() {
     const [svg, setSvg] = useState(null); //saves url to svg to display
     const [json, setJson] = useState(null); //json object from parsed json
+    const [fileName, setFileName] = useState(null) //name of json object
 
     const [hoveredNode, setHoveredNode] = useState(null); //state to keep track of which node is currently being hovered over (for overlay info)
     const [selectedNode, setSelectedNode] = useState(null); //state to keep track of which node is currently selected (for edge creation)
@@ -30,67 +33,67 @@ export default function App() {
     const [edges, setConnections] = useState([]); //array of objects for connections between nodes, each object has the format { id: string, connections: string[] }
 
     const createConnection = () => {
-    console.log("selected:", selectedNode);
-    console.log("second:", secondSelectedNode);
-    if (!selectedNode || !secondSelectedNode) return;
+        console.log("selected:", selectedNode);
+        console.log("second:", secondSelectedNode);
+        if (!selectedNode || !secondSelectedNode) return;
 
-    const id1 = selectedNode.id;
-    const id2 = secondSelectedNode.id;
+        const id1 = selectedNode.id;
+        const id2 = secondSelectedNode.id;
 
-    setConnections(prev => {
-        let updated = [...prev]; //copy edges
+        setConnections(prev => {
+            let updated = [...prev]; //copy edges
 
-        const addConnection = (from, to) => {
-            const existing = updated.find(e => e.id === from); //find object with matching id
+            const addConnection = (from, to) => {
+                const existing = updated.find(e => e.id === from); //find object with matching id
 
-            if (existing) { //if it exists
-                if (!existing.connections.includes(to)) { // if it doesn't include the connection already
-                    existing.connections.push(to); //add the connection to it
+                if (existing) { //if it exists
+                    if (!existing.connections.includes(to)) { // if it doesn't include the connection already
+                        existing.connections.push(to); //add the connection to it
+                    }
+                } else {
+                    updated.push({ id: from, connections: [to] }); // if it doesn't exist, add a whole object to the array
                 }
-            } else {
-                updated.push({ id: from, connections: [to] }); // if it doesn't exist, add a whole object to the array
-            }
-        };
+            };
 
-        // make it bidirectional
-        addConnection(id1, id2);
-        addConnection(id2, id1);
+            // make it bidirectional
+            addConnection(id1, id2);
+            addConnection(id2, id1);
 
-        return updated;
-    });
+            return updated;
+        });
     };
 
     const removeConnection = () => {
-    if (!selectedNode || !secondSelectedNode) return;
+        if (!selectedNode || !secondSelectedNode) return;
 
-    const id1 = selectedNode.id;
-    const id2 = secondSelectedNode.id;
+        const id1 = selectedNode.id;
+        const id2 = secondSelectedNode.id;
 
-    setConnections(prev => {
-        return prev.map(conn => { // for all connections in edges
-            if (conn.id === id1) {
-                return {
-                    ...conn,
-                    connections: conn.connections.filter(c => c !== id2) //keep all connections that do not have id2
-                };
-            }
+        setConnections(prev => { //this is a function call
+            return prev.map(conn => { // for all connections in edges
+                if (conn.id === id1) {
+                    return {
+                        ...conn,
+                        connections: conn.connections.filter(c => c !== id2) //keep all connections that do not have id2
+                    };
+                }
 
-            if (conn.id === id2) {
-                return {
-                    ...conn,
-                    connections: conn.connections.filter(c => c !== id1) //keep all connections that do not have id1
-                };
-            }
+                if (conn.id === id2) {
+                    return {
+                        ...conn,
+                        connections: conn.connections.filter(c => c !== id1) //keep all connections that do not have id1
+                    };
+                }
 
-            return conn;
+                return conn;
+            });
         });
-    });
     };
 
-    function checkConnection(id1, id2) {
-    const node = edges.find(e => e.id === id1);
-    return node?.connections.includes(id2) || false;
-    }
+    function checkConnection(id1, id2) { //WIP
+        const node = edges.find(e => e.id === id1);
+        return node?.connections.includes(id2) || false;
+    };
 
     function setSelect(node) {
         setSelectedNode(prev => {
@@ -102,13 +105,62 @@ export default function App() {
             setSecondSelectedNode(prev);
             return node;
         });
+    };
+
+    //function to import new edge data and replace the current data
+    function importConnections(data){ // data is array of node objects, with string id and array of connections
+        console.log("current edge data")
+        console.log(edges);
+        console.log("importing data")
+        console.log(data);
+        setConnections(data);
+    }
+
+    //function to export all edge data and include distance for all connections
+    async function exportConnections() {
+        const nodes = {nodes: edges}; //wrap it in object for python scripts... because we did that
+
+        const jsonString = JSON.stringify(nodes, null, 2); //turn edges into a json string
+
+        if ('showSaveFilePicker' in window) {
+            try {
+                const handle = await window.showSaveFilePicker({
+                    suggestedName: `${fileName}connections.json`,
+                    types: [{
+                        description: "JSON Connection File",
+                        accept: {
+                            "application/json": [".json"]
+                        }
+                    }]
+                });
+
+                const writable = await handle.createWritable();
+                await writable.write(jsonString);
+                await writable.close();
+                return;
+            } catch (err) {
+                if (err.name === "AbortError") return;
+                throw err;
+            }
+        }
+
+        // Fallback download (for macs or firefox)
+        const blob = new Blob([jsonString], { type: "application/json" });
+        const url = URL.createObjectURL(blob);
+
+        const link = document.createElement("a");
+        link.href = url;
+        link.download = `${fileName}.json`;
+        link.click();
+
+        URL.revokeObjectURL(url);
     }
 
     
   return (
     <div>
         {/*display the upload component*/}
-        <Upload setSvg={setSvg} setJson={setJson}/>
+        <Upload setSvg={setSvg} setJson={setJson} setFileName={setFileName}/>
 
         {json && svg && 
         <>
@@ -116,7 +168,7 @@ export default function App() {
         
         <NodeOverlay selectedNode={selectedNode} secondSelectedNode={secondSelectedNode} hoveredNode={hoveredNode} createConnection = {createConnection} removeConnection = {removeConnection}/>
         
-        <ConnectionsOverlay edges = {edges} setConnections={setConnections} />
+        <ConnectionsOverlay edges = {edges} importConnections={importConnections} exportConnections={exportConnections}/>
         
         
         
@@ -129,16 +181,19 @@ export default function App() {
 
 //Component for handling file uploads and displaying instructions to the user
 //hides itself once both files have been uploaded and passes both files to the parent component (App) through the setSvg and setJson functions
-function Upload({ setSvg, setJson }) {
+function Upload({ setSvg, setJson, setFileName }) {
     const [uplState, setUplState] = useState(0);
 
     function handleChange(e) {
         const f = e.target.files[0];
+        const baseName = f.name.replace(/\.json$/i, "");
+
 
         if (f.type === "application/json") { //check if the uploaded file is a JSON
           f.text().then(text => {
             const data = JSON.parse(text);
             setJson(data);
+            setFileName(baseName);
             console.log(data);
 
           if (uplState === 2){ //if the svg file has already been uploaded, set the state to 3 to indicate that both files have been uploaded
@@ -273,7 +328,7 @@ function Nodes({ json, setHoveredNode, setSelectedNode, selectedNode, secondSele
         stair: "#FFA500",
     };
 
-    //A connection is a object, containing node_id and connections[]
+    //A connection is a object, containing id and connections[]
     const edges = connections.flatMap(conn => //for each connection, create a edge for each connection inside it
         conn.connections.map(targetId => ({ //targetId is each string inside the connections[] array inside the connection
             from: conn.id,
@@ -371,7 +426,7 @@ function NodeOverlay({selectedNode, secondSelectedNode, hoveredNode, createConne
             <>
                 <h1>Selected Node</h1>
                 <div>
-                ID: <div label className = "info">{secondSelectedNode.id}</div>
+                ID: <div className = "info">{secondSelectedNode.id}</div>
                 <br />
                 Type: {secondSelectedNode.type}
                 <br />
@@ -405,7 +460,7 @@ function NodeOverlay({selectedNode, secondSelectedNode, hoveredNode, createConne
 }
 
 //Component for managing and displaying the connections json overlay
-function ConnectionsOverlay({edges, setConnections}){
+function ConnectionsOverlay({edges, importConnections, exportConnections}){
 
     const [nConnections, setnConnections] = useState(null); //number of connections loaded WIP
 
@@ -414,20 +469,21 @@ function ConnectionsOverlay({edges, setConnections}){
         if (f.type === "application/json"){
             f.text().then(text => {
                 const data = JSON.parse(text);
-                setConnections(data.nodes);
+                importConnections(data.nodes);
                 console.log(data.nodes);
+                setnConnections(data.nodes.length);
             });
         }
     }
-    
+
     return (
         <div className='connectionsOverlay'>
-            <div className='connectionsBtn'>
+            <div className='connectionsBtn' onClick={exportConnections}>
                 Save connections as Json
             </div>
             <br></br>
             <label className='connectionsBtn'> {/*Button to upload json of connections*/}
-                Upload existing Json
+                Import existing Json
                 <input type="file" accept=".json" onChange={handleChange} />
             </label>
             <br></br>
