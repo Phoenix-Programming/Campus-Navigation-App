@@ -17,7 +17,7 @@ Connections can be exported or imported to continue saved work
 WIP features:
 - keyboard shortcuts
 - undo last connection made
-
+- add custom connection
 
 */
 
@@ -90,12 +90,12 @@ export default function App() {
         });
     };
 
-    function checkConnection(id1, id2) { //WIP
+    const checkConnection = (id1, id2) => { //WIP
         const node = edges.find(e => e.id === id1);
         return node?.connections.includes(id2) || false;
     };
 
-    function setSelect(node) {
+    const setSelect = (node) => {
         setSelectedNode(prev => {
             if (prev && prev.id === node.id) {
                 setSecondSelectedNode(null);
@@ -108,7 +108,7 @@ export default function App() {
     };
 
     //function to import new edge data and replace the current data
-    function importConnections(data){ // data is array of node objects, with string id and array of connections
+    const importConnections = (data) => { // data is array of node objects, with string id and array of connections
         console.log("current edge data")
         console.log(edges);
         console.log("importing data")
