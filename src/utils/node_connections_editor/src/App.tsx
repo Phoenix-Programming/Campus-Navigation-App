@@ -1,12 +1,14 @@
-import { useState, useRef } from 'react'
+import { useState, useRef} from 'react'
 import './assets/styles.css'
 
+import { useGlobalKeydown } from './globalKeydown.tsx'
 /*
 
 Campus Navigation Project: FPU
 
-enter the directory of the node_connections_editor with cd src/utils/node_connections_editor
-run with npm run dev
+enter the directory of the node_connections_editor and run with
+cd src/utils/node_connections_editor
+npm run dev
 
 This is the main code for the node_connections_editor. 
 It allows users to upload an SVG file and a JSON file, and then displays the SVG file in a viewer.
@@ -24,13 +26,14 @@ WIP features:
 export default function App() {
     const [svg, setSvg] = useState(null); //saves url to svg to display
     const [json, setJson] = useState(null); //json object from parsed json
-    const [fileName, setFileName] = useState(null) //name of json object
+    const [fileName, setFileName] = useState(null) //name of json object 
 
     const [hoveredNode, setHoveredNode] = useState(null); //state to keep track of which node is currently being hovered over (for overlay info)
     const [selectedNode, setSelectedNode] = useState(null); //state to keep track of which node is currently selected (for edge creation)
     const [secondSelectedNode, setSecondSelectedNode] = useState(null); //state to keep track of the second node selected for edge creation
 
     const [edges, setConnections] = useState([]); //array of objects for connections between nodes, each object has the format { id: string, connections: string[] }
+
 
     const createConnection = () => {
         console.log("selected:", selectedNode);
@@ -90,9 +93,12 @@ export default function App() {
         });
     };
 
-    const checkConnection = (id1, id2) => { //WIP
-        const node = edges.find(e => e.id === id1);
-        return node?.connections.includes(id2) || false;
+    const forceConnection = (id1, id2) => { //WIP
+        if (id2 != null){console.log("Error, tried to force regular connection");return;}
+        else{
+            console.log("Forcing connection to node");
+        }
+        
     };
 
     const setSelect = (node) => {
@@ -156,7 +162,10 @@ export default function App() {
         URL.revokeObjectURL(url);
     }
 
-    
+    useGlobalKeydown((e) => {
+        console.log(e);
+    });
+
   return (
     <div>
         {/*display the upload component*/}
