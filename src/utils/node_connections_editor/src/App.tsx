@@ -112,10 +112,13 @@ export default function App() {
                 return updated;
             });
 
-    const forceConnection = (id1, id2) => { //WIP
+    const forceConnection = (id1, id2) => {//WIP unused currently
         if (id2 != null){console.log("Error, tried to force regular connection");return;}
         else{
             console.log("Forcing connection to node");
+
+
+
         }
         
     };
@@ -237,7 +240,7 @@ export default function App() {
         <>
         <SVGViewer src={svg} json={json} setHoveredNode={setHoveredNode} setSelectedNode={setSelect} selectedNode={selectedNode} secondSelectedNode={secondSelectedNode} connections = {edges}/>
         
-        <NodeOverlay selectedNode={selectedNode} secondSelectedNode={secondSelectedNode} hoveredNode={hoveredNode} createConnection = {createConnection} removeConnection = {removeConnection}/>
+        <NodeOverlay selectedNode={selectedNode} secondSelectedNode={secondSelectedNode} hoveredNode={hoveredNode} createConnection = {createConnection} removeConnection = {removeConnection} forceConnection={forceConnection}/>
         
         <ConnectionsOverlay edges = {edges} importConnections={importConnections} exportConnections={exportConnections}/>
         
@@ -481,14 +484,39 @@ function Nodes({ json, setHoveredNode, setSelectedNode, selectedNode, secondSele
 }
 
 //Component for managing and displaying the node management overlay
-function NodeOverlay({selectedNode, secondSelectedNode, hoveredNode, createConnection, removeConnection}){
+function NodeOverlay({selectedNode, secondSelectedNode, hoveredNode, createConnection, removeConnection, forceConnection}){
+    const [forceHandle, setForceHandle] = useState(false);
+    const [forceNodeId, setForceNodeId] = useState("");
+    
     return (
         
         <div className = "overlay">
             <div className='connectionsBtn' onClick={createConnection}>
                 Add connection
             </div>
-            <br></br>
+            {null && selectedNode && !secondSelectedNode && (//Remove null to reactivate force button
+    <><br/>
+        {!forceHandle ? (
+            <div className="connectionsBtn" onClick={() => setForceHandle(true)}>
+                Force connection
+            </div>
+        ) : (
+            <div className="connectionsInput">
+                <input type="text" placeholder="Enter node ID" value={forceNodeId} onChange={(e) => setForceNodeId(e.target.value)}/>
+                <button
+                    onClick={() => {
+                        console.log("Forcing connection to node ID:", forceNodeId);
+                        forceConnection(forceNodeId);
+                        setForceHandle(false); // optional: switch back to button
+                    }}
+                >
+                    Connect
+                </button>
+            </div>
+        )}
+    </>
+)}
+            <br/>
             <div className='connectionsBtn' onClick={removeConnection}>
                 Remove connection
             </div>

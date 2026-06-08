@@ -103,6 +103,33 @@ h1 {
     user-select: none;
 }
 
+.connectionsInput {
+    padding: 12px 12px;
+    background: #424242;
+    color: white;
+    border-radius: 6px;
+    display: inline-block;
+    text-align: center;
+    user-select: none;
+    width: 16dvb;
+    margin-bottom: 2px;
+}
+.connectionsInput input {
+    background: transparent;
+    border: #6E35AE solid 2px;
+    color: white;
+    text-align: center;
+    width: 90%;
+}
+
+.connectionsInput button {
+    background: none;
+    border: #6E35AE solid 2px;
+    color: white;
+    cursor: pointer;
+    transform: translateY(2px);
+}
+
 .info {
     user-select: all;
     display: inline;
