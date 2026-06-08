@@ -6,6 +6,9 @@ import { useGlobalKeydown } from './globalKeydown.tsx'
 
 Campus Navigation Project: FPU
 
+install dependencies with npm install in the node_connections_editor directory
+
+
 enter the directory of the node_connections_editor and run with
 cd src/utils/node_connections_editor
 npm run dev
@@ -34,6 +37,7 @@ export default function App() {
 
     const [edges, setConnections] = useState([]); //array of objects for connections between nodes, each object has the format { id: string, connections: string[] }
 
+    const keyRef = useRef(false); //state to keep track of the previously pressed keys for keyboard shortcuts
 
     const createConnection = () => {
         console.log("selected:", selectedNode);
@@ -163,7 +167,31 @@ export default function App() {
     }
 
     useGlobalKeydown((e) => {
-        console.log(e);
+        //console.log("Pressed keys:", e.pressedKeys);
+        if (e.pressedKeys.length === 0) { //reset if no keys are pressed
+            keyRef.current = false;
+            console.log("Keys released, resetting keyRef");
+            return;
+            }
+        if (keyRef.current) return; //prevent repeat events if keys are held down
+        
+
+        if (e.pressedKeys.includes("e")){
+            console.log("Adding connection");
+            createConnection();
+            keyRef.current = true;
+        }
+        else if (e.pressedKeys.includes("q")){
+            console.log("Removing connection");
+            removeConnection();
+            keyRef.current = true;
+        }
+        else if (e.pressedKeys.includes("Control") && e.pressedKeys.includes("z")) {
+            console.log("Undo last connection (WIP)");
+            // Implement undo functionality here
+            keyRef.current = true;
+        
+    }
     });
 
   return (
