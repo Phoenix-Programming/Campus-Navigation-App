@@ -19,6 +19,8 @@ The viewer supports panning and zooming using the middle mouse button and scroll
 The JSON file will be used to add all nodes to the svg as circles and add events to create edges between nodes by clicking on them.
 Connections can be exported or imported to continue saved work
 
+Connections can be autofilled based on node types and roles, as long as they are named properly
+
 Keyboard shortcuts are available,
 E to create a connection between two selected nodes
 Q to remove a connection between two selected nodes
@@ -26,7 +28,6 @@ Ctrl + Z to undo the last connection change
 
 WIP features:
 - add custom connection (add a connection to a node that doesn't exist on this svg)
-- prompt to auto connect hallway nodes and room nodes
 */
 
 export default function App() {
@@ -52,30 +53,11 @@ export default function App() {
         const id1 = selectedNode.id;
         const id2 = secondSelectedNode.id;
 
+        insertConnection(id1, id2);
         // Save the current state to history
         pushHistory();
 
-        setConnections(prev => {
-            let updated = structuredClone(prev); //copy edges
-
-            const addConnection = (from, to) => {
-                const existing = updated.find(e => e.id === from); //find object with matching id
-
-                if (existing) { //if it exists
-                    if (!existing.connections.includes(to)) { // if it doesn't include the connection already
-                        existing.connections.push(to); //add the connection to it
-                    }
-                } else {
-                    updated.push({ id: from, connections: [to] }); // if it doesn't exist, add a whole object to the array
-                }
-            };
-
-            // make it bidirectional
-            addConnection(id1, id2);
-            addConnection(id2, id1);
-
-            return updated;
-        });
+        
     };
 
     const removeConnection = () => {
@@ -107,6 +89,28 @@ export default function App() {
             });
         });
     };
+    const insertConnection = (id1, id2) =>
+        setConnections(prev => {
+                let updated = structuredClone(prev); //copy edges
+
+                const addConnection = (from, to) => {
+                    const existing = updated.find(e => e.id === from); //find object with matching id
+
+                    if (existing) { //if it exists
+                        if (!existing.connections.includes(to)) { // if it doesn't include the connection already
+                            existing.connections.push(to); //add the connection to it
+                        }
+                    } else {
+                        updated.push({ id: from, connections: [to] }); // if it doesn't exist, add a whole object to the array
+                    }
+                };
+
+                // make it bidirectional
+                addConnection(id1, id2);
+                addConnection(id2, id1);
+
+                return updated;
+            });
 
     const forceConnection = (id1, id2) => { //WIP
         if (id2 != null){console.log("Error, tried to force regular connection");return;}
@@ -237,7 +241,7 @@ export default function App() {
         
         <ConnectionsOverlay edges = {edges} importConnections={importConnections} exportConnections={exportConnections}/>
         
-        <AutoFill edges = {edges} createConnection={createConnection}/>
+        <AutoFill edges = {edges}  json = {json} insertConnection={insertConnection}/>
         </>
         } 
     </div>
@@ -561,12 +565,44 @@ function ConnectionsOverlay({edges, importConnections, exportConnections}){
 }
 
 //Component for prompting the auto connection of rooms and hallways
-function AutoFill({edges, createConnection}){
+function AutoFill({edges, json, insertConnection}){
     const [prompted, setPrompted] = useState(false);
 
     function autoFill(){
-        
-    
+        console.log("Auto filling connections based on node types and roles");
+        json.map(node => {
+            console.log(node);
+            if (node.type === "rm"){
+                //find all rmdoor nodes that correspond to this room and connect them
+                const roomid = node.id.split("_")[2]; //get the number at the end of the room node id
+
+                console.log("found room node", node.id, "attempting to connect to doors with room id", roomid);
+                const doors = json.filter(n => n.type === "rmdoor" && n.id.split("_")[3] === roomid);
+
+                console.log("doors found:", doors);
+                doors.map(door => {//connect each door to the room
+                    console.log("Connecting room node", node.id, "to door", door.id);
+                    insertConnection(node.id, door.id);
+                });
+            }
+            else if (node.type === "hall"){
+                const split = node.id.split("_");
+                if (split[3] != "a") return; //only connect if the node is the first in the chain 
+                console.log("found hallway node", node.id, "attempting to connect to other nodes in the hallway...");
+                //find all hall nodes that connect to this hallway and connect them
+                const hallway = json.filter( n => n.id.split("_") [2] === split[2] && n.id.split("_")[4] === split[4]);//filter by making sure direction and count is the same
+                console.log("hallway nodes found:", hallway);
+                //connect them in sequence from alphabetical to each other ( a to b, b to c, etc)
+                hallway.sort((a, b) => a.id.localeCompare(b.id)).map((node, index) => {
+                    if (index < hallway.length - 1){ //if it's not the last node, connect it to the next node in the hallway
+                        console.log("Connecting hallway node", node.id, "to", hallway[index + 1].id);
+                        insertConnection(node.id, hallway[index + 1].id);
+                    }
+                });
+            }
+
+        });
+
         setPrompted(true);
     }
 
@@ -577,10 +613,13 @@ function AutoFill({edges, createConnection}){
         <>
         { !prompted && (
             <div className='autoFillOverlay'>
-                Connections can be made automatically between nodes,<br></br>
+                <br></br>Connections can be made automatically between nodes,<br></br>
                 as long as they are named properly <br></br><br></br>
                 <div className='connectionsBtn' onClick={autoFill}>
                     Generate connections between rooms and hallways?
+                </div>
+                <div className='closeBtn' onClick={() => setPrompted(true)}>
+                    X
                 </div>
             </div>
         )}
