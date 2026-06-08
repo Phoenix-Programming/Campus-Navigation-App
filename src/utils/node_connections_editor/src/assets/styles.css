@@ -107,3 +107,26 @@ h1 {
     user-select: all;
     display: inline;
 }
+
+.autoFillOverlay {
+    padding: 15px 15px;
+    line-height: normal;
+
+    border-radius: 10px 10px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #6E35AE;
+
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    z-index: 999999;
+    background: rgb(40, 40, 40);
+    color: white;
+    user-select: none;
+
+    transform: translate(-50%, -50%);
+
+    align-items: center;
+    text-align: center;
+}

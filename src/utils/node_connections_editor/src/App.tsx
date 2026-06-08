@@ -228,6 +228,7 @@ export default function App() {
         {/*display the upload component*/}
         <Upload setSvg={setSvg} setJson={setJson} setFileName={setFileName}/>
 
+        {/*display the SVG viewer and overlays if both files have been uploaded*/}
         {json && svg && 
         <>
         <SVGViewer src={svg} json={json} setHoveredNode={setHoveredNode} setSelectedNode={setSelect} selectedNode={selectedNode} secondSelectedNode={secondSelectedNode} connections = {edges}/>
@@ -236,10 +237,9 @@ export default function App() {
         
         <ConnectionsOverlay edges = {edges} importConnections={importConnections} exportConnections={exportConnections}/>
         
-        
-        
+        <AutoFill edges = {edges} createConnection={createConnection}/>
         </>
-        } {/*display the SVG viewer and overlays if both files have been uploaded*/}
+        } 
     </div>
   )
 }
@@ -557,5 +557,33 @@ function ConnectionsOverlay({edges, importConnections, exportConnections}){
             {nConnections && (<>{nConnections} connections loaded</>)} 
             </h1>
         </div>
+    )
+}
+
+//Component for prompting the auto connection of rooms and hallways
+function AutoFill({edges, createConnection}){
+    const [prompted, setPrompted] = useState(false);
+
+    function autoFill(){
+        
+    
+        setPrompted(true);
+    }
+
+
+
+
+    return (
+        <>
+        { !prompted && (
+            <div className='autoFillOverlay'>
+                Connections can be made automatically between nodes,<br></br>
+                as long as they are named properly <br></br><br></br>
+                <div className='connectionsBtn' onClick={autoFill}>
+                    Generate connections between rooms and hallways?
+                </div>
+            </div>
+        )}
+        </>
     )
 }
