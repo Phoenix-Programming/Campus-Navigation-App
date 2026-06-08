@@ -19,11 +19,14 @@ The viewer supports panning and zooming using the middle mouse button and scroll
 The JSON file will be used to add all nodes to the svg as circles and add events to create edges between nodes by clicking on them.
 Connections can be exported or imported to continue saved work
 
-WIP features:
-- keyboard shortcuts
-- undo last connection made
-- add custom connection
+Keyboard shortcuts are available,
+E to create a connection between two selected nodes
+Q to remove a connection between two selected nodes
+Ctrl + Z to undo the last connection change
 
+WIP features:
+- add custom connection (add a connection to a node that doesn't exist on this svg)
+- prompt to auto connect hallway nodes and room nodes
 */
 
 export default function App() {
@@ -39,6 +42,8 @@ export default function App() {
 
     const keyRef = useRef(false); //state to keep track of the previously pressed keys for keyboard shortcuts
 
+    const [history, setHistory] = useState([]); //state to keep track of the history of connections for undo functionality
+
     const createConnection = () => {
         console.log("selected:", selectedNode);
         console.log("second:", secondSelectedNode);
@@ -47,8 +52,11 @@ export default function App() {
         const id1 = selectedNode.id;
         const id2 = secondSelectedNode.id;
 
+        // Save the current state to history
+        pushHistory();
+
         setConnections(prev => {
-            let updated = [...prev]; //copy edges
+            let updated = structuredClone(prev); //copy edges
 
             const addConnection = (from, to) => {
                 const existing = updated.find(e => e.id === from); //find object with matching id
@@ -75,6 +83,9 @@ export default function App() {
 
         const id1 = selectedNode.id;
         const id2 = secondSelectedNode.id;
+
+        // Save the current state to history
+        pushHistory();
 
         setConnections(prev => { //this is a function call
             return prev.map(conn => { // for all connections in edges
@@ -167,12 +178,17 @@ export default function App() {
     }
 
     useGlobalKeydown((e) => {
-        //console.log("Pressed keys:", e.pressedKeys);
+        console.log("Pressed keys:", e.pressedKeys);
         if (e.pressedKeys.length === 0) { //reset if no keys are pressed
             keyRef.current = false;
             console.log("Keys released, resetting keyRef");
             return;
             }
+        if (e.pressedKeys.length === 1 && (e.pressedKeys.includes("Control") || e.pressedKeys.includes("Alt") || e.pressedKeys.includes("shift"))){ //ignore if only modifier keys are pressed
+            keyRef.current = false;
+            console.log("Keys released, resetting keyRef");
+            return;
+        }
         if (keyRef.current) return; //prevent repeat events if keys are held down
         
 
@@ -188,11 +204,24 @@ export default function App() {
         }
         else if (e.pressedKeys.includes("Control") && e.pressedKeys.includes("z")) {
             console.log("Undo last connection (WIP)");
-            // Implement undo functionality here
+            
+            setHistory(prevHistory => {
+                if (prevHistory.length === 0) return prevHistory; //if there is no history, do nothing
+
+                const previousState = prevHistory[prevHistory.length - 1]; //get the last state from history
+
+                setConnections(previousState); //set edges to the state
+
+                return prevHistory.slice(0, -1); //remove last state
+            });
             keyRef.current = true;
         
     }
     });
+
+    const pushHistory = () => {
+        setHistory(prev => [...prev, structuredClone(edges)]);
+    };
 
   return (
     <div>
