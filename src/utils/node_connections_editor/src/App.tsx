@@ -69,8 +69,8 @@ export default function App() {
         // Save the current state to history
         pushHistory();
 
-        setConnections(prev => { //this is a function call
-            return prev.map(conn => { // for all connections in edges
+        setConnections((prev: Array<{ id: string; connections: string[] }>) => { //this is a function call
+            return prev.map((conn: { id: string; connections: string[] }) => { // for all connections in edges
                 if (conn.id === id1) {
                     return {
                         ...conn,
@@ -89,11 +89,11 @@ export default function App() {
             });
         });
     };
-    const insertConnection = (id1, id2) =>
+    const insertConnection = (id1: string, id2: string) =>
         setConnections(prev => {
                 let updated = structuredClone(prev); //copy edges
 
-                const addConnection = (from, to) => {
+                const addConnection = (from: string, to: string) => {
                     const existing = updated.find(e => e.id === from); //find object with matching id
 
                     if (existing) { //if it exists
@@ -112,8 +112,8 @@ export default function App() {
                 return updated;
             });
 
-    const forceConnection = (id1, id2) => {//WIP unused currently
-        if (id2 != null){console.log("Error, tried to force regular connection");return;}
+    const forceConnection = (id1: string, id2?: string) => {//WIP unused currently
+        if (id2 !== null && id2 !== undefined){console.log("Error, tried to force regular connection");return;}
         else{
             console.log("Forcing connection to node");
 
@@ -123,8 +123,8 @@ export default function App() {
         
     };
 
-    const setSelect = (node) => {
-        setSelectedNode(prev => {
+    const setSelect = (node: any) => {
+        setSelectedNode((prev: any) => {
             if (prev && prev.id === node.id) {
                 setSecondSelectedNode(null);
                 return null;
@@ -136,7 +136,7 @@ export default function App() {
     };
 
     //function to import new edge data and replace the current data
-    const importConnections = (data) => { // data is array of node objects, with string id and array of connections
+    const importConnections = (data: Array<{ id: string; connections: string[] }>) => { // data is array of node objects, with string id and array of connections
         console.log("current edge data")
         console.log(edges);
         console.log("importing data")
@@ -152,7 +152,7 @@ export default function App() {
 
         if ('showSaveFilePicker' in window) {
             try {
-                const handle = await window.showSaveFilePicker({
+                const handle = await (window as any).showSaveFilePicker({
                     suggestedName: `${fileName}connections.json`,
                     types: [{
                         description: "JSON Connection File",
@@ -166,8 +166,8 @@ export default function App() {
                 await writable.write(jsonString);
                 await writable.close();
                 return;
-            } catch (err) {
-                if (err.name === "AbortError") return;
+            } catch (err: unknown) {
+                if ((err as any).name === "AbortError") return;
                 throw err;
             }
         }
@@ -184,7 +184,7 @@ export default function App() {
         URL.revokeObjectURL(url);
     }
 
-    useGlobalKeydown((e) => {
+    useGlobalKeydown((e: any) => {
         console.log("Pressed keys:", e.pressedKeys);
         if (e.pressedKeys.length === 0) { //reset if no keys are pressed
             keyRef.current = false;
@@ -212,7 +212,7 @@ export default function App() {
         else if (e.pressedKeys.includes("Control") && e.pressedKeys.includes("z")) {
             console.log("Undo last connection (WIP)");
             
-            setHistory(prevHistory => {
+            setHistory((prevHistory: any[]) => {
                 if (prevHistory.length === 0) return prevHistory; //if there is no history, do nothing
 
                 const previousState = prevHistory[prevHistory.length - 1]; //get the last state from history
@@ -227,8 +227,8 @@ export default function App() {
     });
 
     const pushHistory = () => {
-        setHistory(prev => [...prev, structuredClone(edges)]);
-        history;//screw you error checker
+        setHistory((prev: any[]) => [...prev, structuredClone(edges)]);
+        void history;//screw you error checker
     };
 
   return (
@@ -255,16 +255,16 @@ export default function App() {
 
 //Component for handling file uploads and displaying instructions to the user
 //hides itself once both files have been uploaded and passes both files to the parent component (App) through the setSvg and setJson functions
-function Upload({ setSvg, setJson, setFileName }) {
+function Upload({ setSvg, setJson, setFileName }: { setSvg: (val: string) => void; setJson: (val: any) => void; setFileName: (val: string) => void }) {
     const [uplState, setUplState] = useState(0);
 
-    function handleChange(e) {
-        const f = e.target.files[0];
+    function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
+        const f = e.target.files?.[0];if (!f) return;
         const baseName = f.name.replace(/\.json$/i, "");
 
 
         if (f.type === "application/json") { //check if the uploaded file is a JSON
-          f.text().then(text => {
+          f.text().then((text: string) => {
             const data = JSON.parse(text);
             setJson(data);
             setFileName(baseName);
@@ -322,13 +322,13 @@ function Upload({ setSvg, setJson, setFileName }) {
 }
 
 //Component for displaying the uploaded SVG file and handling panning and zooming interactions
-function SVGViewer({ src , json, setHoveredNode, setSelectedNode, selectedNode, secondSelectedNode, connections}) {
+function SVGViewer({ src , json, setHoveredNode, setSelectedNode, selectedNode, secondSelectedNode, connections}: { src: string; json: any; setHoveredNode: (node: any) => void; setSelectedNode: (node: any) => void; selectedNode: any; secondSelectedNode: any; connections: Array<{ id: string; connections: string[] }> }) {
     const [scale, setScale] = useState(0.1);
     const [pos, setPos] = useState({ x: 0, y: 0 });
     const dragging = useRef(false);
     const last = useRef({ x: 0, y: 0 });
 
-    function onWheel(e) { //event for zooming in and out
+    function onWheel(e: React.WheelEvent<HTMLDivElement>) { //event for zooming in and out
         e.preventDefault();
 
         const zoomIntensity = 0.1;
@@ -337,14 +337,14 @@ function SVGViewer({ src , json, setHoveredNode, setSelectedNode, selectedNode, 
         setScale(prev => Math.min(Math.max(0.1, prev + delta), 5));
     }
 
-    function onMouseDown(e) { //event called to detect dragging for panning the image
+    function onMouseDown(e: React.MouseEvent<HTMLDivElement>) { //event called to detect dragging for panning the image
         if (e.button !== 1) return; //only respond to middle mouse button
 
         dragging.current = true;
         last.current = { x: e.clientX, y: e.clientY };
     }
 
-    function onMouseMove(e) { //event for panning the image while dragging
+    function onMouseMove(e: React.MouseEvent<HTMLDivElement>) { //event for panning the image while dragging
         if (!dragging.current) return;
 
         const dx = e.clientX - last.current.x; //calculate the change in x and y positions
@@ -358,7 +358,7 @@ function SVGViewer({ src , json, setHoveredNode, setSelectedNode, selectedNode, 
         }));
     }
 
-    function onMouseUp() { //event to stop dragging when mouse button is released
+    function onMouseUp(): void { //event to stop dragging when mouse button is released
         dragging.current = false;
     }
 
@@ -388,7 +388,7 @@ function SVGViewer({ src , json, setHoveredNode, setSelectedNode, selectedNode, 
     );
 }
 
-function Nodes({ json, setHoveredNode, setSelectedNode, selectedNode, secondSelectedNode, connections }) {
+function Nodes({ json, setHoveredNode, setSelectedNode, selectedNode, secondSelectedNode, connections }: { json: any[]; setHoveredNode: (node: any) => void; setSelectedNode: (node: any) => void; selectedNode: any; secondSelectedNode: any; connections: Array<{ id: string; connections: string[] }> }) {
     const scale = 37.65; //scale factor to convert from cm to pixels (1 cm = 37.7952755906 pixels)
     
     const nodesById = Object.fromEntries(
@@ -403,20 +403,20 @@ function Nodes({ json, setHoveredNode, setSelectedNode, selectedNode, secondSele
     };
 
     //A connection is a object, containing id and connections[]
-    const edges = connections.flatMap(conn => //for each connection, create a edge for each connection inside it
-        conn.connections.map(targetId => ({ //targetId is each string inside the connections[] array inside the connection
+    const edges = connections.flatMap((conn: { id: string; connections: string[] }) => //for each connection, create a edge for each connection inside it
+        conn.connections.map((targetId: string) => ({ //targetId is each string inside the connections[] array inside the connection
             from: conn.id,
             to: targetId
         }))
     );
 
-    function onNodeClick(node) {
+    function onNodeClick(node: any): void {
         setSelectedNode(node);
     }
 
     return (
         <div>
-            {json.map((node) => {
+            {json.map((node: any) => {
             const color = colors[node.type] ?? "#000000";
             const getBorder = () => {
                 if (selectedNode?.id === node.id) return "5px solid #ffff00";
@@ -450,7 +450,7 @@ function Nodes({ json, setHoveredNode, setSelectedNode, selectedNode, secondSele
 
 
 
-            {edges.map((edge) => { //for each edge
+            {edges.map((edge: { from: string; to: string }) => { //for each edge
                 const from = nodesById[edge.from]; //grab the object of the node
                 const to = nodesById[edge.to];
 
@@ -485,7 +485,7 @@ function Nodes({ json, setHoveredNode, setSelectedNode, selectedNode, secondSele
 }
 
 //Component for managing and displaying the node management overlay
-function NodeOverlay({selectedNode, secondSelectedNode, hoveredNode, createConnection, removeConnection, forceConnection}){
+function NodeOverlay({selectedNode, secondSelectedNode, hoveredNode, createConnection, removeConnection, forceConnection}: { selectedNode: any; secondSelectedNode: any; hoveredNode: any; createConnection: () => void; removeConnection: () => void; forceConnection: (id: string, id2?: string) => void }){
     const [forceHandle, setForceHandle] = useState(false);
     const [forceNodeId, setForceNodeId] = useState("");
     
@@ -559,14 +559,14 @@ function NodeOverlay({selectedNode, secondSelectedNode, hoveredNode, createConne
 }
 
 //Component for managing and displaying the connections json overlay
-function ConnectionsOverlay({edges, importConnections, exportConnections}){
+function ConnectionsOverlay({edges, importConnections, exportConnections}: { edges: Array<{ id: string; connections: string[] }>; importConnections: (data: any) => void; exportConnections: () => Promise<void> }){
 
-    const [nConnections, setnConnections] = useState(null); //number of connections loaded WIP
+    const [nConnections, setnConnections] = useState<number | null>(null); //number of connections loaded WIP
 
-    function handleChange(e){
-        const f = e.target.files[0]
+    function handleChange(e: React.ChangeEvent<HTMLInputElement>){
+        const f = e.target.files?.[0];if (!f) return;
         if (f.type === "application/json"){
-            f.text().then(text => {
+            f.text().then((text: string) => {
                 const data = JSON.parse(text);
                 importConnections(data.nodes);
                 console.log(data.nodes);
@@ -594,22 +594,22 @@ function ConnectionsOverlay({edges, importConnections, exportConnections}){
 }
 
 //Component for prompting the auto connection of rooms and hallways
-function AutoFill({edges, json, insertConnection}){
+function AutoFill({edges, json, insertConnection}: { edges: Array<{ id: string; connections: string[] }>; json: any[]; insertConnection: (id1: string, id2: string) => void }){
     const [prompted, setPrompted] = useState(false);
 
-    function autoFill(){
+    function autoFill(): void {
         console.log("Auto filling connections based on node types and roles");
-        json.map(node => {
+        json.map((node: any) => {
             console.log(node);
             if (node.type === "rm"){
                 //find all rmdoor nodes that correspond to this room and connect them
                 const roomid = node.id.split("_")[2]; //get the number at the end of the room node id
 
                 console.log("found room node", node.id, "attempting to connect to doors with room id", roomid);
-                const doors = json.filter(n => n.type === "rmdoor" && n.id.split("_")[3] === roomid);
+                const doors = json.filter((n: any) => n.type === "rmdoor" && n.id.split("_")[3] === roomid);
 
                 console.log("doors found:", doors);
-                doors.map(door => {//connect each door to the room
+                doors.map((door: any) => {//connect each door to the room
                     console.log("Connecting room node", node.id, "to door", door.id);
                     insertConnection(node.id, door.id);
                 });
@@ -619,10 +619,10 @@ function AutoFill({edges, json, insertConnection}){
                 if (split[3] != "a") return; //only connect if the node is the first in the chain 
                 console.log("found hallway node", node.id, "attempting to connect to other nodes in the hallway...");
                 //find all hall nodes that connect to this hallway and connect them
-                const hallway = json.filter( n => n.id.split("_") [2] === split[2] && n.id.split("_")[4] === split[4]);//filter by making sure direction and count is the same
+                const hallway = json.filter( (n: any) => n.id.split("_") [2] === split[2] && n.id.split("_")[4] === split[4]);//filter by making sure direction and count is the same
                 console.log("hallway nodes found:", hallway);
                 //connect them in sequence from alphabetical to each other ( a to b, b to c, etc)
-                hallway.sort((a, b) => a.id.localeCompare(b.id)).map((node, index) => {
+                hallway.sort((a: any, b: any) => a.id.localeCompare(b.id)).map((node: any, index: number) => {
                     if (index < hallway.length - 1){ //if it's not the last node, connect it to the next node in the hallway
                         console.log("Connecting hallway node", node.id, "to", hallway[index + 1].id);
                         insertConnection(node.id, hallway[index + 1].id);

@@ -1,21 +1,22 @@
 import { useEffect, useRef } from 'react';
 
-export function useGlobalKeydown(handler, options = {}) {
+export function useGlobalKeydown(handler: (input: { event: KeyboardEvent; pressedKeys: string[] }) => void, options: { ignoreInputs?: boolean } = {}) {
   const { ignoreInputs = true } = options;
   const pressedKeys = useRef(new Set());
 
   useEffect(() => {
-    const shouldIgnore = (target) => {
+    const shouldIgnore = (target: EventTarget | null): boolean => {
       if (!ignoreInputs) return false;
 
+      const element = target as HTMLElement;
       return (
-        target.tagName === 'INPUT' ||
-        target.tagName === 'TEXTAREA' ||
-        target.isContentEditable
+        element.tagName === 'INPUT' ||
+        element.tagName === 'TEXTAREA' ||
+        (element as HTMLElement).isContentEditable
       );
     };
 
-    const handleKeyDown = (e) => {
+    const handleKeyDown = (e: KeyboardEvent) => {
       if (shouldIgnore(e.target)) return;
 
       pressedKeys.current.add(e.key);
@@ -26,7 +27,7 @@ export function useGlobalKeydown(handler, options = {}) {
       });
     };
 
-    const handleKeyUp = (e) => {
+    const handleKeyUp = (e: KeyboardEvent) => {
       if (shouldIgnore(e.target)) return;
 
       pressedKeys.current.delete(e.key);
