@@ -559,7 +559,7 @@ function NodeOverlay({selectedNode, secondSelectedNode, hoveredNode, createConne
 }
 
 //Component for managing and displaying the connections json overlay
-function ConnectionsOverlay({_edges, importConnections, exportConnections}: { _edges: Array<{ id: string; connections: string[] }>; importConnections: (data: any) => void; exportConnections: () => Promise<void> }){
+function ConnectionsOverlay({edges, importConnections, exportConnections}: { edges: Array<{ id: string; connections: string[] }>; importConnections: (data: any) => void; exportConnections: () => Promise<void> }){
 
     const [nConnections, setnConnections] = useState<number | null>(null); //number of connections loaded WIP
 
@@ -594,7 +594,7 @@ function ConnectionsOverlay({_edges, importConnections, exportConnections}: { _e
 }
 
 //Component for prompting the auto connection of rooms and hallways
-function AutoFill({_edges, json, insertConnection}: { _edges: Array<{ id: string; connections: string[] }>; json: any[]; insertConnection: (id1: string, id2: string) => void }){
+function AutoFill({edges, json, insertConnection}: { edges: Array<{ id: string; connections: string[] }>; json: any[]; insertConnection: (id1: string, id2: string) => void }){
     const [prompted, setPrompted] = useState(false);
 
     function autoFill(): void {
