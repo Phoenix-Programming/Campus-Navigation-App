@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react';
 
 export function useGlobalKeydown(handler: (input: { event: KeyboardEvent; pressedKeys: string[] }) => void, options: { ignoreInputs?: boolean } = {}) {
   const { ignoreInputs = true } = options;
-  const pressedKeys = useRef(new Set());
+  const pressedKeys = useRef<Set<string>>(new Set());
 
   useEffect(() => {
     const shouldIgnore = (target: EventTarget | null): boolean => {
@@ -34,7 +34,7 @@ export function useGlobalKeydown(handler: (input: { event: KeyboardEvent; presse
 
       handler({
         event: e,
-        pressedKeys: [...pressedKeys.current],
+        pressedKeys: Array.from(pressedKeys.current),
       });
     };
 

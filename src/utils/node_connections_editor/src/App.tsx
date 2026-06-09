@@ -112,7 +112,7 @@ export default function App() {
                 return updated;
             });
 
-    const forceConnection = (id1: string, id2?: string) => {//WIP unused currently
+    const forceConnection = (_id1: string, id2?: string) => {//WIP unused currently
         if (id2 !== null && id2 !== undefined){console.log("Error, tried to force regular connection");return;}
         else{
             console.log("Forcing connection to node");
@@ -417,7 +417,7 @@ function Nodes({ json, setHoveredNode, setSelectedNode, selectedNode, secondSele
     return (
         <div>
             {json.map((node: any) => {
-            const color = colors[node.type] ?? "#000000";
+            const color = colors[node.type as keyof typeof colors] ?? "#000000";
             const getBorder = () => {
                 if (selectedNode?.id === node.id) return "5px solid #ffff00";
                 if (secondSelectedNode?.id === node.id) return "5px solid #00ffff";
@@ -495,7 +495,7 @@ function NodeOverlay({selectedNode, secondSelectedNode, hoveredNode, createConne
             <div className='connectionsBtn' onClick={createConnection}>
                 Add connection
             </div>
-            {null && selectedNode && !secondSelectedNode && (//Remove null to reactivate force button
+            {false && selectedNode && !secondSelectedNode && (//Remove false to reactivate force button
     <><br/>
         {!forceHandle ? (
             <div className="connectionsBtn" onClick={() => setForceHandle(true)}>
@@ -559,7 +559,7 @@ function NodeOverlay({selectedNode, secondSelectedNode, hoveredNode, createConne
 }
 
 //Component for managing and displaying the connections json overlay
-function ConnectionsOverlay({edges, importConnections, exportConnections}: { edges: Array<{ id: string; connections: string[] }>; importConnections: (data: any) => void; exportConnections: () => Promise<void> }){
+function ConnectionsOverlay({_edges, importConnections, exportConnections}: { _edges: Array<{ id: string; connections: string[] }>; importConnections: (data: any) => void; exportConnections: () => Promise<void> }){
 
     const [nConnections, setnConnections] = useState<number | null>(null); //number of connections loaded WIP
 
@@ -594,7 +594,7 @@ function ConnectionsOverlay({edges, importConnections, exportConnections}: { edg
 }
 
 //Component for prompting the auto connection of rooms and hallways
-function AutoFill({edges, json, insertConnection}: { edges: Array<{ id: string; connections: string[] }>; json: any[]; insertConnection: (id1: string, id2: string) => void }){
+function AutoFill({_edges, json, insertConnection}: { _edges: Array<{ id: string; connections: string[] }>; json: any[]; insertConnection: (id1: string, id2: string) => void }){
     const [prompted, setPrompted] = useState(false);
 
     function autoFill(): void {
