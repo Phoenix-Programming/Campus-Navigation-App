@@ -146,7 +146,7 @@ export default function App() {
 
     //function to export all edge data and include distance for all connections
     async function exportConnections() {
-        const nodes = {nodes: edges}; //wrap it in object for python scripts... because we did that
+        const nodes = {nodes: structuredClone(edges)}; //wrap it in object for python scripts... because we did that
 
         const jsonString = JSON.stringify(nodes, null, 2); //turn edges into a json string
 
