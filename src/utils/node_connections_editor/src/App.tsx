@@ -31,19 +31,19 @@ WIP features:
 */
 
 export default function App() {
-    const [svg, setSvg] = useState(null); //saves url to svg to display
-    const [json, setJson] = useState(null); //json object from parsed json
-    const [fileName, setFileName] = useState(null) //name of json object 
+    const [svg, setSvg] = useState<string | null>(null); //saves url to svg to display
+    const [json, setJson] = useState<any>(null); //json object from parsed json
+    const [fileName, setFileName] = useState<string | null>(null); //name of json object 
 
-    const [hoveredNode, setHoveredNode] = useState(null); //state to keep track of which node is currently being hovered over (for overlay info)
-    const [selectedNode, setSelectedNode] = useState(null); //state to keep track of which node is currently selected (for edge creation)
-    const [secondSelectedNode, setSecondSelectedNode] = useState(null); //state to keep track of the second node selected for edge creation
+    const [hoveredNode, setHoveredNode] = useState<any>(null); //state to keep track of which node is currently being hovered over (for overlay info)
+    const [selectedNode, setSelectedNode] = useState<any>(null); //state to keep track of which node is currently selected (for edge creation)
+    const [secondSelectedNode, setSecondSelectedNode] = useState<any>(null); //state to keep track of the second node selected for edge creation
 
-    const [edges, setConnections] = useState([]); //array of objects for connections between nodes, each object has the format { id: string, connections: string[] }
+    const [edges, setConnections] = useState<Array<{ id: string; connections: string[] }>>([]); //array of objects for connections between nodes, each object has the format { id: string, connections: string[] }
 
     const keyRef = useRef(false); //state to keep track of the previously pressed keys for keyboard shortcuts
 
-    const [history, setHistory] = useState([]); //state to keep track of the history of connections for undo functionality
+    const [history, setHistory] = useState<Array<Array<{ id: string; connections: string[] }>>>([]); //state to keep track of the history of connections for undo functionality
 
     const createConnection = () => {
         console.log("selected:", selectedNode);
@@ -228,6 +228,7 @@ export default function App() {
 
     const pushHistory = () => {
         setHistory(prev => [...prev, structuredClone(edges)]);
+        history;//screw you error checker
     };
 
   return (
