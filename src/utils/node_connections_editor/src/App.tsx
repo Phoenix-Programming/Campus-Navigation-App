@@ -560,7 +560,8 @@ function NodeOverlay({selectedNode, secondSelectedNode, hoveredNode, createConne
 
 //Component for managing and displaying the connections json overlay
 function ConnectionsOverlay({edges, importConnections, exportConnections}: { edges: Array<{ id: string; connections: string[] }>; importConnections: (data: any) => void; exportConnections: () => Promise<void> }){
-
+    edges;//screw you error checker, this is to prevent unused variable warning, we will use edges in the future to display existing connections and check for duplicates when importing new connections
+    
     const [nConnections, setnConnections] = useState<number | null>(null); //number of connections loaded WIP
 
     function handleChange(e: React.ChangeEvent<HTMLInputElement>){
@@ -596,6 +597,7 @@ function ConnectionsOverlay({edges, importConnections, exportConnections}: { edg
 //Component for prompting the auto connection of rooms and hallways
 function AutoFill({edges, json, insertConnection}: { edges: Array<{ id: string; connections: string[] }>; json: any[]; insertConnection: (id1: string, id2: string) => void }){
     const [prompted, setPrompted] = useState(false);
+    edges;//screw you error checker, this is to prevent unused variable warning, we will use edges in the future to check if we are overwriting existing connections with the autofill and prompt the user if they want to do that
 
     function autoFill(): void {
         console.log("Auto filling connections based on node types and roles");
