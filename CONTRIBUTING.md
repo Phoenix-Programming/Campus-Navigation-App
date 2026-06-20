@@ -24,6 +24,12 @@
    npm install
    ```
 
+### Create a Python Virtual Environment
+
+```bash
+python3 -m venv .venv
+```
+
 #### Install Poetry
 
 ```bash
