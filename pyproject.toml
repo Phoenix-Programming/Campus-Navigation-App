@@ -32,7 +32,9 @@ build-backend = "poetry.core.masonry.api"
 [dependency-groups]
 dev = [
     "poethepoet (>=0.46.0,<0.47.0)",
-    "httpx (>=0.28.1,<0.29.0)"
+    "httpx (>=0.28.1,<0.29.0)",
+    "requests (>=2.34.2,<3.0.0)",
+    "bs4 (>=0.0.2,<0.0.3)"
 ]
 
 [tool.poe.tasks]
