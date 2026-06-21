@@ -5,7 +5,7 @@
 ### Prerequisites
 
 - [Node.js (version 18 or higher)](https://nodejs.org/en/download)
-- [Python 3.13 or higher](https://www.python.org/downloads/)
+- [Python 3.14](https://www.python.org/downloads/)
 - npm package manager
 - Git
 
@@ -24,7 +24,7 @@
    npm install
    ```
 
-### Create a Python Virtual Environment
+#### Create a Python Virtual Environment
 
 ```bash
 python3 -m venv .venv
