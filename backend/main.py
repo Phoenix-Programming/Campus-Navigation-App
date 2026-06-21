@@ -1,14 +1,16 @@
+from contextlib import asynccontextmanager
 from fastapi import APIRouter, FastAPI, Request, Response, status
 from fastapi.exceptions import RequestValidationError
 from fastapi.exception_handlers import http_exception_handler, request_validation_exception_handler
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi.templating import Jinja2Templates
-from contextlib import asynccontextmanager
 from starlette.exceptions import HTTPException as StarletteHTTPException
 from starlette.templating import _TemplateResponse
 from typing import Final
+from backend.config.settings import settings
+from backend.database.db_connection import engine
 from backend.routes.api_routes import router as api_router
 # from src.routes.frontend_routes import router as frontend_router
-from backend.database.db_connection import engine
 
 
 _routers: Final[list[APIRouter]] = [
@@ -26,6 +28,14 @@ async def lifespan(_app: FastAPI):
 
 
 app: FastAPI = FastAPI(lifespan=lifespan)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[settings.frontend_url],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"]
+)
 
 templates: Jinja2Templates = Jinja2Templates(directory="templates")
 

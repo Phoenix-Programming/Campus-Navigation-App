@@ -34,7 +34,9 @@ jobs:
           python-version: 3.14
 
       - name: Install npm dependencies
-        run: npm ci
+        run: |
+          cd frontend
+          npm ci
 
       - name: Install Poetry
         run: |
@@ -53,7 +55,11 @@ jobs:
         run: poetry install --with dev
 
       - name: Build the frontend
-        run: npm run build --if-present
+        run: |
+          cd frontend
+          npm run build --if-present
 
       - name: Run frontend tests
-        run: npm test
+        run: |
+          cd frontend
+          npm test

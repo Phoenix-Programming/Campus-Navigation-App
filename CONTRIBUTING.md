@@ -13,16 +13,18 @@
 
 #### Clone the Repository
 
-   ```bash
-   git clone https://github.com/Phoenix-Programming/Campus-Navigation-App.git
-   cd Campus-Navigation-App
-   ```
+```bash
+git clone https://github.com/Phoenix-Programming/Campus-Navigation-App.git
+cd Campus-Navigation-App
+```
 
 #### Install npm Dependencies
 
-   ```bash
-   npm install
-   ```
+```bash
+cd frontend
+npm install
+cd ..
+```
 
 #### Create a Python Virtual Environment
 
@@ -113,8 +115,10 @@ npm run lint
 #### Frontend
 
 ```bash
+cd frontend
 npm run test
 npm run coverage
+cd ..
 ```
 
 #### Backend
@@ -130,9 +134,9 @@ git commit -m "Insert descriptive commit here"
 
 ### Push to the Remote Repository
 
-   ```bash
-   git push origin your-branch-name
-   ```
+```bash
+git push origin your-branch-name
+```
 
 ### Create a Pull Request
 
@@ -165,7 +169,7 @@ Include the following in your pull request description:
 - **Changes**: List of specific changes made
 - **Testing**: How you tested your changes
 - **Screenshots**: If applicable, add screenshots of UI changes
-- **Related Issues**: Reference any related issues using `Closes #42` or `Fixes #92`
+- **Related Issues**: Reference any related issues using `Closes #42` or `Fixes #67`
 
 ### Review Process
 
