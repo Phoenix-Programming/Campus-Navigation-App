@@ -6,7 +6,7 @@ authors = [
     {name = "Daniel Freer",email = "deletes_minimal.0w@icloud.com"}
 ]
 readme = "README.md"
-requires-python = ">=3.13"
+requires-python = ">=3.14"
 dependencies = [
     "fastapi[standard] (>=0.137.0,<0.138.0)",
     "uvicorn (>=0.49.0,<0.50.0)",
@@ -19,6 +19,7 @@ dependencies = [
     "greenlet (>=3.5.1,<4.0.0)",
     "aiosmtplib (>=5.1.1,<6.0.0)",
     "alembic (>=1.18.4,<2.0.0)",
+    "typing-extensions (>=4.15.0,<5.0.0)",
 ]
 
 [tool.poetry]
@@ -30,8 +31,10 @@ build-backend = "poetry.core.masonry.api"
 
 [dependency-groups]
 dev = [
-    "poethepoet (>=0.46.0,<0.47.0)"
+    "poethepoet (>=0.46.0,<0.47.0)",
+    "httpx (>=0.28.1,<0.29.0)"
 ]
 
 [tool.poe.tasks]
-start = "uvicorn backend.main:app --reload"
+start = "uvicorn backend.main:app --reload --reload-dir ./backend"
+seed = "python3 -m backend.seed.seed_db"
