@@ -1,8 +1,10 @@
-import { type JSX } from 'react';
-import LeafletMap from './components/LeafletMap';
+import { type JSX } from "react";
+import { useRoutes } from "react-router";
+import routes from "./routes/Routes";
+
 
 export default function App(): JSX.Element {
-	return (
-		<LeafletMap />
-	);
+	const element = useRoutes(routes);
+
+	return element ?? <></>;
 }
