@@ -2,7 +2,7 @@ from datetime import UTC, datetime, timedelta
 from fastapi import BackgroundTasks, Depends
 from fastapi.security import OAuth2PasswordRequestForm
 from typing import Annotated
-from backend.exceptions.exceptions import *
+from backend.exceptions import *
 from backend.auth.auth import (
     create_access_token,
     generate_reset_token,
@@ -11,16 +11,17 @@ from backend.auth.auth import (
     verify_password
 )
 from backend.auth.current_user_context import CurrentUserContext
-from backend.config.settings import settings
-from backend.services.models.user import Token, UserCreateRequest, UserUpdateRequest
-from backend.services.models.password_reset import (
+from backend.settings import settings
+from backend.models.token import Token
+from backend.models.user import UserCreateRequest, UserUpdateRequest
+from backend.models.password_reset import (
     ChangePasswordRequest,
     ForgotPasswordRequest,
     ResetPasswordRequest
 )
-from backend.repositories.schema.password_reset_token import PasswordResetToken
-from backend.repositories.schema.user import User
-from backend.database.db_connection import Database
+from backend.schema.password_reset_token import PasswordResetToken
+from backend.schema.user import User
+from backend.utilities.db_connection import Database
 from backend.utilities.email import send_password_reset_email
 from backend.repositories.user_repository import UserRepository
 
@@ -30,7 +31,7 @@ class UserService:
 		self.repo: UserRepository = UserRepository()
 
 
-	async def create_user(self, user: UserCreateRequest, db: Database) -> User:
+	async def register_user(self, user: UserCreateRequest, db: Database) -> User:
 		return await self.repo.insert_user(
       		username=user.username,
         	email=user.email.lower(),
@@ -39,7 +40,7 @@ class UserService:
         )
 
 
-	async def login_for_access_token(
+	async def login_user(
 		self,
 		form_data: Annotated[OAuth2PasswordRequestForm, Depends()],
 		db: Database

@@ -1,7 +1,7 @@
 import aiosmtplib
 from email.message import EmailMessage
 from fastapi.templating import Jinja2Templates
-from backend.config.settings import settings
+from backend.settings import settings
 
 templates: Jinja2Templates = Jinja2Templates(directory="templates")
 

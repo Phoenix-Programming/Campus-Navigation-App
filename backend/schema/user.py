@@ -1,7 +1,7 @@
 from __future__ import annotations
 from sqlalchemy import Boolean, Integer, String
 from sqlalchemy.orm import Mapped, mapped_column, relationship
-from backend.database.db_connection import Base
+from backend.utilities.db_connection import Base
 from .password_reset_token import PasswordResetToken
 
 class User(Base):

@@ -1,10 +1,10 @@
 import asyncio
 import httpx
 from sqlalchemy import delete
-from backend.database.db_connection import AsyncSessionLocal, engine
+from backend.utilities.db_connection import AsyncSessionLocal, engine
 from backend.main import app
-from backend.repositories.schema.password_reset_token import PasswordResetToken
-from backend.repositories.schema.user import User
+from backend.schema.password_reset_token import PasswordResetToken
+from backend.schema.user import User
 from .data import USERS
 
 

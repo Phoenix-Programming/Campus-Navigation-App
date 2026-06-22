@@ -2,7 +2,7 @@ from __future__ import annotations
 from datetime import UTC, datetime
 from sqlalchemy import DateTime, ForeignKey, Integer, String
 from sqlalchemy.orm import Mapped, mapped_column, relationship
-from backend.database.db_connection import Base
+from backend.utilities.db_connection import Base
 
 class PasswordResetToken(Base):
 	__tablename__ = "password_reset_tokens"

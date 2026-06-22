@@ -1,18 +1,18 @@
 from fastapi import APIRouter, BackgroundTasks, Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordRequestForm
 from typing import Annotated
-from backend.exceptions.exceptions import *
+from backend.exceptions import *
 from backend.auth.auth import CurrentUser
-from backend.database.db_connection import Database
-from backend.repositories.schema.user import User
-from backend.services.models.user import (
-    Token,
+from backend.utilities.db_connection import Database
+from backend.schema.user import User
+from backend.models.token import Token
+from backend.models.user import (
     UserCreateRequest,
     UserUpdateRequest,
     UserPublicResponse,
     UserPrivateResponse
 )
-from backend.services.models.password_reset import (
+from backend.models.password_reset import (
     ChangePasswordRequest,
     ForgotPasswordRequest,
     ResetPasswordRequest
@@ -28,21 +28,22 @@ router: APIRouter = APIRouter(
 service: UserService = UserService()
 
 
-@router.post(path="/create", response_model=UserPrivateResponse, status_code=status.HTTP_201_CREATED)
-async def create_user(user: UserCreateRequest, db: Database) -> User:
+@router.post(path="/register", response_model=UserPrivateResponse, status_code=status.HTTP_201_CREATED)
+async def register_user(user: UserCreateRequest, db: Database) -> User:
 	try:
-		return await service.create_user(user=user, db=db)
+		return await service.register_user(user=user, db=db)
 	except NotUniqueError as e:
 		raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(e))
 
 
 @router.post("/token", response_model=Token)
-async def login_for_access_token(
+async def login(
 	form_data: Annotated[OAuth2PasswordRequestForm, Depends()],
 	db: Database
 ) -> Token:
 	try:
-		return await service.login_for_access_token(form_data=form_data, db=db)
+		print(f"Attempting login for user: {form_data.username} with password: {form_data.password}")
+		return await service.login_user(form_data=form_data, db=db)
 	except IncorrectEmailOrPasswordError as e:
 		raise HTTPException(
 			status_code=status.HTTP_401_UNAUTHORIZED,

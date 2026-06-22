@@ -15,16 +15,6 @@ class UserUpdateRequest(BaseModel):
     email: EmailStr | None = Field(default=None, max_length=120)
 
 
-class Token(BaseModel):
-    access_token: str
-    token_type: str
-
-
-class TokenData(BaseModel):
-    user_id: str | None = None
-    permissions: set[str] | None = None
-
-
 class UserPublicResponse(BaseModel):
     model_config = ConfigDict(from_attributes=True)
 

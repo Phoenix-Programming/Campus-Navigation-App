@@ -3,10 +3,10 @@ from sqlalchemy import Result, func, select
 from sqlalchemy import delete as sql_delete
 from sqlalchemy.exc import IntegrityError
 from psycopg.errors import UniqueViolation
-from backend.database.db_connection import Database
-from backend.exceptions.exceptions import NotUniqueError
-from backend.repositories.schema.user import User
-from backend.repositories.schema.password_reset_token import PasswordResetToken
+from backend.utilities.db_connection import Database
+from backend.exceptions import NotUniqueError
+from backend.schema.user import User
+from backend.schema.password_reset_token import PasswordResetToken
 
 class UserRepository:
     async def insert_user(

@@ -6,11 +6,11 @@ from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
 from pwdlib import PasswordHash
 from typing import Annotated
-from backend.config.settings import settings
-from backend.database.db_connection import Database
+from backend.settings import settings
+from backend.utilities.db_connection import Database
 from backend.repositories.user_repository import UserRepository
-from backend.repositories.schema.user import User
-from backend.services.models.user import TokenData
+from backend.schema.user import User
+from backend.models.token import TokenData
 from .current_user_context import CurrentUserContext
 
 
