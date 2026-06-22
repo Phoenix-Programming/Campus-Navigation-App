@@ -13,7 +13,7 @@ export default function LeafletMap() {
 		const loadLayers = async () => {
 			try {
 				// Load the layers index
-				const indexResponse: Response = await fetch("/Campus-Navigation-App/data/outdoors/index.json");
+				const indexResponse: Response = await fetch("/data/outdoors/index.json");
 
 				if (!indexResponse.ok) throw new Error(`Failed to load index: ${indexResponse.status}`);
 
@@ -22,7 +22,7 @@ export default function LeafletMap() {
 				// Load all layer data
 				const layerPromises: Promise<LoadedLayer>[] = config.layers.map(
 					async (layerInfo: LayerData): Promise<LoadedLayer> => {
-						const response: Response = await fetch(`/Campus-Navigation-App/data/outdoors/${layerInfo.file}`);
+						const response: Response = await fetch(`/data/outdoors/${layerInfo.file}`);
 
 						if (!response.ok) throw new Error(`Failed to load ${layerInfo.id}: ${response.status}`);
 

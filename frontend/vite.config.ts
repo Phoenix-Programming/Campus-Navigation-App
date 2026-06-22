@@ -3,7 +3,6 @@ import react from "@vitejs/plugin-react";
 import path from "path";
 
 export default defineConfig({
-	base: "/Campus-Navigation-App/",
 	plugins: [
 		react({
 			babel: {
