@@ -14,9 +14,7 @@ export default function RootLayout() {
 				<Outlet />
 			</main>
 			<footer>
-				<small>&copy; 2026 Florida Poly Campus Map</small>
-				<br />
-				<small>The Florida Poly Campus Map and its developers are not affiliated with Florida Polytechnic University.</small>
+				<small>&copy; 2026 Florida Poly Campus Map - Unofficial student-developed project. Not affiliated with or endorsed by Florida Polytechnic University.</small>
 			</footer>
 		</div>
 	);
