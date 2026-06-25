@@ -30,7 +30,7 @@ async def populate() -> None:
         print(f"\nCreating {len(USERS)} users...")
         for user_data in USERS:
             response: httpx.Response = await client.post(
-				"/api/users/create",
+				"/api/users/register",
 				json={
 					"username": user_data["username"],
 					"email": user_data["email"],

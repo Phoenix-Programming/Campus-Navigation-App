@@ -10,6 +10,11 @@ class IncorrectEmailOrPasswordError(Exception):
         super().__init__("Incorrect email or password.")
 
 
+class InvalidOrExpiredRefreshToken(Exception):
+    def __init__(self):
+        super().__init__("Invalid or expired refresh token.")
+
+
 class InvalidOrExpiredPasswordResetTokenError(Exception):
     def __init__(self):
         super().__init__("Invalid or expired password reset token.")

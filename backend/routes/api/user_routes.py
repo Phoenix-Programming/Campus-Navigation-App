@@ -5,17 +5,12 @@ from backend.exceptions import *
 from backend.auth.auth import CurrentUser
 from backend.utilities.db_connection import Database
 from backend.schema.user import User
-from backend.models.token import Token
+from backend.models.token import AccessRefreshTokenPair, RefreshTokenRequest
 from backend.models.user import (
-    UserCreateRequest,
-    UserUpdateRequest,
-    UserPublicResponse,
-    UserPrivateResponse
+    UserCreateRequest, UserUpdateRequest, UserPublicResponse, UserPrivateResponse
 )
 from backend.models.password_reset import (
-    ChangePasswordRequest,
-    ForgotPasswordRequest,
-    ResetPasswordRequest
+    ChangePasswordRequest, ForgotPasswordRequest, ResetPasswordRequest
 )
 from backend.services.user_service import UserService
 
@@ -36,15 +31,33 @@ async def register_user(user: UserCreateRequest, db: Database) -> User:
 		raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(e))
 
 
-@router.post("/token", response_model=Token)
+@router.post("/login", response_model=AccessRefreshTokenPair)
 async def login(
 	form_data: Annotated[OAuth2PasswordRequestForm, Depends()],
-	db: Database
-) -> Token:
+	db: Database,
+	remember_me: bool = False
+) -> AccessRefreshTokenPair:
 	try:
-		print(f"Attempting login for user: {form_data.username} with password: {form_data.password}")
-		return await service.login_user(form_data=form_data, db=db)
-	except IncorrectEmailOrPasswordError as e:
+		return await service.login_user(form_data=form_data, remember_me=remember_me, db=db)
+	except (IncorrectEmailOrPasswordError, UserNotFoundError) as e:
+		raise HTTPException(
+			status_code=status.HTTP_401_UNAUTHORIZED,
+			detail=str(e),
+			headers={"WWW-Authenticate": "Bearer"}
+		)
+
+
+@router.post("/refresh", response_model=AccessRefreshTokenPair)
+async def refresh_token(
+    db: Database,
+    refresh_token: RefreshTokenRequest
+) -> AccessRefreshTokenPair:
+	try:
+		return await service.refresh_token(
+    		refresh_token=refresh_token.token,
+      		db=db
+    	)
+	except (InvalidOrExpiredRefreshToken, UserNotFoundError) as e:
 		raise HTTPException(
 			status_code=status.HTTP_401_UNAUTHORIZED,
 			detail=str(e),

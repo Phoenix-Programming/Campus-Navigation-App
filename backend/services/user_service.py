@@ -2,24 +2,24 @@ from datetime import UTC, datetime, timedelta
 from fastapi import BackgroundTasks, Depends
 from fastapi.security import OAuth2PasswordRequestForm
 from typing import Annotated
-from backend.exceptions import *
+from backend.exceptions import (
+    NotAuthorizedToDeleteUserError, NotAuthorizedToUpdateUserError, IncorrectCurrentPasswordError,
+    IncorrectEmailOrPasswordError, InvalidOrExpiredPasswordResetTokenError,
+    InvalidOrExpiredRefreshToken, UserNotFoundError
+)
 from backend.auth.auth import (
-    create_access_token,
-    generate_reset_token,
-    hash_password,
-    hash_reset_token,
-    verify_password
+    create_token, generate_reset_token, hash_password, hash_token, verify_password
 )
 from backend.auth.current_user_context import CurrentUserContext
 from backend.settings import settings
-from backend.models.token import Token
+from backend.models.token import AccessRefreshTokenPair
 from backend.models.user import UserCreateRequest, UserUpdateRequest
 from backend.models.password_reset import (
-    ChangePasswordRequest,
-    ForgotPasswordRequest,
-    ResetPasswordRequest
+    ChangePasswordRequest, ForgotPasswordRequest, ResetPasswordRequest
 )
+from backend.schema.active_refresh_token import ActiveRefreshToken
 from backend.schema.password_reset_token import PasswordResetToken
+from backend.schema.permissions import Permission
 from backend.schema.user import User
 from backend.utilities.db_connection import Database
 from backend.utilities.email import send_password_reset_email
@@ -36,6 +36,7 @@ class UserService:
       		username=user.username,
         	email=user.email.lower(),
          	password_hash=hash_password(user.password),
+			role_name="user",
 			db=db
         )
 
@@ -43,25 +44,104 @@ class UserService:
 	async def login_user(
 		self,
 		form_data: Annotated[OAuth2PasswordRequestForm, Depends()],
+		remember_me: bool,
 		db: Database
-	) -> Token:
-		# quirk of OAuth2 is that the email is in the username field
-		user: User | None = await self.repo.get_user_by_email(email=form_data.username, db=db)
+	) -> AccessRefreshTokenPair:
+		# get the user by either their username or email, depending on which they provided
+		usernameOrEmail: str = form_data.username
+		user: User | None = (
+      		await self.repo.get_user_by_email(email=usernameOrEmail, db=db)
+			if '@' in usernameOrEmail
+			else await self.repo.get_user_by_username(username=usernameOrEmail, db=db)
+		)
 
 		# verify the user exists and the password is correct, but don't reveal which one failed
 		if not user or not verify_password(form_data.password, user.password_hash):
 			raise IncorrectEmailOrPasswordError()
 
-		# create the access token with the user id as the subject
-		access_token_expires: timedelta = timedelta(minutes=settings.access_token_expire_minutes)
-		access_token: str = create_access_token(
-			data={
-				"sub": str(user.id),
-				"permissions": await self.repo.get_user_permissions(username=user.username, db=db)
-			},
-			expires_delta=access_token_expires
+		# create the access and refresh tokens
+		access_token: str = await self._create_access_token(user_id=user.id, db=db)
+		refresh_token: str = await self._create_refresh_token(user.id)
+		print("Login refresh token: ", refresh_token)
+		print("Login hashed refresh token: ", hash_token(refresh_token))
+
+		# store the refresh token in the database
+		expire_minutes: int = (
+      		settings.long_lived_refresh_token_expire_minutes
+			if remember_me
+			else settings.standard_refresh_token_expire_minutes
 		)
-		return Token(access_token=access_token, token_type="bearer")
+		await self.repo.insert_refresh_token(
+			user_id=user.id,
+			token_hash=hash_token(refresh_token),
+			is_long_lived=remember_me,
+			expires_at=datetime.now(UTC) + timedelta(minutes=expire_minutes),
+			db=db
+		)
+
+		return AccessRefreshTokenPair(
+      		access_token=access_token,
+        	refresh_token=refresh_token,
+         	token_type="bearer"
+        )
+
+
+	async def refresh_token(
+    	self,
+      	refresh_token: str,
+       	db: Database
+    ) -> AccessRefreshTokenPair:
+		refresh_token_hash: str = hash_token(refresh_token)
+
+		# check that the refresh token is valid
+		active_refresh_token: ActiveRefreshToken | None = (
+      		await self.repo.get_matching_refresh_token(
+				token_hash=refresh_token_hash,
+				db=db
+			)
+		)
+
+		if not active_refresh_token: raise InvalidOrExpiredRefreshToken()
+
+		# check that the refresh token hasn't been revoked, if it has, then this is a stolen
+		# refresh token and all the other refresh tokens for this user should be revoked
+		if active_refresh_token.is_revoked:
+			await self.repo.revoke_all_refresh_tokens_for_user(
+       			user_id=active_refresh_token.user_id,
+          		db=db
+        	)
+			raise InvalidOrExpiredRefreshToken()
+
+		# check if the refresh token has expired
+		if active_refresh_token.expires_at < datetime.now(UTC):
+			active_refresh_token.is_revoked = True
+			raise InvalidOrExpiredRefreshToken()
+
+		# check that the refresh token hasn't exceeding the sliding refresh window
+		time_since_last_used: timedelta = datetime.now(UTC) - active_refresh_token.last_used_at
+
+		if time_since_last_used > timedelta(days=settings.sliding_refresh_window_days):
+			raise InvalidOrExpiredRefreshToken()
+
+		# rotate the refresh token
+		active_refresh_token.is_revoked = True
+		new_refresh_token: str = await self._create_refresh_token(active_refresh_token.user_id)
+		await self.repo.insert_refresh_token(
+			user_id=active_refresh_token.user_id,
+        	token_hash=hash_token(new_refresh_token),
+			is_long_lived=active_refresh_token.is_long_lived,
+         	expires_at=active_refresh_token.expires_at,
+          	db=db
+        )
+
+		# create a new access token
+		new_access_token: str = await self._create_access_token(user_id=active_refresh_token.user_id, db=db)
+
+		return AccessRefreshTokenPair(
+      		access_token=new_access_token,
+        	refresh_token=new_refresh_token,
+			token_type="bearer"
+        )
 
 
 	async def forgot_password(
@@ -74,9 +154,10 @@ class UserService:
 
 		if user:
 			await self.repo.delete_all_password_reset_tokens_for_user(user=user, db=db)
+			await self.repo.revoke_all_refresh_tokens_for_user(user_id=user.id, db=db)
 
 			token: str = generate_reset_token()
-			token_hash: str = hash_reset_token(token)
+			token_hash: str = hash_token(token)
 			expires_at: datetime = datetime.now(UTC) + timedelta(
 				minutes=settings.reset_token_expire_minutes
 			)
@@ -105,7 +186,7 @@ class UserService:
 		request_data: ResetPasswordRequest,
 		db: Database
 	) -> dict[str, str]:
-		token_hash: str = hash_reset_token(request_data.token)
+		token_hash: str = hash_token(request_data.token)
 
 		reset_token: PasswordResetToken | None = (
 			await self.repo.get_password_reset_token_by_token_hash(token_hash=token_hash, db=db)
@@ -130,6 +211,7 @@ class UserService:
         )
 
 		await self.repo.delete_all_password_reset_tokens_for_user(user=user, db=db)
+		await self.repo.revoke_all_refresh_tokens_for_user(user_id=user.id, db=db)
 
 		return {
 			"message": "Password reset successfully. You can now log in with your new password."
@@ -152,6 +234,7 @@ class UserService:
         )
 
 		await self.repo.delete_all_password_reset_tokens_for_user(user=current_user.user, db=db)
+		await self.repo.revoke_all_refresh_tokens_for_user(user_id=current_user.user.id, db=db)
 
 		return {"message": "Password changed successfully."}
 
@@ -197,3 +280,30 @@ class UserService:
 		if not user: raise UserNotFoundError()
 
 		await self.repo.delete_user(user=user, db=db)
+
+
+	async def _create_access_token(self, user_id: int, db: Database) -> str:
+		# create the access token with the user id as the subject
+		access_token_expires: timedelta = timedelta(minutes=settings.access_token_expire_minutes)
+		permissions: list[Permission] = await self.repo.get_user_permissions(
+      		user_id=user_id,
+        	db=db
+        )
+		access_token: str = create_token(
+			user_id,
+			permissions=[p.name for p in permissions],
+			expires_delta=access_token_expires,
+			token_type="access"
+		)
+		return access_token
+
+
+	async def _create_refresh_token(self, user_id: int) -> str:
+		# create the refresh token with the user id as the subject
+		refresh_token_expires: timedelta = timedelta(minutes=settings.standard_refresh_token_expire_minutes)
+		refresh_token: str = create_token(
+			user_id,
+			expires_delta=refresh_token_expires,
+			token_type="refresh"
+		)
+		return refresh_token
