@@ -62,8 +62,6 @@ class UserService:
 		# create the access and refresh tokens
 		access_token: str = await self._create_access_token(user_id=user.id, db=db)
 		refresh_token: str = await self._create_refresh_token(user.id)
-		print("Login refresh token: ", refresh_token)
-		print("Login hashed refresh token: ", hash_token(refresh_token))
 
 		# store the refresh token in the database
 		expire_minutes: int = (
