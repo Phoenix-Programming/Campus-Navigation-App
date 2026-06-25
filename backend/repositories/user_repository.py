@@ -119,7 +119,6 @@ class UserRepository:
         token_hash: str,
         db: Database
     ) -> ActiveRefreshToken | None:
-        print(f"Token Hash: {token_hash}")
         result: Result[tuple[ActiveRefreshToken]] = await db.execute(
             select(ActiveRefreshToken).where(ActiveRefreshToken.token_hash == token_hash)
         )

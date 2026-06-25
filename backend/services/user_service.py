@@ -115,7 +115,7 @@ class UserService:
 			active_refresh_token.is_revoked = True
 			raise InvalidOrExpiredRefreshToken()
 
-		# check that the refresh token hasn't exceeding the sliding refresh window
+		# check that the refresh token hasn't exceeded the sliding refresh window
 		time_since_last_used: timedelta = datetime.now(UTC) - active_refresh_token.last_used_at
 
 		if time_since_last_used > timedelta(days=settings.sliding_refresh_window_days):
