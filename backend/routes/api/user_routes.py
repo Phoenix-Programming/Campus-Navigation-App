@@ -1,7 +1,7 @@
 from fastapi import APIRouter, BackgroundTasks, Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordRequestForm
 from typing import Annotated
-from backend.exceptions import *
+from backend.exceptions import NotUniqueError, IncorrectEmailOrPasswordError, UserNotFoundError, InvalidOrExpiredRefreshToken
 from backend.auth.auth import CurrentUser
 from backend.utilities.db_connection import Database
 from backend.schema.user import User
