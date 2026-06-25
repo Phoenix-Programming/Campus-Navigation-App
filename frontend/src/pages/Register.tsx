@@ -21,7 +21,10 @@ export default function RegisterPage(): JSX.Element {
 				username: usernameInputRef.current?.value,
 				password: passwordInputRef.current?.value,
 			};
-			console.log("Registering user with data:", data);
+			console.log("Registering user with data:", {
+				email: data.email,
+				username: data.username,
+			});
 
 			const response = await api.post(`/api/users/register`, data);
 
