@@ -64,3 +64,6 @@ jobs:
         run: |
           cd frontend
           npm test
+
+      - name: Check for database changes requiring a migration
+        run: poetry run alembic check
