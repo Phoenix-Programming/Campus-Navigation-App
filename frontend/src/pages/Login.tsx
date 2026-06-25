@@ -16,7 +16,7 @@ export default function LoginPage(): JSX.Element {
 			const data = new FormData(loginFormRef.current!);
 
 			console.log("Logging in with data:", data);
-			const response = await api.post(`/api/users/token`, data);
+			const response = await api.post(`/api/users/login`, data);
 
 			console.log("Login response:", response);
 
@@ -24,6 +24,7 @@ export default function LoginPage(): JSX.Element {
 				alert("Login successful!");
 
 				localStorage.setItem('access_token', response.data.access_token)
+				localStorage.setItem('refresh_token', response.data.access_token)
 			} else {
 				alert("Failed to login.");
 			}
@@ -38,7 +39,7 @@ export default function LoginPage(): JSX.Element {
 			<h2>Login</h2>
 
 			<form onSubmit={handleSubmit} ref={loginFormRef}>
-				<input type="email" placeholder="Email" name="username" />
+				<input type="text" placeholder="Username or Email" name="username" />
 				<input type="password" placeholder="Password" name="password" />
 				<button type="submit">Login</button>
 			</form>
