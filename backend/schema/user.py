@@ -1,5 +1,5 @@
 from __future__ import annotations
-from sqlalchemy import Boolean, CheckConstraint, ForeignKey, String, func
+from sqlalchemy import Boolean, CheckConstraint, ForeignKey, String
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from backend.utilities.db_connection import Base
 from .mixins.id_mixin import IdMixin
