@@ -1,7 +1,7 @@
 from __future__ import annotations
 from datetime import UTC, datetime
 from sqlalchemy import Boolean, DateTime, ForeignKey, String
-from sqlalchemy.orm import Mapped, mapped_column, relationship
+from sqlalchemy.orm import Mapped, mapped_column
 from backend.utilities.db_connection import Base
 from .mixins.id_mixin import IdMixin
 
