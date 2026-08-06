@@ -1,0 +1,177 @@
+.viewer {
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    background-color: #212121;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #212121;
+}
+
+h1 {
+    text-align: center;
+    font-size: large;
+    margin-bottom: 0;
+    margin-top: 0;
+    font-family: Arial, sans-serif;
+}
+.instructions {
+    padding: 20px;
+    margin: auto;
+    color: #fff;
+    font-family: Arial, sans-serif;
+    max-width: 300px;
+}
+.upload {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+}
+
+.uploadBtn {
+    padding: 10px 16px;
+    background: #424242;
+    color: white;
+    border-radius: 6px;
+    cursor: pointer;
+    display: inline-block;
+    text-align: center;
+    user-select: none;
+}
+
+.uploadBtn input {
+    display: none;
+}
+
+.overlay {
+    padding: 15px 15px;
+    line-height: normal;
+
+    border-radius: 10px 10px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #6E35AE;
+
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+    z-index: 999999;
+    background: rgb(40, 40, 40);
+    color: white;
+    user-select: none;
+}
+
+.connectionsBtn {
+    padding: 12px 12px;
+    background: #424242;
+    color: white;
+    border-radius: 6px;
+    cursor: pointer;
+    display: inline-block;
+    text-align: center;
+    user-select: none;
+    width: 16dvb;
+    margin-bottom: 2px;
+}
+
+.connectionsBtn input {
+    display: none;
+}
+
+.connectionsOverlay {
+    padding: 15px 15px;
+    line-height: normal;
+
+    border-radius: 10px 10px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #6E35AE;
+
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    z-index: 999999;
+    background: rgb(40, 40, 40);
+    color: white;
+    user-select: none;
+}
+
+.connectionsInput {
+    padding: 12px 12px;
+    background: #424242;
+    color: white;
+    border-radius: 6px;
+    display: inline-block;
+    text-align: center;
+    user-select: none;
+    width: 16dvb;
+    margin-bottom: 2px;
+}
+.connectionsInput input {
+    background: transparent;
+    border: #6E35AE solid 2px;
+    color: white;
+    text-align: center;
+    width: 90%;
+}
+
+.connectionsInput button {
+    background: none;
+    border: #6E35AE solid 2px;
+    color: white;
+    cursor: pointer;
+    transform: translateY(2px);
+}
+
+.info {
+    user-select: all;
+    display: inline;
+}
+
+.autoFillOverlay {
+    padding: 15px 15px;
+    line-height: normal;
+
+    border-radius: 10px 10px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #6E35AE;
+
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    z-index: 999999;
+    background: rgb(40, 40, 40);
+    color: white;
+    user-select: none;
+
+    transform: translate(-50%, -50%);
+
+    align-items: center;
+    text-align: center;
+}
+
+.closeBtn {
+    padding: 2px 2px;
+    background: #424242;
+    color: white;
+    border-radius: 6px;
+    cursor: pointer;
+    display: inline-block;
+    text-align: center;
+    user-select: none;
+    cursor: pointer;
+
+    position: absolute;
+    top: 5px;
+    right: 5px;
+
+    font-size: large;
+}
