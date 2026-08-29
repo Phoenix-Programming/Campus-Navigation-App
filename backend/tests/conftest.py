@@ -8,7 +8,7 @@ TEST_EMAIL: Final[str] = "test@example.com"
 TEST_PASSWORD: Final[str] = "TestPassword123!"
 
 
-os.environ["DATABASE_URL"] = (
+os.environ["DB_URL"] = (
 	"postgresql+psycopg://test_user:testpassword123@localhost/test-fl-poly-campus-map"
 )
 os.environ["SECRET_KEY"] = "test-secret-key-for-testing-only"
@@ -38,7 +38,7 @@ def anyio_backend() -> str:
 @pytest.fixture(scope="session")
 def test_engine() -> AsyncEngine:
     engine: AsyncEngine = create_async_engine(
-		os.environ["DATABASE_URL"],
+		os.environ["DB_URL"],
 		poolclass=NullPool
 	)
     return engine
