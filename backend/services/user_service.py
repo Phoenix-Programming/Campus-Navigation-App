@@ -3,9 +3,10 @@ from fastapi import BackgroundTasks, Depends
 from fastapi.security import OAuth2PasswordRequestForm
 from typing import Annotated
 from backend.exceptions import (
-    NotAuthorizedToDeleteUserError, NotAuthorizedToUpdateUserError, IncorrectCurrentPasswordError,
-    IncorrectEmailOrPasswordError, InvalidOrExpiredPasswordResetTokenError,
-    InvalidOrExpiredRefreshToken, UserNotFoundError
+    IncorrectCurrentPasswordError, IncorrectUsernameOrPasswordError,
+    InvalidOrExpiredPasswordResetTokenError, InvalidOrExpiredRefreshToken,
+    NotAuthorizedToDeleteUserError, NotAuthorizedToUpdateUserError, NotUniqueError,
+    SamePasswordError, UserNotFoundError
 )
 from backend.auth.auth import (
     create_token, generate_reset_token, hash_password, hash_token, verify_password
@@ -13,7 +14,7 @@ from backend.auth.auth import (
 from backend.auth.current_user_context import CurrentUserContext
 from backend.settings import settings
 from backend.models.token import AccessRefreshTokenPair
-from backend.models.user import UserCreateRequest, UserUpdateRequest
+from backend.models.user import UserRegisterRequest, UserUpdateRequest
 from backend.models.password_reset import (
     ChangePasswordRequest, ForgotPasswordRequest, ResetPasswordRequest
 )
@@ -31,14 +32,28 @@ class UserService:
 		self.repo: UserRepository = UserRepository()
 
 
-	async def register_user(self, user: UserCreateRequest, db: Database) -> User:
+	async def register_user(self, user_create_request: UserRegisterRequest, db: Database) -> User:
+		result: User | None = await self.repo.get_user_by_username(
+			username=user_create_request.username,
+			db=db
+		)
+
+		if result: raise NotUniqueError("username")
+
+		result = await self.repo.get_user_by_email(
+			email=user_create_request.email,
+			db=db
+		)
+
+		if result: raise NotUniqueError("email")
+
 		return await self.repo.insert_user(
-      		username=user.username,
-        	email=user.email.lower(),
-         	password_hash=hash_password(user.password),
+			username=user_create_request.username,
+			email=user_create_request.email.lower(),
+			password_hash=hash_password(user_create_request.password),
 			role_name="user",
 			db=db
-        )
+		)
 
 
 	async def login_user(
@@ -57,7 +72,7 @@ class UserService:
 
 		# verify the user exists and the password is correct, but don't reveal which one failed
 		if not user or not verify_password(form_data.password, user.password_hash):
-			raise IncorrectEmailOrPasswordError()
+			raise IncorrectUsernameOrPasswordError()
 
 		# create the access and refresh tokens
 		access_token: str = await self._create_access_token(user_id=user.id, db=db)
@@ -225,6 +240,8 @@ class UserService:
 		if not verify_password(password_data.current_password, current_user.user.password_hash):
 			raise IncorrectCurrentPasswordError()
 
+		if password_data.current_password == password_data.new_password: raise SamePasswordError()
+
 		await self.repo.update_user_password_hash(
       		user=current_user.user,
         	password_hash=hash_password(password_data.new_password),
@@ -257,6 +274,24 @@ class UserService:
 		user: User | None = await self.repo.get_user_by_id(user_id=user_id, db=db)
 
 		if not user: raise UserNotFoundError()
+
+		result: User | None
+
+		if user_update.username and user_update.username.lower() != user.username.lower():
+			result = await self.repo.get_user_by_username(
+				username=user_update.username,
+				db=db
+			)
+
+			if result: raise NotUniqueError("username")
+
+		if user_update.email and user_update.email.lower() != user.email.lower():
+			result = await self.repo.get_user_by_email(
+				email=user_update.email,
+				db=db
+			)
+
+			if result: raise NotUniqueError("email")
 
 		return await self.repo.update_user(
       		user=current_user.user,

@@ -64,3 +64,6 @@ jobs:
         run: |
           cd frontend
           npm test
+
+      - name: Run backend tests
+        run: poetry run poe test

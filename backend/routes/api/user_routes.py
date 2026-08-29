@@ -2,16 +2,17 @@ from fastapi import APIRouter, BackgroundTasks, Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordRequestForm
 from typing import Annotated
 from backend.exceptions import (
-    NotAuthorizedToDeleteUserError, NotAuthorizedToUpdateUserError, NotUniqueError,
-    IncorrectEmailOrPasswordError, IncorrectCurrentPasswordError,
-    InvalidOrExpiredPasswordResetTokenError, InvalidOrExpiredRefreshToken, UserNotFoundError
+    IncorrectUsernameOrPasswordError, IncorrectCurrentPasswordError,
+    InvalidOrExpiredPasswordResetTokenError, InvalidOrExpiredRefreshToken,
+    NotAuthorizedToDeleteUserError, NotAuthorizedToUpdateUserError, NotUniqueError, SamePasswordError,
+    UserNotFoundError
 )
 from backend.auth.auth import CurrentUser
 from backend.utilities.db_connection import Database
 from backend.schema.user import User
 from backend.models.token import AccessRefreshTokenPair, RefreshTokenRequest
 from backend.models.user import (
-    UserCreateRequest, UserUpdateRequest, UserPublicResponse, UserPrivateResponse
+    UserRegisterRequest, UserUpdateRequest, UserPublicResponse, UserPrivateResponse
 )
 from backend.models.password_reset import (
     ChangePasswordRequest, ForgotPasswordRequest, ResetPasswordRequest
@@ -28,9 +29,9 @@ service: UserService = UserService()
 
 
 @router.post(path="/register", response_model=UserPrivateResponse, status_code=status.HTTP_201_CREATED)
-async def register_user(user: UserCreateRequest, db: Database) -> User:
+async def register_user(user: UserRegisterRequest, db: Database) -> User:
 	try:
-		return await service.register_user(user=user, db=db)
+		return await service.register_user(user_create_request=user, db=db)
 	except NotUniqueError as e:
 		raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(e))
 
@@ -43,7 +44,7 @@ async def login(
 ) -> AccessRefreshTokenPair:
 	try:
 		return await service.login_user(form_data=form_data, remember_me=remember_me, db=db)
-	except (IncorrectEmailOrPasswordError, UserNotFoundError) as e:
+	except (IncorrectUsernameOrPasswordError, UserNotFoundError) as e:
 		raise HTTPException(
 			status_code=status.HTTP_401_UNAUTHORIZED,
 			detail=str(e),
@@ -111,7 +112,7 @@ async def change_password(
             current_user=current_user,
             db=db
         )
-    except IncorrectCurrentPasswordError as e:
+    except (IncorrectCurrentPasswordError, SamePasswordError) as e:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(e))
 
 

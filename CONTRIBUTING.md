@@ -153,7 +153,7 @@ Repond to feedback on your pull request and make necessary changes requested dur
 1. **Ensure your code passes all checks**:
 
    - Frontend tests pass: `npm run test`
-   - Backend tests pass: Coming soon...
+   - Backend tests pass: `poetry run poe test`
    - Linting passes: `npm run lint`
    - Build succeeds: `npm run build`
 
@@ -189,15 +189,14 @@ The following npm scripts are available for development:
 - **`npm run lint`**: Run ESLint to check code quality
 - **`npm run preview`**: Preview the production build locally
 - **`npm run test`**: Run all tests once with Vitest
-- **`npm run test:watch`**: Run tests in watch mode
 - **`npm run coverage`**: Run tests with coverage report
-- **`npm run coverage:watch`**: Run tests in watch mode with coverage
 
 ### Backend Development Scripts
 
 The following poetry scripts are available for development:
 
 - **`poetry run poe start`**: Start the API server
+- **`poetry run poe test`**: Run the unit tests
 
 ## Questions or Issues?
 

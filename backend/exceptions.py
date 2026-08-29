@@ -5,9 +5,9 @@ class NotUniqueError(Exception):
         super().__init__(f"{field.capitalize()} already exists.")
 
 
-class IncorrectEmailOrPasswordError(Exception):
+class IncorrectUsernameOrPasswordError(Exception):
     def __init__(self):
-        super().__init__("Incorrect email or password.")
+        super().__init__("Incorrect username/email or password.")
 
 
 class InvalidOrExpiredRefreshToken(Exception):
@@ -23,6 +23,11 @@ class InvalidOrExpiredPasswordResetTokenError(Exception):
 class IncorrectCurrentPasswordError(Exception):
     def __init__(self):
         super().__init__("Current password is incorrect.")
+
+
+class SamePasswordError(Exception):
+    def __init__(self):
+        super().__init__("The new password cannot be the same as the current password.")
 
 
 class UserNotFoundError(Exception):

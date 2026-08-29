@@ -36,9 +36,21 @@ dev = [
     "poethepoet (>=0.46.0,<0.47.0)",
     "httpx (>=0.28.1,<0.29.0)",
     "requests (>=2.34.2,<3.0.0)",
-    "bs4 (>=0.0.2,<0.0.3)"
+    "bs4 (>=0.0.2,<0.0.3)",
+    "pytest (>=9.1.1,<10.0.0)",
+    "pytest-cov (>=7.1.0,<8.0.0)"
 ]
+
+[tool.pytest.ini_options]
+pythonpath = ["backend"]
+testpaths = ["backend/tests"]
+
+[tool.coverage.run]
+source = ["backend"]
+omit = ["backend/seed/*"]
 
 [tool.poe.tasks]
 start = "uvicorn backend.main:app --reload --reload-dir ./backend"
 seed = "python3 -m backend.seed.seed_db"
+test = "pytest"
+coverage = "pytest --cov=backend/ --cov-branch --cov-report=term-missing"

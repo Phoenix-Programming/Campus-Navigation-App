@@ -56,8 +56,10 @@ def create_token(
 		if expires_delta
 		else timedelta(minutes=settings.access_token_expire_minutes)
 	)
-
 	to_encode.update({"exp": expire})
+
+	to_encode.update({"jti": secrets.token_urlsafe(32)})
+
 	encoded_jwt = encode(
 		to_encode,
 		settings.secret_key.get_secret_value(),

@@ -1,14 +1,13 @@
 from datetime import datetime
 from sqlalchemy import Result, func, select
 from sqlalchemy import delete as sql_delete
-from sqlalchemy.exc import IntegrityError
-from psycopg.errors import UniqueViolation
 from backend.utilities.db_connection import Database
-from backend.exceptions import NotUniqueError, UserNotFoundError
+from backend.exceptions import UserNotFoundError
 from backend.schema.active_refresh_token import ActiveRefreshToken
 from backend.schema.password_reset_token import PasswordResetToken
 from backend.schema.permissions import Permission, Role
 from backend.schema.user import User
+
 
 class UserRepository:
     async def insert_user(
@@ -37,16 +36,6 @@ class UserRepository:
             await db.refresh(new_user)
 
             return new_user
-        except IntegrityError as e:
-            await db.rollback()
-
-            if isinstance(e.orig, UniqueViolation):
-                detail: str = str(e.orig.diag.message_detail).lower()
-
-                if "username" in detail: raise NotUniqueError("username")
-                elif "email" in detail: raise NotUniqueError("email")
-
-            raise
         except:
             await db.rollback()
             raise
@@ -80,16 +69,6 @@ class UserRepository:
             if email: user.email = email.lower()
 
             return user
-        except IntegrityError as e:
-            await db.rollback()
-
-            if isinstance(e.orig, UniqueViolation):
-                detail: str = str(e.orig.diag.message_detail).lower()
-
-                if "username" in detail: raise NotUniqueError("username")
-                elif "email" in detail: raise NotUniqueError("email")
-
-            raise
         except:
             await db.rollback()
             raise

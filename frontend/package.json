@@ -9,9 +9,7 @@
 		"lint": "eslint . --ignore-pattern \"coverage/*\"",
 		"preview": "vite preview",
 		"test": "vitest run --coverage=false --passWithNoTests",
-		"test:watch": "vitest --coverage=false --passWithNoTests",
-		"coverage": "rimraf coverage && npx vitest --coverage --passWithNoTests run",
-		"coverage:watch": "rimraf coverage && npx vitest --coverage --passWithNoTests"
+		"coverage": "rimraf coverage && npx vitest --coverage --passWithNoTests run"
 	},
 	"dependencies": {
 		"axios": "^1.18.0",

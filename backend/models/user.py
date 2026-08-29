@@ -6,8 +6,8 @@ class UserBase(BaseModel):
     email: EmailStr = Field(max_length=120)
 
 
-class UserCreateRequest(UserBase):
-    password: str = Field(min_length=8)
+class UserRegisterRequest(UserBase):
+    password: str = Field(min_length=8, max_length=64)
 
 
 class UserUpdateRequest(BaseModel):
