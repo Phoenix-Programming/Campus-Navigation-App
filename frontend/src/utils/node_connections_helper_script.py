@@ -1,4 +1,13 @@
 import json
+
+import tkinter as tk
+from tkinter import filedialog
+
+# THIS SCRIPT IS A LEGACY SCRIPT AND IS NOT USED IN THE CURRENT IMPLEMENTATION OF THE CAMPUS NAVIGATION APP. 
+# IT WAS USED TO CREATE THE INITIAL GRAPH JSON FILE FROM THE SVG FILE, BUT HAS SINCE BEEN REPLACED BY A REACT TOOL THAT IS MORE EFFICIENT AND BETTER ORGANIZED. 
+# THIS SCRIPT IS LEFT IN THE REPOSITORY FOR HISTORICAL PURPOSES AND TO PROVIDE CONTEXT ON THE DEVELOPMENT PROCESS, BUT IT IS NOT MAINTAINED OR UPDATED ANYMORE. PLEASE REFER TO THE NEWER VERSION OF THE SCRIPT FOR THE CURRENT IMPLEMENTATION OF THE SVG TO GRAPH CONVERSION.
+
+
 # Campus Navigation Project: FPU
 
 #run with python .\node_connections_helper_script.py
@@ -107,9 +116,26 @@ def load_graph(filename):
     return Graph.from_dict(data)
 
 # Save graph to json file
-def save_graph(graph, filename):
-    with open(filename, "w") as f:
+def save_graph(graph):
+    # hide the root Tk window
+    root = tk.Tk()
+    root.withdraw()
+
+    file_path = filedialog.asksaveasfilename(
+        defaultextension=".json",
+        filetypes=[("JSON files", "*.json")],
+        title="Save graph as..."
+    )
+
+    # user hit cancel
+    if not file_path:
+        print("Save cancelled.")
+        return
+
+    with open(file_path, "w") as f:
         json.dump(graph.to_dict(), f, indent=2)
+
+    print(f"Saved to: {file_path}")
 
 # Add base node to graph, then prompt user to add more nodes and connections until they choose to stop
 def add_nodes(graph):
@@ -186,9 +212,8 @@ while True:
         add_nodes(graph)
 
     if selection == "3":
-        filename = input("Enter the filename to save the graph to: ")
-        save_graph(graph, filename)
-        print(f"Graph saved to {filename}")
+        save_graph(graph)
+        print(f"Graph saved")
         break
 
     if selection == "4":

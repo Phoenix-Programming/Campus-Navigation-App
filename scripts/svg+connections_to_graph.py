@@ -7,12 +7,13 @@ import json
 import sys
 import traceback
 
+
 # Campus Navigation Project: FPU
 
-# svg_to_graph.py: Inputs svg file, and connections json file
+# svg+connections_to_graph.py: Inputs svg file, and connections json file
 # outputs a json file of nodes with connections with distances between the nodes calculated from the svg file
 
-# Usage: python svg_to_graph.py <svg_file> <connections_json_file>
+# Usage: python svg+connections_to_graph.py <svg_file> <connections_json_file>
 
 # ensure that svg properties are set to display units and format units in cm
 
