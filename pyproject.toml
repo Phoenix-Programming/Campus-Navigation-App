@@ -1,0 +1,56 @@
+[project]
+name = "campus-navigation-app"
+version = "0.1.0"
+description = ""
+authors = [
+    {name = "Daniel Freer",email = "deletes_minimal.0w@icloud.com"}
+]
+readme = "README.md"
+requires-python = ">=3.14"
+dependencies = [
+    "fastapi[standard] (>=0.137.0,<0.138.0)",
+    "uvicorn (>=0.49.0,<0.50.0)",
+    "psycopg[binary] (>=3.3.4,<4.0.0)",
+    "pydantic (>=2.13.4,<3.0.0)",
+    "pwdlib[argon2] (>=0.3.0,<0.4.0)",
+    "pyjwt (>=2.13.0,<3.0.0)",
+    "pydantic-settings (>=2.14.1,<3.0.0)",
+    "sqlalchemy (>=2.0.50,<3.0.0)",
+    "greenlet (>=3.5.1,<4.0.0)",
+    "aiosmtplib (>=5.1.1,<6.0.0)",
+    "alembic (>=1.18.4,<2.0.0)",
+    "typing-extensions (>=4.15.0,<5.0.0)",
+    "apscheduler (>=3.11.2,<4.0.0)",
+    "apscheduler-stubs (>=0.1.0.dev2,<0.2.0)",
+]
+
+[tool.poetry]
+package-mode = false
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[dependency-groups]
+dev = [
+    "poethepoet (>=0.46.0,<0.47.0)",
+    "httpx (>=0.28.1,<0.29.0)",
+    "requests (>=2.34.2,<3.0.0)",
+    "bs4 (>=0.0.2,<0.0.3)",
+    "pytest (>=9.1.1,<10.0.0)",
+    "pytest-cov (>=7.1.0,<8.0.0)"
+]
+
+[tool.pytest.ini_options]
+pythonpath = ["backend"]
+testpaths = ["backend/tests"]
+
+[tool.coverage.run]
+source = ["backend"]
+omit = ["backend/seed/*"]
+
+[tool.poe.tasks]
+start = "uvicorn backend.main:app --reload --reload-dir ./backend"
+seed = "python3 -m backend.seed.seed_db"
+test = "pytest"
+coverage = "pytest --cov=backend/ --cov-branch --cov-report=term-missing"

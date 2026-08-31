@@ -1,171 +1,150 @@
 # Contributing to Campus Navigation App
 
-Thank you for your interest in contributing to the Campus Navigation App! We welcome contributions from the community and are excited to work with you.
-
-## Table of Contents
-
-- [Getting Started](#getting-started)
-- [Development Workflow](#development-workflow)
-- [Code Standards](#code-standards)
-- [Testing Guidelines](#testing-guidelines)
-- [Pull Request Process](#pull-request-process)
-- [Development Scripts](#development-scripts)
-- [Project Structure](#project-structure)
-
 ## Getting Started
 
 ### Prerequisites
 
 - [Node.js (version 18 or higher)](https://nodejs.org/en/download)
+- [Python 3.14](https://www.python.org/downloads/)
 - npm package manager
 - Git
 
 ### Setup
 
-1. **Fork the repository** on GitHub
+#### Clone the Repository
 
-2. **Clone your fork**
+```bash
+git clone https://github.com/Phoenix-Programming/Campus-Navigation-App.git
+cd Campus-Navigation-App
+```
 
-   ```bash
-   git clone https://github.com/YOUR_USERNAME/Campus-Navigation-App.git
-   cd Campus-Navigation-App
-   ```
+#### Install npm Dependencies
 
-3. **Add the upstream remote**
+```bash
+cd frontend
+npm install
+cd ..
+```
 
-   ```bash
-   git remote add upstream https://github.com/Phoenix-Programming/Campus-Navigation-App.git
-   ```
+#### Create a Python Virtual Environment
 
-4. **Install dependencies**
+```bash
+python3 -m venv .venv
+```
 
-   ```bash
-   npm install
-   ```
+#### Install Poetry
 
-5. **Start the development server**
+```bash
+curl -sSL https://install.python-poetry.org | python3 -
+```
 
-   ```bash
-   npm run dev
-   ```
+#### Install Python Dependencies
 
-6. **Open your browser**
+```bash
+poetry install
+```
 
-   Navigate to `http://localhost:5173` to see the app running locally.
+#### Create Backend Environment Variables
+
+```bash
+cp backend/.env.example backend/.env
+```
+
+Populate the environment variables in the `backend/.env` file.
+
+#### Install PostgreSQL
+
+You should install PostgreSQL so you can run a local instance of the database for testing. Follow the [official PostgreSQL installation steps](https://www.postgresql.org/download/).
+
+#### Create a Local Database
+
+Follow the appropriate commands to create the PostgreSQL database on your system.
+
+##### MacOS (Homebrew)
+
+```bash
+# Replace myusername, mypassword, and mydbname with your own values
+psql postgres -c "CREATE USER myusername WITH PASSWORD 'mypassword';"
+createdb mydbname -O myusername
+```
+
+##### Linux (apt)
+
+```bash
+# Replace myusername, mypassword, and mydbname with your own values
+sudo -u postgres psql -c "CREATE USER myusername WITH PASSWORD 'mypassword';"
+sudo -u postgres createdb mydbname -O myusername
+```
+
+##### Windows (Installer)
+
+```bash
+# Replace myusername, mypassword, and mydbname with your own values
+psql -U postgres -c "CREATE USER myusername WITH PASSWORD 'mypassword';"
+createdb -U postgres -O myusername mydbname
+```
+
+##### Add your Database Credentials to Your Environment Variables
+
+Once you have created your PostgreSQL database, populate the DB_URL environment variable in your `.env` file using your username, password, and database name.
 
 ## Development Workflow
 
-1. **Sync with upstream** before starting work:
-
-   ```bash
-   git fetch upstream
-   git checkout main
-   git merge upstream/main
-   ```
-
-2. **Create a feature branch** from the current development branch:
-
-   ```bash
-   git checkout -b FName_LInitial_IssueNum_Feature-Name
-   ```
-
-3. **Make your changes** following the established code style.
-
-4. **Write or update tests** for your changes.
-
-5. **Run the linter** to ensure code quality:
-
-   ```bash
-   npm run lint
-   ```
-
-6. **Test your changes** thoroughly:
-
-   ```bash
-   npm run test
-   npm run coverage
-   ```
-
-7. **Commit your changes** with a descriptive commit message:
-
-   ```bash
-   git add .
-   git commit -m "feat: add indoor navigation for IST building"
-   ```
-
-8. **Push to your fork**:
-
-   ```bash
-   git push origin your-branch-name
-   ```
-
-9. **Create a pull request** and provide a clear description of your changes.
-
-10. **Respond to feedback** and make necessary changes requested during review.
-
-## Code Standards
-
-### General Guidelines
-
-- Follow TypeScript best practices
-- Use functional components with hooks
-- Write comprehensive tests for new features
-- Follow the existing file structure and naming conventions
-- Ensure accessibility standards are met
-- Document complex functions and components
-
-### Code Style
-
-- Use meaningful variable and function names
-- Add JSDoc comments for public functions and complex logic
-- Follow existing naming conventions:
-  - Components: PascalCase (`LeafletMap.tsx`)
-  - Files: camelCase for utilities, PascalCase for components
-  - Variables and functions: camelCase
-
-### TypeScript Guidelines
-
-- Always use TypeScript types
-- Avoid `any` type - use proper type definitions
-- Create interfaces for complex objects
-- Use type definitions from the `types/` directory
-
-### SCSS Guidelines
-
-- Follow Block Element Modifier (BEM) methodology for SCSS class naming
-- Use SCSS variables defined in `src/styles/abstracts/_variables.scss`
-- Keep component styles in corresponding files under `src/styles/components/`
-
-## Testing Guidelines
-
-### Test Structure
-
-- Place tests in the `tests/` directory mirroring the `src/` structure
-- Use descriptive test names that explain what is being tested
-- Group related tests using `describe` blocks
-- Use `it` for individual test cases
-
-### Test Types
-
-- **Unit Tests**: Test individual functions and components
-- **Integration Tests**: Test component interactions
-- **Coverage**: Aim for at least 70% code coverage
-
-### Running Tests
+### Sync with the Remote Repository
 
 ```bash
-# Run all tests once
-npm run test
-
-# Run tests in watch mode
-npm run test:watch
-
-# Run tests with coverage
-npm run coverage
-
-# Run tests with coverage in watch mode
-npm run coverage:watch
+git fetch
+git checkout main
+git merge main
 ```
+
+### Create a Feature Branch
+
+```bash
+git checkout -b FName_LInitial_IssueNum_Feature-Name
+```
+
+### Run the Linter to Ensure Code Quality
+
+```bash
+npm run lint
+```
+
+### Test Your Changes Thoroughly
+
+#### Frontend
+
+```bash
+cd frontend
+npm run test
+npm run coverage
+cd ..
+```
+
+#### Backend
+
+Coming soon...
+
+### Make Descriptive Commits
+
+```bash
+git add .
+git commit -m "Insert descriptive commit here"
+```
+
+### Push to the Remote Repository
+
+```bash
+git push origin your-branch-name
+```
+
+### Create a Pull Request
+
+Create a pull request with a clear description of your changes.
+
+#### Respond to Feedback
+
+Repond to feedback on your pull request and make necessary changes requested during review.
 
 ## Pull Request Process
 
@@ -173,7 +152,8 @@ npm run coverage:watch
 
 1. **Ensure your code passes all checks**:
 
-   - All tests pass: `npm run test`
+   - Frontend tests pass: `npm run test`
+   - Backend tests pass: `poetry run poe test`
    - Linting passes: `npm run lint`
    - Build succeeds: `npm run build`
 
@@ -181,15 +161,15 @@ npm run coverage:watch
 3. **Add or update tests** for new functionality
 4. **Ensure your branch is up to date** with the main branch
 
-### PR Description
+### Description
 
 Include the following in your pull request description:
 
-- **Summary**: Brief description of what the PR does
+- **Summary**: Brief description of what is included in the pull request
 - **Changes**: List of specific changes made
 - **Testing**: How you tested your changes
 - **Screenshots**: If applicable, add screenshots of UI changes
-- **Related Issues**: Reference any related issues using `Closes #42` or `Fixes #92`
+- **Related Issues**: Reference any related issues using `Closes #42` or `Fixes #67`
 
 ### Review Process
 
@@ -200,6 +180,8 @@ Include the following in your pull request description:
 
 ## Development Scripts
 
+### Frontend Development Scripts
+
 The following npm scripts are available for development:
 
 - **`npm run dev`**: Start development server with hot reload
@@ -207,31 +189,14 @@ The following npm scripts are available for development:
 - **`npm run lint`**: Run ESLint to check code quality
 - **`npm run preview`**: Preview the production build locally
 - **`npm run test`**: Run all tests once with Vitest
-- **`npm run test:watch`**: Run tests in watch mode
 - **`npm run coverage`**: Run tests with coverage report
-- **`npm run coverage:watch`**: Run tests in watch mode with coverage
 
-## Project Structure
+### Backend Development Scripts
 
-Understanding the project structure will help you navigate and contribute effectively:
+The following poetry scripts are available for development:
 
-```text
-campus-navigation-app/
-├── src/
-│   ├── components/     # Reusable UI components
-│   ├── features/       # Feature-specific modules
-│   ├── hooks/          # Custom React hooks
-│   ├── pages/          # Page components
-│   ├── services/       # API and data services
-│   ├── styles/         # SCSS stylesheets
-│   ├── types/          # TypeScript type definitions
-│   └── utils/          # Utility functions
-├── tests/              # Test files mirroring src structure
-├── public/             # Static assets and data files
-└── coverage/           # Test coverage reports
-```
-
-For a detailed breakdown of the project structure, see the [README.md](./README.md).
+- **`poetry run poe start`**: Start the API server
+- **`poetry run poe test`**: Run the unit tests
 
 ## Questions or Issues?
 
