@@ -1,0 +1,164 @@
+name: Deploy API
+
+on:
+  workflow_dispatch:
+    inputs:
+      artifact-build-number:
+        description: 'Build number of the API artifact to deploy'
+        type: number
+        required: true
+      major:
+        description: 'Major version number'
+        required: true
+        type: number
+        default: 0
+      minor:
+        description: 'Minor version number'
+        required: true
+        type: number
+        default: 1
+      patch:
+        description: 'Patch version number'
+        required: true
+        type: number
+        default: 0
+      identifier:
+        description: 'Identifier for pre-releases (e.g., dev, alpha, beta, rc)'
+        type: choice
+        required: true
+        default: 'dev'
+        options:
+          - 'dev'
+          - 'alpha'
+          - 'beta'
+          - 'rc'
+      numeric-identifier:
+        description: 'Numeric identifier for pre-releases (e.g., 1 for rc.1)'
+        type: number
+        required: true
+        default: 1
+      changelog:
+        description: 'Release changelog'
+        required: true
+        type: string
+        default: ''
+
+permissions:
+  contents: read
+
+jobs:
+  deploy-dev:
+    runs-on: ubuntu-latest
+    environment: Development
+
+    steps:
+      - name: Designate dev release version
+        id: version
+        run: |
+          VERSION="${{ github.event.inputs.major }}.${{ github.event.inputs.minor }}.${{ github.event.inputs.patch }}-${{ github.event.inputs.identifier }}.${{ github.event.inputs.numeric-identifier }}"
+          echo "RELEASE_VERSION=${VERSION}" >> $GITHUB_ENV
+          echo "Release version set to $VERSION"
+
+      - name: Download build artifacts
+        uses: actions/download-artifact@v8
+        with:
+          name: api-build_${{ github.event.inputs.artifact-build-number }}
+          path: ./CM-API-${{ env.RELEASE_VERSION }}
+
+      - name: Zip artifact files
+        run: |
+          cd ./CM-API-${{ env.RELEASE_VERSION }}
+          zip -r ../CM-API-${{ env.RELEASE_VERSION }}.zip .
+
+      - name: Create GitHub release
+        uses: softprops/action-gh-release@v3
+        with:
+          tag_name: CM-API-${{ env.RELEASE_VERSION }}
+          name: API Release ${{ env.RELEASE_VERSION }}
+          body: |
+            Production release for API version ${{ env.RELEASE_VERSION }}.
+
+            ### Changelog
+
+            ${{ github.event.inputs.changelog }}
+          draft: false
+          prerelease: ${{ github.event.inputs.major == 0 || github.event.inputs.identifier != '' }}
+          files: |
+            CM-API-${{ env.RELEASE_VERSION }}.zip
+
+      - name: Deploy release to dev
+        run: |
+          # Add future deployment steps here
+          echo "Deployment steps would be executed here."
+
+  deploy-staging:
+    needs: deploy-dev
+    runs-on: ubuntu-latest
+    environment: Staging
+
+    steps:
+      - name: Validate that the release is not a development release
+        if: ${{ github.event.inputs.identifier == 'dev' }}
+        run: |
+          echo "Development releases cannot be deployed to staging. Rerun the workflow with a non-development identifier (e.g., alpha, beta, rc) to proceed."
+          exit 1
+
+      - name: Deploy release to staging
+        run: |
+          # Add future deployment steps here
+          # Use the release created by the deploy-dev job.
+          echo "Deployment steps would be executed here."
+
+  deploy-production:
+    needs: deploy-staging
+    runs-on: ubuntu-latest
+    environment: Production
+
+    steps:
+      - name: Validate that the release is not a development release
+        if: ${{ github.event.inputs.identifier == 'dev' }}
+        run: |
+          echo "Development releases cannot be deployed to production. Rerun the workflow with a non-development identifier (e.g., alpha, beta, rc) to proceed."
+          exit 1
+
+      - name: Designate production release version
+        id: version
+        run: |
+          VERSION="${{ github.event.inputs.major }}.${{ github.event.inputs.minor }}.${{ github.event.inputs.patch }}"
+          if [ -n "${{ github.event.inputs.identifier != 'rc' }}" ]; then
+            VERSION="${VERSION}-${{ github.event.inputs.identifier }}"
+          fi
+          echo "RELEASE_VERSION=${VERSION}" >> $GITHUB_ENV
+          echo "Release version set to $VERSION"
+
+      - name: Download build artifacts
+        uses: actions/download-artifact@v8
+        with:
+          name: api-build_${{ github.event.inputs.artifact-build-number }}
+          path: ./CM-API-${{ env.RELEASE_VERSION }}
+
+      - name: Zip artifact files
+        run: |
+          cd ./CM-API-${{ env.RELEASE_VERSION }}
+          zip -r ../CM-API-${{ env.RELEASE_VERSION }}.zip .
+
+      - name: Create GitHub release
+        uses: softprops/action-gh-release@v3
+        with:
+          tag_name: CM-API-${{ env.RELEASE_VERSION }}
+          name: API Release ${{ env.RELEASE_VERSION }}
+          body: |
+            Production release for API version ${{ env.RELEASE_VERSION }}.
+
+            ### Changelog
+
+            ${{ github.event.inputs.changelog }}
+          draft: false
+          prerelease: ${{ github.event.inputs.major == 0 || github.event.inputs.identifier != '' }}
+          files: |
+            CM-API-${{ env.RELEASE_VERSION }}.zip
+
+      - name: Deploy release to production
+        run: |
+          # Add future deployment steps here
+          echo "Deployment steps would be executed here."
