@@ -1,4 +1,4 @@
-name: CI
+name: Build API
 
 on:
   push:
@@ -12,32 +12,16 @@ jobs:
   test:
     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        node-version: [22.x, 24.x]
-
     steps:
-      - name: Checkout Repository
+      - name: Checkout repository
         uses: actions/checkout@v4
         with:
           fetch-depth: 1
-
-      - name: Set up Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ matrix.node-version }}
-          cache: "npm"
-          cache-dependency-path: ./frontend/package-lock.json
 
       - name: Set up Python 3.14
         uses: actions/setup-python@v6
         with:
           python-version: 3.14
-
-      - name: Install npm dependencies
-        run: |
-          cd frontend
-          npm ci
 
       - name: Install Poetry
         run: |
@@ -55,15 +39,13 @@ jobs:
       - name: Install Python dependencies
         run: poetry install --with dev
 
-      - name: Build the frontend
-        run: |
-          cd frontend
-          npm run build --if-present
-
-      - name: Run frontend tests
-        run: |
-          cd frontend
-          npm test
-
-      # - name: Run backend tests
+      # The tests are currently disabled because there is no database to test against.
+      # - name: Run tests
       #   run: poetry run poe test
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v7
+        with:
+          name: api-build_${{ github.run_number }}
+          path: dist  # TODO: Update to use a docker image
+          retention-days: 90
