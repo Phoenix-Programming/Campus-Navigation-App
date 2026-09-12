@@ -1,0 +1,327 @@
+//css imported from figma design file
+
+/* Welcome - Intro */
+
+.welcome-page {
+    position: relative;
+    width: 100dvh;
+    height: 100dvh;
+}
+
+
+/* Welcome Box */
+
+.welcome-box {
+    position: absolute;
+    width: 70dvh;
+    height: 70dvh;
+    left: 15dvh;
+    top: 15dvh;
+
+    background: #EEEEEE;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 20px;
+}
+
+
+/* FLPoly Campus Navigation Guide */
+
+.welcome-title {
+    position: absolute;
+    width: 474px;
+    height: 38px;
+    left: calc(50% - 474px / 2 + 0.5px);
+    top: 374px;
+
+    font-family: 'Fira Sans';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 32px;
+    line-height: 38px;
+    text-align: center;
+
+    color: #000000;
+}
+
+
+/* Welcome to FLPoly Campus Navigation! FLPoly Campus Navigation is a web-based mapping service for Florida Polytechnic University. */
+
+.welcome-description {
+    position: absolute;
+    width: 864px;
+    height: 87px;
+    left: calc(50% - 864px / 2 + 0.5px);
+    top: 431px;
+
+    font-family: 'Fira Sans';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 24px;
+    text-align: center;
+
+    color: #000000;
+}
+
+
+/* Next Button */
+
+.next-button {
+    position: absolute;
+    width: 177px;
+    height: 59px;
+    left: 644px;
+    top: 632px;
+}
+
+
+/* Next Button */
+
+.next-button-background {
+    position: absolute;
+    width: 177px;
+    height: 57.53px;
+    left: 644px;
+    top: 633.47px;
+
+    background: #DEDEDE;
+}
+
+
+/* Next */
+
+.next {
+    position: absolute;
+    width: 177px;
+    height: 59px;
+    left: 644px;
+    top: 632px;
+
+    font-family: 'Fira Sans';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 24px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+
+    color: #000000;
+}
+
+
+/* Previous Button */
+
+.previous-button {
+    position: absolute;
+    width: 177px;
+    height: 59px;
+    left: 463px;
+    top: 632px;
+}
+
+
+/* Previous */
+
+.previous {
+    position: absolute;
+    width: 177px;
+    height: 59px;
+    left: 463px;
+    top: 632px;
+
+    font-family: 'Fira Sans';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 24px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+
+    color: #414141;
+}
+
+
+/* Welcome Top Bar */
+
+.welcome-top-bar {
+    position: absolute;
+    width: 800px;
+    height: 60px;
+    left: 0px;
+    top: -3px;
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 0px;
+
+    background: #DEDEDE;
+}
+
+
+/* Intro */
+
+.intro {
+    width: 160px;
+    height: 60px;
+
+    font-family: 'Fira Sans';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 24px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+
+    color: #EEEEEE;
+
+    flex: none;
+    order: 0;
+    flex-grow: 0;
+}
+
+
+/* I Am A ... */
+
+.i-am-a {
+    width: 160px;
+    height: 60px;
+
+    font-family: 'Fira Sans';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 24px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+
+    color: #000000;
+
+    flex: none;
+    order: 1;
+    flex-grow: 0;
+}
+
+
+/* Directions */
+
+.directions {
+    width: 160px;
+    height: 60px;
+
+    font-family: 'Fira Sans';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 24px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+
+    color: #000000;
+
+    flex: none;
+    order: 2;
+    flex-grow: 0;
+}
+
+
+/* Settings */
+
+.settings {
+    width: 160px;
+    height: 60px;
+
+    font-family: 'Fira Sans';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 24px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+
+    color: #000000;
+
+    flex: none;
+    order: 3;
+    flex-grow: 0;
+}
+
+
+/* Feedback */
+
+.feedback {
+    width: 160px;
+    height: 60px;
+
+    font-family: 'Fira Sans';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 24px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+
+    color: #000000;
+
+    flex: none;
+    order: 4;
+    flex-grow: 0;
+}
+
+
+/* Purple Button */
+
+.purple-button {
+    position: absolute;
+    width: 160px;
+    height: 60px;
+    left: 0px;
+    top: -3px;
+
+    background: #512D82;
+}
+
+
+/* Intro */
+
+.intro-active {
+    position: absolute;
+    width: 160px;
+    height: 60px;
+    left: 0px;
+    top: -3px;
+
+    font-family: 'Fira Sans';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 24px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+
+    color: #EEEEEE;
+}
