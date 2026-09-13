@@ -1,5 +1,5 @@
 import { useState, useRef } from "react";
-import { useGlobalKeydown } from "../hooks/GlobalKeydown.tsx";
+import { useGlobalKeydown } from "../../hooks/GlobalKeydown.tsx";
 import "@styles/pages/node-connections-editor.scss";
 
 /*
