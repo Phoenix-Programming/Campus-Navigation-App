@@ -5,23 +5,22 @@
 		{ "path": "./tsconfig.node.json" }
 	],
 	"compilerOptions": {
-		"baseUrl": ".",
 		"paths": {
 			"@/*": ["/*"],
-			"@public/*": ["src/public/*"],
-			"@indoors/*": ["src/public/data/indoors/*"],
-			"@outdoors/*": ["src/public/data/outdoors/*"],
-			"@metadata/*": ["src/public/data/metadata/*"],
-			"@src/*": ["src/*"],
-			"@assets/*": ["src/assets/*"],
-			"@components/*": ["src/components/*"],
-			"@features/*": ["src/features/*"],
-			"@hooks/*": ["src/hooks/*"],
-			"@pages/*": ["src/pages/*"],
-			"@services/*": ["src/services/*"],
-			"@styles/*": ["src/styles/*"],
-			"@types/*": ["src/src/types/*"],
-			"@utils/*": ["src/utils/*"]
+			"@public/*": ["./src/public/*"],
+			"@indoors/*": ["./src/public/data/indoors/*"],
+			"@outdoors/*": ["./src/public/data/outdoors/*"],
+			"@metadata/*": ["./src/public/data/metadata/*"],
+			"@src/*": ["./src/*"],
+			"@assets/*": ["./src/assets/*"],
+			"@components/*": ["./src/components/*"],
+			"@features/*": ["./src/features/*"],
+			"@hooks/*": ["./src/hooks/*"],
+			"@pages/*": ["./src/pages/*"],
+			"@services/*": ["./src/services/*"],
+			"@styles/*": ["./src/styles/*"],
+			"@types/*": ["./src/src/types/*"],
+			"@utils/*": ["./src/utils/*"]
 		},
 		"sourceMap": true,
 		"strict": true
