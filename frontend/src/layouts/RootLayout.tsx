@@ -7,7 +7,7 @@ export default function RootLayout() {
 			<header>
 				<h1>Florida Polytechnic University Campus Map</h1>
 				<nav>
-					<Link to="/">Home</Link> | <Link to="/map">Map</Link> | <Link to="/login">Login</Link> | <Link to="/register">Register</Link> | <Link to="/account">Account</Link>
+					<Link to="/">Home</Link> | <Link to="/map">Map</Link>
 				</nav>
 			</header>
 			<main>
