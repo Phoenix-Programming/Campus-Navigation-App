@@ -1,5 +1,5 @@
 import { useRef, type JSX } from "react";
-import api from "../api";
+import api from "../../api";
 
 export default function LoginPage(): JSX.Element {
 	const loginFormRef = useRef<HTMLFormElement>(null);
