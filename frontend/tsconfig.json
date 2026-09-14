@@ -5,6 +5,8 @@
 		{ "path": "./tsconfig.node.json" }
 	],
 	"compilerOptions": {
+		"noUnusedLocals": false,
+		"noUnusedParameters": false,
 		"paths": {
 			"@/*": ["/*"],
 			"@public/*": ["./src/public/*"],
