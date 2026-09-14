@@ -227,7 +227,7 @@ export default function NodeConnectionsEditor() {
 	};
 
 	return (
-		<div>
+		<div className="editorPage">
 			{/*display the upload component*/}
 			<Upload setSvg={setSvg} setJson={setJson} setFileName={setFileName} />
 
