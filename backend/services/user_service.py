@@ -318,6 +318,7 @@ class UserService:
 	async def _create_access_token(self, user_id: int, db: Database) -> str:
 		# create the access token with the user id as the subject
 		access_token_expires: timedelta = timedelta(minutes=settings.access_token_expire_minutes)
+		role_name: str | None = await self.repo.get_user_role_name(user_id=user_id, db=db)
 		permissions: list[Permission] = await self.repo.get_user_permissions(
       		user_id=user_id,
         	db=db
@@ -325,6 +326,7 @@ class UserService:
 		access_token: str = create_token(
 			user_id,
 			permissions=[p.name for p in permissions],
+			role=role_name,
 			expires_delta=access_token_expires,
 			token_type="access"
 		)

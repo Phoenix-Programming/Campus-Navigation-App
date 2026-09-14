@@ -8,6 +8,7 @@ class RefreshTokenRequest(BaseModel):
 class TokenData(BaseModel):
     user_id: str | None = None
     permissions: set[str] | None = None
+    role: str | None = None
 
 
 class RefreshTokenData(BaseModel):

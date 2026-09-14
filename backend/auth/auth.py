@@ -44,12 +44,15 @@ def create_token(
     user_id: int,
     token_type: Literal["access", "refresh"],
     permissions: list[str] | None = None,
+    role: str | None = None,
     expires_delta: timedelta | None = None
 ) -> str:
 	"""Creates a JWT access token."""
 	to_encode: dict[str, str | list[str] | datetime] = {"sub": str(user_id), "type": token_type}
 	if permissions:
 		to_encode["permissions"] = permissions
+	if role:
+		to_encode["role"] = role
 
 	expire: datetime = datetime.now(UTC) + (
 		expires_delta
@@ -81,7 +84,8 @@ def verify_access_token(token: str) -> TokenData | None:
 
         return TokenData(
             user_id=payload.get("sub"),
-            permissions=payload.get("permissions") or set()
+			permissions=payload.get("permissions") or set(),
+			role=payload.get("role")
         )
     except InvalidTokenError:
         return None

@@ -2,6 +2,7 @@ import pytest
 from fastapi import status
 from httpx import AsyncClient, Response
 from unittest.mock import AsyncMock, patch
+from backend.auth.auth import verify_access_token
 from backend.tests.conftest import (
     TEST_EMAIL, TEST_PASSWORD, TEST_USERNAME, auth_header, login_user, register_and_login_user,
     register_test_user
@@ -144,10 +145,13 @@ async def test_login_user_success(client: AsyncClient) -> None:
 		)
 
 		response_data = response.json()
+		token_data = verify_access_token(response_data["access_token"])
 
 		assert response.status_code == status.HTTP_200_OK
 		assert response_data["access_token"]
 		assert response_data["refresh_token"]
+		assert token_data is not None
+		assert token_data.role == "user"
 
 
 @pytest.mark.anyio
