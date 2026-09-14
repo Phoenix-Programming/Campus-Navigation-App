@@ -5,8 +5,6 @@
 		{ "path": "./tsconfig.node.json" }
 	],
 	"compilerOptions": {
-		"noUnusedLocals": false,
-		"noUnusedParameters": false,
 		"paths": {
 			"@/*": ["/*"],
 			"@public/*": ["./src/public/*"],
@@ -25,6 +23,13 @@
 			"@utils/*": ["./src/utils/*"]
 		},
 		"sourceMap": true,
-		"strict": true
+
+		/* Linting */
+		"strict": true,
+		"noUnusedLocals": false,
+		"noUnusedParameters": false,
+		"erasableSyntaxOnly": true,
+		"noFallthroughCasesInSwitch": true,
+		"noUncheckedSideEffectImports": true
 	}
 }
