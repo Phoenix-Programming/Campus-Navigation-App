@@ -6,6 +6,9 @@ import LoginPage from "../pages/admin/Login";
 import NotFound from "../pages/NotFound";
 import RegisterPage from "../pages/admin/Register";
 import NodeConnectionsEditor from "../pages/admin/NodeConnectionsEditor";
+import Unauthorized from "../pages/Unauthorized";
+import AdminDashboard from "../pages/admin/AdminDashboard";
+import { adminRoute } from "./AdminRoute";
 
 
 const routes: RouteObject[] = [
@@ -15,9 +18,7 @@ const routes: RouteObject[] = [
 		children: [
 			{ index: true, element: <Navigate to="/map" replace /> },
 			{ path: "map", element: <LeafletMap /> },
-			{ path: "login", element: <LoginPage /> },
-			{ path: "register", element: <RegisterPage /> },
-			{ path: "account", element: <AccountPage /> },
+			{ path: "unauthorized", element: <Unauthorized /> },
 			{ path: "*", element: <NotFound /> }
 		]
 	},
@@ -27,8 +28,14 @@ const routes: RouteObject[] = [
 		children: [
 			{ path: "login", element: <LoginPage /> },
 			{ path: "register", element: <RegisterPage /> },
-			{ path: "account", element: <AccountPage /> },
-			{ path: "node-connections-editor", element: <NodeConnectionsEditor /> }
+			{
+				loader: adminRoute,  //restricts the routes to admins only
+				children: [
+					{ path: "account", element: <AccountPage /> },
+					{ path: "dashboard", element: <AdminDashboard /> },
+					{ path: "node-connections-editor", element: <NodeConnectionsEditor /> },
+				]
+			}
 		]
 	}
 ];
