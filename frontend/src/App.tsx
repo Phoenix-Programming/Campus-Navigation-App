@@ -1,10 +1,10 @@
 import { type JSX } from "react";
-import { useRoutes } from "react-router";
+import { createBrowserRouter, RouterProvider } from "react-router";
 import routes from "./routes/Routes";
 
 
-export default function App(): JSX.Element {
-	const element = useRoutes(routes);
+const router = createBrowserRouter(routes);
 
-	return element ?? <></>;
+export default function App(): JSX.Element {
+	return <RouterProvider router={router} />;
 }
