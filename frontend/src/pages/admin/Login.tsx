@@ -23,8 +23,8 @@ export default function LoginPage(): JSX.Element {
 			if (response.status === 200) {
 				alert("Login successful!");
 
-				localStorage.setItem('access_token', response.data.access_token)
-				localStorage.setItem('refresh_token', response.data.access_token)
+				localStorage.setItem("access_token", response.data.access_token);
+				localStorage.setItem("refresh_token", response.data.refresh_token);
 			} else {
 				alert("Failed to login.");
 			}
