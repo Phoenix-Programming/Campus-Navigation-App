@@ -1,6 +1,6 @@
 import asyncio
 import httpx
-from sqlalchemy import delete
+from sqlalchemy import delete, update
 from backend.utilities.db_connection import AsyncSessionLocal, engine
 from backend.main import app
 from backend.schema.password_reset_token import PasswordResetToken
@@ -19,17 +19,17 @@ async def clear_existing_data() -> None:
 
 
 async def populate() -> None:
-    transport: httpx.ASGITransport = httpx.ASGITransport(app=app)
+	transport: httpx.ASGITransport = httpx.ASGITransport(app=app)
 
-    async with httpx.AsyncClient(
+	async with httpx.AsyncClient(
 		transport=transport,
 		base_url="http://localhost",
 	) as client:
-        await clear_existing_data()
+		await clear_existing_data()
 
-        print(f"\nCreating {len(USERS)} users...")
-        for user_data in USERS:
-            response: httpx.Response = await client.post(
+		print(f"\nCreating {len(USERS)} users...")
+		for user_data in USERS:
+			response: httpx.Response = await client.post(
 				"/api/users/register",
 				json={
 					"username": user_data["username"],
@@ -37,14 +37,23 @@ async def populate() -> None:
 					"password": user_data["password"]
 				}
 			)
-            response.raise_for_status()
-            user: dict[str, str] = response.json()
-            print(f"  Created: {user["username"]}")
+			response.raise_for_status()
+			user: dict[str, str] = response.json()
 
-    await engine.dispose()
+			async with AsyncSessionLocal() as db:
+				await db.execute(
+					update(User)
+					.where(User.username == user_data["username"])
+					.values(role_id=user_data["role_id"])
+				)
+				await db.commit()
 
-    print("\nDone!")
-    print(f"  {len(USERS)} users")
+			print(f"  Created: {user["username"]}")
+
+	await engine.dispose()
+
+	print("\nDone!")
+	print(f"  {len(USERS)} users")
 
 
 if __name__ == "__main__": asyncio.run(populate())

@@ -88,6 +88,14 @@ createdb -U postgres -O myusername mydbname
 
 Once you have created your PostgreSQL database, populate the DB_URL environment variable in your `.env` file using your username, password, and database name.
 
+##### Seed the database
+
+Run the database seeding script.
+
+```bash
+poetry run python3 -m backend.seed.seed_db
+```
+
 ## Development Workflow
 
 ### Sync with the Remote Repository
