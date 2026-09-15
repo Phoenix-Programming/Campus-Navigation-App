@@ -8,31 +8,24 @@ interface AdminTokenPayload extends JwtPayload {
 /**
  * Protects a route that is restricted to admins
  */
-export async function adminRoute() {
-	const token = localStorage.getItem("access_token");
+export async function adminRoute(): Promise<null> {
+	const token: string | null = localStorage.getItem("access_token");
 
-	if (!token) {
-		//no token found, redirect to unauthorized page
-		throw redirect("/unauthorized");
-	}
+	//no token found, redirect to unauthorized page
+	if (!token) throw redirect("/unauthorized");
 
 	try {
 		//decode the JWT to read the payload
-		const decoded = jwtDecode<AdminTokenPayload>(token);
+		const decoded: AdminTokenPayload = jwtDecode<AdminTokenPayload>(token);
 
 		//check if the token is expired
-		const currentTime = Date.now() / 1000;
-		if (decoded.exp && decoded.exp < currentTime) {
-			localStorage.removeItem("access_token"); // clear expired token
-
-			//redirect to unauthorized page
-			throw redirect("/unauthorized");
-		}
+		const currentTime: number = Date.now() / 1000;
+		if (decoded.exp && decoded.exp < currentTime) throw Error("Expired access token");
 
 		//check if the user has the admin role
-		const isAdmin = decoded.role === "admin";
+		const isAdmin: boolean = decoded.role === "admin";
 
-		if (!isAdmin) throw redirect("/unauthorized");
+		if (isAdmin) return null;
 	} catch (error) {
 		//token is invalid or decoding fails
 		localStorage.removeItem("access_token");
@@ -41,5 +34,5 @@ export async function adminRoute() {
 		throw redirect("/unauthorized");
 	}
 
-	return null;
+	throw redirect("/unauthorized");
 }
