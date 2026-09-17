@@ -28,10 +28,10 @@
 
 .welcome-title {
     position: absolute;
-    width: 474px;
-    height: 38px;
+    width: 25dvh;
+    height: 3.5dvh;
     left: calc(50% - 474px / 2 + 0.5px);
-    top: 374px;
+    top: 35dvh;
 
     font-family: 'Fira Sans';
     font-style: normal;
@@ -48,10 +48,10 @@
 
 .welcome-description {
     position: absolute;
-    width: 864px;
-    height: 87px;
-    left: calc(50% - 864px / 2 + 0.5px);
-    top: 431px;
+    width: 45dvh;
+    height: 8dvh;
+    left: calc(50% - 864px / 2 + 0.5px);//fix
+    top: 40dvh;
 
     font-family: 'Fira Sans';
     font-style: normal;
@@ -68,10 +68,10 @@
 
 .next-button {
     position: absolute;
-    width: 177px;
-    height: 59px;
-    left: 644px;
-    top: 632px;
+    width: 9.2dvh;
+    height: 5.5dvh;
+    left: 33.5dvh;
+    top: 58dvh;
 }
 
 
