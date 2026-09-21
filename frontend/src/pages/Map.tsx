@@ -6,7 +6,7 @@ export default function Map(){
 
 
     return (
-        <div>
+        <div className="map-page">
             <MapUi/>
             <LeafletMap/>
         </div>

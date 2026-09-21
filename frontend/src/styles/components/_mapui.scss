@@ -1,11 +1,26 @@
 //css imported from figma design file
 
+.map-ui {
+    position: absolute;
+    inset: 0;
+    z-index: 1000;
+    pointer-events: none;
+}
+
+.map-ui button,
+.map-ui a,
+.map-ui input,
+.map-ui select,
+.map-ui textarea {
+    pointer-events: auto;
+}
+
 /* Welcome - Intro */
 
 .welcome-page {
     position: relative;
-    width: 100dvh;
-    height: 100dvh;
+    width: 100vw;
+    height: 100vh;
 }
 
 
@@ -13,14 +28,14 @@
 
 .welcome-box {
     position: absolute;
-    width: 70dvh;
-    height: 70dvh;
-    left: 15dvh;
-    top: 15dvh;
+    width: 60vw;
+    height: 70vh;
+    left: 20vw;
+    top: 15vh;
 
     background: #EEEEEE;
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-    border-radius: 20px;
+    box-shadow: 0 0.4vh 0.4vh rgba(0, 0, 0, 0.25);
+    border-radius: 1.0vw;
 }
 
 
@@ -28,16 +43,16 @@
 
 .welcome-title {
     position: absolute;
-    width: 25dvh;
-    height: 3.5dvh;
-    left: calc(50% - 474px / 2 + 0.5px);
-    top: 35dvh;
+    width: 24.7vw;
+    height: 3.5vh;
+    left: calc(50% - 12.3vw);
+    top: 35vh;
 
     font-family: 'Fira Sans';
     font-style: normal;
     font-weight: 500;
-    font-size: 32px;
-    line-height: 38px;
+    font-size: 1.7vw;
+    line-height: 3.5vh;
     text-align: center;
 
     color: #000000;
@@ -48,16 +63,16 @@
 
 .welcome-description {
     position: absolute;
-    width: 45dvh;
-    height: 8dvh;
-    left: calc(50% - 864px / 2 + 0.5px);//fix
-    top: 40dvh;
+    width: 45vw;
+    height: 8vh;
+    left: calc(50% - 22.5vw);
+    top: 40vh;
 
     font-family: 'Fira Sans';
     font-style: normal;
     font-weight: 400;
-    font-size: 20px;
-    line-height: 24px;
+    font-size: 1.0vw;
+    line-height: 2.2vh;
     text-align: center;
 
     color: #000000;
@@ -68,10 +83,10 @@
 
 .next-button {
     position: absolute;
-    width: 9.2dvh;
-    height: 5.5dvh;
-    left: 33.5dvh;
-    top: 58dvh;
+    width: 9.2vw;
+    height: 5.5vh;
+    left: 33.5vw;
+    top: 58.5vh;
 }
 
 
@@ -79,10 +94,10 @@
 
 .next-button-background {
     position: absolute;
-    width: 177px;
-    height: 57.53px;
-    left: 644px;
-    top: 633.47px;
+    width: 9.2vw;
+    height: 5.3vh;
+    left: 33.5vw;
+    top: 58.7vh;
 
     background: #DEDEDE;
 }
@@ -92,16 +107,16 @@
 
 .next {
     position: absolute;
-    width: 177px;
-    height: 59px;
-    left: 644px;
-    top: 632px;
+    width: 9.2vw;
+    height: 5.5vh;
+    left: 33.5vw;
+    top: 58.5vh;
 
     font-family: 'Fira Sans';
     font-style: normal;
     font-weight: 500;
-    font-size: 20px;
-    line-height: 24px;
+    font-size: 1.0vw;
+    line-height: 2.2vh;
 
     display: flex;
     align-items: center;
@@ -116,10 +131,10 @@
 
 .previous-button {
     position: absolute;
-    width: 177px;
-    height: 59px;
-    left: 463px;
-    top: 632px;
+    width: 9.2vw;
+    height: 5.5vh;
+    left: 24.1vw;
+    top: 58.5vh;
 }
 
 
@@ -127,16 +142,16 @@
 
 .previous {
     position: absolute;
-    width: 177px;
-    height: 59px;
-    left: 463px;
-    top: 632px;
+    width: 9.2vw;
+    height: 5.5vh;
+    left: 24.1vw;
+    top: 58.5vh;
 
     font-family: 'Fira Sans';
     font-style: normal;
     font-weight: 500;
-    font-size: 20px;
-    line-height: 24px;
+    font-size: 1.0vw;
+    line-height: 2.2vh;
 
     display: flex;
     align-items: center;
@@ -151,15 +166,15 @@
 
 .welcome-top-bar {
     position: absolute;
-    width: 800px;
-    height: 60px;
-    left: 0px;
-    top: -3px;
+    width: 41.7vw;
+    height: 5.6vh;
+    left: 0;
+    top: -0.3vh;
 
     display: flex;
     flex-direction: row;
     align-items: center;
-    padding: 0px;
+    padding: 0;
 
     background: #DEDEDE;
 }
@@ -168,14 +183,14 @@
 /* Intro */
 
 .intro {
-    width: 160px;
-    height: 60px;
+    width: 8.3vw;
+    height: 5.6vh;
 
     font-family: 'Fira Sans';
     font-style: normal;
     font-weight: 400;
-    font-size: 20px;
-    line-height: 24px;
+    font-size: 1.0vw;
+    line-height: 2.2vh;
 
     display: flex;
     align-items: center;
@@ -193,14 +208,14 @@
 /* I Am A ... */
 
 .i-am-a {
-    width: 160px;
-    height: 60px;
+    width: 8.3vw;
+    height: 5.6vh;
 
     font-family: 'Fira Sans';
     font-style: normal;
     font-weight: 400;
-    font-size: 20px;
-    line-height: 24px;
+    font-size: 1.0vw;
+    line-height: 2.2vh;
 
     display: flex;
     align-items: center;
@@ -218,14 +233,14 @@
 /* Directions */
 
 .directions {
-    width: 160px;
-    height: 60px;
+    width: 8.3vw;
+    height: 5.6vh;
 
     font-family: 'Fira Sans';
     font-style: normal;
     font-weight: 400;
-    font-size: 20px;
-    line-height: 24px;
+    font-size: 1.0vw;
+    line-height: 2.2vh;
 
     display: flex;
     align-items: center;
@@ -243,14 +258,14 @@
 /* Settings */
 
 .settings {
-    width: 160px;
-    height: 60px;
+    width: 8.3vw;
+    height: 5.6vh;
 
     font-family: 'Fira Sans';
     font-style: normal;
     font-weight: 400;
-    font-size: 20px;
-    line-height: 24px;
+    font-size: 1.0vw;
+    line-height: 2.2vh;
 
     display: flex;
     align-items: center;
@@ -268,14 +283,14 @@
 /* Feedback */
 
 .feedback {
-    width: 160px;
-    height: 60px;
+    width: 8.3vw;
+    height: 5.6vh;
 
     font-family: 'Fira Sans';
     font-style: normal;
     font-weight: 400;
-    font-size: 20px;
-    line-height: 24px;
+    font-size: 1.0vw;
+    line-height: 2.2vh;
 
     display: flex;
     align-items: center;
@@ -294,10 +309,10 @@
 
 .purple-button {
     position: absolute;
-    width: 160px;
-    height: 60px;
-    left: 0px;
-    top: -3px;
+    width: 8.3vw;
+    height: 5.6vh;
+    left: 0;
+    top: -0.3vh;
 
     background: #512D82;
 }
@@ -307,16 +322,16 @@
 
 .intro-active {
     position: absolute;
-    width: 160px;
-    height: 60px;
-    left: 0px;
-    top: -3px;
+    width: 8.3vw;
+    height: 5.6vh;
+    left: 0;
+    top: -0.3vh;
 
     font-family: 'Fira Sans';
     font-style: normal;
     font-weight: 400;
-    font-size: 20px;
-    line-height: 24px;
+    font-size: 1.0vw;
+    line-height: 2.2vh;
 
     display: flex;
     align-items: center;
