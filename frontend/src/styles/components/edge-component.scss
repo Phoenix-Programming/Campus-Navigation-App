@@ -1,0 +1,11 @@
+.edge {
+	stroke: #000000;
+	stroke-width: 25;
+	stroke-linecap: round;
+	pointer-events: stroke;
+	cursor: pointer;
+
+	&.selected {
+		stroke: #ffffff;
+	}
+}
