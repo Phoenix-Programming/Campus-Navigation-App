@@ -26,10 +26,9 @@ export default function EdgeComponent({
 	onEdgeClick
 }: EdgeComponentProps): React.JSX.Element | null {
 	const svgViewportContext = useContext(SvgViewportContext);
+
 	const svgViewport: SvgViewportMetrics | null = svgViewportContext;
 	const suppressClicksRef = svgViewportContext?.suppressClicksRef;
-
-	if (!sourceNode || !targetNode) return null;
 
 	if (!svgViewport) return null;
 
@@ -43,6 +42,7 @@ export default function EdgeComponent({
 	const y1: string = toCoordinate(sourceNode.y, svgViewport?.height);
 	const x2: string = toCoordinate(targetNode.x, svgViewport?.width);
 	const y2: string = toCoordinate(targetNode.y, svgViewport?.height);
+
 
 	return (
 		<svg

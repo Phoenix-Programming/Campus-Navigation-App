@@ -36,6 +36,7 @@ const SvgViewerComponent = forwardRef<SvgViewerHandle, SvgViewerComponentProps>(
 	const [transform, setTransform] = useState({ scale: 1, x: 0, y: 0 });
 	const [isDragging, setIsDragging] = useState(false);
 	const [isHovering, setIsHovering] = useState(false);
+
 	const viewerRef = useRef<HTMLDivElement>(null);
 	const imgRef = useRef<HTMLImageElement>(null);
 	const suppressClicksRef = useRef(false);
@@ -43,6 +44,7 @@ const SvgViewerComponent = forwardRef<SvgViewerHandle, SvgViewerComponentProps>(
 	const dragStartedRef = useRef(false);
 	const dragging = useRef(false);
 	const last = useRef({ x: 0, y: 0 });
+
 	const svgSrc: string = svg.includes("<svg") ? `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(svg)}` : svg;
 
 	const svgMetrics: SvgViewportMetrics | null = useMemo<SvgViewportMetrics | null>(() => {
@@ -68,6 +70,7 @@ const SvgViewerComponent = forwardRef<SvgViewerHandle, SvgViewerComponentProps>(
 		return null;
 	}, [svg]);
 
+
 	useEffect(() => {
 		setTransform({ scale: 1, x: 0, y: 0 });
 
@@ -85,6 +88,7 @@ const SvgViewerComponent = forwardRef<SvgViewerHandle, SvgViewerComponentProps>(
 			document.body.style.overflow = "";
 		};
 	}, [isHovering]);
+
 
 	useImperativeHandle(
 		ref,
@@ -114,7 +118,6 @@ const SvgViewerComponent = forwardRef<SvgViewerHandle, SvgViewerComponentProps>(
 		[transform.scale]
 	);
 
-	console.log("SvgViewerComponent Rerendering...");
 
 	function clamp(value: number, min: number, max: number): number {
 		return Math.min(Math.max(min, value), max);
@@ -294,6 +297,7 @@ const SvgViewerComponent = forwardRef<SvgViewerHandle, SvgViewerComponentProps>(
 		onMouseUp();
 	};
 
+	
 	return (
 		<div
 			ref={viewerRef}

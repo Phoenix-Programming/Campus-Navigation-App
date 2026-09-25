@@ -39,8 +39,6 @@ export default function IndoorMapEditorToolbar({
 	onZoomIn,
 	onZoomOut
 }: IndoorMapEditorToolbarProps): React.JSX.Element {
-	console.log("IndoorMapEditorToolbar Rerendering...");
-
 	function onToolButtonClicked(tool: Tool): void {
 		setSelectedTool(tool);
 	}
@@ -52,6 +50,7 @@ export default function IndoorMapEditorToolbar({
 	function onZoomOutButtonClicked(): void {
 		onZoomOut(zoomStep);
 	}
+
 
 	return (
 		<div className="toolbar">

@@ -23,8 +23,10 @@ interface Building {
 }
 
 export default function IndoorMapEditor(): React.JSX.Element {
-	const svgViewerRef = useRef<SvgViewerHandle>(null);
 	const svgViewerZoomStep = 0.1;
+
+	const svgViewerRef = useRef<SvgViewerHandle>(null);
+
 	const [buildings, setBuildings] = useState<Building[]>([]);
 	const [selectedBuilding, setSelectedBuilding] = useState<string | null>(null);
 	const [mapLoaded, setMapLoaded] = useState(false);
@@ -40,7 +42,6 @@ export default function IndoorMapEditor(): React.JSX.Element {
 	const [discardPending, setDiscardPending] = useState(false);
 	const [nodeTypeToCreate, setNodeTypeToCreate] = useState<string>("room");
 
-	console.log("IndoorMapEditor Rerendering...");
 
 	useEffect(() => {
 		//getBuildings();
@@ -57,6 +58,7 @@ export default function IndoorMapEditor(): React.JSX.Element {
 		if (svg && nodes && edges) setMapLoaded(true);
 		else setMapLoaded(false);
 	}, [svg, nodes, edges]);
+
 
 	async function onSelectedBuildingChange(bldCode: string): Promise<void> {
 		setSelectedBuilding(bldCode);
@@ -232,6 +234,7 @@ export default function IndoorMapEditor(): React.JSX.Element {
 		setSavePending(false);
 	}
 
+	
 	return (
 		<>
 			<div className="header-row">

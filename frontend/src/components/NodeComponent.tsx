@@ -20,12 +20,16 @@ interface NodeComponentProps {
 
 export default function NodeComponent({ node, isSelected, onNodeClick, setHoveredNode }: NodeComponentProps): React.JSX.Element {
 	const [isHovered, setIsHovered] = useState<boolean>(false);
+
 	const lastHoveringStateRef = useRef<boolean>(false);
+
 	const svgViewportContext = useContext(SvgViewportContext);
+
 	const svgViewport: SvgViewportMetrics | null = svgViewportContext;
 	const suppressClicksRef = svgViewportContext?.suppressClicksRef;
 	const normalizedLeft: string = svgViewport ? `${(node.x / svgViewport.width) * 100}%` : `${node.x}px`;
 	const normalizedTop: string = svgViewport ? `${(node.y / svgViewport.height) * 100}%` : `${node.y}px`;
+
 
 	function onClick(node: Node): void {
 		onNodeClick(node);
@@ -39,6 +43,7 @@ export default function NodeComponent({ node, isSelected, onNodeClick, setHovere
 		setHoveredNode(hovering ? node : null);
 	}
 
+	
 	return (
 		<svg
 			key={node.id}
