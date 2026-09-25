@@ -1,5 +1,29 @@
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+}
+
 body {
 	height: 100dvh;
 	width: 100%;
 	margin: 0;
+	background: #0f1117;
+	color: #e7eaf0;
+	font-family: "Avenir Next", "Segoe UI", sans-serif;
+	line-height: 1.5;
+}
+
+a,
+button,
+input,
+select,
+textarea {
+	font: inherit;
+}
+
+.unselectable {
+	-webkit-user-select: none; /* Safari */
+	-ms-user-select: none;     /* IE 10 and IE 11 */
+	user-select: none;         /* Standard syntax for Chrome, Edge, Firefox, and Opera */
 }

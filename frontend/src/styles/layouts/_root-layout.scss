@@ -1,0 +1,144 @@
+.root-layout {
+	position: relative;
+	min-height: 100dvh;
+	padding: clamp(1rem, 2vw, 1.75rem);
+	background: #0f1117;
+	color: #e7eaf0;
+	overflow: hidden;
+	font-family: "Avenir Next", "Segoe UI", sans-serif;
+	isolation: isolate;
+}
+
+.root-layout__header,
+.root-layout__main,
+.root-layout__footer {
+	width: min(1200px, 100%);
+	margin-inline: auto;
+}
+
+.root-layout__header {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: space-between;
+	gap: 0.65rem 0.9rem;
+	align-items: center;
+	padding: 0.65rem 0.85rem;
+	border: 1px solid rgba(80, 29, 131, 0.45);
+	border-radius: 1.1rem;
+	background: #171a22;
+	box-shadow: 0 14px 32px rgba(0, 0, 0, 0.26);
+}
+
+.root-layout__brand {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 0.1rem;
+}
+
+.root-layout__eyebrow {
+	margin: 0;
+	font-size: 0.64rem;
+	font-weight: 700;
+	letter-spacing: 0.14em;
+	text-transform: uppercase;
+	color: #a7b4c3;
+}
+
+.root-layout__title {
+	margin: 0;
+	font-size: 1.3rem;
+	font-weight: 800;
+	line-height: 1.1;
+	letter-spacing: -0.03em;
+	color: #f6f7fa;
+}
+
+.root-layout__tagline {
+	margin: 0;
+	font-size: 0.7rem;
+	font-weight: 500;
+	text-transform: lowercase;
+	color: #a7b4c3;
+}
+
+.root-layout__nav {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: flex-end;
+	gap: 0.45rem;
+	margin-left: auto;
+}
+
+.root-layout__links {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.4rem;
+}
+
+.root-layout__link {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	min-height: 2rem;
+	padding: 0.36rem 0.72rem;
+	border-radius: 999px;
+	border: 1px solid rgba(167, 180, 195, 0.18);
+	background: #20242e;
+	color: #e7eaf0;
+	text-decoration: none;
+	font-size: 0.82rem;
+	font-weight: 600;
+	transition:
+		transform 160ms ease,
+		border-color 160ms ease,
+		color 160ms ease,
+		box-shadow 160ms ease;
+}
+
+.root-layout__link:hover {
+	transform: translateY(-1px);
+	border-color: rgba(0, 159, 223, 0.42);
+	box-shadow: 0 10px 22px rgba(0, 0, 0, 0.22);
+}
+
+.root-layout__link--active {
+	border-color: rgba(0, 159, 223, 0.55);
+	background: #501d83;
+	color: #ffffff;
+	box-shadow: 0 14px 28px rgba(80, 29, 131, 0.32);
+}
+
+.root-layout__main {
+	padding-block: 0.85rem 1rem;
+}
+
+.root-layout__footer {
+	padding-bottom: 0.25rem;
+	color: #a7b4c3;
+	font-size: 0.8rem;
+}
+
+@media (max-width: 720px) {
+	.root-layout__header {
+		flex-direction: column;
+		align-items: stretch;
+	}
+
+	.root-layout__page-name {
+		align-self: flex-start;
+	}
+
+	.root-layout__nav {
+		align-items: flex-start;
+		flex-direction: column;
+		margin-left: 0;
+		width: 100%;
+	}
+
+	.root-layout__links {
+		width: 100%;
+	}
+}
