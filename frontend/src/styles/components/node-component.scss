@@ -1,0 +1,31 @@
+.node {
+	fill: black;
+	stroke: transparent;
+	cursor: pointer;
+
+	&.room {
+		fill: #262aff;
+	}
+
+	&.hallway {
+		fill: #21ff37;
+	}
+
+	&.room-door {
+		fill: #ff2626;
+	}
+
+	&.stairs {
+		fill: #ffa500;
+	}
+
+	&.elevator {
+		fill: #ffa500;
+	}
+
+	&.selected {
+		fill: #ffffff;
+		stroke: #4b4b4b;
+		stroke-width: 8px;
+	}
+}
