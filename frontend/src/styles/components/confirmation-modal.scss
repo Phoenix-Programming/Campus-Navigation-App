@@ -1,0 +1,91 @@
+.modal-backdrop {
+	position: fixed;
+	inset: 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background: rgba(0, 0, 0, 0.55);
+	z-index: 1000;
+}
+
+.confirmation-modal {
+	width: min(420px, calc(100vw - 32px));
+	background: #ffffff;
+	border-radius: 12px;
+	box-shadow: 0 12px 32px rgba(0, 0, 0, 0.2);
+	padding: 20px 20px 16px;
+	color: #1f2937;
+}
+
+.modal-header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 16px;
+	margin-bottom: 12px;
+
+	h2 {
+		margin: 0;
+		font-size: 1.25rem;
+		font-weight: 600;
+	}
+}
+
+.close-button {
+	border: none;
+	background: transparent;
+	font-size: 1.75rem;
+	line-height: 1;
+	color: #6b7280;
+	cursor: pointer;
+	padding: 0;
+
+	&:hover {
+		color: #111827;
+	}
+}
+
+.modal-content {
+	margin-bottom: 20px;
+	line-height: 1.5;
+	color: #374151;
+}
+
+.modal-actions {
+	display: flex;
+	justify-content: flex-end;
+	gap: 10px;
+
+	button {
+		border: none;
+		border-radius: 8px;
+		padding: 10px 16px;
+		font-size: 0.95rem;
+		font-weight: 600;
+		cursor: pointer;
+		transition: opacity 0.2s ease;
+
+		&:hover {
+			opacity: 0.9;
+		}
+	}
+}
+
+.secondary-button {
+	background: #e5e7eb;
+	color: #111827;
+}
+
+.primary-button {
+	background: #2563eb;
+	color: #ffffff;
+}
+
+.danger-button {
+	background: #dc2626;
+	color: #ffffff;
+
+	&:hover {
+		background: #b91c1c;
+	}
+}
