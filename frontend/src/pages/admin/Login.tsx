@@ -1,15 +1,14 @@
 import { useRef, type JSX } from "react";
 import api from "../../api";
+import { storeAuthTokens } from "../../auth/session";
 
 export default function LoginPage(): JSX.Element {
 	const loginFormRef = useRef<HTMLFormElement>(null);
-
 
 	const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
 		loginUser();
 	};
-
 
 	const loginUser = async () => {
 		try {
@@ -23,8 +22,7 @@ export default function LoginPage(): JSX.Element {
 			if (response.status === 200) {
 				alert("Login successful!");
 
-				localStorage.setItem("access_token", response.data.access_token);
-				localStorage.setItem("refresh_token", response.data.refresh_token);
+				storeAuthTokens(response.data);
 			} else {
 				alert("Failed to login.");
 			}
@@ -32,7 +30,6 @@ export default function LoginPage(): JSX.Element {
 			console.error("Error logging in:", error);
 		}
 	};
-
 
 	return (
 		<section>
