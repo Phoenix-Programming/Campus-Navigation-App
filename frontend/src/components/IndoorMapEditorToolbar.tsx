@@ -1,17 +1,19 @@
 import React from "react";
 import selectIcon from "../assets/icons/select.svg";
 import selectBox from "../assets/icons/select-box.svg";
-import linkIcon from "../assets/icons/link.svg";
+import diagonalIcon from "../assets/icons/diagonal-line.svg";
+import graphIcon from "../assets/icons/graph.svg";
 import moveIcon from "../assets/icons/move.svg";
 import addIcon from "../assets/icons/add.svg";
-import zoomInIcon from "../assets/icons/zoom_in.svg";
-import zoomOutIcon from "../assets/icons/zoom_out.svg";
+import zoomInIcon from "../assets/icons/zoom-in.svg";
+import zoomOutIcon from "../assets/icons/zoom-out.svg";
 import "@styles/components/indoor-map-editor-toolbar.scss";
 
 export enum Tool {
 	SingleSelect,
 	MultiSelect,
-	Connect,
+	SingleConnect,
+	MultiConnect,
 	MoveNode,
 	CreateNode
 }
@@ -28,7 +30,8 @@ const toolButtons = [
 	{ tool: Tool.SingleSelect, icon: selectIcon, label: "Single Select" },
 	{ tool: Tool.MultiSelect, icon: selectBox, label: "Multi Select" },
 	{ tool: Tool.CreateNode, icon: addIcon, label: "Create Node" },
-	{ tool: Tool.Connect, icon: linkIcon, label: "Connect Nodes" },
+	{ tool: Tool.SingleConnect, icon: diagonalIcon, label: "Connect Nodes" },
+	{ tool: Tool.MultiConnect, icon: graphIcon, label: "Connect Multiple Nodes" },
 	{ tool: Tool.MoveNode, icon: moveIcon, label: "Move Node" }
 ];
 
@@ -50,7 +53,6 @@ export default function IndoorMapEditorToolbar({
 	function onZoomOutButtonClicked(): void {
 		onZoomOut(zoomStep);
 	}
-
 
 	return (
 		<div className="toolbar">

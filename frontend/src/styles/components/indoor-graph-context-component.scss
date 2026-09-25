@@ -1,0 +1,44 @@
+.context-container {
+	position: absolute;
+	bottom: 20px;
+	right: 20px;
+	background-color: #484848;
+	border: 1px solid #333333;
+	border-radius: 10px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	column-gap: 5px;
+
+	.delete-button {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 30px;
+		height: 30px;
+		padding: 0;
+		border: 1px solid #666666;
+		border-radius: 8px;
+		background-color: #2f2f2f;
+		cursor: pointer;
+		transition:
+			background-color 0.2s ease,
+			border-color 0.2s ease,
+			transform 0.2s ease;
+
+		&:hover {
+			background-color: #dc3545;
+			// border-color: #8f8f8f;
+
+			img {
+				filter: brightness(0) invert(1);  // #ffffff
+			}
+		}
+
+		img {
+			width: 22px;
+			height: 22px;
+			filter: brightness(0) saturate(100%) invert(37%) sepia(99%) saturate(4370%) hue-rotate(337deg) brightness(90%) contrast(90%);  // #DC3545
+		}
+	}
+}

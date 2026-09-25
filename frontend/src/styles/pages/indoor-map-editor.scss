@@ -68,4 +68,60 @@
 		top: 10vh;
 		left: 10px;
 	}
+
+	.key-container {
+		position: absolute;
+		top: 20px;
+		right: 20px;
+		display: flex;
+		flex-direction: column;
+		background-color: #484848;
+		padding: 10px;
+		border-radius: 10px;
+		border: 1px solid #333333;
+
+		.key-title {
+			font-size: 16px;
+			font-weight: bold;
+			margin-bottom: 5px;
+		}
+
+		.key-item {
+			display: flex;
+			flex-direction: row;
+			align-items: center;
+			column-gap: 5px;
+
+			.key-icon {
+				width: 10px;
+				height: 10px;
+
+				&.room {
+					filter: brightness(0) saturate(100%) invert(13%) sepia(87%) saturate(4851%) hue-rotate(243deg) brightness(108%) contrast(117%); // #262aff
+				}
+
+				&.hallway {
+					filter: brightness(0) saturate(100%) invert(74%) sepia(67%) saturate(2903%) hue-rotate(73deg) brightness(112%) contrast(101%); // #21ff37
+				}
+
+				&.room-door {
+					filter: brightness(0) saturate(100%) invert(27%) sepia(67%) saturate(3757%) hue-rotate(345deg) brightness(100%) contrast(107%); // #ff2626
+				}
+
+				&.stairs {
+					filter: brightness(0) saturate(100%) invert(61%) sepia(83%) saturate(994%) hue-rotate(357deg) brightness(98%) contrast(110%); // #ffa500
+				}
+
+				&.elevator {
+					filter: brightness(0) saturate(100%) invert(61%) sepia(83%) saturate(994%) hue-rotate(357deg) brightness(98%) contrast(110%); // #ffa500
+				}
+
+				&.connection {
+					height: 15px;
+					width: 15px;
+					filter: brightness(0) saturate(100%) invert(48%) sepia(40%) saturate(386%) hue-rotate(126deg) brightness(98%) contrast(89%); // #50928d
+				}
+			}
+		}
+	}
 }

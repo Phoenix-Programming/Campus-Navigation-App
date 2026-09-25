@@ -1,10 +1,14 @@
 import React, { useEffect, useRef, useState } from "react";
 import ConfirmationModal from "../../components/ConfirmationModal";
 import EdgeComponent, { type Edge } from "../../components/EdgeComponent";
+import IndoorGraphContextComponent from "../../components/IndoorGraphContextComponent";
 import IndoorMapEditorToolbar, { Tool } from "../../components/IndoorMapEditorToolbar";
 import NodeComponent, { type Node } from "../../components/NodeComponent";
 import SvgViewerComponent, { type SvgViewerHandle } from "../../components/SvgViewerComponent";
 import api from "../../api";
+import circleIcon from "@assets/icons/circle.svg";
+import lineIcon from "@assets/icons/remove.svg";
+import { clsx } from "clsx";
 import "@styles/pages/indoor-map-editor.scss";
 
 interface GetIndoorMapResponse {
@@ -24,6 +28,14 @@ interface Building {
 
 export default function IndoorMapEditor(): React.JSX.Element {
 	const svgViewerZoomStep = 0.1;
+	const key = [
+		{ icon: circleIcon, label: "Room", className: "room" },
+		{ icon: circleIcon, label: "Room Door", className: "room-door" },
+		{ icon: circleIcon, label: "Hallway", className: "hallway" },
+		{ icon: circleIcon, label: "Staircase", className: "stairs" },
+		{ icon: circleIcon, label: "Elevator", className: "elevator" },
+		{ icon: lineIcon, label: "Connection", className: "connection" }
+	];
 
 	const svgViewerRef = useRef<SvgViewerHandle>(null);
 
@@ -42,7 +54,6 @@ export default function IndoorMapEditor(): React.JSX.Element {
 	const [discardPending, setDiscardPending] = useState(false);
 	const [nodeTypeToCreate, setNodeTypeToCreate] = useState<string>("room");
 
-
 	useEffect(() => {
 		//getBuildings();
 		// Temporary hardcoded buildings for testing
@@ -58,7 +69,6 @@ export default function IndoorMapEditor(): React.JSX.Element {
 		if (svg && nodes && edges) setMapLoaded(true);
 		else setMapLoaded(false);
 	}, [svg, nodes, edges]);
-
 
 	async function onSelectedBuildingChange(bldCode: string): Promise<void> {
 		setSelectedBuilding(bldCode);
@@ -105,6 +115,15 @@ export default function IndoorMapEditor(): React.JSX.Element {
 		}
 	}
 
+	function onSelectedToolChange(tool: Tool): void {
+		setSelectedTool(tool);
+
+		if (tool === Tool.CreateNode || tool === Tool.MoveNode) {
+			setSelectedNode(null);
+			setSelectedEdge(null);
+		}
+	}
+
 	function onMapClick(coordinates: { x: number; y: number } | null): void {
 		if (selectedTool === Tool.CreateNode && coordinates) createNode(coordinates.x, coordinates.y, nodeTypeToCreate);
 	}
@@ -112,26 +131,74 @@ export default function IndoorMapEditor(): React.JSX.Element {
 	function onNodeClick(node: Node): void {
 		switch (selectedTool) {
 			case Tool.SingleSelect:
-				handleNodeClickSelectTool(node);
+				handleNodeSingleClickSelectTool(node);
 				break;
-			case Tool.Connect:
-				handleNodeClickConnectTool(node);
+			case Tool.MultiSelect:
+				handleNodeMultiClickSelectTool(node);
+				break;
+			case Tool.SingleConnect:
+				handleNodeClickSingleConnectTool(node);
+				break;
+			case Tool.MultiConnect:
+				handleNodeClickMultiConnectTool(node);
 				break;
 		}
 	}
 
-	function handleNodeClickSelectTool(node: Node): void {
+	function handleNodeSingleClickSelectTool(node: Node): void {
 		if (selectedNode === node) setSelectedNode(null);
 		else setSelectedNode(node);
 	}
 
-	function handleNodeClickConnectTool(node: Node): void {
+	function handleNodeMultiClickSelectTool(node: Node): void {}
+
+	function handleNodeClickSingleConnectTool(node: Node): void {
 		if (selectedNode === null) return setSelectedNode(node);
 
 		if (selectedNode.id === node.id) return setSelectedNode(null);
 
-		if (!nodesHaveConnection(selectedNode, node)) makeConnection(selectedNode, node);
+		if (nodesHaveConnection(selectedNode, node)) {
+			deleteEdge(selectedNode.id, node.id);
+			setSelectedNode(null);
+			return;
+		}
+
+		makeConnection(selectedNode, node);
 		setSelectedNode(null);
+	}
+
+	function handleNodeClickMultiConnectTool(node: Node): void {
+		if (selectedNode === null) return setSelectedNode(node);
+
+		if (selectedNode.id === node.id) return setSelectedNode(null);
+
+		if (nodesHaveConnection(selectedNode, node)) deleteEdge(selectedNode.id, node.id);
+		else makeConnection(selectedNode, node);
+	}
+
+	function moveNode(nodeId: string, newX: number, newY: number): void {
+		setNodes(
+			(prevNodes) =>
+				prevNodes?.map((node) =>
+					node.id === nodeId ?
+					{ ...node, x: newX, y: newY } :
+					node
+				) ?? null
+		);
+
+		setSelectedNode((prevNode) =>
+			prevNode?.id === nodeId ?
+			{ ...prevNode, x: newX, y: newY } :
+			prevNode
+		);
+
+		setHoveredNode((prevNode) =>
+			prevNode?.id === nodeId ?
+			{ ...prevNode, x: newX, y: newY } :
+			prevNode
+		);
+
+		setChangesMade(true);
 	}
 
 	function onEdgeClick(edge: Edge): void {
@@ -220,6 +287,23 @@ export default function IndoorMapEditor(): React.JSX.Element {
 		setChangesMade(true);
 	}
 
+	function deleteNode(nodeId: string): void {
+		setNodes((prevNodes) => prevNodes!.filter((node) => node.id !== nodeId));
+		setEdges((prevEdges) => prevEdges!.filter((edge) => edge.sourceNodeId !== nodeId && edge.targetNodeId !== nodeId));
+		setChangesMade(true);
+	}
+
+	function deleteEdge(nodeIdA: string, nodeIdB: string): void {
+		setEdges((prevEdges) =>
+			prevEdges!.filter(
+				(edge) =>
+					!(edge.sourceNodeId === nodeIdA && edge.targetNodeId === nodeIdB) &&
+					!(edge.sourceNodeId === nodeIdB && edge.targetNodeId === nodeIdA)
+			)
+		);
+		setChangesMade(true);
+	}
+
 	function discardChanges(): void {
 		console.log("Discarding changes...");
 		// TODO: Implement the logic to discard changes and revert to the last saved state
@@ -234,7 +318,6 @@ export default function IndoorMapEditor(): React.JSX.Element {
 		setSavePending(false);
 	}
 
-	
 	return (
 		<>
 			<div className="header-row">
@@ -259,10 +342,7 @@ export default function IndoorMapEditor(): React.JSX.Element {
 				{selectedTool === Tool.CreateNode && (
 					<div className="selector-container">
 						<p>Node type to create:</p>
-						<select
-							value={nodeTypeToCreate}
-							onChange={(e) => setNodeTypeToCreate(e.target.value)}
-						>
+						<select value={nodeTypeToCreate} onChange={(e) => setNodeTypeToCreate(e.target.value)}>
 							<option value="room">Room</option>
 							<option value="room-door">Room Door</option>
 							<option value="hallway">Hallway</option>
@@ -295,6 +375,7 @@ export default function IndoorMapEditor(): React.JSX.Element {
 				</div>
 			</div>
 
+			{/* Editor */}
 			{mapLoaded && (
 				<div className="editor">
 					<div className="map">
@@ -327,8 +408,10 @@ export default function IndoorMapEditor(): React.JSX.Element {
 									key={node.id}
 									node={node}
 									isSelected={selectedNode?.id === node.id}
+									moveNodeMode={selectedTool === Tool.MoveNode}
 									onNodeClick={onNodeClick}
 									setHoveredNode={onHoveredNodeChange}
+									moveNode={moveNode}
 								/>
 							))}
 						</SvgViewerComponent>
@@ -337,12 +420,33 @@ export default function IndoorMapEditor(): React.JSX.Element {
 					<div className="toolbar">
 						<IndoorMapEditorToolbar
 							selectedTool={selectedTool}
-							setSelectedTool={setSelectedTool}
+							setSelectedTool={onSelectedToolChange}
 							zoomStep={svgViewerZoomStep}
 							onZoomIn={onZoomInButtonClicked}
 							onZoomOut={onZoomOutButtonClicked}
 						/>
 					</div>
+
+					{/* Map Key */}
+					<div className="key-container">
+						<span className="key-title">Key</span>
+						{key.map((item, index) => (
+							<div key={index} className="key-item">
+								<img src={item.icon} alt={item.label} className={clsx("key-icon", item.className)} />
+								<span>{item.label}</span>
+							</div>
+						))}
+					</div>
+
+					{/* Contextual information about the selected or hovered node/edge */}
+					{(hoveredNode || selectedNode || selectedEdge) && (
+						<IndoorGraphContextComponent
+							node={hoveredNode || selectedNode || null}
+							edge={selectedEdge && !(hoveredNode || selectedNode) ? selectedEdge : null}
+							deleteNode={deleteNode}
+							deleteEdge={deleteEdge}
+						/>
+					)}
 
 					{/* Save confirmation modal */}
 					<ConfirmationModal
