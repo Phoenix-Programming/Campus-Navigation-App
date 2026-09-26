@@ -124,4 +124,15 @@
 			}
 		}
 	}
+
+	.context-overlays {
+		position: absolute;
+		bottom: 20px;
+		right: 20px;
+		display: flex;
+		flex-direction: row;
+		column-gap: 10px;
+		justify-content: flex-end;
+		align-items: flex-end;
+	}
 }

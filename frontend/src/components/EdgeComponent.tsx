@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useRef } from "react";
 import { clsx } from "clsx";
 import { Tool } from "./IndoorMapEditorToolbar";
 import { type Node } from "./NodeComponent";
@@ -21,7 +21,8 @@ interface EdgeComponentProps {
 	targetNode: Node;
 	isSelected?: boolean;
 	selectedTool?: Tool;
-	onEdgeClick?: (edge: Edge) => void;
+	onEdgeClick: (edge: Edge) => void;
+	setHoveredEdge: (edge: Edge | null) => void;
 }
 
 export default function EdgeComponent({
@@ -30,19 +31,19 @@ export default function EdgeComponent({
 	targetNode,
 	isSelected,
 	selectedTool,
-	onEdgeClick
+	onEdgeClick,
+	setHoveredEdge
 }: EdgeComponentProps): React.JSX.Element | null {
 	const svgViewportContext = useContext(SvgViewportContext);
 
 	const svgViewport: SvgViewportMetrics | null = svgViewportContext;
+	const lastHoveringStateRef = useRef<boolean>(false);
 	const suppressClicksRef = svgViewportContext?.suppressClicksRef;
 
 	if (!svgViewport) return null;
 
 	const toCoordinate = (value: number, size?: number): string => {
-		if (size && size > 0) return `${(value / size) * 100}%`;
-
-		return `${value}px`;
+		return size && size > 0 ? `${(value / size) * 100}%` : `${value}px`;
 	};
 
 	const x1: string = toCoordinate(sourceNode.x, svgViewport?.width);
@@ -50,15 +51,28 @@ export default function EdgeComponent({
 	const x2: string = toCoordinate(targetNode.x, svgViewport?.width);
 	const y2: string = toCoordinate(targetNode.y, svgViewport?.height);
 
-	const getEdgeCursor = (): string => {
+	function getEdgeCursor(): string {
 		switch (selectedTool) {
 			case Tool.SingleSelect:
-			case Tool.MultiSelect:
-				return "pointer";
-			default:
-				return "move";
+			case Tool.MultiSelect: return "pointer";
+			default: return "move";
 		}
-	};
+	}
+
+	function handleIsHoveredChange(hovering: boolean): void {
+		if (lastHoveringStateRef.current === hovering) return;
+
+		lastHoveringStateRef.current = hovering;
+
+		setHoveredEdge(hovering ? edge : null);
+	}
+
+	function handleEdgeClick(e: React.MouseEvent<SVGLineElement, MouseEvent>): void {
+		if (suppressClicksRef?.current) return;
+
+		e.stopPropagation();
+		onEdgeClick(edge);
+	}
 
 	return (
 		<svg
@@ -73,19 +87,15 @@ export default function EdgeComponent({
 				pointerEvents: "none",
 				zIndex: 0
 			}}
+			onMouseEnter={() => handleIsHoveredChange(true)}
+			onMouseLeave={() => handleIsHoveredChange(false)}
 		>
 			<line
-				x1={x1}
-				y1={y1}
-				x2={x2}
-				y2={y2}
+				x1={x1} y1={y1}
+				x2={x2} y2={y2}
 				className={clsx("edge", { selected: isSelected })}
 				style={{ pointerEvents: "stroke", cursor: getEdgeCursor() }}
-				onClick={(e) => {
-					if (suppressClicksRef?.current) return;
-					e.stopPropagation();
-					onEdgeClick?.(edge);
-				}}
+				onClick={handleEdgeClick}
 			/>
 		</svg>
 	);

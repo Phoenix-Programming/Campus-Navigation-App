@@ -1,73 +1,149 @@
 import React from "react";
-import { type Node } from "./NodeComponent";
+import { NodeType, type Node } from "./NodeComponent";
 import { type Edge } from "./EdgeComponent";
 import deleteIcon from "@assets/icons/delete.svg";
 import "@styles/components/indoor-graph-context-component.scss";
 
 interface IndoorGraphContextProps {
-	node: Node | null;
-	edge: Edge | null;
-	deleteNode: (nodeId: string) => void;
-	deleteEdge: (nodeAId: string, nodeBId: string) => void;
+	nodes: Node[];
+	edges: Edge[];
+	isHovered: boolean;
+	updateNode?: (nodeId: string, newLabel: string | null, newType: string | null) => void;
+	deleteNode?: (nodeId: string) => void;
+	deleteEdge?: (nodeAId: string, nodeBId: string) => void;
 }
 
 export default function IndoorGraphContextComponent({
-	node,
-	edge,
+	nodes,
+	edges,
+	isHovered,
+	updateNode,
 	deleteNode,
 	deleteEdge
 }: IndoorGraphContextProps): React.JSX.Element | null {
-	console.log("IndoorGraphContextComponent: node:", node, "edge:", edge);
+	const isSingleNode: boolean = nodes.length === 1 && edges.length === 0;
+	const isSingleEdge: boolean = edges.length === 1 && nodes.length === 0;
+	const isMultipleSelection: boolean = nodes.length + edges.length > 1;
 
-	function onDeleteNodeButtonClicked(): void {
-		if (node === null) return;
-		deleteNode(node.id);
+	if (!isSingleNode && !isSingleEdge && !isMultipleSelection) return null;
+
+	const node: Node | null = isSingleNode ? nodes[0] : null;
+	const edge: Edge | null = isSingleEdge ? edges[0] : null;
+
+
+	function setSelectedNodeType(newType: string): void {
+		updateNode!(node!.id, null, newType);
 	}
 
-	function onDeleteEdgeButtonClicked(): void {
-		if (edge === null) return;
-		console.log("Delete edge button clicked for edge:", edge);
-		deleteEdge(edge.sourceNodeId, edge.targetNodeId);
+	function setSelectedNodeLabel(newLabel: string): void {
+		updateNode!(node!.id, newLabel, null);
 	}
 
-	if (node !== null && edge === null)
+	function getTitle(): string {
+		if (!isMultipleSelection) return `${isHovered ? "Hovered" : "Selected"} ${isSingleNode ? "Node" : "Edge"}`;
+
+		const nodePart: string = nodes.length > 0 ? `${nodes.length} Node${nodes.length > 1 ? "s" : ""}` : "";
+		const edgePart: string = edges.length > 0 ? `${edges.length} Edge${edges.length > 1 ? "s" : ""}` : "";
+		const parts: string[] = [nodePart, edgePart].filter((part) => part !== "");
+
+		return `${parts.join(" and ")} Selected`;
+	}
+
+	function getContent(): React.JSX.Element | null {
+		if (isSingleNode && node !== null) return getSingleNodeContent();
+		if (isSingleEdge && edge !== null) return getSingleEdgeContent();
+		return null;
+	}
+
+	function getSingleNodeContent(): React.JSX.Element {
 		return (
-			<div className="context-container">
-				<span>ID: {node.id}</span>
-				<span>Label: {node.name}</span>
-				<span>Type: {node.type}</span>
+			<>
+				<span>ID: {node!.id}</span>
+
+				{isHovered ? (
+					<>
+						<span>Label: {node!.name}</span>
+						<span className="capitalize">Type: {node!.type}</span>
+					</>
+				) : (
+					<>
+						<div className="kv-pair">
+							<span>Label:</span>
+							<input
+								value={node!.name}
+								onChange={(e) => setSelectedNodeLabel(e.target.value)}
+								placeholder="Enter label"
+							/>
+						</div>
+
+						<div className="kv-pair">
+							<span>Type:</span>
+							<select
+								value={node?.type}
+								onChange={(e) => setSelectedNodeType(e.target.value)}
+							>
+								{Object.values(NodeType).map((type) => (
+									<option key={type} value={type}>
+										{type.charAt(0).toUpperCase() + type.slice(1)}
+									</option>
+								))}
+							</select>
+						</div>
+					</>
+				)}
+
 				<span>
-					Coordinates: ({node.x.toFixed(3)}, {node.y.toFixed(3)})
+					Coordinates: ({Number(node!.x.toFixed(3))}, {Number(node!.y.toFixed(3))})
 				</span>
-				<button
-					type="button"
-					className="delete-button"
-					onClick={onDeleteNodeButtonClicked}
-					aria-label="Delete Node"
-					title="Delete Node"
-				>
-					<img src={deleteIcon} alt="" />
-				</button>
-			</div>
+			</>
 		);
+	}
 
-	if (edge !== null && node === null)
+	function getSingleEdgeContent(): React.JSX.Element {
 		return (
-			<div className="context-container">
-				<span>ID: {edge.id}</span>
-				<span>Source Node ID: {edge.sourceNodeId}</span>
-				<span>Target Node ID: {edge.targetNodeId}</span>
-				<button
-					type="button"
-					className="delete-button"
-					onClick={onDeleteEdgeButtonClicked}
-					aria-label="Delete Edge"
-					title="Delete Edge"
-				>
-					<img src={deleteIcon} alt="" />
-				</button>
-			</div>
+			<>
+				<span>ID: {edge!.id}</span>
+				<span>Source Node ID: {edge!.sourceNodeId}</span>
+				<span>Target Node ID: {edge!.targetNodeId}</span>
+			</>
 		);
+	}
 
-	return null;
+	function getDeleteLabel(): string {
+		if (isSingleNode) return "Delete Node";
+		if (isSingleEdge) return "Delete Edge";
+		return "Delete Selected Items";
+	}
+
+	function onDeleteButtonClicked(): void {
+		if (isSingleNode) return deleteNode!(node!.id);
+
+		if (isSingleEdge) return deleteEdge!(edge!.sourceNodeId, edge!.targetNodeId);
+
+		nodes.forEach((node) => deleteNode!(node.id));
+		edges.forEach((edge) => deleteEdge!(edge.sourceNodeId, edge.targetNodeId));
+	}
+
+
+	return (
+		<div className="context-overlay">
+			<div className="context-container">
+				<span className="title">{getTitle()}</span>
+				{getContent()}
+
+				{/* Delete Button */}
+				{!isHovered && (
+					<button
+						type="button"
+						className="delete-button"
+						onClick={onDeleteButtonClicked}
+						aria-label={getDeleteLabel()}
+						title={getDeleteLabel()}
+					>
+						<img src={deleteIcon} alt="" />
+					</button>
+				)}
+			</div>
+		</div>
+	);
 }

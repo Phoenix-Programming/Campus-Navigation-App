@@ -290,7 +290,6 @@ const SvgViewerComponent = forwardRef<SvgViewerHandle, SvgViewerComponentProps>(
 	function getCursorType(): string {
 		if (selectedTool === Tool.CreateNode) return "crosshair";
 		if (selectedTool === Tool.MoveNode && isDragging) return "grabbing";
-		if (selectedTool === Tool.MoveNode && isHovering) return "grab";
 		return "move";
 	}
 

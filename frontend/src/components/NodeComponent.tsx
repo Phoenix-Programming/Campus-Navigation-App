@@ -13,6 +13,14 @@ export interface Node {
 	y: number;
 }
 
+export enum NodeType {
+	room = "room",
+	roomDoor = "room-door",
+	hallway = "hallway",
+	staircase = "staircase",
+	elevator = "elevator"
+}
+
 export function isNode(item: Node | Edge): item is Node {
 	return "x" in item && "y" in item;
 }
@@ -35,9 +43,11 @@ export default function NodeComponent({
 	moveNode
 }: NodeComponentProps): React.JSX.Element {
 	const [isHovered, setIsHovered] = useState<boolean>(false);
-	const [isDragging, setIsDragging] = useState<boolean>(false);
 
 	const lastHoveringStateRef = useRef<boolean>(false);
+	const draggingRef = useRef<boolean>(false);
+	const dragPointerIdRef = useRef<number | null>(null);
+	const dragOffsetRef = useRef<{ x: number; y: number }>({ x: 0, y: 0 });
 
 	const svgViewportContext = useContext(SvgViewportContext);
 
@@ -45,6 +55,29 @@ export default function NodeComponent({
 	const suppressClicksRef = svgViewportContext?.suppressClicksRef;
 	const normalizedLeft: string = svgViewport ? `${(node.x / svgViewport.width) * 100}%` : `${node.x}px`;
 	const normalizedTop: string = svgViewport ? `${(node.y / svgViewport.height) * 100}%` : `${node.y}px`;
+
+	function getSvgCoordinatesFromPointer(
+		clientX: number,
+		clientY: number,
+		target: SVGSVGElement
+	): { x: number; y: number } | null {
+		if (!svgViewport) return null;
+
+		const mapContainerRect: DOMRect = target.parentElement?.getBoundingClientRect() ?? target.getBoundingClientRect();
+		if (mapContainerRect.width <= 0 || mapContainerRect.height <= 0) return null;
+
+		const normalizedX: number = (clientX - mapContainerRect.left) / mapContainerRect.width;
+		const normalizedY: number = (clientY - mapContainerRect.top) / mapContainerRect.height;
+
+		return {
+			x: normalizedX * svgViewport.width,
+			y: normalizedY * svgViewport.height
+		};
+	}
+
+	function clamp(value: number, min: number, max: number): number {
+		return Math.min(Math.max(value, min), max);
+	}
 
 	function onClick(node: Node): void {
 		onNodeClick(node);
@@ -54,6 +87,8 @@ export default function NodeComponent({
 		if (lastHoveringStateRef.current === hovering) return;
 
 		lastHoveringStateRef.current = hovering;
+		if (!hovering) dragPointerIdRef.current = null;
+
 		setIsHovered(hovering);
 		setHoveredNode(hovering ? node : null);
 	}
@@ -61,12 +96,71 @@ export default function NodeComponent({
 	function getNodeCursor(): string {
 		switch (selectedTool) {
 			case Tool.CreateNode: return "not-allowed";
-			case Tool.MoveNode: return isDragging ? "grabbing" : isHovered ? "grab" : "default";
+			case Tool.MoveNode: return draggingRef.current ? "grabbing" : "grab";
 			case Tool.SingleSelect:
 			case Tool.MultiSelect:
 			case Tool.SingleConnect:
 			case Tool.MultiConnect: return "pointer";
 			default: return "move";
+		}
+	}
+
+	function onPointerDown(event: React.PointerEvent<SVGSVGElement>): void {
+		if (selectedTool !== Tool.MoveNode || event.button !== 0 || !svgViewport) return;
+
+		event.preventDefault();
+		event.stopPropagation();
+
+		const pointerCoordinates = getSvgCoordinatesFromPointer(event.clientX, event.clientY, event.currentTarget);
+		if (!pointerCoordinates) return;
+
+		draggingRef.current = true;
+		dragPointerIdRef.current = event.pointerId;
+		dragOffsetRef.current = {
+			x: node.x - pointerCoordinates.x,
+			y: node.y - pointerCoordinates.y
+		};
+
+		if (suppressClicksRef) suppressClicksRef.current = true;
+		event.currentTarget.setPointerCapture(event.pointerId);
+	}
+
+	function onPointerMove(event: React.PointerEvent<SVGSVGElement>): void {
+		if (
+			!draggingRef.current ||
+			selectedTool !== Tool.MoveNode ||
+			dragPointerIdRef.current !== event.pointerId ||
+			!svgViewport
+		) {
+			return;
+		}
+
+		event.preventDefault();
+		event.stopPropagation();
+
+		const pointerCoordinates = getSvgCoordinatesFromPointer(event.clientX, event.clientY, event.currentTarget);
+		if (!pointerCoordinates) return;
+
+		const nextX: number = clamp(dragOffsetRef.current.x + pointerCoordinates.x, 0, svgViewport.width);
+		const nextY: number = clamp(dragOffsetRef.current.y + pointerCoordinates.y, 0, svgViewport.height);
+
+		moveNode(node.id, nextX, nextY);
+	}
+
+	function finishDragging(event: React.PointerEvent<SVGSVGElement>): void {
+		if (!draggingRef.current || dragPointerIdRef.current !== event.pointerId) return;
+
+		event.preventDefault();
+		event.stopPropagation();
+
+		draggingRef.current = false;
+		dragPointerIdRef.current = null;
+		event.currentTarget.releasePointerCapture(event.pointerId);
+
+		if (suppressClicksRef) {
+			window.setTimeout(() => {
+				suppressClicksRef.current = false;
+			}, 0);
 		}
 	}
 
@@ -87,17 +181,11 @@ export default function NodeComponent({
 				zIndex: 1
 			}}
 			onMouseEnter={() => handleIsHoveredChange(true)}
-			onMouseLeave={() => {
-				handleIsHoveredChange(false);
-				setIsDragging(false);
-			}}
-			onMouseDown={(e) => {
-				if (selectedTool === Tool.MoveNode) {
-					e.stopPropagation();
-					setIsDragging(true);
-				}
-			}}
-			onMouseUp={() => setIsDragging(false)}
+			onMouseLeave={() => handleIsHoveredChange(false)}
+			onPointerDown={onPointerDown}
+			onPointerMove={onPointerMove}
+			onPointerUp={finishDragging}
+			onPointerCancel={finishDragging}
 		>
 			<circle
 				cx="50"

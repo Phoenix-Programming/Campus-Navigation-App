@@ -4,7 +4,7 @@ import ConfirmationModal from "../../components/ConfirmationModal";
 import EdgeComponent, { isEdge, type Edge } from "../../components/EdgeComponent";
 import IndoorGraphContextComponent from "../../components/IndoorGraphContextComponent";
 import IndoorMapEditorToolbar, { Tool } from "../../components/IndoorMapEditorToolbar";
-import NodeComponent, { isNode, type Node } from "../../components/NodeComponent";
+import NodeComponent, { isNode, NodeType, type Node } from "../../components/NodeComponent";
 import SvgViewerComponent, { type SvgViewerHandle } from "../../components/SvgViewerComponent";
 import api from "../../api";
 import circleIcon from "@assets/icons/circle.svg";
@@ -49,11 +49,15 @@ export default function IndoorMapEditor(): React.JSX.Element {
 	const [selectedEdge, setSelectedEdge] = useState<Edge | null>(null);
 	const [selectedNodesAndEdges, setSelectedNodesAndEdges] = useState<Set<Node | Edge>>(new Set<Node | Edge>());
 	const [hoveredNode, setHoveredNode] = useState<Node | null>(null);
+	const [hoveredEdge, setHoveredEdge] = useState<Edge | null>(null);
 	const [selectedTool, setSelectedTool] = useState<Tool>(Tool.SingleSelect);
 	const [changesMade, setChangesMade] = useState(false);
 	const [savePending, setSavePending] = useState(false);
 	const [discardPending, setDiscardPending] = useState(false);
 	const [nodeTypeToCreate, setNodeTypeToCreate] = useState<string>("room");
+
+	console.log("Current Selected Node:", selectedNode);
+	console.log("Current Selected Nodes and Edges:", Array.from(selectedNodesAndEdges));
 
 	useEffect(() => {
 		//getBuildings();
@@ -224,6 +228,43 @@ export default function IndoorMapEditor(): React.JSX.Element {
 		else makeConnection(selectedNode, node);
 	}
 
+	function moveNode(nodeId: string, newX: number, newY: number): void {
+		setNodes(
+			(prevNodes) =>
+				prevNodes?.map((node) =>
+					node.id === nodeId
+						? {
+								...node,
+								x: newX,
+								y: newY
+							}
+						: node
+				) ?? null
+		);
+
+		setSelectedNode((prevNode) =>
+			prevNode?.id === nodeId
+				? {
+						...prevNode,
+						x: newX,
+						y: newY
+					}
+				: prevNode
+		);
+
+		setHoveredNode((prevNode) =>
+			prevNode?.id === nodeId
+				? {
+						...prevNode,
+						x: newX,
+						y: newY
+					}
+				: prevNode
+		);
+
+		setChangesMade(true);
+	}
+
 	function onEdgeClick(edge: Edge): void {
 		switch (selectedTool) {
 			case Tool.SingleSelect:
@@ -255,6 +296,10 @@ export default function IndoorMapEditor(): React.JSX.Element {
 
 	function onHoveredNodeChange(node: Node | null): void {
 		setHoveredNode((prevNode) => (prevNode?.id === node?.id ? prevNode : node));
+	}
+
+	function onHoveredEdgeChange(edge: Edge | null): void {
+		setHoveredEdge((prevEdge) => (prevEdge?.id === edge?.id ? prevEdge : edge));
 	}
 
 	function onZoomInButtonClicked(): void {
@@ -349,6 +394,21 @@ export default function IndoorMapEditor(): React.JSX.Element {
 		setChangesMade(true);
 	}
 
+	function updateNode(nodeId: string, newLabel: string | null, newType: string | null): void {
+		setNodes((prevNodes) =>
+			prevNodes!.map((node) => {
+				if (node.id !== nodeId) return node;
+
+				return {
+					...node,
+					name: newLabel !== null ? newLabel : node.name,
+					type: newType !== null ? newType : node.type
+				};
+			})
+		);
+		setChangesMade(true);
+	}
+
 	function deleteNode(nodeId: string): void {
 		setNodes((prevNodes) => prevNodes!.filter((node) => node.id !== nodeId));
 		setEdges((prevEdges) => prevEdges!.filter((edge) => edge.sourceNodeId !== nodeId && edge.targetNodeId !== nodeId));
@@ -385,19 +445,16 @@ export default function IndoorMapEditor(): React.JSX.Element {
 				(prevEdge.sourceNodeId === nodeIdB && prevEdge.targetNodeId === nodeIdA);
 			return isDeletedEdge ? null : prevEdge;
 		});
-		setSelectedNode((prevNode) => prevNode && (prevNode.id === nodeIdA || prevNode.id === nodeIdB ? null : prevNode));
 		setSelectedNodesAndEdges(
 			(prevSelection) =>
 				new Set(
 					Array.from(prevSelection).filter((item) => {
-						if (isNode(item)) return item.id !== nodeIdA && item.id !== nodeIdB;
-						if (isEdge(item)) {
-							const matchesEdge =
-								(item.sourceNodeId === nodeIdA && item.targetNodeId === nodeIdB) ||
-								(item.sourceNodeId === nodeIdB && item.targetNodeId === nodeIdA);
-							return !matchesEdge;
-						}
-						return true;
+						if (!isEdge(item)) return true;
+
+						const matchesEdge: boolean =
+							(item.sourceNodeId === nodeIdA && item.targetNodeId === nodeIdB) ||
+							(item.sourceNodeId === nodeIdB && item.targetNodeId === nodeIdA);
+						return !matchesEdge;
 					})
 				)
 		);
@@ -444,11 +501,11 @@ export default function IndoorMapEditor(): React.JSX.Element {
 					<div className="selector-container">
 						<p>Node type to create:</p>
 						<select value={nodeTypeToCreate} onChange={(e) => setNodeTypeToCreate(e.target.value)}>
-							<option value="room">Room</option>
-							<option value="room-door">Room Door</option>
-							<option value="hallway">Hallway</option>
-							<option value="stairs">Staircase</option>
-							<option value="elevator">Elevator</option>
+							{Object.values(NodeType).map((type) => (
+								<option key={type} value={type}>
+									{type.charAt(0).toUpperCase() + type.slice(1)}
+								</option>
+							))}
 						</select>
 					</div>
 				)}
@@ -502,6 +559,7 @@ export default function IndoorMapEditor(): React.JSX.Element {
 										isSelected={isEdgeSelected(edge)}
 										selectedTool={selectedTool}
 										onEdgeClick={onEdgeClick}
+										setHoveredEdge={onHoveredEdgeChange}
 									/>
 								);
 							})}
@@ -514,7 +572,7 @@ export default function IndoorMapEditor(): React.JSX.Element {
 									selectedTool={selectedTool}
 									onNodeClick={onNodeClick}
 									setHoveredNode={onHoveredNodeChange}
-									moveNode={() => undefined}
+									moveNode={moveNode}
 								/>
 							))}
 						</SvgViewerComponent>
@@ -541,15 +599,36 @@ export default function IndoorMapEditor(): React.JSX.Element {
 						))}
 					</div>
 
-					{/* Contextual information about the selected or hovered node/edge */}
-					{(hoveredNode || selectedNode || selectedEdge) && (
-						<IndoorGraphContextComponent
-							node={hoveredNode || selectedNode || null}
-							edge={selectedEdge && !(hoveredNode || selectedNode) ? selectedEdge : null}
-							deleteNode={deleteNode}
-							deleteEdge={deleteEdge}
-						/>
-					)}
+					<div className="context-overlays">
+						{/* Contextual information about the hovered node/edge */}
+						{(
+							(hoveredNode && hoveredNode !== selectedNode) ||
+							(hoveredEdge && hoveredEdge !== selectedEdge)
+						) && (
+							selectedNodesAndEdges.size !== 1 || (
+								hoveredNode !== Array.from(selectedNodesAndEdges)[0] as Node &&
+								hoveredEdge !== Array.from(selectedNodesAndEdges)[0] as Edge
+							)
+						) && (
+							<IndoorGraphContextComponent
+								nodes={hoveredNode ? [hoveredNode] : []}
+								edges={hoveredEdge ? [hoveredEdge] : []}
+								isHovered={true}
+							/>
+						)}
+
+						{/* Contextual information about the selected node/edge */}
+						{(selectedNode || selectedEdge || selectedNodesAndEdges.size > 0) && (
+							<IndoorGraphContextComponent
+								nodes={selectedNode ? [selectedNode] : selectedNodesAndEdges.size > 0 ? Array.from(selectedNodesAndEdges).filter(isNode) : []}
+								edges={selectedEdge ? [selectedEdge] : selectedNodesAndEdges.size > 0 ? Array.from(selectedNodesAndEdges).filter(isEdge) : []}
+								isHovered={false}
+								updateNode={updateNode}
+								deleteNode={deleteNode}
+								deleteEdge={deleteEdge}
+							/>
+						)}
+					</div>
 
 					{/* Save confirmation modal */}
 					<ConfirmationModal
