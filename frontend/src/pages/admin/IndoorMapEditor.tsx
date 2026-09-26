@@ -115,15 +115,6 @@ export default function IndoorMapEditor(): React.JSX.Element {
 		}
 	}
 
-	function onSelectedToolChange(tool: Tool): void {
-		setSelectedTool(tool);
-
-		if (tool === Tool.CreateNode || tool === Tool.MoveNode) {
-			setSelectedNode(null);
-			setSelectedEdge(null);
-		}
-	}
-
 	function onMapClick(coordinates: { x: number; y: number } | null): void {
 		if (selectedTool === Tool.CreateNode && coordinates) createNode(coordinates.x, coordinates.y, nodeTypeToCreate);
 	}
@@ -174,31 +165,6 @@ export default function IndoorMapEditor(): React.JSX.Element {
 
 		if (nodesHaveConnection(selectedNode, node)) deleteEdge(selectedNode.id, node.id);
 		else makeConnection(selectedNode, node);
-	}
-
-	function moveNode(nodeId: string, newX: number, newY: number): void {
-		setNodes(
-			(prevNodes) =>
-				prevNodes?.map((node) =>
-					node.id === nodeId ?
-					{ ...node, x: newX, y: newY } :
-					node
-				) ?? null
-		);
-
-		setSelectedNode((prevNode) =>
-			prevNode?.id === nodeId ?
-			{ ...prevNode, x: newX, y: newY } :
-			prevNode
-		);
-
-		setHoveredNode((prevNode) =>
-			prevNode?.id === nodeId ?
-			{ ...prevNode, x: newX, y: newY } :
-			prevNode
-		);
-
-		setChangesMade(true);
 	}
 
 	function onEdgeClick(edge: Edge): void {
@@ -383,6 +349,7 @@ export default function IndoorMapEditor(): React.JSX.Element {
 							ref={svgViewerRef}
 							svg={svg!}
 							allowPan={selectedTool !== Tool.CreateNode}
+							selectedTool={selectedTool}
 							onMapClick={onMapClick}
 						>
 							{edges!.map((edge) => {
@@ -398,6 +365,7 @@ export default function IndoorMapEditor(): React.JSX.Element {
 										sourceNode={sourceNode}
 										targetNode={targetNode}
 										isSelected={selectedEdge?.id === edge.id}
+										selectedTool={selectedTool}
 										onEdgeClick={onEdgeClick}
 									/>
 								);
@@ -408,10 +376,10 @@ export default function IndoorMapEditor(): React.JSX.Element {
 									key={node.id}
 									node={node}
 									isSelected={selectedNode?.id === node.id}
-									moveNodeMode={selectedTool === Tool.MoveNode}
+									selectedTool={selectedTool}
 									onNodeClick={onNodeClick}
 									setHoveredNode={onHoveredNodeChange}
-									moveNode={moveNode}
+									moveNode={() => undefined}
 								/>
 							))}
 						</SvgViewerComponent>
@@ -420,7 +388,7 @@ export default function IndoorMapEditor(): React.JSX.Element {
 					<div className="toolbar">
 						<IndoorMapEditorToolbar
 							selectedTool={selectedTool}
-							setSelectedTool={onSelectedToolChange}
+							setSelectedTool={setSelectedTool}
 							zoomStep={svgViewerZoomStep}
 							onZoomIn={onZoomInButtonClicked}
 							onZoomOut={onZoomOutButtonClicked}

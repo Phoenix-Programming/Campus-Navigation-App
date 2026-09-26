@@ -1,9 +1,11 @@
 import { createContext, forwardRef, useEffect, useImperativeHandle, useMemo, useRef, useState } from "react";
+import { Tool } from "./IndoorMapEditorToolbar";
 import "@styles/components/svg-viewer-component.scss";
 
 interface SvgViewerComponentProps {
 	svg: string;
 	allowPan: boolean;
+	selectedTool?: Tool;
 	onMapClick: (coordinates: { x: number; y: number } | null) => void;
 	children?: React.ReactNode;
 	zoomStep?: number;
@@ -30,7 +32,7 @@ export interface SvgViewportContextValue extends SvgViewportMetrics {
 export const SvgViewportContext = createContext<SvgViewportContextValue | null>(null);
 
 const SvgViewerComponent = forwardRef<SvgViewerHandle, SvgViewerComponentProps>(function SvgViewerComponent(
-	{ svg, allowPan, onMapClick, children, zoomStep = DEFAULT_SVG_VIEWER_ZOOM_STEP },
+	{ svg, allowPan, selectedTool, onMapClick, children, zoomStep = DEFAULT_SVG_VIEWER_ZOOM_STEP },
 	ref
 ): React.JSX.Element {
 	const [transform, setTransform] = useState({ scale: 1, x: 0, y: 0 });
@@ -70,7 +72,6 @@ const SvgViewerComponent = forwardRef<SvgViewerHandle, SvgViewerComponentProps>(
 		return null;
 	}, [svg]);
 
-
 	useEffect(() => {
 		setTransform({ scale: 1, x: 0, y: 0 });
 
@@ -88,7 +89,6 @@ const SvgViewerComponent = forwardRef<SvgViewerHandle, SvgViewerComponentProps>(
 			document.body.style.overflow = "";
 		};
 	}, [isHovering]);
-
 
 	useImperativeHandle(
 		ref,
@@ -117,7 +117,6 @@ const SvgViewerComponent = forwardRef<SvgViewerHandle, SvgViewerComponentProps>(
 		}),
 		[transform.scale]
 	);
-
 
 	function clamp(value: number, min: number, max: number): number {
 		return Math.min(Math.max(min, value), max);
@@ -288,6 +287,13 @@ const SvgViewerComponent = forwardRef<SvgViewerHandle, SvgViewerComponentProps>(
 		}
 	}
 
+	function getCursorType(): string {
+		if (selectedTool === Tool.CreateNode) return "crosshair";
+		if (selectedTool === Tool.MoveNode && isDragging) return "grabbing";
+		if (selectedTool === Tool.MoveNode && isHovering) return "grab";
+		return "move";
+	}
+
 	const onMouseEnter = (): void => {
 		setIsHovering(true);
 	};
@@ -297,12 +303,11 @@ const SvgViewerComponent = forwardRef<SvgViewerHandle, SvgViewerComponentProps>(
 		onMouseUp();
 	};
 
-	
 	return (
 		<div
 			ref={viewerRef}
 			className="viewer"
-			style={{ position: "relative" }}
+			style={{ position: "relative", cursor: getCursorType() }}
 			onWheel={onWheel}
 			onMouseDown={onMouseDown}
 			onMouseMove={onMouseMove}
@@ -318,7 +323,7 @@ const SvgViewerComponent = forwardRef<SvgViewerHandle, SvgViewerComponentProps>(
 					position: "absolute",
 					left: 0,
 					top: 0,
-					cursor: isDragging ? "grabbing" : "grab"
+					cursor: getCursorType()
 				}}
 				onMouseDown={onMouseDown}
 			>
@@ -338,7 +343,7 @@ const SvgViewerComponent = forwardRef<SvgViewerHandle, SvgViewerComponentProps>(
 						alt="svg"
 						draggable={false}
 						onLoad={fitToViewer}
-						style={{ display: "block", cursor: isDragging ? "grabbing" : "grab", pointerEvents: "none" }}
+						style={{ display: "block", cursor: getCursorType(), pointerEvents: "none" }}
 					/>
 					{children}
 				</SvgViewportContext.Provider>

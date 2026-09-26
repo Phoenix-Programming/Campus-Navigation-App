@@ -1,5 +1,6 @@
 import React, { useContext } from "react";
 import { clsx } from "clsx";
+import { Tool } from "./IndoorMapEditorToolbar";
 import { type Node } from "./NodeComponent";
 import { SvgViewportContext, type SvgViewportMetrics } from "./SvgViewerComponent";
 import "@styles/components/edge-component.scss";
@@ -15,6 +16,7 @@ interface EdgeComponentProps {
 	sourceNode: Node;
 	targetNode: Node;
 	isSelected?: boolean;
+	selectedTool?: Tool;
 	onEdgeClick?: (edge: Edge) => void;
 }
 
@@ -23,6 +25,7 @@ export default function EdgeComponent({
 	sourceNode,
 	targetNode,
 	isSelected,
+	selectedTool,
 	onEdgeClick
 }: EdgeComponentProps): React.JSX.Element | null {
 	const svgViewportContext = useContext(SvgViewportContext);
@@ -43,6 +46,12 @@ export default function EdgeComponent({
 	const x2: string = toCoordinate(targetNode.x, svgViewport?.width);
 	const y2: string = toCoordinate(targetNode.y, svgViewport?.height);
 
+	const getEdgeCursor = (): string => {
+		if (selectedTool === Tool.SingleSelect || selectedTool === Tool.MultiSelect) {
+			return "pointer";
+		}
+		return "default";
+	};
 
 	return (
 		<svg
@@ -64,7 +73,7 @@ export default function EdgeComponent({
 				x2={x2}
 				y2={y2}
 				className={clsx("edge", { selected: isSelected })}
-				style={{ pointerEvents: "stroke", cursor: "pointer" }}
+				style={{ pointerEvents: "stroke", cursor: getEdgeCursor() }}
 				onClick={(e) => {
 					if (suppressClicksRef?.current) return;
 					e.stopPropagation();
