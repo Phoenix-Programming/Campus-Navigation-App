@@ -84,6 +84,14 @@ psql -U postgres -c "CREATE USER myusername WITH PASSWORD 'mypassword';"
 createdb -U postgres -O myusername mydbname
 ```
 
+#### Update Database
+
+Upgrade your local database to the latest schema using Alembic migrations.
+
+```bash
+alembic upgrade head
+```
+
 ##### Add your Database Credentials to Your Environment Variables
 
 Once you have created your PostgreSQL database, populate the DB_URL environment variable in your `.env` file using your username, password, and database name.
@@ -123,7 +131,46 @@ cd ..
 
 #### Backend
 
-Coming soon...
+```bash
+poetry run poe test
+```
+
+### Create an Alembic Migration (if applicable)
+
+If your changes require database schema updates, create a new Alembic migration and apply it to your local database.
+
+```bash
+alembic revision --autogenerate -m "Insert migration description here"
+```
+
+While most schema changes can be automatically generated, you may need to manually edit the migration file if your changes are complex. Refer to the [Alembic documentation](https://alembic.sqlalchemy.org/en/latest/) for guidance on writing migrations.
+
+Update your local database with the new migration:
+
+```bash
+alembic upgrade head
+```
+
+Make sure to test the migration downgrade as well to ensure that it works correctly:
+
+```bash
+alembic downgrade -1
+```
+
+Then update your local database back to the latest migration:
+
+```bash
+alembic upgrade head
+```
+
+If there is a problem with the migration downgrade and your local database is in a bad state, you can reset your local database to the last migration by running:
+
+```bash
+alembic downgrade base
+alembic upgrade head-1
+```
+
+And if that doesn't work, you can drop your local database and recreate it using the commands in the [Create a Local Database](#create-a-local-database) section above.
 
 ### Make Descriptive Commits
 
