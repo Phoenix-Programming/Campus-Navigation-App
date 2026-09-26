@@ -53,8 +53,10 @@ export default function EdgeComponent({
 	const getEdgeCursor = (): string => {
 		switch (selectedTool) {
 			case Tool.SingleSelect:
-			case Tool.MultiSelect: return "pointer";
-			default: return "move";
+			case Tool.MultiSelect:
+				return "pointer";
+			default:
+				return "move";
 		}
 	};
 
