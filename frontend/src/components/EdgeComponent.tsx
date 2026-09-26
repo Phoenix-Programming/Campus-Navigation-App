@@ -11,6 +11,10 @@ export interface Edge {
 	targetNodeId: string;
 }
 
+export function isEdge(item: Node | Edge): item is Edge {
+	return "sourceNodeId" in item && "targetNodeId" in item;
+}
+
 interface EdgeComponentProps {
 	edge: Edge;
 	sourceNode: Node;
@@ -47,10 +51,11 @@ export default function EdgeComponent({
 	const y2: string = toCoordinate(targetNode.y, svgViewport?.height);
 
 	const getEdgeCursor = (): string => {
-		if (selectedTool === Tool.SingleSelect || selectedTool === Tool.MultiSelect) {
-			return "pointer";
+		switch (selectedTool) {
+			case Tool.SingleSelect:
+			case Tool.MultiSelect: return "pointer";
+			default: return "move";
 		}
-		return "default";
 	};
 
 	return (
@@ -63,7 +68,7 @@ export default function EdgeComponent({
 				width: "100%",
 				height: "100%",
 				overflow: "visible",
-				pointerEvents: "auto",
+				pointerEvents: "none",
 				zIndex: 0
 			}}
 		>

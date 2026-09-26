@@ -1,5 +1,6 @@
 import React, { useContext, useRef, useState } from "react";
 import { clsx } from "clsx";
+import { type Edge } from "./EdgeComponent";
 import { Tool } from "./IndoorMapEditorToolbar";
 import { SvgViewportContext, type SvgViewportMetrics } from "./SvgViewerComponent";
 import "@styles/components/node-component.scss";
@@ -10,6 +11,10 @@ export interface Node {
 	type: string;
 	x: number;
 	y: number;
+}
+
+export function isNode(item: Node | Edge): item is Node {
+	return "x" in item && "y" in item;
 }
 
 interface NodeComponentProps {
@@ -54,17 +59,15 @@ export default function NodeComponent({
 	}
 
 	function getNodeCursor(): string {
-		if (selectedTool === Tool.CreateNode) return "not-allowed";
-		if (selectedTool === Tool.MoveNode) return isDragging ? "grabbing" : isHovered ? "grab" : "default";
-		if (
-			selectedTool === Tool.SingleSelect ||
-			selectedTool === Tool.MultiSelect ||
-			selectedTool === Tool.SingleConnect ||
-			selectedTool === Tool.MultiConnect
-		) {
-			return "pointer";
+		switch (selectedTool) {
+			case Tool.CreateNode: return "not-allowed";
+			case Tool.MoveNode: return isDragging ? "grabbing" : isHovered ? "grab" : "default";
+			case Tool.SingleSelect:
+			case Tool.MultiSelect:
+			case Tool.SingleConnect:
+			case Tool.MultiConnect: return "pointer";
+			default: return "move";
 		}
-		return "default";
 	}
 
 	return (
