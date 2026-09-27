@@ -45,7 +45,7 @@ export default function LeafletMap() {
 		};
 
 		loadLayers();
-	});
+	}, []);
 
 	const formatLayerName = (id: string): string => {
 		return id
