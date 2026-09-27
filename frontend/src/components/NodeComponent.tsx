@@ -64,6 +64,7 @@ export default function NodeComponent({
 		if (!svgViewport) return null;
 
 		const mapContainerRect: DOMRect = target.parentElement?.getBoundingClientRect() ?? target.getBoundingClientRect();
+
 		if (mapContainerRect.width <= 0 || mapContainerRect.height <= 0) return null;
 
 		const normalizedX: number = (clientX - mapContainerRect.left) / mapContainerRect.width;
@@ -79,7 +80,11 @@ export default function NodeComponent({
 		return Math.min(Math.max(value, min), max);
 	}
 
-	function onClick(node: Node): void {
+	function onClick(event: React.MouseEvent<SVGCircleElement>, node: Node): void {
+		if (suppressClicksRef?.current) return;
+
+		event.stopPropagation();
+
 		onNodeClick(node);
 	}
 
@@ -87,6 +92,7 @@ export default function NodeComponent({
 		if (lastHoveringStateRef.current === hovering) return;
 
 		lastHoveringStateRef.current = hovering;
+
 		if (!hovering) dragPointerIdRef.current = null;
 
 		setIsHovered(hovering);
@@ -112,6 +118,7 @@ export default function NodeComponent({
 		event.stopPropagation();
 
 		const pointerCoordinates = getSvgCoordinatesFromPointer(event.clientX, event.clientY, event.currentTarget);
+
 		if (!pointerCoordinates) return;
 
 		draggingRef.current = true;
@@ -122,23 +129,22 @@ export default function NodeComponent({
 		};
 
 		if (suppressClicksRef) suppressClicksRef.current = true;
+
 		event.currentTarget.setPointerCapture(event.pointerId);
 	}
 
 	function onPointerMove(event: React.PointerEvent<SVGSVGElement>): void {
-		if (
-			!draggingRef.current ||
+		if (!draggingRef.current ||
 			selectedTool !== Tool.MoveNode ||
 			dragPointerIdRef.current !== event.pointerId ||
 			!svgViewport
-		) {
-			return;
-		}
+		) return;
 
 		event.preventDefault();
 		event.stopPropagation();
 
 		const pointerCoordinates = getSvgCoordinatesFromPointer(event.clientX, event.clientY, event.currentTarget);
+
 		if (!pointerCoordinates) return;
 
 		const nextX: number = clamp(dragOffsetRef.current.x + pointerCoordinates.x, 0, svgViewport.width);
@@ -155,13 +161,10 @@ export default function NodeComponent({
 
 		draggingRef.current = false;
 		dragPointerIdRef.current = null;
+
 		event.currentTarget.releasePointerCapture(event.pointerId);
 
-		if (suppressClicksRef) {
-			window.setTimeout(() => {
-				suppressClicksRef.current = false;
-			}, 0);
-		}
+		if (suppressClicksRef) window.setTimeout(() => { suppressClicksRef.current = false; }, 0);
 	}
 
 	return (
@@ -195,11 +198,7 @@ export default function NodeComponent({
 					selected: isSelected,
 					hovered: isHovered
 				})}
-				onClick={(e) => {
-					if (suppressClicksRef?.current) return;
-					e.stopPropagation();
-					onClick(node);
-				}}
+				onClick={(e) => { onClick(e, node); }}
 			/>
 		</svg>
 	);

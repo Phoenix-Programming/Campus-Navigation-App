@@ -16,10 +16,6 @@ export interface SvgViewerHandle {
 	zoomBy: (amount: number) => void;
 }
 
-export const DEFAULT_SVG_VIEWER_ZOOM_STEP = 0.1;
-export const MIN_SVG_VIEWER_SCALE = 0.025;
-export const MAX_SVG_VIEWER_SCALE = 1;
-
 export interface SvgViewportMetrics {
 	width: number;
 	height: number;
@@ -28,6 +24,10 @@ export interface SvgViewportMetrics {
 export interface SvgViewportContextValue extends SvgViewportMetrics {
 	suppressClicksRef: React.MutableRefObject<boolean>;
 }
+
+export const DEFAULT_SVG_VIEWER_ZOOM_STEP = 0.1;
+export const MIN_SVG_VIEWER_SCALE = 0.025;
+export const MAX_SVG_VIEWER_SCALE = 1;
 
 export const SvgViewportContext = createContext<SvgViewportContextValue | null>(null);
 
@@ -56,15 +56,13 @@ const SvgViewerComponent = forwardRef<SvgViewerHandle, SvgViewerComponentProps>(
 		if (widthMatch && heightMatch) {
 			const width: number = Number.parseFloat(widthMatch[1]);
 			const height: number = Number.parseFloat(heightMatch[1]);
+
 			if (Number.isFinite(width) && Number.isFinite(height) && width > 0 && height > 0) return { width, height };
 		}
 
 		const viewBoxMatch: RegExpMatchArray | null = svg.match(/viewBox\s*=\s*["']([^"']+)['"]/i);
 		if (viewBoxMatch) {
-			const parts: number[] = viewBoxMatch[1]
-				.trim()
-				.split(/[\s,]+/)
-				.map(Number);
+			const parts: number[] = viewBoxMatch[1].trim().split(/[\s,]+/).map(Number);
 
 			if (parts.length === 4 && parts[2] > 0 && parts[3] > 0) return { width: parts[2], height: parts[3] };
 		}
@@ -75,9 +73,7 @@ const SvgViewerComponent = forwardRef<SvgViewerHandle, SvgViewerComponentProps>(
 	useEffect(() => {
 		setTransform({ scale: 1, x: 0, y: 0 });
 
-		const frame: number = window.requestAnimationFrame(() => {
-			fitToViewer();
-		});
+		const frame: number = window.requestAnimationFrame(() => { fitToViewer(); });
 
 		return () => window.cancelAnimationFrame(frame);
 	}, [svgSrc]);
@@ -85,9 +81,7 @@ const SvgViewerComponent = forwardRef<SvgViewerHandle, SvgViewerComponentProps>(
 	useEffect(() => {
 		document.body.style.overflow = isHovering ? "hidden" : "";
 
-		return () => {
-			document.body.style.overflow = "";
-		};
+		return () => { document.body.style.overflow = ""; };
 	}, [isHovering]);
 
 	useImperativeHandle(
@@ -96,6 +90,7 @@ const SvgViewerComponent = forwardRef<SvgViewerHandle, SvgViewerComponentProps>(
 			getScale: () => transform.scale,
 			zoomBy: (amount: number): void => {
 				const viewer: HTMLDivElement | null = viewerRef.current;
+
 				if (!viewer) return;
 
 				const rect: DOMRect = viewer.getBoundingClientRect();
@@ -124,24 +119,25 @@ const SvgViewerComponent = forwardRef<SvgViewerHandle, SvgViewerComponentProps>(
 
 	function getSvgDimensions(): { width: number; height: number } | null {
 		const img: HTMLImageElement | null = imgRef.current;
+
 		if (img && img.naturalWidth > 0 && img.naturalHeight > 0)
 			return { width: img.naturalWidth, height: img.naturalHeight };
 
 		const viewBoxMatch: RegExpMatchArray | null = svg.match(/viewBox\s*=\s*["']([^"']+)["']/i);
+
 		if (viewBoxMatch) {
-			const parts: number[] = viewBoxMatch[1]
-				.trim()
-				.split(/[\s,]+/)
-				.map(Number);
+			const parts: number[] = viewBoxMatch[1].trim().split(/[\s,]+/).map(Number);
 
 			if (parts.length === 4 && parts[2] > 0 && parts[3] > 0) return { width: parts[2], height: parts[3] };
 		}
 
 		const widthMatch: RegExpMatchArray | null = svg.match(/width\s*=\s*["']([^"']+)["']/i);
 		const heightMatch: RegExpMatchArray | null = svg.match(/height\s*=\s*["']([^"']+)["']/i);
+
 		if (widthMatch && heightMatch) {
 			const width: number = Number.parseFloat(widthMatch[1]);
 			const height: number = Number.parseFloat(heightMatch[1]);
+
 			if (Number.isFinite(width) && Number.isFinite(height) && width > 0 && height > 0) return { width, height };
 		}
 
@@ -155,6 +151,7 @@ const SvgViewerComponent = forwardRef<SvgViewerHandle, SvgViewerComponentProps>(
 		if (!viewer || !dimensions) return;
 
 		const { width: viewerWidth, height: viewerHeight } = viewer.getBoundingClientRect();
+
 		if (viewerWidth <= 0 || viewerHeight <= 0) return;
 
 		const scale: number = Math.min(viewerWidth / dimensions.width, viewerHeight / dimensions.height);
@@ -168,6 +165,7 @@ const SvgViewerComponent = forwardRef<SvgViewerHandle, SvgViewerComponentProps>(
 		e.preventDefault();
 
 		const viewer: HTMLDivElement | null = viewerRef.current;
+
 		if (!viewer) return;
 
 		const rect: DOMRect = viewer.getBoundingClientRect();
@@ -191,8 +189,10 @@ const SvgViewerComponent = forwardRef<SvgViewerHandle, SvgViewerComponentProps>(
 	function getMapCoordinatesFromPointer(event: React.MouseEvent<HTMLDivElement>): { x: number; y: number } | null {
 		if (!svgMetrics) return null;
 
-		const renderRect: Pick<DOMRect, "left" | "top" | "width" | "height"> = imgRef.current?.getBoundingClientRect() ??
-			viewerRef.current?.getBoundingClientRect() ?? { left: 0, top: 0, width: 0, height: 0 };
+		const renderRect: Pick<DOMRect, "left" | "top" | "width" | "height"> =
+			imgRef.current?.getBoundingClientRect() ??
+			viewerRef.current?.getBoundingClientRect() ??
+			{ left: 0, top: 0, width: 0, height: 0 };
 
 		if (renderRect.width <= 0 || renderRect.height <= 0) return null;
 
@@ -208,12 +208,14 @@ const SvgViewerComponent = forwardRef<SvgViewerHandle, SvgViewerComponentProps>(
 	}
 
 	function onMapClickHandler(event: React.MouseEvent<HTMLDivElement>): void {
-		if (!allowPan) {
-			event.preventDefault();
-			event.stopPropagation();
-			const svgCoordinates: { x: number; y: number } | null = getMapCoordinatesFromPointer(event);
-			onMapClick(svgCoordinates);
-		}
+		if (allowPan) return;
+
+		event.preventDefault();
+		event.stopPropagation();
+
+		const svgCoordinates: { x: number; y: number } | null = getMapCoordinatesFromPointer(event);
+
+		onMapClick(svgCoordinates);
 	}
 
 	function onMouseDown(e: React.MouseEvent<HTMLDivElement>) {
@@ -226,11 +228,14 @@ const SvgViewerComponent = forwardRef<SvgViewerHandle, SvgViewerComponentProps>(
 		}
 
 		e.preventDefault();
+
 		pointerDownRef.current = true;
 		dragStartedRef.current = false;
 		dragging.current = true;
 		suppressClicksRef.current = false;
+
 		setIsDragging(true);
+
 		last.current = { x: e.clientX, y: e.clientY };
 	}
 
@@ -244,12 +249,16 @@ const SvgViewerComponent = forwardRef<SvgViewerHandle, SvgViewerComponentProps>(
 		if (!dragStartedRef.current) {
 			const totalDx: number = e.clientX - last.current.x;
 			const totalDy: number = e.clientY - last.current.y;
+
 			if (totalDx * totalDx + totalDy * totalDy < dragThresholdSquared) return;
 
 			dragStartedRef.current = true;
 			dragging.current = true;
+
 			setIsDragging(true);
+
 			suppressClicksRef.current = true;
+
 			last.current = { x: e.clientX, y: e.clientY };
 			return;
 		}
@@ -269,6 +278,7 @@ const SvgViewerComponent = forwardRef<SvgViewerHandle, SvgViewerComponentProps>(
 		if (!allowPan && e) {
 			e.preventDefault();
 			e.stopPropagation();
+
 			onMapClickHandler(e);
 			return;
 		}
@@ -278,24 +288,21 @@ const SvgViewerComponent = forwardRef<SvgViewerHandle, SvgViewerComponentProps>(
 		pointerDownRef.current = false;
 		dragStartedRef.current = false;
 		dragging.current = false;
+
 		setIsDragging(false);
 
-		if (shouldSuppressClick) {
-			window.setTimeout(() => {
-				suppressClicksRef.current = false;
-			}, 0);
-		}
+		if (shouldSuppressClick)
+			window.setTimeout(() => { suppressClicksRef.current = false; }, 0);
 	}
 
 	function getCursorType(): string {
 		if (selectedTool === Tool.CreateNode) return "crosshair";
 		if (selectedTool === Tool.MoveNode && isDragging) return "grabbing";
+
 		return "move";
 	}
 
-	const onMouseEnter = (): void => {
-		setIsHovering(true);
-	};
+	const onMouseEnter = (): void => { setIsHovering(true); };
 
 	const onMouseLeave = (): void => {
 		setIsHovering(false);
@@ -327,14 +334,7 @@ const SvgViewerComponent = forwardRef<SvgViewerHandle, SvgViewerComponentProps>(
 				onMouseDown={onMouseDown}
 			>
 				<SvgViewportContext.Provider
-					value={
-						svgMetrics
-							? {
-									...svgMetrics,
-									suppressClicksRef
-								}
-							: null
-					}
+					value={svgMetrics ? { ...svgMetrics, suppressClicksRef } : null}
 				>
 					<img
 						ref={imgRef}
@@ -344,6 +344,7 @@ const SvgViewerComponent = forwardRef<SvgViewerHandle, SvgViewerComponentProps>(
 						onLoad={fitToViewer}
 						style={{ display: "block", cursor: getCursorType(), pointerEvents: "none" }}
 					/>
+
 					{children}
 				</SvgViewportContext.Provider>
 			</div>

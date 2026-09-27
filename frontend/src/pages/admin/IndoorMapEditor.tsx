@@ -171,18 +171,14 @@ export default function IndoorMapEditor(): React.JSX.Element {
 
 	function onNodeClick(node: Node): void {
 		switch (selectedTool) {
-			case Tool.SingleSelect:
-				handleNodeClickSingleSelectTool(node);
-				break;
-			case Tool.MultiSelect:
-				handleNodeClickMultiSelectTool(node);
-				break;
-			case Tool.SingleConnect:
-				handleNodeClickSingleConnectTool(node);
-				break;
-			case Tool.MultiConnect:
-				handleNodeClickMultiConnectTool(node);
-				break;
+			case Tool.SingleSelect: handleNodeClickSingleSelectTool(node);
+			break;
+			case Tool.MultiSelect: handleNodeClickMultiSelectTool(node);
+			break;
+			case Tool.SingleConnect: handleNodeClickSingleConnectTool(node);
+			break;
+			case Tool.MultiConnect: handleNodeClickMultiConnectTool(node);
+			break;
 		}
 	}
 
@@ -232,34 +228,16 @@ export default function IndoorMapEditor(): React.JSX.Element {
 		setNodes(
 			(prevNodes) =>
 				prevNodes?.map((node) =>
-					node.id === nodeId
-						? {
-								...node,
-								x: newX,
-								y: newY
-							}
-						: node
+					node.id === nodeId ? { ...node, x: newX, y: newY } : node
 				) ?? null
 		);
 
 		setSelectedNode((prevNode) =>
-			prevNode?.id === nodeId
-				? {
-						...prevNode,
-						x: newX,
-						y: newY
-					}
-				: prevNode
+			prevNode?.id === nodeId ? { ...prevNode, x: newX, y: newY } : prevNode
 		);
 
 		setHoveredNode((prevNode) =>
-			prevNode?.id === nodeId
-				? {
-						...prevNode,
-						x: newX,
-						y: newY
-					}
-				: prevNode
+			prevNode?.id === nodeId ? { ...prevNode, x: newX, y: newY } : prevNode
 		);
 
 		setChangesMade(true);
@@ -267,12 +245,10 @@ export default function IndoorMapEditor(): React.JSX.Element {
 
 	function onEdgeClick(edge: Edge): void {
 		switch (selectedTool) {
-			case Tool.SingleSelect:
-				handleEdgeClickSingleSelectTool(edge);
-				break;
-			case Tool.MultiSelect:
-				handleEdgeClickMultiSelectTool(edge);
-				break;
+			case Tool.SingleSelect: handleEdgeClickSingleSelectTool(edge);
+			break;
+			case Tool.MultiSelect: handleEdgeClickMultiSelectTool(edge);
+			break;
 		}
 	}
 
@@ -366,19 +342,18 @@ export default function IndoorMapEditor(): React.JSX.Element {
 			id: `${Date.now()}`,
 			name: `Node ${nodes!.length + 1}`,
 			type: nodeType,
-			x,
-			y
+			x, y
 		};
 
 		setNodes((prevNodes) => [...prevNodes!, newNode]);
+		setSelectedNode(newNode);
 		setChangesMade(true);
 	}
 
 	function nodesHaveConnection(nodeA: Node, nodeB: Node): boolean {
-		return edges!.some(
-			(edge) =>
-				(edge.sourceNodeId === nodeA.id && edge.targetNodeId === nodeB.id) ||
-				(edge.sourceNodeId === nodeB.id && edge.targetNodeId === nodeA.id)
+		return edges!.some((edge) =>
+			(edge.sourceNodeId === nodeA.id && edge.targetNodeId === nodeB.id) ||
+			(edge.sourceNodeId === nodeB.id && edge.targetNodeId === nodeA.id)
 		);
 	}
 
@@ -416,48 +391,51 @@ export default function IndoorMapEditor(): React.JSX.Element {
 		setSelectedEdge((prevEdge) =>
 			prevEdge && (prevEdge.sourceNodeId === nodeId || prevEdge.targetNodeId === nodeId) ? null : prevEdge
 		);
+
 		setSelectedNodesAndEdges(
 			(prevSelection) =>
-				new Set(
-					Array.from(prevSelection).filter((item) => {
-						if (isNode(item)) return item.id !== nodeId;
-						if (isEdge(item)) return !(item.sourceNodeId === nodeId || item.targetNodeId === nodeId);
-						return true;
-					})
-				)
+				new Set(Array.from(prevSelection).filter((item) => {
+					if (isNode(item)) return item.id !== nodeId;
+					if (isEdge(item)) return !(item.sourceNodeId === nodeId || item.targetNodeId === nodeId);
+					return true;
+				}))
 		);
+
 		setHoveredNode((prevNode) => (prevNode?.id === nodeId ? null : prevNode));
 		setChangesMade(true);
 	}
 
 	function deleteEdge(nodeIdA: string, nodeIdB: string): void {
 		setEdges((prevEdges) =>
-			prevEdges!.filter(
-				(edge) =>
-					!(edge.sourceNodeId === nodeIdA && edge.targetNodeId === nodeIdB) &&
-					!(edge.sourceNodeId === nodeIdB && edge.targetNodeId === nodeIdA)
+			prevEdges!.filter((edge) =>
+				!(edge.sourceNodeId === nodeIdA && edge.targetNodeId === nodeIdB) &&
+				!(edge.sourceNodeId === nodeIdB && edge.targetNodeId === nodeIdA)
 			)
 		);
+
 		setSelectedEdge((prevEdge) => {
 			if (!prevEdge) return prevEdge;
+
 			const isDeletedEdge =
 				(prevEdge.sourceNodeId === nodeIdA && prevEdge.targetNodeId === nodeIdB) ||
 				(prevEdge.sourceNodeId === nodeIdB && prevEdge.targetNodeId === nodeIdA);
+
 			return isDeletedEdge ? null : prevEdge;
 		});
+
 		setSelectedNodesAndEdges(
 			(prevSelection) =>
-				new Set(
-					Array.from(prevSelection).filter((item) => {
-						if (!isEdge(item)) return true;
+				new Set(Array.from(prevSelection).filter((item) => {
+					if (!isEdge(item)) return true;
 
-						const matchesEdge: boolean =
-							(item.sourceNodeId === nodeIdA && item.targetNodeId === nodeIdB) ||
-							(item.sourceNodeId === nodeIdB && item.targetNodeId === nodeIdA);
-						return !matchesEdge;
-					})
-				)
+					const matchesEdge: boolean =
+						(item.sourceNodeId === nodeIdA && item.targetNodeId === nodeIdB) ||
+						(item.sourceNodeId === nodeIdB && item.targetNodeId === nodeIdA);
+
+					return !matchesEdge;
+				}))
 		);
+
 		setHoveredNode((prevNode) => (prevNode && (prevNode.id === nodeIdA || prevNode.id === nodeIdB) ? null : prevNode));
 		setChangesMade(true);
 	}
@@ -486,9 +464,8 @@ export default function IndoorMapEditor(): React.JSX.Element {
 						onChange={(e) => onSelectedBuildingChange(e.target.value)}
 						disabled={changesMade}
 					>
-						<option value="" disabled>
-							-- Select a building --
-						</option>
+						<option value="" disabled>-- Select a building --</option>
+
 						{buildings.map((building) => (
 							<option key={building.code} value={building.code}>
 								{building.name} ({building.code})
@@ -500,6 +477,7 @@ export default function IndoorMapEditor(): React.JSX.Element {
 				{selectedTool === Tool.CreateNode && (
 					<div className="selector-container">
 						<p>Node type to create:</p>
+
 						<select value={nodeTypeToCreate} onChange={(e) => setNodeTypeToCreate(e.target.value)}>
 							{Object.values(NodeType).map((type) => (
 								<option key={type} value={type}>
@@ -635,9 +613,7 @@ export default function IndoorMapEditor(): React.JSX.Element {
 						isOpen={savePending}
 						title="Confirm Save Changes"
 						content="Are you sure you want to save the changes? This action will be made live immediately to all users."
-						onClose={() => {
-							setSavePending(false);
-						}}
+						onClose={() => { setSavePending(false); }}
 						onConfirm={saveChanges}
 					/>
 
@@ -646,9 +622,7 @@ export default function IndoorMapEditor(): React.JSX.Element {
 						isOpen={discardPending}
 						title="Confirm Discard Changes"
 						content="Are you sure you want to discard the changes? This action cannot be undone."
-						onClose={() => {
-							setDiscardPending(false);
-						}}
+						onClose={() => { setDiscardPending(false); }}
 						onConfirm={discardChanges}
 						isDanger={true}
 					/>

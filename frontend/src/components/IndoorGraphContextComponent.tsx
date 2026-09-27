@@ -52,6 +52,7 @@ export default function IndoorGraphContextComponent({
 	function getContent(): React.JSX.Element | null {
 		if (isSingleNode && node !== null) return getSingleNodeContent();
 		if (isSingleEdge && edge !== null) return getSingleEdgeContent();
+
 		return null;
 	}
 
@@ -69,6 +70,7 @@ export default function IndoorGraphContextComponent({
 					<>
 						<div className="kv-pair">
 							<span>Label:</span>
+
 							<input
 								value={node!.name}
 								onChange={(e) => setSelectedNodeLabel(e.target.value)}
@@ -78,6 +80,7 @@ export default function IndoorGraphContextComponent({
 
 						<div className="kv-pair">
 							<span>Type:</span>
+
 							<select
 								value={node?.type}
 								onChange={(e) => setSelectedNodeType(e.target.value)}
@@ -92,9 +95,7 @@ export default function IndoorGraphContextComponent({
 					</>
 				)}
 
-				<span>
-					Coordinates: ({Number(node!.x.toFixed(3))}, {Number(node!.y.toFixed(3))})
-				</span>
+				<span>Coordinates: ({Number(node!.x.toFixed(3))}, {Number(node!.y.toFixed(3))})</span>
 			</>
 		);
 	}
@@ -112,12 +113,12 @@ export default function IndoorGraphContextComponent({
 	function getDeleteLabel(): string {
 		if (isSingleNode) return "Delete Node";
 		if (isSingleEdge) return "Delete Edge";
+
 		return "Delete Selected Items";
 	}
 
 	function onDeleteButtonClicked(): void {
 		if (isSingleNode) return deleteNode!(node!.id);
-
 		if (isSingleEdge) return deleteEdge!(edge!.sourceNodeId, edge!.targetNodeId);
 
 		nodes.forEach((node) => deleteNode!(node.id));
@@ -129,6 +130,7 @@ export default function IndoorGraphContextComponent({
 		<div className="context-overlay">
 			<div className="context-container">
 				<span className="title">{getTitle()}</span>
+				
 				{getContent()}
 
 				{/* Delete Button */}

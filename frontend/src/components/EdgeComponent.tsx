@@ -71,6 +71,7 @@ export default function EdgeComponent({
 		if (suppressClicksRef?.current) return;
 
 		e.stopPropagation();
+		
 		onEdgeClick(edge);
 	}
 

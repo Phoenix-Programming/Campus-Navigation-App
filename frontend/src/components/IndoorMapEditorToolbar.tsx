@@ -84,6 +84,7 @@ export default function IndoorMapEditorToolbar({
 					>
 						<img src={zoomInIcon} alt="" />
 					</button>
+					
 					<button
 						type="button"
 						className="icon-button"
