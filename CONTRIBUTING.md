@@ -22,7 +22,7 @@ cd Campus-Navigation-App
 
 ```bash
 cd frontend
-npm install
+npm ci
 cd ..
 ```
 
