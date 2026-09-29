@@ -22,8 +22,10 @@ interface GetBuildingsResponse {
 }
 
 interface Building {
+	id: number;
 	name: string;
 	code: string;
+	num_floors: number;
 }
 
 export default function IndoorMapEditor(): React.JSX.Element {
@@ -40,7 +42,8 @@ export default function IndoorMapEditor(): React.JSX.Element {
 	const svgViewerRef = useRef<SvgViewerHandle>(null);
 
 	const [buildings, setBuildings] = useState<Building[]>([]);
-	const [selectedBuilding, setSelectedBuilding] = useState<string | null>(null);
+	const [selectedBuilding, setSelectedBuilding] = useState<Building | null>(null);
+	const [selectedFloor, setSelectedFloor] = useState<number | null>(null);
 	const [mapLoaded, setMapLoaded] = useState(false);
 	const [svg, setSvg] = useState<string | null>(null);
 	const [nodes, setNodes] = useState<Node[] | null>(null);
@@ -59,46 +62,53 @@ export default function IndoorMapEditor(): React.JSX.Element {
 	console.log("Current Selected Node:", selectedNode);
 	console.log("Current Selected Nodes and Edges:", Array.from(selectedNodesAndEdges));
 
-	useEffect(() => {
-		//getBuildings();
-		// Temporary hardcoded buildings for testing
-		setBuildings([
-			{
-				name: "Innovation, Science and Technology Building",
-				code: "IST"
-			}
-		]);
-	}, []);
+	useEffect(() => { getBuildings(); }, []);
 
 	useEffect(() => {
-		if (svg && nodes && edges) setMapLoaded(true);
+		if (svg !== null && nodes !== null && edges != null) setMapLoaded(true);
 		else setMapLoaded(false);
 	}, [svg, nodes, edges]);
 
-	async function onSelectedBuildingChange(bldCode: string): Promise<void> {
-		setSelectedBuilding(bldCode);
+	async function onSelectedBuildingChange(bld: Building): Promise<void> {
+		setSelectedFloor(null);
+		setSelectedBuilding(bld);
+		clearMapData();
+	}
 
-		//await getIndoorMapData(bldCode);
-		fetch("/data/indoors/ist/istF1_noNodes.svg")
-			.then((response) => response.text())
-			.then((text) => setSvg(text))
-			.then(() => {
-				setNodes([
-					{ id: "1", name: "Node 1", type: "room", x: 100, y: 250 },
-					{ id: "2", name: "Node 2", type: "hallway", x: 200, y: 150 },
-					{ id: "3", name: "Node 3", type: "room", x: 300, y: 200 }
-				]);
+	async function onSelectedFloorChange(floor: number): Promise<void> {
+		setSelectedFloor(floor);
+		clearMapData();
 
-				setEdges([
-					{ id: "1-2", sourceNodeId: "1", targetNodeId: "2" },
-					{ id: "2-3", sourceNodeId: "2", targetNodeId: "3" }
-				]);
-			});
+		await getIndoorMapData(selectedBuilding!.code, floor);
+
+		// Temporary hardcoded data for testing purposes
+		setNodes([
+			{ id: "1", name: "Node 1", type: "room", x: 100, y: 250 },
+			{ id: "2", name: "Node 2", type: "hallway", x: 200, y: 150 },
+			{ id: "3", name: "Node 3", type: "room", x: 300, y: 200 }
+		]);
+
+		setEdges([
+			{ id: "1-2", sourceNodeId: "1", targetNodeId: "2" },
+			{ id: "2-3", sourceNodeId: "2", targetNodeId: "3" }
+		]);
+	}
+
+	function clearMapData(): void {
+		setSvg(null);
+		setNodes(null);
+		setEdges(null);
+		setSelectedNode(null);
+		setSelectedEdge(null);
+		setSelectedNodesAndEdges(new Set<Node | Edge>());
+		setHoveredNode(null);
+		setHoveredEdge(null);
+		setMapLoaded(false);
 	}
 
 	async function getBuildings(): Promise<void> {
 		try {
-			const response: GetBuildingsResponse = await api.get("/api/building/allNamesAndCodes");
+			const response: GetBuildingsResponse = (await api.get("/api/buildings")).data;
 
 			setBuildings(response.buildings);
 		} catch (error) {
@@ -106,11 +116,14 @@ export default function IndoorMapEditor(): React.JSX.Element {
 		}
 	}
 
-	async function getIndoorMapData(bldCode: string): Promise<void> {
-		setMapLoaded(false);
-
+	async function getIndoorMapData(bldCode: string, floor: number): Promise<void> {
 		try {
-			const response: GetIndoorMapResponse = await api.get(`/api/building/${bldCode}/map`);
+			const response: GetIndoorMapResponse = (await api.get("/api/buildings/map", {
+				params: {
+					bld_code: bldCode,
+					floor_num: floor
+				}
+			})).data;
 
 			setSvg(response.svg);
 			setNodes(response.nodes);
@@ -457,23 +470,43 @@ export default function IndoorMapEditor(): React.JSX.Element {
 	return (
 		<>
 			<div className="header-row">
-				<div className="selector-container">
-					<p>Select a building to edit:</p>
-					<select
-						value={selectedBuilding || ""}
-						onChange={(e) => onSelectedBuildingChange(e.target.value)}
-						disabled={changesMade}
-					>
-						<option value="" disabled>-- Select a building --</option>
+				<div className="left-side">
+					{/*Building Dropdown*/}
+					<div className="selector-container">
+						<p>Select building:</p>
+						<select
+							value={selectedBuilding?.code || ""}
+							onChange={(e) => onSelectedBuildingChange(buildings.find(b => b.code === e.target.value)!)}
+							disabled={changesMade}
+						>
+							<option value="" disabled>-- Select building --</option>
 
-						{buildings.map((building) => (
-							<option key={building.code} value={building.code}>
-								{building.name} ({building.code})
-							</option>
-						))}
-					</select>
+							{buildings.length > 0 && buildings.map((building) => (
+								<option key={building.code} value={building.code}>{building.code}</option>
+							))}
+						</select>
+					</div>
+
+					{/*Floor Dropdown*/}
+					{selectedBuilding && (
+						<div className="selector-container">
+							<p>Select floor:</p>
+							<select
+								value={selectedFloor || ""}
+								onChange={(e) => onSelectedFloorChange(parseInt(e.target.value))}
+								disabled={changesMade}
+							>
+								<option value="" disabled>-- Select floor --</option>
+
+								{Array.from({ length: selectedBuilding?.num_floors || 0 }, (_, i) => (
+									<option key={i + 1} value={i + 1}>{i + 1}</option>
+								))}
+							</select>
+						</div>
+					)}
 				</div>
 
+				{/*Node Type Dropdown*/}
 				{selectedTool === Tool.CreateNode && (
 					<div className="selector-container">
 						<p>Node type to create:</p>
@@ -488,21 +521,19 @@ export default function IndoorMapEditor(): React.JSX.Element {
 					</div>
 				)}
 
-				<div className="save-discard-buttons">
+				<div className="right-side">
+					{/*Discard Button*/}
 					<button
-						onClick={() => {
-							setDiscardPending(true);
-						}}
+						onClick={() => { setDiscardPending(true); }}
 						disabled={!changesMade}
 						className="discard"
 					>
 						Discard
 					</button>
 
+					{/*Save Button*/}
 					<button
-						onClick={() => {
-							setSavePending(true);
-						}}
+						onClick={() => { setSavePending(true); }}
 						disabled={!changesMade}
 						className="save"
 					>

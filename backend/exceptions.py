@@ -43,3 +43,15 @@ class NotAuthorizedToUpdateUserError(Exception):
 class NotAuthorizedToDeleteUserError(Exception):
     def __init__(self):
         super().__init__("Not authorized to delete this user.")
+
+class NotAuthorizedToEditIndoorMapError(Exception):
+    def __init__(self):
+        super().__init__("Not authorized to edit indoor map.")
+
+class BuildingCodeNotFoundError(Exception):
+    def __init__(self):
+        super().__init__("Building code not found.")
+
+class FloorNumberNotFoundError(Exception):
+    def __init__(self, bld_id: int):
+        super().__init__(f"Floor number not found for building id: {bld_id}.")

@@ -151,4 +151,20 @@ async def get_current_user(
 	return CurrentUserContext(user, token_data.permissions)
 
 
+async def get_admin_user(
+    token: Annotated[str, Depends(oauth2_scheme)],
+    db: Database
+) -> CurrentUserContext:
+    context: CurrentUserContext = await get_current_user(token, db)
+
+    if CurrentUserContext.user.is_admin: raise HTTPException(
+		status_code=status.HTTP_403_FORBIDDEN,
+		detail="User not an admin.",
+		headers={"WWW-Authenticate": "Bearer"}
+	)
+
+    return context
+
+
 CurrentUser = Annotated[CurrentUserContext, Depends(get_current_user)]
+AdminUser = Annotated[CurrentUserContext, Depends(get_admin_user)]
