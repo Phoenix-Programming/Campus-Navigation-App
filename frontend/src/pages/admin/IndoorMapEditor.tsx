@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { clsx } from "clsx";
 import ConfirmationModal from "../../components/ConfirmationModal";
 import EdgeComponent, { isEdge, type Edge } from "../../components/EdgeComponent";
+import EditBuildingModal from "../../components/EditBuildingModal";
 import IndoorGraphContextComponent from "../../components/IndoorGraphContextComponent";
 import IndoorMapEditorToolbar, { Tool } from "../../components/IndoorMapEditorToolbar";
 import NodeComponent, { isNode, NodeType, type Node } from "../../components/NodeComponent";
@@ -13,7 +14,6 @@ import editIcon from "@assets/icons/edit.svg";
 import saveIcon from "@assets/icons/save.svg";
 import "@styles/main.scss";
 import "@styles/pages/indoor-map-editor.scss";
-import EditBuildingModal from "../../components/EditBuildingModal";
 
 interface GetIndoorMapResponse {
 	svg: string;
@@ -82,9 +82,14 @@ export default function IndoorMapEditor(): React.JSX.Element {
 
 	async function onSelectedFloorChange(floor: number): Promise<void> {
 		setSelectedFloor(floor);
+		await loadMapData();
+	}
+
+	async function loadMapData(): Promise<void> {
+		setSelectedFloor(selectedFloor);
 		clearMapData();
 
-		await getIndoorMapData(selectedBuilding!.code, floor);
+		await getIndoorMapData(selectedBuilding!.code, selectedFloor!);
 
 		// Temporary hardcoded data for testing purposes
 		setNodes([
@@ -458,9 +463,8 @@ export default function IndoorMapEditor(): React.JSX.Element {
 		setChangesMade(true);
 	}
 
-	function discardChanges(): void {
-		console.log("Discarding changes...");
-		// TODO: Implement the logic to discard changes and revert to the last saved state
+	async function discardChanges(): Promise<void> {
+		await loadMapData();
 		setChangesMade(false);
 		setDiscardPending(false);
 	}

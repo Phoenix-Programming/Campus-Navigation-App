@@ -138,7 +138,7 @@ export default function EditBuildingModal({ bld_id, onClose }: EditBuildingModal
 						</div>
 
 						<div className="item">
-							<span className="label">Building Name</span>
+							<span className="label">Name</span>
 							<input
 								value={buildingName}
 								onChange={(e) => setBuildingName(e.target.value)}
@@ -148,7 +148,7 @@ export default function EditBuildingModal({ bld_id, onClose }: EditBuildingModal
 
 						<div className="item-row">
 							<div className="item">
-								<span className="label">Building Code</span>
+								<span className="label">Code</span>
 								<input
 									value={buildingCode}
 									onChange={(e) => setBuildingCode(e.target.value)}
@@ -157,7 +157,7 @@ export default function EditBuildingModal({ bld_id, onClose }: EditBuildingModal
 							</div>
 
 							<div className="item">
-								<span className="label">Building Category Type</span>
+								<span className="label">Category</span>
 								<select
 									value={buildingCategoryType!}
 									onChange={(e) => setBuildingCategoryType(e.target.value)}
@@ -172,7 +172,7 @@ export default function EditBuildingModal({ bld_id, onClose }: EditBuildingModal
 							</div>
 
 							<div className="item">
-								<span className="label">Number of Floors</span>
+								<span className="label"># of Floors</span>
 								<input
 									type="number"
 									value={numFloors!}
@@ -183,7 +183,7 @@ export default function EditBuildingModal({ bld_id, onClose }: EditBuildingModal
 						</div>
 
 						<div className="item">
-							<span className="label">Building Address</span>
+							<span className="label">Address</span>
 							<input
 								value={buildingAddress}
 								onChange={(e) => setBuildingAddress(e.target.value)}
