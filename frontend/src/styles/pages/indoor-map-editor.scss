@@ -11,18 +11,6 @@
 		align-items: center;
 		justify-content: flex-start;
 		column-gap: 10px;
-
-		.selector-container {
-			display: flex;
-			flex-direction: row;
-			align-items: center;
-			column-gap: 10px;
-
-			:disabled {
-				opacity: 0.5;
-				cursor: not-allowed;
-			}
-		}
 	}
 
 	.right-side {
@@ -31,32 +19,18 @@
 		align-items: center;
 		justify-content: flex-end;
 		column-gap: 10px;
+	}
+	
+	.selector-container {
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		justify-content: center;
+		column-gap: 10px;
 
-		button {
-			cursor: pointer;
-			width: 80px;
-			height: 30px;
-			font-size: 16px;
-			border: none;
-			border-radius: 5px;
-			color: white;
-
-			&.discard {
-				background-color: #dc2626;
-			}
-
-			&.save {
-				background-color: #2563eb;
-			}
-
-			&:hover {
-				opacity: 0.9;
-			}
-
-			&:disabled {
-				opacity: 0.5;
-				cursor: not-allowed;
-			}
+		:disabled {
+			opacity: 0.5;
+			cursor: not-allowed;
 		}
 	}
 }

@@ -1,0 +1,243 @@
+@use "../abstracts/variables" as var;
+
+.button {
+	border: none;
+	border-radius: 8px;
+	padding: 5px;
+	min-width: 80px;
+	min-height: 32px;
+	font-size: 0.95rem;
+	font-weight: 500;
+	transition: background-color 0.2s ease, color 0.2s ease;
+	cursor: pointer;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	column-gap: 5px;
+
+	&.primary {
+		background: var.$primary-color;
+		color: var.$primary-text-color;
+
+		img {
+			filter: var.$white-color-filter;
+		}
+
+		&:hover {
+			background: var.$primary-color-hover;
+		}
+	}
+
+	&.secondary {
+		background: var.$secondary-color;
+		color: var.$secondary-text-color;
+
+		img {
+			filter: var.$black-color-filter;
+		}
+
+		&:hover {
+			background: var.$secondary-color-hover;
+		}
+	}
+
+	&.success {
+		background: var.$success-color;
+		color: var.$primary-text-color;
+
+		img {
+			filter: var.$white-color-filter;
+		}
+
+		&:hover {
+			background: var.$success-color-hover;
+		}
+	}
+
+	&.danger {
+		background: var.$danger-color;
+		color: var.$primary-text-color;
+
+		img {
+			filter: var.$white-color-filter;
+		}
+
+		&:hover {
+			background: var.$danger-color-hover;
+		}
+	}
+
+	&:disabled {
+		opacity: 0.5;
+		cursor: not-allowed;
+	}
+}
+
+.outline-button {
+	border: none;
+	border-radius: 8px;
+	padding: 5px;
+	min-width: 80px;
+	min-height: 32px;
+	font-size: 0.95rem;
+	font-weight: 500;
+	background: transparent;
+	transition: background-color 0.2s ease, color 0.2s ease;
+	cursor: pointer;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	column-gap: 5px;
+
+	&.primary {
+		color: var.$primary-color;
+		border: 1px solid var.$primary-color;
+
+		img {
+			filter: var.$primary-color-filter;
+		}
+
+		&:hover {
+			background: var.$primary-color;
+			color: var.$primary-text-color;
+
+			img {
+				filter: var.$white-color-filter;
+			}
+		}
+	}
+
+	&.secondary {
+		color: var.$secondary-color;
+		border: 1px solid var.$secondary-color;
+
+		img {
+			filter: var.$secondary-color-filter;
+		}
+
+		&:hover {
+			background: var.$secondary-color;
+			color: var.$secondary-text-color;
+
+			img {
+				filter: var.$black-color-filter;
+			}
+		}
+	}
+
+	&.success {
+		color: var.$success-color;
+		border: 1px solid var.$success-color;
+
+		img {
+			filter: var.$success-color-filter;
+		}
+
+		&:hover {
+			background: var.$success-color;
+			color: var.$primary-text-color;
+
+			img {
+				filter: var.$white-color-filter;
+			}
+		}
+	}
+
+	&.danger {
+		color: var.$danger-color;
+		border: 1px solid var.$danger-color;
+
+		img {
+			filter: var.$danger-color-filter;
+		}
+
+		&:hover {
+			background: var.$danger-color-hover;
+			color: var.$primary-text-color;
+
+			img {
+				filter: var.$white-color-filter;
+			}
+		}
+	}
+
+	&:disabled {
+		opacity: 0.5;
+		cursor: not-allowed;
+	}
+}
+
+.icon-button {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border: none;
+	border-radius: 8px;
+	padding: 3px;
+	font-size: 0.95rem;
+	font-weight: 600;
+	background: transparent;
+	transition: background-color 0.2s ease, color 0.2s ease;
+	cursor: pointer;
+
+	&.primary {
+		img {
+			filter: var.$primary-color-filter;
+		}
+
+		&:hover {
+			background: var.$primary-color-hover;
+
+			img {
+				filter: var.$white-color-filter;
+			}
+		}
+	}
+
+	&.secondary {
+		img {
+			filter: var.$secondary-color-filter;
+		}
+
+		&:hover {
+			background: var.$secondary-color-hover;
+
+			img {
+				filter: var.$black-color-filter;
+			}
+		}
+	}
+
+	&.success {
+		img {
+			filter: var.$success-color-filter;
+		}
+
+		&:hover {
+			background: var.$success-color-hover;
+
+			img {
+				filter: var.$white-color-filter;
+			}
+		}
+	}
+
+	&.danger {
+		img {
+			filter: var.$danger-color-filter;
+		}
+
+		&:hover {
+			background: var.$danger-color-hover;
+
+			img {
+				filter: var.$white-color-filter;
+			}
+		}
+	}
+
+	&:disabled {
+		opacity: 0.5;
+		cursor: not-allowed;
+	}
+}

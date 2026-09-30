@@ -1,6 +1,7 @@
 import React, { type ReactNode } from "react";
 import { clsx } from "clsx";
 import closeIcon from "../assets/icons/close.svg";
+import "@styles/main.scss";
 import "@styles/components/confirmation-modal.scss";
 
 interface ConfirmationModalProps {
@@ -37,7 +38,7 @@ export default function ConfirmationModal({
 			>
 				<div className="modal-header">
 					<h2 id="confirmation-modal-title">{title}</h2>
-					<button type="button" className="close-button" onClick={onClose} aria-label="Close dialog">
+					<button className="icon-button secondary" onClick={onClose} aria-label="Close dialog">
 						<img src={closeIcon} alt="close dialog" />
 					</button>
 				</div>
@@ -45,10 +46,19 @@ export default function ConfirmationModal({
 				<div className="modal-content">{content}</div>
 
 				<div className="modal-actions">
-					<button type="button" className="secondary-button" onClick={onClose}>
+					<button className="button secondary" onClick={onClose}>
 						{cancelText}
 					</button>
-					<button type="button" className={clsx("primary-button", isDanger && "danger-button")} onClick={onConfirm}>
+					<button
+						type="button"
+						className={clsx(
+							{
+								"button primary": !isDanger,
+								"outline-button danger": isDanger
+							}
+						)}
+						onClick={onConfirm}
+					>
 						{confirmText}
 					</button>
 				</div>

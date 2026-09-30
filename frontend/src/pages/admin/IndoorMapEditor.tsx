@@ -9,7 +9,11 @@ import SvgViewerComponent, { type SvgViewerHandle } from "../../components/SvgVi
 import api from "../../api";
 import circleIcon from "@assets/icons/circle.svg";
 import lineIcon from "@assets/icons/remove.svg";
+import editIcon from "@assets/icons/edit.svg";
+import saveIcon from "@assets/icons/save.svg";
+import "@styles/main.scss";
 import "@styles/pages/indoor-map-editor.scss";
+import EditBuildingModal from "../../components/EditBuildingModal";
 
 interface GetIndoorMapResponse {
 	svg: string;
@@ -55,6 +59,7 @@ export default function IndoorMapEditor(): React.JSX.Element {
 	const [hoveredEdge, setHoveredEdge] = useState<Edge | null>(null);
 	const [selectedTool, setSelectedTool] = useState<Tool>(Tool.SingleSelect);
 	const [changesMade, setChangesMade] = useState(false);
+	const [showEditBuildingModal, setShowEditBuildingModal] = useState(false);
 	const [savePending, setSavePending] = useState(false);
 	const [discardPending, setDiscardPending] = useState(false);
 	const [nodeTypeToCreate, setNodeTypeToCreate] = useState<string>("room");
@@ -471,15 +476,15 @@ export default function IndoorMapEditor(): React.JSX.Element {
 		<>
 			<div className="header-row">
 				<div className="left-side">
-					{/*Building Dropdown*/}
+					{/* Building Dropdown */}
 					<div className="selector-container">
-						<p>Select building:</p>
+						<p>Building:</p>
 						<select
 							value={selectedBuilding?.code || ""}
 							onChange={(e) => onSelectedBuildingChange(buildings.find(b => b.code === e.target.value)!)}
 							disabled={changesMade}
 						>
-							<option value="" disabled>-- Select building --</option>
+							<option value="" disabled>---</option>
 
 							{buildings.length > 0 && buildings.map((building) => (
 								<option key={building.code} value={building.code}>{building.code}</option>
@@ -487,16 +492,16 @@ export default function IndoorMapEditor(): React.JSX.Element {
 						</select>
 					</div>
 
-					{/*Floor Dropdown*/}
+					{/* Floor Dropdown */}
 					{selectedBuilding && (
 						<div className="selector-container">
-							<p>Select floor:</p>
+							<p>Floor:</p>
 							<select
 								value={selectedFloor || ""}
 								onChange={(e) => onSelectedFloorChange(parseInt(e.target.value))}
 								disabled={changesMade}
 							>
-								<option value="" disabled>-- Select floor --</option>
+								<option value="" disabled>---</option>
 
 								{Array.from({ length: selectedBuilding?.num_floors || 0 }, (_, i) => (
 									<option key={i + 1} value={i + 1}>{i + 1}</option>
@@ -504,12 +509,24 @@ export default function IndoorMapEditor(): React.JSX.Element {
 							</select>
 						</div>
 					)}
+
+					{/* Edit Building Button */}
+					{selectedBuilding && (
+						<button
+							onClick={() => { setShowEditBuildingModal(true); }}
+							disabled={selectedBuilding === null || changesMade}
+							className="outline-button secondary"
+						>
+							<img src={editIcon} alt="edit icon" />
+							Edit Building
+						</button>
+					)}
 				</div>
 
-				{/*Node Type Dropdown*/}
+				{/* Node Type Dropdown */}
 				{selectedTool === Tool.CreateNode && (
 					<div className="selector-container">
-						<p>Node type to create:</p>
+						<p>New Node's Type:</p>
 
 						<select value={nodeTypeToCreate} onChange={(e) => setNodeTypeToCreate(e.target.value)}>
 							{Object.values(NodeType).map((type) => (
@@ -522,21 +539,22 @@ export default function IndoorMapEditor(): React.JSX.Element {
 				)}
 
 				<div className="right-side">
-					{/*Discard Button*/}
+					{/* Discard Button */}
 					<button
 						onClick={() => { setDiscardPending(true); }}
 						disabled={!changesMade}
-						className="discard"
+						className="outline-button danger"
 					>
 						Discard
 					</button>
 
-					{/*Save Button*/}
+					{/* Save Button */}
 					<button
 						onClick={() => { setSavePending(true); }}
 						disabled={!changesMade}
-						className="save"
+						className="button primary"
 					>
+						<img src={saveIcon} alt="save icon" />
 						Save
 					</button>
 				</div>
@@ -658,6 +676,14 @@ export default function IndoorMapEditor(): React.JSX.Element {
 						isDanger={true}
 					/>
 				</div>
+			)}
+
+			{/* Edit Building Modal */}
+			{showEditBuildingModal && (
+				<EditBuildingModal
+					bld_id={selectedBuilding!.id}
+					onClose={() => setShowEditBuildingModal(false)}
+				/>
 			)}
 		</>
 	);

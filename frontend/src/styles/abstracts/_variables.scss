@@ -1,0 +1,32 @@
+// Button Colors
+$primary-color: #2563eb;
+$primary-color-hover: #1d4ed8;
+
+$secondary-color: #bbbdc1;
+$secondary-color-hover: #878a8e;
+
+$success-color: #16a34a;
+$success-color-hover: #15803d;
+
+$danger-color: #dc2626;
+$danger-color-hover: #b91c1c;
+
+// Button Text Colors
+$primary-text-color: #ffffff;
+$secondary-text-color: #000000;
+
+// Button Color Filters
+$white-color-filter: brightness(0) invert(1);
+$black-color-filter: brightness(0) invert(0);
+
+$primary-color-filter: brightness(0) saturate(100%) invert(38%) sepia(92%) saturate(3822%) hue-rotate(213deg) brightness(91%) contrast(102%);
+$primary-color-hover-filter: brightness(0) saturate(100%) invert(21%) sepia(77%) saturate(4834%) hue-rotate(226deg) brightness(89%) contrast(90%);
+
+$secondary-color-filter: brightness(0) saturate(100%) invert(91%) sepia(6%) saturate(109%) hue-rotate(181deg) brightness(102%) contrast(92%);
+$secondary-color-hover-filter: brightness(0) saturate(100%) invert(93%) sepia(10%) saturate(119%) hue-rotate(177deg) brightness(90%) contrast(95%);
+
+$success-color-filter: brightness(0) saturate(100%) invert(43%) sepia(17%) saturate(4020%) hue-rotate(106deg) brightness(100%) contrast(83%);
+$success-color-hover-filter: brightness(0) saturate(100%) invert(21%) sepia(89%) saturate(3838%) hue-rotate(144deg) brightness(89%) contrast(84%);
+
+$danger-color-filter: brightness(0) saturate(100%) invert(34%) sepia(47%) saturate(5420%) hue-rotate(342deg) brightness(83%) contrast(108%);
+$danger-color-hover-filter: brightness(0) saturate(100%) invert(17%) sepia(98%) saturate(2670%) hue-rotate(348deg) brightness(84%) contrast(98%);
