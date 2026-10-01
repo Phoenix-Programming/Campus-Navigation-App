@@ -12,7 +12,7 @@
 		"coverage": "rimraf coverage && npx vitest --coverage --passWithNoTests run"
 	},
 	"dependencies": {
-		"axios": "^1.18.0",
+		"axios": "^1.20.0",
 		"geojson": "^0.5.0",
 		"leaflet": "^1.9.4",
 		"leaflet-routing-machine": "^3.2.12",
