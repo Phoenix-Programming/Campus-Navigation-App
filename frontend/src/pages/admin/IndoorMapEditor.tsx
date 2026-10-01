@@ -25,6 +25,13 @@ interface GetBuildingsResponse {
 	buildings: Building[];
 }
 
+interface UpdateIndoorMapRequest {
+	bld_code: string;
+	floor_num: number;
+	nodes: Node[];
+	edges: Edge[];
+}
+
 interface Building {
 	id: number;
 	name: string;
@@ -464,16 +471,37 @@ export default function IndoorMapEditor(): React.JSX.Element {
 	}
 
 	async function discardChanges(): Promise<void> {
+		console.log("Discarding changes...");
+
 		await loadMapData();
+
 		setChangesMade(false);
 		setDiscardPending(false);
 	}
 
-	function saveChanges(): void {
+	async function saveChanges(): Promise<void> {
 		console.log("Saving changes...");
-		// TODO: Implement the logic to save changes to the database
+
+		await postChangesToDatabase();
+
+		await loadMapData();
 		setChangesMade(false);
 		setSavePending(false);
+	}
+
+	async function postChangesToDatabase(): Promise<void> {
+		try {
+			const payload: UpdateIndoorMapRequest = {
+				bld_code: selectedBuilding!.code,
+				floor_num: selectedFloor!,
+				nodes: nodes!,
+				edges: edges!
+			};
+
+			await api.post("/api/buildings/map", payload);
+		} catch (error) {
+			console.error("Error saving changes to the database:", error);
+		}
 	}
 
 	return (
