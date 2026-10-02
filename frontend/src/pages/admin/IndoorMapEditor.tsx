@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { clsx } from "clsx";
 import ConfirmationModal from "../../components/ConfirmationModal";
 import EdgeComponent, { isEdge, type Edge } from "../../components/EdgeComponent";
-import EditBuildingModal from "../../components/EditBuildingModal";
+import BuildingModal from "../../components/BuildingModal";
 import IndoorGraphContextComponent from "../../components/IndoorGraphContextComponent";
 import IndoorMapEditorToolbar, { Tool } from "../../components/IndoorMapEditorToolbar";
 import NodeComponent, { isNode, NodeType, type Node } from "../../components/NodeComponent";
@@ -10,6 +10,7 @@ import SvgViewerComponent, { type SvgViewerHandle } from "../../components/SvgVi
 import api from "../../api";
 import circleIcon from "@assets/icons/circle.svg";
 import lineIcon from "@assets/icons/remove.svg";
+import addIcon from "@assets/icons/add.svg";
 import editIcon from "@assets/icons/edit.svg";
 import saveIcon from "@assets/icons/save.svg";
 import "@styles/main.scss";
@@ -67,6 +68,7 @@ export default function IndoorMapEditor(): React.JSX.Element {
 	const [selectedTool, setSelectedTool] = useState<Tool>(Tool.SingleSelect);
 	const [changesMade, setChangesMade] = useState(false);
 	const [showEditBuildingModal, setShowEditBuildingModal] = useState(false);
+	const [showCreateBuildingModal, setShowCreateBuildingModal] = useState(false);
 	const [savePending, setSavePending] = useState(false);
 	const [discardPending, setDiscardPending] = useState(false);
 	const [nodeTypeToCreate, setNodeTypeToCreate] = useState<string>("room");
@@ -89,14 +91,13 @@ export default function IndoorMapEditor(): React.JSX.Element {
 
 	async function onSelectedFloorChange(floor: number): Promise<void> {
 		setSelectedFloor(floor);
-		await loadMapData();
+		await loadMapData(selectedBuilding!.code, floor);
 	}
 
-	async function loadMapData(): Promise<void> {
-		setSelectedFloor(selectedFloor);
+	async function loadMapData(bld_code: string, floor: number): Promise<void> {
 		clearMapData();
 
-		await getIndoorMapData(selectedBuilding!.code, selectedFloor!);
+		await getIndoorMapData(bld_code, floor);
 
 		// Temporary hardcoded data for testing purposes
 		setNodes([
@@ -256,19 +257,12 @@ export default function IndoorMapEditor(): React.JSX.Element {
 
 	function moveNode(nodeId: string, newX: number, newY: number): void {
 		setNodes(
-			(prevNodes) =>
-				prevNodes?.map((node) =>
-					node.id === nodeId ? { ...node, x: newX, y: newY } : node
-				) ?? null
+			(prevNodes) => prevNodes?.map((node) => (node.id === nodeId ? { ...node, x: newX, y: newY } : node)) ?? null
 		);
 
-		setSelectedNode((prevNode) =>
-			prevNode?.id === nodeId ? { ...prevNode, x: newX, y: newY } : prevNode
-		);
+		setSelectedNode((prevNode) => (prevNode?.id === nodeId ? { ...prevNode, x: newX, y: newY } : prevNode));
 
-		setHoveredNode((prevNode) =>
-			prevNode?.id === nodeId ? { ...prevNode, x: newX, y: newY } : prevNode
-		);
+		setHoveredNode((prevNode) => (prevNode?.id === nodeId ? { ...prevNode, x: newX, y: newY } : prevNode));
 
 		setChangesMade(true);
 	}
@@ -343,17 +337,14 @@ export default function IndoorMapEditor(): React.JSX.Element {
 			.map(Number)
 			.filter((value) => Number.isFinite(value));
 		const normalizedSvgWidth =
-			Number.isFinite(svgWidth) && svgWidth > 0
-				? svgWidth
-				: viewBoxValues && viewBoxValues.length >= 4
-					? viewBoxValues[2]
-					: 0;
+			Number.isFinite(svgWidth) &&
+				svgWidth > 0 ? svgWidth : viewBoxValues &&
+				viewBoxValues.length >= 4 ? viewBoxValues[2] : 0;
+
 		const normalizedSvgHeight =
-			Number.isFinite(svgHeight) && svgHeight > 0
-				? svgHeight
-				: viewBoxValues && viewBoxValues.length >= 4
-					? viewBoxValues[3]
-					: 0;
+			Number.isFinite(svgHeight) &&
+				svgHeight > 0 ? svgHeight : viewBoxValues &&
+				viewBoxValues.length >= 4 ? viewBoxValues[3] : 0;
 
 		if (
 			!Number.isFinite(x) ||
@@ -400,17 +391,32 @@ export default function IndoorMapEditor(): React.JSX.Element {
 	}
 
 	function updateNode(nodeId: string, newLabel: string | null, newType: string | null): void {
+		let updatedNode: Node | null = null;
+
 		setNodes((prevNodes) =>
 			prevNodes!.map((node) => {
 				if (node.id !== nodeId) return node;
 
-				return {
+				updatedNode = {
 					...node,
 					name: newLabel !== null ? newLabel : node.name,
 					type: newType !== null ? newType : node.type
 				};
+
+				return updatedNode;
 			})
 		);
+
+		if (updatedNode !== null) {
+			const nextUpdatedNode: Node = updatedNode;
+
+			setSelectedNode((prevNode) => (prevNode?.id === nodeId ? updatedNode : prevNode));
+			setHoveredNode((prevNode) => (prevNode?.id === nodeId ? updatedNode : prevNode));
+			setSelectedNodesAndEdges((prevSelection) => new Set(
+				Array.from(prevSelection).map((item) => (isNode(item) && item.id === nodeId ? nextUpdatedNode : item))
+			));
+		}
+
 		setChangesMade(true);
 	}
 
@@ -454,16 +460,15 @@ export default function IndoorMapEditor(): React.JSX.Element {
 		});
 
 		setSelectedNodesAndEdges(
-			(prevSelection) =>
-				new Set(Array.from(prevSelection).filter((item) => {
-					if (!isEdge(item)) return true;
+			(prevSelection) => new Set(Array.from(prevSelection).filter((item) => {
+				if (!isEdge(item)) return true;
 
-					const matchesEdge: boolean =
-						(item.sourceNodeId === nodeIdA && item.targetNodeId === nodeIdB) ||
-						(item.sourceNodeId === nodeIdB && item.targetNodeId === nodeIdA);
+				const matchesEdge: boolean =
+					(item.sourceNodeId === nodeIdA && item.targetNodeId === nodeIdB) ||
+					(item.sourceNodeId === nodeIdB && item.targetNodeId === nodeIdA);
 
-					return !matchesEdge;
-				}))
+				return !matchesEdge;
+			}))
 		);
 
 		setHoveredNode((prevNode) => (prevNode && (prevNode.id === nodeIdA || prevNode.id === nodeIdB) ? null : prevNode));
@@ -473,7 +478,7 @@ export default function IndoorMapEditor(): React.JSX.Element {
 	async function discardChanges(): Promise<void> {
 		console.log("Discarding changes...");
 
-		await loadMapData();
+		await loadMapData(selectedBuilding!.code, selectedFloor!);
 
 		setChangesMade(false);
 		setDiscardPending(false);
@@ -484,7 +489,7 @@ export default function IndoorMapEditor(): React.JSX.Element {
 
 		await postChangesToDatabase();
 
-		await loadMapData();
+		await loadMapData(selectedBuilding!.code, selectedFloor!);
 		setChangesMade(false);
 		setSavePending(false);
 	}
@@ -513,7 +518,7 @@ export default function IndoorMapEditor(): React.JSX.Element {
 						<p>Building:</p>
 						<select
 							value={selectedBuilding?.code || ""}
-							onChange={(e) => onSelectedBuildingChange(buildings.find(b => b.code === e.target.value)!)}
+							onChange={(e) => onSelectedBuildingChange(buildings.find((b) => b.code === e.target.value)!)}
 							disabled={changesMade}
 						>
 							<option value="" disabled>---</option>
@@ -540,6 +545,17 @@ export default function IndoorMapEditor(): React.JSX.Element {
 								))}
 							</select>
 						</div>
+					)}
+
+					{/* Create Building Button */}
+					{!selectedBuilding && (
+						<button
+							onClick={() => { setShowCreateBuildingModal(true); }}
+							className="outline-button secondary"
+						>
+							<img src={addIcon} alt="create icon" />
+							Create Building
+						</button>
 					)}
 
 					{/* Edit Building Button */}
@@ -665,8 +681,8 @@ export default function IndoorMapEditor(): React.JSX.Element {
 							(hoveredEdge && hoveredEdge !== selectedEdge)
 						) && (
 							selectedNodesAndEdges.size !== 1 || (
-								hoveredNode !== Array.from(selectedNodesAndEdges)[0] as Node &&
-								hoveredEdge !== Array.from(selectedNodesAndEdges)[0] as Edge
+								hoveredNode !== (Array.from(selectedNodesAndEdges)[0] as Node) &&
+								hoveredEdge !== (Array.from(selectedNodesAndEdges)[0] as Edge)
 							)
 						) && (
 							<IndoorGraphContextComponent
@@ -710,12 +726,12 @@ export default function IndoorMapEditor(): React.JSX.Element {
 				</div>
 			)}
 
+			{/* Create Building Modal */}
+			{showCreateBuildingModal && <BuildingModal onClose={() => setShowCreateBuildingModal(false)} />}
+
 			{/* Edit Building Modal */}
 			{showEditBuildingModal && (
-				<EditBuildingModal
-					bld_id={selectedBuilding!.id}
-					onClose={() => setShowEditBuildingModal(false)}
-				/>
+				<BuildingModal bld_id={selectedBuilding!.id} onClose={() => setShowEditBuildingModal(false)} />
 			)}
 		</>
 	);

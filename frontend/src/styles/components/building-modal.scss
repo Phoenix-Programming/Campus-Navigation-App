@@ -9,12 +9,16 @@
 	background: rgba(0, 0, 0, 0.55);
 	z-index: 1000;
 
-	.edit-building-modal {
+	.building-modal {
 		width: min(600px, calc(100vw - 32px));
+		height: min(80vh, calc(100vh - 32px));
 		background: #484848;
 		border-radius: 12px;
 		box-shadow: 0 12px 32px rgba(0, 0, 0, 0.2);
 		padding: 20px 20px 16px;
+		display: flex;
+		flex-direction: column;
+		overflow: hidden;
 
 		.modal-header {
 			display: flex;
@@ -22,6 +26,10 @@
 			justify-content: space-between;
 			gap: 16px;
 			margin-bottom: 12px;
+			position: sticky;
+			top: 0;
+			z-index: 2;
+			background: #484848;
 
 			h2 {
 				margin: 0;
@@ -32,12 +40,16 @@
 		}
 
 		.modal-body {
+			flex: 1;
+			min-height: 0;
+			overflow-y: auto;
 			margin-bottom: 10px;
 			line-height: 1.5;
 			color: #ffffff;
 			display: flex;
 			flex-direction: column;
 			justify-content: flex-start;
+			padding-right: 4px;
 
 			.svg-uploads {
 				display: flex;
@@ -78,11 +90,21 @@
 					font-weight: 400;
 					color: #ffffff;
 				}
+
+				&:has(input:required, select:required) .label::after {
+					content: " *";
+					color: red;
+					font-weight: bold;
+				}
 			}
 
 			.divider {
-				width: 60%;
+				width: 100%;
 				border: 1px solid #393939;
+			}
+
+			h3 {
+				margin: 0 0 12px 0;
 			}
 		}
 
@@ -90,6 +112,11 @@
 			display: flex;
 			justify-content: flex-end;
 			gap: 10px;
+			position: sticky;
+			bottom: 0;
+			z-index: 2;
+			background: #484848;
+			padding-top: 8px;
 		}
 	}
 }

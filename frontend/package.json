@@ -19,6 +19,7 @@
 		"jwt-decode": "^4.0.0",
 		"leaflet": "^1.9.4",
 		"leaflet-routing-machine": "^3.2.12",
+		"numerable": "^0.3.15",
 		"react": "^19.1.1",
 		"react-dom": "^19.1.1",
 		"react-leaflet": "^5.0.0",

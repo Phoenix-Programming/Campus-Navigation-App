@@ -74,7 +74,8 @@ export default function IndoorGraphContextComponent({
 							<input
 								value={node!.name}
 								onChange={(e) => setSelectedNodeLabel(e.target.value)}
-								placeholder="Enter label"
+								placeholder="Enter label (optional)"
+								style={{ height: "24px" }}
 							/>
 						</div>
 
@@ -84,6 +85,7 @@ export default function IndoorGraphContextComponent({
 							<select
 								value={node?.type}
 								onChange={(e) => setSelectedNodeType(e.target.value)}
+								style={{ height: "24px" }}
 							>
 								{Object.values(NodeType).map((type) => (
 									<option key={type} value={type}>
@@ -130,7 +132,7 @@ export default function IndoorGraphContextComponent({
 		<div className="context-overlay">
 			<div className="context-container">
 				<span className="title">{getTitle()}</span>
-				
+
 				{getContent()}
 
 				{/* Delete Button */}
