@@ -11,4 +11,6 @@ class Building(IdMixin, UpdateLoggingMixin, Base):
 
 	name: Mapped[str] = mapped_column(String, unique=True, nullable=False)
 	code: Mapped[str] = mapped_column(String, unique=True, nullable=False, index=True)
+	address: Mapped[str] = mapped_column(String, nullable=False)
+	category_id: Mapped[int] = mapped_column(ForeignKey("building_categories.id"), nullable=False)
 	num_floors: Mapped[int] = mapped_column(nullable=False)

@@ -1,6 +1,7 @@
 from sqlalchemy import Result, select, text
-from backend.exceptions import BuildingCodeNotFoundError, FloorNumberNotFoundError
+from backend.exceptions import BuildingCodeNotFoundError, FloorNumberNotFoundError, BuildingCategoryNotFoundError
 from backend.schema.building import Building
+from backend.schema.building_category import BuildingCategory
 from backend.schema.floor import Floor
 from backend.schema.indoor_edge import IndoorEdge
 from backend.schema.indoor_node import IndoorNode
@@ -13,6 +14,7 @@ class BuildingRepository:
 
         return list(buildings_result.scalars().all())
 
+
     async def get_building_id_by_building_code(self, bld_code: str, db: Database) -> int:
         buildings_result: Result[tuple[Building]] = await db.execute(
             select(Building)
@@ -24,6 +26,7 @@ class BuildingRepository:
         if not bld: raise BuildingCodeNotFoundError()
 
         return bld.id
+
 
     async def get_floor_id(self, bld_id: int, floor_num: int, db: Database) -> int:
         floors_result: Result[tuple[Floor]] = await db.execute(
@@ -49,6 +52,7 @@ class BuildingRepository:
 
         return floor.svg
 
+
     async def get_all_indoor_nodes_for_bld_floor(self, bld_id: int, floor_id: int, db: Database) -> list[IndoorNode]:
         nodes_result: Result[tuple[IndoorNode]] = await db.execute(select(IndoorNode).where(
             IndoorNode.building_id == bld_id, IndoorNode.floor_id == floor_id
@@ -56,12 +60,14 @@ class BuildingRepository:
 
         return list(nodes_result.scalars().all())
 
+
     async def get_all_indoor_edges_for_bld_floor(self, bld_id: int, floor_id: int, db: Database) -> list[IndoorEdge]:
         edges_result: Result[tuple[IndoorEdge]] = await db.execute(select(IndoorEdge).where(
             IndoorEdge.building_id == bld_id, IndoorEdge.floor_id == floor_id
         ))
 
         return list(edges_result.scalars().all())
+
 
     async def insert_indoor_nodes(
         self,
@@ -84,6 +90,7 @@ class BuildingRepository:
             await db.rollback()
             raise
 
+
     async def insert_indoor_edges(
         self,
         bld_id: int,
@@ -105,6 +112,7 @@ class BuildingRepository:
             await db.rollback()
             raise
 
+
     async def delete_all_indoor_nodes(self, db: Database) -> None:
         try:
             await db.execute(text("TRUNCATE TABLE indoor_nodes"))
@@ -113,9 +121,62 @@ class BuildingRepository:
             await db.rollback()
             raise
 
+
     async def delete_all_indoor_edges(self, db: Database) -> None:
         try:
             await db.execute(text("TRUNCATE TABLE indoor_edges"))
+            await db.commit()
+        except:
+            await db.rollback()
+            raise
+
+
+    async def get_building_category_id_by_category_type(self, category_type: str, db: Database) -> int:
+        result: Result[tuple[int]] = await db.execute(
+            select(BuildingCategory.id)
+            .where(BuildingCategory.category == category_type)
+        )
+
+        category_id: int | None = result.scalar_one_or_none()
+
+        if not category_id: raise BuildingCategoryNotFoundError(category_type=category_type)
+
+        return category_id
+
+
+    async def insert_building(
+        self,
+        name: str,
+        code: str,
+        address: str,
+        category_id: int,
+        num_floors: int,
+        floor_svgs: list[str],
+        current_user_id: int,
+        db: Database
+    ) -> None:
+        building: Building = Building(
+            name=name,
+            code=code,
+            address=address,
+            category_id=category_id,
+            num_floors=num_floors,
+            last_updated_by=current_user_id
+        )
+
+        db.add(building)
+
+        await db.flush()
+
+        for floor_num, svg in enumerate(floor_svgs, start=1):
+            floor: Floor = Floor(
+                building_id=building.id,
+                floor_num=floor_num,
+                svg=svg
+            )
+            db.add(floor)
+
+        try:
             await db.commit()
         except:
             await db.rollback()

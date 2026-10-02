@@ -13,6 +13,7 @@ class BuildingsService:
 	def __init__(self) -> None:
 		self.repo: BuildingRepository = BuildingRepository()
 
+
 	async def get_all_buildings(self, db: Database) -> GetAllBuildingsResponse:
 		buildings: list[Building] = await self.repo.get_all_buildings(db=db)
 
@@ -22,6 +23,7 @@ class BuildingsService:
         ])
 
 		return response
+
 
 	async def getIndoorMap(self, bld_code: str, floor_num: int, db: Database) -> GetIndoorMapResponse:
 		bld_id: int = await self.repo.get_building_id_by_building_code(bld_code=bld_code, db=db)
@@ -41,6 +43,7 @@ class BuildingsService:
 		)
 
 		return response
+
 
 	async def updateIndoorMap(
 		self,
@@ -74,5 +77,38 @@ class BuildingsService:
 			floor_id=floor_id,
 			source_nodes_ids=[edge.source_node_id for edge in edges],
 			target_nodes_ids=[edge.target_node_id for edge in edges],
+			db=db
+		)
+
+
+	async def createBuilding(
+		self,
+		name: str,
+		code: str,
+		address: str,
+		category_type: str,
+		num_floors: int,
+		floor_svgs: list[str],
+		current_user: CurrentUserContext,
+		db: Database
+	) -> None:
+		if current_user.user.role not in ["admin", "editor"]: raise NotAuthorizedToEditIndoorMapError()
+
+		if len(floor_svgs) != num_floors:
+			raise ValueError("Number of floor SVGs must match the number of floors")
+
+		category_id: int = await self.repo.get_building_category_id_by_category_type(
+      		category_type=category_type,
+        	db=db
+        )
+
+		await self.repo.insert_building(
+			name=name,
+			code=code,
+			address=address,
+			category_id=category_id,
+			num_floors=num_floors,
+			floor_svgs=floor_svgs,
+			current_user_id=current_user.user.id,
 			db=db
 		)

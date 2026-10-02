@@ -63,6 +63,8 @@ async def populate() -> None:
 					insert(Building).values(
 						name=building_data["name"],
 						code=building_data["code"],
+						address=building_data["address"],
+						category_id=building_data["category_id"],
 						num_floors=building_data["num_floors"],
 						last_updated_by=first_user_id
 					)

@@ -41,11 +41,15 @@ BUILDINGS = [
     {
         "name": "Innovation, Science, and Technology Building",
         "code": "IST",
+        "address": "4450 Polytechnic Cir, Lakeland, FL 33805",
+        "category_id": 1,  # Academic
         "num_floors": 2
     },
     {
         "name": "Barnett Applied Research Center",
         "code": "BARC",
+        "address": "4440 Polytechnic Cir, Lakeland, FL 33805",
+        "category_id": 1,  # Academic
         "num_floors": 2
     },
 ]
