@@ -1,0 +1,144 @@
+@use "../abstracts/variables" as *;
+
+.notification-container {
+	position: fixed;
+	right: 1.5rem;
+	bottom: 1.5rem;
+	z-index: 2000;
+	display: flex;
+	flex-direction: column;
+	gap: 0.75rem;
+	width: min(22rem, calc(100vw - 2rem));
+	pointer-events: none;
+
+	.notification {
+		position: relative;
+		display: flex;
+		align-items: flex-start;
+		justify-content: space-between;
+		gap: 1rem;
+		padding: 1rem 0.9rem 1rem 1rem;
+		border-radius: 0.875rem;
+		background: rgba(15, 17, 23, 0.94);
+		border: 1px solid rgba(148, 163, 184, 0.25);
+		box-shadow: 0 18px 40px rgba(15, 23, 42, 0.45);
+		pointer-events: auto;
+		overflow: hidden;
+		opacity: 0;
+		transform: translateY(12px) scale(0.96);
+		animation: notification-enter 220ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
+
+		&::before {
+			content: "";
+			position: absolute;
+			inset: 0 auto 0 0;
+			width: 4px;
+			background: var(--notification-accent, #3b82f6);
+		}
+
+		&.is-removing {
+			animation: notification-leave 200ms ease-in forwards;
+		}
+
+		&.info {
+			--notification-accent: #3b82f6;
+			background: rgba(29, 78, 216, 0.12);
+			border-color: rgba(96, 165, 250, 0.5);
+		}
+
+		&.warning {
+			--notification-accent: #f59e0b;
+			background: rgba(146, 64, 14, 0.16);
+			border-color: rgba(251, 191, 36, 0.42);
+		}
+
+		&.error {
+			--notification-accent: #ef4444;
+			background: rgba(127, 29, 29, 0.2);
+			border-color: rgba(248, 113, 113, 0.45);
+		}
+
+		&.success {
+			--notification-accent: #22c55e;
+			background: rgba(20, 83, 45, 0.18);
+			border-color: rgba(74, 222, 128, 0.45);
+		}
+
+		.content {
+			flex: 1;
+			min-width: 0;
+
+			.title {
+				margin: 0;
+				font-size: 0.85rem;
+				font-weight: 700;
+				letter-spacing: 0.02em;
+				color: $primary-text-color;
+			}
+
+			.message {
+				margin: 0.25rem 0 0;
+				font-size: 0.8rem;
+				line-height: 1.4;
+				color: $secondary-text-color;
+			}
+		}
+
+		.close {
+			position: relative;
+			width: 2rem;
+			height: 2rem;
+			flex-shrink: 0;
+			display: inline-flex;
+			align-items: center;
+			justify-content: center;
+			padding: 0;
+			cursor: pointer;
+			transition:
+				transform 0.15s ease,
+				background-color 0.15s ease,
+				box-shadow 0.15s ease;
+			margin-top: 0.15rem;
+
+			&:hover {
+				transform: translateY(-1px);
+			}
+
+			& img {
+				display: block;
+				width: 1.5rem;
+				height: 1.5rem;
+			}
+		}
+	}
+}
+
+@keyframes notification-enter {
+	0% {
+		opacity: 0;
+		transform: translateY(12px) scale(0.96);
+	}
+	100% {
+		opacity: 1;
+		transform: translateY(0) scale(1);
+	}
+}
+
+@keyframes notification-leave {
+	0% {
+		opacity: 1;
+		transform: translateY(0) scale(1);
+	}
+	100% {
+		opacity: 0;
+		transform: translateY(-8px) scale(0.96);
+	}
+}
+
+@media (max-width: 640px) {
+	.notification-container {
+		right: 0.75rem;
+		bottom: 0.75rem;
+		width: min(20rem, calc(100vw - 1.5rem));
+	}
+}

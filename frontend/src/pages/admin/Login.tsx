@@ -1,6 +1,7 @@
 import { useRef, type JSX } from "react";
 import api from "../../api";
 import { storeAuthTokens } from "../../auth/session";
+import { showError, showSuccess, showWarning } from "../../services/notifications";
 
 export default function LoginPage(): JSX.Element {
 	const loginFormRef = useRef<HTMLFormElement>(null);
@@ -12,22 +13,34 @@ export default function LoginPage(): JSX.Element {
 
 	const loginUser = async () => {
 		try {
-			const data = new FormData(loginFormRef.current!);
+			const form: HTMLFormElement = loginFormRef.current!;
+			const formData: FormData = new FormData(form);
+			const username: string = String(formData.get("username") ?? "").trim();
+			const password: string = String(formData.get("password") ?? "").trim();
 
-			console.log("Logging in with data:", data);
-			const response = await api.post(`/api/users/login`, data);
+			if (!username || !password) {
+				showWarning("Please enter both your username and password.", "Missing Login Details");
+				return;
+			}
 
-			console.log("Login response:", response);
+			const response = await api.post(`/api/users/login`, formData, {
+				validateStatus: function (_) { return true; }
+			});
 
 			if (response.status === 200) {
-				alert("Login successful!");
-
+				showSuccess("Welcome back!", "Login Successful!");
 				storeAuthTokens(response.data);
-			} else {
-				alert("Failed to login.");
+				return;
+			}
+
+			if (response.status === 401) {
+				console.warn("Login failed: Invalid credentials");
+				showWarning("Please try again.", "Incorrect Username or Password");
+				return;
 			}
 		} catch (error) {
 			console.error("Error logging in:", error);
+			showError(error instanceof Error ? error.message : "Unable to log in right now.", "Login Failed");
 		}
 	};
 

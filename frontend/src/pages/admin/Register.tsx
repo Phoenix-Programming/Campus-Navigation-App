@@ -1,43 +1,46 @@
 import { useRef, type JSX } from "react";
 import api from "../../api";
-
+import { showError, showSuccess, showWarning } from "../../services/notifications";
 
 export default function RegisterPage(): JSX.Element {
 	const emailInputRef = useRef<HTMLInputElement>(null);
 	const usernameInputRef = useRef<HTMLInputElement>(null);
 	const passwordInputRef = useRef<HTMLInputElement>(null);
 
-
 	const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
 		registerUser();
 	};
 
-
 	const registerUser = async () => {
 		try {
 			const data = {
-				email: emailInputRef.current?.value,
-				username: usernameInputRef.current?.value,
-				password: passwordInputRef.current?.value,
+				email: emailInputRef.current?.value?.trim(),
+				username: usernameInputRef.current?.value?.trim(),
+				password: passwordInputRef.current?.value
 			};
-			console.log("Registering user with data:", {
-				email: data.email,
-				username: data.username,
-			});
+
+			if (!data.email || !data.username || !data.password || data.password.length < 8) {
+				showWarning(
+					"Please enter a valid email, username, and a password with at least 8 characters.",
+					"Incomplete Registration Form"
+				);
+				return;
+			}
 
 			const response = await api.post(`/api/users/register`, data);
 
 			if (response.status === 201) {
-				alert("User registered successfully!");
-			} else {
-				alert("Failed to register user.");
+				showSuccess("Registration successful.", "Account Created");
+				return;
 			}
+
+			showError("Registration could not be completed.", "Registration Failed");
 		} catch (error) {
 			console.error("Error registering user:", error);
+			showError(error instanceof Error ? error.message : "Registration failed.", "Account Creation Error");
 		}
 	};
-
 
 	return (
 		<section>

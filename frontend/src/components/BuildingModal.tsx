@@ -5,9 +5,9 @@ import ConfirmationModal from "./ConfirmationModal";
 import api from "../api";
 import closeIcon from "../assets/icons/close.svg";
 import uploadIcon from "../assets/icons/upload.svg";
+import { showError, showSuccess, showWarning } from "../services/notifications";
 import "@styles/main.scss";
 import "@styles/components/building-modal.scss";
-
 
 interface BuildingData {
 	category_type: string;
@@ -18,11 +18,9 @@ interface BuildingData {
 	floor_svgs: { [floorNumber: number]: string };
 }
 
-
 interface BuildingCategoriesResponse {
 	categories: string[];
 }
-
 
 interface BuildingModalProps {
 	bld_id?: number;
@@ -88,6 +86,10 @@ export default function BuildingModal({ bld_id, onClose }: BuildingModalProps): 
 			setBuildingCategoryTypes(response.categories);
 		} catch (error) {
 			console.error("Error fetching building category types:", error);
+			showError(
+				error instanceof Error ? error.message : "Unable to load building categories. Please close this window and try again.",
+				"Failed to Load Building Categories"
+			);
 		}
 	}
 
@@ -115,11 +117,20 @@ export default function BuildingModal({ bld_id, onClose }: BuildingModalProps): 
 			setBuildingDataLoaded(true);
 		} catch (error) {
 			console.error("Error fetching building data:", error);
+			showError(
+				error instanceof Error ? error.message : "Unable to load the building details.",
+				"Failed to Load Building Details"
+			);
 		}
 	}
 
 	async function saveChanges() {
 		try {
+			if (!requiredFieldsFilled()) {
+				showWarning("Please complete all required building details before saving.", "Incomplete Building Form");
+				return;
+			}
+
 			await api.put(`/api/buildings/${bld_id}`, {
 				category_type: buildingCategoryType,
 				name: buildingName,
@@ -129,14 +140,27 @@ export default function BuildingModal({ bld_id, onClose }: BuildingModalProps): 
 				floor_svgs: floorSvgs
 			});
 
+			showSuccess("Building updated successfully!", "Building Saved!");
 			onClose();
 		} catch (error) {
 			console.error("Error saving building changes:", error);
+			showError(
+				error instanceof Error ? error.message : "The building could not be updated. Please try again.",
+				"Failed to Save Building Changes"
+			);
 		}
 	}
 
 	async function createBuilding() {
 		try {
+			if (!requiredFieldsFilled()) {
+				showWarning(
+					"Please complete all required building details before creating the building.",
+					"Incomplete Building Form"
+				);
+				return;
+			}
+
 			await api.post("/api/buildings", {
 				category_type: buildingCategoryType,
 				name: buildingName,
@@ -146,9 +170,14 @@ export default function BuildingModal({ bld_id, onClose }: BuildingModalProps): 
 				floor_svgs: floorSvgs
 			});
 
+			showSuccess("Building created successfully!", "Building Created!");
 			onClose();
 		} catch (error) {
 			console.error("Error creating building:", error);
+			showError(
+				error instanceof Error ? error.message : "The building could not be created. Please try again.",
+				"Failed to Create Building"
+			);
 		}
 	}
 
@@ -187,7 +216,8 @@ export default function BuildingModal({ bld_id, onClose }: BuildingModalProps): 
 				</div>
 
 				{/* Body */}
-				{(bld_id === undefined || (buildingCategoryType !== null && buildingName && buildingCode && buildingAddress && numFloors !== null)) && (
+				{(bld_id === undefined ||
+					(buildingCategoryType !== null && buildingName && buildingCode && buildingAddress && numFloors !== null)) && (
 					<div className="modal-body">
 						{bld_id !== undefined && (
 							<div className="item same-row">
@@ -226,11 +256,13 @@ export default function BuildingModal({ bld_id, onClose }: BuildingModalProps): 
 									required
 								>
 									<option value="" disabled>
-										{buildingCategoryTypes.length === 0 ? "Loading..." : "---"}
+										{buildingCategoryTypes?.length === 0 ? "Loading..." : "---"}
 									</option>
 
-									{buildingCategoryTypes.map((type) => (
-										<option key={type} value={type}>{type}</option>
+									{buildingCategoryTypes?.map((type) => (
+										<option key={type} value={type}>
+											{type}
+										</option>
 									))}
 								</select>
 							</div>
@@ -267,7 +299,7 @@ export default function BuildingModal({ bld_id, onClose }: BuildingModalProps): 
 							<div className="svg-uploads">
 								{Array.from({ length: numFloors! }, (_, index) => index + 1).map((floorNumber) => (
 									<div key={floorNumber} className="item same-row">
-										<span className="label">{format(floorNumber, '0o')} Floor</span>
+										<span className="label">{format(floorNumber, "0o")} Floor</span>
 										<button className="button primary">
 											Upload
 											<img src={uploadIcon} alt="upload icon" />
@@ -323,9 +355,9 @@ export default function BuildingModal({ bld_id, onClose }: BuildingModalProps): 
 				isOpen={discardPending}
 				title={"Discard Building Changes?"}
 				content={
-					bld_id === undefined ?
-						"Are you sure you want to discard your new building? All unsaved changes will be lost." :
-						"Are you sure you want to discard your changes? All unsaved changes will be lost."
+					bld_id === undefined
+						? "Are you sure you want to discard your new building? All unsaved changes will be lost."
+						: "Are you sure you want to discard your changes? All unsaved changes will be lost."
 				}
 				onClose={() => setDiscardPending(false)}
 				onConfirm={onClose}

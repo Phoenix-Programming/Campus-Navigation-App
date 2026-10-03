@@ -30,7 +30,7 @@
 
 	&.secondary {
 		background: var.$secondary-color;
-		color: var.$secondary-text-color;
+		color: black;
 
 		img {
 			filter: var.$black-color-filter;
@@ -179,6 +179,18 @@
 	background: transparent;
 	transition: background-color 0.2s ease, color 0.2s ease;
 	cursor: pointer;
+
+	img {
+		filter: var.$white-color-filter;
+	}
+
+	&:hover {
+		background: white;
+
+		img {
+			filter: var.$black-color-filter;
+		}
+	}
 
 	&.primary {
 		img {

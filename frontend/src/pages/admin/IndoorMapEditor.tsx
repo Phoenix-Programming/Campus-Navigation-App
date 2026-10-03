@@ -8,6 +8,7 @@ import IndoorMapEditorToolbar, { Tool } from "../../components/IndoorMapEditorTo
 import NodeComponent, { isNode, NodeType, type Node } from "../../components/NodeComponent";
 import SvgViewerComponent, { type SvgViewerHandle } from "../../components/SvgViewerComponent";
 import api from "../../api";
+import { showError, showSuccess, showWarning } from "../../services/notifications";
 import circleIcon from "@assets/icons/circle.svg";
 import lineIcon from "@assets/icons/remove.svg";
 import addIcon from "@assets/icons/add.svg";
@@ -76,7 +77,9 @@ export default function IndoorMapEditor(): React.JSX.Element {
 	console.log("Current Selected Node:", selectedNode);
 	console.log("Current Selected Nodes and Edges:", Array.from(selectedNodesAndEdges));
 
-	useEffect(() => { getBuildings(); }, []);
+	useEffect(() => {
+		getBuildings();
+	}, []);
 
 	useEffect(() => {
 		if (svg !== null && nodes !== null && edges != null) setMapLoaded(true);
@@ -131,23 +134,33 @@ export default function IndoorMapEditor(): React.JSX.Element {
 			setBuildings(response.buildings);
 		} catch (error) {
 			console.error("Error fetching buildings:", error);
+			showError(
+				error instanceof Error ? error.message : "The building list could not be loaded.",
+				"Failed to Load Building List"
+			);
 		}
 	}
 
 	async function getIndoorMapData(bldCode: string, floor: number): Promise<void> {
 		try {
-			const response: GetIndoorMapResponse = (await api.get("/api/buildings/map", {
-				params: {
-					bld_code: bldCode,
-					floor_num: floor
-				}
-			})).data;
+			const response: GetIndoorMapResponse = (
+				await api.get("/api/buildings/map", {
+					params: {
+						bld_code: bldCode,
+						floor_num: floor
+					}
+				})
+			).data;
 
 			setSvg(response.svg);
 			setNodes(response.nodes);
 			setEdges(response.edges);
 		} catch (error) {
 			console.error("Error fetching indoor map data:", error);
+			showError(
+				error instanceof Error ? error.message : "The indoor map could not be loaded.",
+				"Failed to Load Indoor Map"
+			);
 		}
 	}
 
@@ -202,14 +215,18 @@ export default function IndoorMapEditor(): React.JSX.Element {
 
 	function onNodeClick(node: Node): void {
 		switch (selectedTool) {
-			case Tool.SingleSelect: handleNodeClickSingleSelectTool(node);
-			break;
-			case Tool.MultiSelect: handleNodeClickMultiSelectTool(node);
-			break;
-			case Tool.SingleConnect: handleNodeClickSingleConnectTool(node);
-			break;
-			case Tool.MultiConnect: handleNodeClickMultiConnectTool(node);
-			break;
+			case Tool.SingleSelect:
+				handleNodeClickSingleSelectTool(node);
+				break;
+			case Tool.MultiSelect:
+				handleNodeClickMultiSelectTool(node);
+				break;
+			case Tool.SingleConnect:
+				handleNodeClickSingleConnectTool(node);
+				break;
+			case Tool.MultiConnect:
+				handleNodeClickMultiConnectTool(node);
+				break;
 		}
 	}
 
@@ -269,10 +286,12 @@ export default function IndoorMapEditor(): React.JSX.Element {
 
 	function onEdgeClick(edge: Edge): void {
 		switch (selectedTool) {
-			case Tool.SingleSelect: handleEdgeClickSingleSelectTool(edge);
-			break;
-			case Tool.MultiSelect: handleEdgeClickMultiSelectTool(edge);
-			break;
+			case Tool.SingleSelect:
+				handleEdgeClickSingleSelectTool(edge);
+				break;
+			case Tool.MultiSelect:
+				handleEdgeClickMultiSelectTool(edge);
+				break;
 		}
 	}
 
@@ -337,14 +356,18 @@ export default function IndoorMapEditor(): React.JSX.Element {
 			.map(Number)
 			.filter((value) => Number.isFinite(value));
 		const normalizedSvgWidth =
-			Number.isFinite(svgWidth) &&
-				svgWidth > 0 ? svgWidth : viewBoxValues &&
-				viewBoxValues.length >= 4 ? viewBoxValues[2] : 0;
+			Number.isFinite(svgWidth) && svgWidth > 0
+				? svgWidth
+				: viewBoxValues && viewBoxValues.length >= 4
+					? viewBoxValues[2]
+					: 0;
 
 		const normalizedSvgHeight =
-			Number.isFinite(svgHeight) &&
-				svgHeight > 0 ? svgHeight : viewBoxValues &&
-				viewBoxValues.length >= 4 ? viewBoxValues[3] : 0;
+			Number.isFinite(svgHeight) && svgHeight > 0
+				? svgHeight
+				: viewBoxValues && viewBoxValues.length >= 4
+					? viewBoxValues[3]
+					: 0;
 
 		if (
 			!Number.isFinite(x) ||
@@ -363,7 +386,8 @@ export default function IndoorMapEditor(): React.JSX.Element {
 			id: `${Date.now()}`,
 			name: `Node ${nodes!.length + 1}`,
 			type: nodeType,
-			x, y
+			x,
+			y
 		};
 
 		setNodes((prevNodes) => [...prevNodes!, newNode]);
@@ -372,9 +396,10 @@ export default function IndoorMapEditor(): React.JSX.Element {
 	}
 
 	function nodesHaveConnection(nodeA: Node, nodeB: Node): boolean {
-		return edges!.some((edge) =>
-			(edge.sourceNodeId === nodeA.id && edge.targetNodeId === nodeB.id) ||
-			(edge.sourceNodeId === nodeB.id && edge.targetNodeId === nodeA.id)
+		return edges!.some(
+			(edge) =>
+				(edge.sourceNodeId === nodeA.id && edge.targetNodeId === nodeB.id) ||
+				(edge.sourceNodeId === nodeB.id && edge.targetNodeId === nodeA.id)
 		);
 	}
 
@@ -412,9 +437,12 @@ export default function IndoorMapEditor(): React.JSX.Element {
 
 			setSelectedNode((prevNode) => (prevNode?.id === nodeId ? updatedNode : prevNode));
 			setHoveredNode((prevNode) => (prevNode?.id === nodeId ? updatedNode : prevNode));
-			setSelectedNodesAndEdges((prevSelection) => new Set(
-				Array.from(prevSelection).map((item) => (isNode(item) && item.id === nodeId ? nextUpdatedNode : item))
-			));
+			setSelectedNodesAndEdges(
+				(prevSelection) =>
+					new Set(
+						Array.from(prevSelection).map((item) => (isNode(item) && item.id === nodeId ? nextUpdatedNode : item))
+					)
+			);
 		}
 
 		setChangesMade(true);
@@ -430,11 +458,13 @@ export default function IndoorMapEditor(): React.JSX.Element {
 
 		setSelectedNodesAndEdges(
 			(prevSelection) =>
-				new Set(Array.from(prevSelection).filter((item) => {
-					if (isNode(item)) return item.id !== nodeId;
-					if (isEdge(item)) return !(item.sourceNodeId === nodeId || item.targetNodeId === nodeId);
-					return true;
-				}))
+				new Set(
+					Array.from(prevSelection).filter((item) => {
+						if (isNode(item)) return item.id !== nodeId;
+						if (isEdge(item)) return !(item.sourceNodeId === nodeId || item.targetNodeId === nodeId);
+						return true;
+					})
+				)
 		);
 
 		setHoveredNode((prevNode) => (prevNode?.id === nodeId ? null : prevNode));
@@ -443,9 +473,10 @@ export default function IndoorMapEditor(): React.JSX.Element {
 
 	function deleteEdge(nodeIdA: string, nodeIdB: string): void {
 		setEdges((prevEdges) =>
-			prevEdges!.filter((edge) =>
-				!(edge.sourceNodeId === nodeIdA && edge.targetNodeId === nodeIdB) &&
-				!(edge.sourceNodeId === nodeIdB && edge.targetNodeId === nodeIdA)
+			prevEdges!.filter(
+				(edge) =>
+					!(edge.sourceNodeId === nodeIdA && edge.targetNodeId === nodeIdB) &&
+					!(edge.sourceNodeId === nodeIdB && edge.targetNodeId === nodeIdA)
 			)
 		);
 
@@ -460,15 +491,18 @@ export default function IndoorMapEditor(): React.JSX.Element {
 		});
 
 		setSelectedNodesAndEdges(
-			(prevSelection) => new Set(Array.from(prevSelection).filter((item) => {
-				if (!isEdge(item)) return true;
+			(prevSelection) =>
+				new Set(
+					Array.from(prevSelection).filter((item) => {
+						if (!isEdge(item)) return true;
 
-				const matchesEdge: boolean =
-					(item.sourceNodeId === nodeIdA && item.targetNodeId === nodeIdB) ||
-					(item.sourceNodeId === nodeIdB && item.targetNodeId === nodeIdA);
+						const matchesEdge: boolean =
+							(item.sourceNodeId === nodeIdA && item.targetNodeId === nodeIdB) ||
+							(item.sourceNodeId === nodeIdB && item.targetNodeId === nodeIdA);
 
-				return !matchesEdge;
-			}))
+						return !matchesEdge;
+					})
+				)
 		);
 
 		setHoveredNode((prevNode) => (prevNode && (prevNode.id === nodeIdA || prevNode.id === nodeIdB) ? null : prevNode));
@@ -487,9 +521,16 @@ export default function IndoorMapEditor(): React.JSX.Element {
 	async function saveChanges(): Promise<void> {
 		console.log("Saving changes...");
 
+		if (!selectedBuilding || selectedFloor === null || !nodes || !edges) {
+			showWarning("No map data is available to save.", "Unable to Save Changes");
+			setSavePending(false);
+			return;
+		}
+
 		await postChangesToDatabase();
 
-		await loadMapData(selectedBuilding!.code, selectedFloor!);
+		await loadMapData(selectedBuilding.code, selectedFloor);
+		showSuccess("Indoor map saved successfully.", "Successfully Saved Indoor Map");
 		setChangesMade(false);
 		setSavePending(false);
 	}
@@ -506,6 +547,10 @@ export default function IndoorMapEditor(): React.JSX.Element {
 			await api.post("/api/buildings/map", payload);
 		} catch (error) {
 			console.error("Error saving changes to the database:", error);
+			showError(
+				error instanceof Error ? error.message : "The indoor map could not be saved. Please try again.",
+				"Failed to Save Indoor Map"
+			);
 		}
 	}
 
@@ -521,11 +566,16 @@ export default function IndoorMapEditor(): React.JSX.Element {
 							onChange={(e) => onSelectedBuildingChange(buildings.find((b) => b.code === e.target.value)!)}
 							disabled={changesMade}
 						>
-							<option value="" disabled>---</option>
+							<option value="" disabled>
+								---
+							</option>
 
-							{buildings.length > 0 && buildings.map((building) => (
-								<option key={building.code} value={building.code}>{building.code}</option>
-							))}
+							{buildings.length > 0 &&
+								buildings.map((building) => (
+									<option key={building.code} value={building.code}>
+										{building.code}
+									</option>
+								))}
 						</select>
 					</div>
 
@@ -538,10 +588,14 @@ export default function IndoorMapEditor(): React.JSX.Element {
 								onChange={(e) => onSelectedFloorChange(parseInt(e.target.value))}
 								disabled={changesMade}
 							>
-								<option value="" disabled>---</option>
+								<option value="" disabled>
+									---
+								</option>
 
 								{Array.from({ length: selectedBuilding?.num_floors || 0 }, (_, i) => (
-									<option key={i + 1} value={i + 1}>{i + 1}</option>
+									<option key={i + 1} value={i + 1}>
+										{i + 1}
+									</option>
 								))}
 							</select>
 						</div>
@@ -550,7 +604,9 @@ export default function IndoorMapEditor(): React.JSX.Element {
 					{/* Create Building Button */}
 					{!selectedBuilding && (
 						<button
-							onClick={() => { setShowCreateBuildingModal(true); }}
+							onClick={() => {
+								setShowCreateBuildingModal(true);
+							}}
 							className="outline-button secondary"
 						>
 							<img src={addIcon} alt="create icon" />
@@ -561,7 +617,9 @@ export default function IndoorMapEditor(): React.JSX.Element {
 					{/* Edit Building Button */}
 					{selectedBuilding && (
 						<button
-							onClick={() => { setShowEditBuildingModal(true); }}
+							onClick={() => {
+								setShowEditBuildingModal(true);
+							}}
 							disabled={selectedBuilding === null || changesMade}
 							className="outline-button secondary"
 						>
@@ -589,7 +647,9 @@ export default function IndoorMapEditor(): React.JSX.Element {
 				<div className="right-side">
 					{/* Discard Button */}
 					<button
-						onClick={() => { setDiscardPending(true); }}
+						onClick={() => {
+							setDiscardPending(true);
+						}}
 						disabled={!changesMade}
 						className="outline-button danger"
 					>
@@ -598,7 +658,9 @@ export default function IndoorMapEditor(): React.JSX.Element {
 
 					{/* Save Button */}
 					<button
-						onClick={() => { setSavePending(true); }}
+						onClick={() => {
+							setSavePending(true);
+						}}
 						disabled={!changesMade}
 						className="button primary"
 					>
@@ -676,27 +738,34 @@ export default function IndoorMapEditor(): React.JSX.Element {
 
 					<div className="context-overlays">
 						{/* Contextual information about the hovered node/edge */}
-						{(
-							(hoveredNode && hoveredNode !== selectedNode) ||
-							(hoveredEdge && hoveredEdge !== selectedEdge)
-						) && (
-							selectedNodesAndEdges.size !== 1 || (
-								hoveredNode !== (Array.from(selectedNodesAndEdges)[0] as Node) &&
-								hoveredEdge !== (Array.from(selectedNodesAndEdges)[0] as Edge)
-							)
-						) && (
-							<IndoorGraphContextComponent
-								nodes={hoveredNode ? [hoveredNode] : []}
-								edges={hoveredEdge ? [hoveredEdge] : []}
-								isHovered={true}
-							/>
-						)}
+						{((hoveredNode && hoveredNode !== selectedNode) || (hoveredEdge && hoveredEdge !== selectedEdge)) &&
+							(selectedNodesAndEdges.size !== 1 ||
+								(hoveredNode !== (Array.from(selectedNodesAndEdges)[0] as Node) &&
+									hoveredEdge !== (Array.from(selectedNodesAndEdges)[0] as Edge))) && (
+								<IndoorGraphContextComponent
+									nodes={hoveredNode ? [hoveredNode] : []}
+									edges={hoveredEdge ? [hoveredEdge] : []}
+									isHovered={true}
+								/>
+							)}
 
 						{/* Contextual information about the selected node/edge */}
 						{(selectedNode || selectedEdge || selectedNodesAndEdges.size > 0) && (
 							<IndoorGraphContextComponent
-								nodes={selectedNode ? [selectedNode] : selectedNodesAndEdges.size > 0 ? Array.from(selectedNodesAndEdges).filter(isNode) : []}
-								edges={selectedEdge ? [selectedEdge] : selectedNodesAndEdges.size > 0 ? Array.from(selectedNodesAndEdges).filter(isEdge) : []}
+								nodes={
+									selectedNode
+										? [selectedNode]
+										: selectedNodesAndEdges.size > 0
+											? Array.from(selectedNodesAndEdges).filter(isNode)
+											: []
+								}
+								edges={
+									selectedEdge
+										? [selectedEdge]
+										: selectedNodesAndEdges.size > 0
+											? Array.from(selectedNodesAndEdges).filter(isEdge)
+											: []
+								}
 								isHovered={false}
 								updateNode={updateNode}
 								deleteNode={deleteNode}
@@ -710,7 +779,9 @@ export default function IndoorMapEditor(): React.JSX.Element {
 						isOpen={savePending}
 						title="Confirm Save Changes"
 						content="Are you sure you want to save the changes? This action will be made live immediately to all users."
-						onClose={() => { setSavePending(false); }}
+						onClose={() => {
+							setSavePending(false);
+						}}
 						onConfirm={saveChanges}
 					/>
 
@@ -719,7 +790,9 @@ export default function IndoorMapEditor(): React.JSX.Element {
 						isOpen={discardPending}
 						title="Confirm Discard Changes"
 						content="Are you sure you want to discard the changes? This action cannot be undone."
-						onClose={() => { setDiscardPending(false); }}
+						onClose={() => {
+							setDiscardPending(false);
+						}}
 						onConfirm={discardChanges}
 						isDanger={true}
 					/>

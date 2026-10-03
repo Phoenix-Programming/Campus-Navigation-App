@@ -1,6 +1,6 @@
 import React, { useRef, useState } from "react";
 import api from "../../api";
-
+import { showError } from "../../services/notifications";
 
 export default function AccountPage() {
 	const userIdInputRef = useRef<HTMLInputElement>(null);
@@ -18,6 +18,7 @@ export default function AccountPage() {
 			setUser(response.data);
 		} catch (error) {
 			console.error("Error fetching user:", error);
+			showError(error instanceof Error ? error.message : "The user could not be loaded.", "Failed to Load User Data");
 		}
 	};
 
