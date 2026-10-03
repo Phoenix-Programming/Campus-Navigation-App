@@ -8,6 +8,22 @@ import uploadIcon from "../assets/icons/upload.svg";
 import "@styles/main.scss";
 import "@styles/components/building-modal.scss";
 
+
+interface BuildingData {
+	category_type: string;
+	name: string;
+	code: string;
+	address: string;
+	num_floors: number;
+	floor_svgs: { [floorNumber: number]: string };
+}
+
+
+interface BuildingCategoriesResponse {
+	categories: string[];
+}
+
+
 interface BuildingModalProps {
 	bld_id?: number;
 	onClose: () => void;
@@ -46,57 +62,11 @@ export default function BuildingModal({ bld_id, onClose }: BuildingModalProps): 
 	}, []);
 
 	useEffect(() => {
-		// Fetch building category types from the backend
-		// await api.get("/api/building-category-types")
-		// 	.then((response) => response.json())
-		// 	.then((data) => {
-		// 		setBuildingCategoryTypes(data);
-		// 	})
-		// 	.catch((error) => {
-		// 		console.error("Error fetching building category types:", error);
-		// 	});
-
-		// Temporary hardcoded building category types until the backend endpoint is implemented
-		setBuildingCategoryTypes(["Academic", "Residential", "Administrative", "Recreational"]);
+		getBuildingCategoryTypes();
 	}, []);
 
 	useEffect(() => {
-		if (bld_id === undefined) return;
-
-		// Fetch building data from the backend using the bld_id
-		// await api.get(`/api/buildings/${bld_id}`)
-		// 	.then((response) => response.json())
-		// 	.then((data) => {
-		// 		setBuildingCategoryType(data.category_type);
-		// 		setBuildingName(data.name);
-		// 		setBuildingCode(data.code);
-		// 		setBuildingAddress(data.address);
-		// 		setNumFloors(data.num_floors);
-		// 		setBuildingDataLoaded(true);
-		// 	})
-		// 	.catch((error) => {
-		// 		console.error("Error fetching building data:", error);
-		// 	});
-
-		// Temporary hardcoded building data until the backend endpoint is implemented
-		const initialData = {
-			buildingCategoryType: "Academic",
-			buildingName: "Innovation, Science and Technology Building",
-			buildingCode: "IST",
-			buildingAddress: "4450 Polytechnic Cir, Lakeland, FL 33805",
-			numFloors: 2,
-			floorSvgs: {}
-		};
-
-		setBuildingCategoryType(initialData.buildingCategoryType);
-		setBuildingName(initialData.buildingName);
-		setBuildingCode(initialData.buildingCode);
-		setBuildingAddress(initialData.buildingAddress);
-		setNumFloors(initialData.numFloors);
-		setFloorSvgs(initialData.floorSvgs);
-		initialFormRef.current = initialData;
-		setChangesMade(false);
-		setBuildingDataLoaded(true);
+		if (bld_id !== undefined) getBuildingData();
 	}, [bld_id]);
 
 	useEffect(() => {
@@ -112,6 +82,42 @@ export default function BuildingModal({ bld_id, onClose }: BuildingModalProps): 
 		);
 	}, [buildingDataLoaded, buildingCategoryType, buildingName, buildingCode, buildingAddress, numFloors, floorSvgs]);
 
+	async function getBuildingCategoryTypes() {
+		try {
+			const response: BuildingCategoriesResponse = await api.get("/api/buildings/categories");
+			setBuildingCategoryTypes(response.categories);
+		} catch (error) {
+			console.error("Error fetching building category types:", error);
+		}
+	}
+
+	async function getBuildingData() {
+		try {
+			const response: BuildingData = (await api.get<BuildingData>(`/api/buildings/${bld_id}`)).data;
+
+			setBuildingCategoryType(response.category_type);
+			setBuildingName(response.name);
+			setBuildingCode(response.code);
+			setBuildingAddress(response.address);
+			setNumFloors(response.num_floors);
+			setFloorSvgs(response.floor_svgs);
+
+			initialFormRef.current = {
+				buildingCategoryType: response.category_type,
+				buildingName: response.name,
+				buildingCode: response.code,
+				buildingAddress: response.address,
+				numFloors: response.num_floors,
+				floorSvgs: response.floor_svgs
+			};
+
+			setChangesMade(false);
+			setBuildingDataLoaded(true);
+		} catch (error) {
+			console.error("Error fetching building data:", error);
+		}
+	}
+
 	async function saveChanges() {
 		try {
 			await api.put(`/api/buildings/${bld_id}`, {
@@ -122,28 +128,28 @@ export default function BuildingModal({ bld_id, onClose }: BuildingModalProps): 
 				num_floors: numFloors,
 				floor_svgs: floorSvgs
 			});
+
+			onClose();
 		} catch (error) {
 			console.error("Error saving building changes:", error);
 		}
-
-		onClose();
 	}
 
 	async function createBuilding() {
 		try {
-			// await api.post("/api/buildings", {
-			// 	category_type: buildingCategoryType,
-			// 	name: buildingName,
-			// 	code: buildingCode,
-			// 	address: buildingAddress,
-			// 	num_floors: numFloors,
-			// 	floor_svgs: floorSvgs
-			// });
+			await api.post("/api/buildings", {
+				category_type: buildingCategoryType,
+				name: buildingName,
+				code: buildingCode,
+				address: buildingAddress,
+				num_floors: numFloors,
+				floor_svgs: floorSvgs
+			});
+
+			onClose();
 		} catch (error) {
 			console.error("Error creating building:", error);
 		}
-
-		onClose();
 	}
 
 	function requiredFieldsFilled(): boolean {
@@ -181,8 +187,7 @@ export default function BuildingModal({ bld_id, onClose }: BuildingModalProps): 
 				</div>
 
 				{/* Body */}
-				{(bld_id === undefined ||
-					(buildingCategoryType !== null && buildingName && buildingCode && buildingAddress && numFloors !== null)) && (
+				{(bld_id === undefined || (buildingCategoryType !== null && buildingName && buildingCode && buildingAddress && numFloors !== null)) && (
 					<div className="modal-body">
 						{bld_id !== undefined && (
 							<div className="item same-row">
@@ -225,9 +230,7 @@ export default function BuildingModal({ bld_id, onClose }: BuildingModalProps): 
 									</option>
 
 									{buildingCategoryTypes.map((type) => (
-										<option key={type} value={type}>
-											{type}
-										</option>
+										<option key={type} value={type}>{type}</option>
 									))}
 								</select>
 							</div>
@@ -264,7 +267,7 @@ export default function BuildingModal({ bld_id, onClose }: BuildingModalProps): 
 							<div className="svg-uploads">
 								{Array.from({ length: numFloors! }, (_, index) => index + 1).map((floorNumber) => (
 									<div key={floorNumber} className="item same-row">
-										<span className="label">{format(floorNumber, "0o")} Floor</span>
+										<span className="label">{format(floorNumber, '0o')} Floor</span>
 										<button className="button primary">
 											Upload
 											<img src={uploadIcon} alt="upload icon" />
@@ -320,9 +323,9 @@ export default function BuildingModal({ bld_id, onClose }: BuildingModalProps): 
 				isOpen={discardPending}
 				title={"Discard Building Changes?"}
 				content={
-					bld_id === undefined
-						? "Are you sure you want to discard your new building? All unsaved changes will be lost."
-						: "Are you sure you want to discard your changes? All unsaved changes will be lost."
+					bld_id === undefined ?
+						"Are you sure you want to discard your new building? All unsaved changes will be lost." :
+						"Are you sure you want to discard your changes? All unsaved changes will be lost."
 				}
 				onClose={() => setDiscardPending(false)}
 				onConfirm={onClose}

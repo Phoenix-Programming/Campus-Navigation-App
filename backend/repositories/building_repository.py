@@ -181,3 +181,8 @@ class BuildingRepository:
         except:
             await db.rollback()
             raise
+
+    async def get_all_building_categories(self, db: Database) -> list[BuildingCategory]:
+        categories_result: Result[tuple[BuildingCategory]] = await db.execute(select(BuildingCategory))
+
+        return list(categories_result.scalars().all())

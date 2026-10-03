@@ -3,6 +3,7 @@ from backend.exceptions import NotAuthorizedToEditIndoorMapError
 from backend.models.buildings import BuildingModel, GetAllBuildingsResponse, GetIndoorMapResponse, IndoorEdgeModel, IndoorNodeModel, UpdateIndoorMapGraphRequest
 from backend.repositories.building_repository import BuildingRepository
 from backend.schema.building import Building
+from backend.schema.building_category import BuildingCategory
 from backend.schema.indoor_node import IndoorNode
 from backend.schema.indoor_edge import IndoorEdge
 from backend.schema.permissions import Permission
@@ -112,3 +113,8 @@ class BuildingsService:
 			current_user_id=current_user.user.id,
 			db=db
 		)
+
+	async def get_all_building_categories(self, db: Database) -> list[str]:
+		categories: list[BuildingCategory] = await self.repo.get_all_building_categories(db=db)
+
+		return [category.category for category in categories]
