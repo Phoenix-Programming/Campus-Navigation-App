@@ -1,6 +1,6 @@
 from backend.auth.current_user_context import CurrentUserContext
 from backend.exceptions import NotAuthorizedToEditIndoorMapError
-from backend.models.buildings import BuildingModel, GetAllBuildingsResponse, GetIndoorMapResponse, IndoorEdgeModel, IndoorNodeModel, UpdateIndoorMapGraphRequest
+from backend.models.buildings import BuildingModel, GetAllBuildingsResponse, GetBuildingResponse, GetIndoorMapResponse, IndoorEdgeModel, IndoorNodeModel, UpdateIndoorMapGraphRequest
 from backend.repositories.building_repository import BuildingRepository
 from backend.schema.building import Building
 from backend.schema.building_category import BuildingCategory
@@ -15,11 +15,34 @@ class BuildingsService:
 		self.repo: BuildingRepository = BuildingRepository()
 
 
+	async def get_building_by_id(self, bld_id: int, db: Database) -> GetBuildingResponse:
+		bld: Building = await self.repo.get_building_by_id(bld_id=bld_id, db=db)
+
+		response: GetBuildingResponse = GetBuildingResponse(
+			id=bld.id,
+			name=bld.name,
+			code=bld.code,
+			address=bld.address,
+			category_type=bld.building_category.category,
+			num_floors=bld.num_floors,
+			floor_svgs=[floor.svg for floor in bld.floors]
+		)
+
+		return response
+
+
 	async def get_all_buildings(self, db: Database) -> GetAllBuildingsResponse:
 		buildings: list[Building] = await self.repo.get_all_buildings(db=db)
 
 		response: GetAllBuildingsResponse = GetAllBuildingsResponse(buildings=[
-      		BuildingModel(id=bld.id, name=bld.name, code=bld.code, num_floors=bld.num_floors)
+			BuildingModel(
+				id=bld.id,
+				name=bld.name,
+				code=bld.code,
+				address=bld.address,
+				category_type=bld.building_category.category,
+				num_floors=bld.num_floors
+			)
         	for bld in buildings
         ])
 

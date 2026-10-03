@@ -58,6 +58,10 @@ class NotAuthorizedToEditIndoorMapError(NotAuthorizedError):
     def __init__(self):
         super().__init__(msg="Not authorized to edit indoor map.")
 
+class BuildingNotFoundError(NotFoundError):
+    def __init__(self, bld_id: int):
+        super().__init__(msg=f"Building with id {bld_id} not found.")
+
 class BuildingCodeNotFoundError(NotFoundError):
     def __init__(self):
         super().__init__(msg="Building code not found.")

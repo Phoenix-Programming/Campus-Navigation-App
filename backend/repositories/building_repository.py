@@ -1,5 +1,6 @@
 from sqlalchemy import Result, select, text
-from backend.exceptions import BuildingCodeNotFoundError, FloorNumberNotFoundError, BuildingCategoryNotFoundError
+from sqlalchemy.orm import selectinload
+from backend.exceptions import BuildingCodeNotFoundError, BuildingNotFoundError, FloorNumberNotFoundError, BuildingCategoryNotFoundError
 from backend.schema.building import Building
 from backend.schema.building_category import BuildingCategory
 from backend.schema.floor import Floor
@@ -10,7 +11,9 @@ from backend.utilities.db_connection import Database
 
 class BuildingRepository:
     async def get_all_buildings(self, db: Database) -> list[Building]:
-        buildings_result: Result[tuple[Building]] = await db.execute(select(Building))
+        buildings_result: Result[tuple[Building]] = await db.execute(
+            select(Building).options(selectinload(Building.building_category))
+        )
 
         return list(buildings_result.scalars().all())
 
@@ -186,3 +189,19 @@ class BuildingRepository:
         categories_result: Result[tuple[BuildingCategory]] = await db.execute(select(BuildingCategory))
 
         return list(categories_result.scalars().all())
+
+    async def get_building_by_id(self, bld_id: int, db: Database) -> Building:
+        buildings_result: Result[tuple[Building]] = await db.execute(
+            select(Building)
+            .options(
+                selectinload(Building.building_category),
+                selectinload(Building.floors)
+            )
+            .where(Building.id == bld_id)
+        )
+
+        bld: Building | None = buildings_result.scalars().one_or_none()
+
+        if not bld: raise BuildingNotFoundError(bld_id=bld_id)
+
+        return bld

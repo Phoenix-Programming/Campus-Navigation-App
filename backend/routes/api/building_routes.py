@@ -4,6 +4,7 @@ from backend.exceptions import NotFoundError
 from backend.models.buildings import (
     CreateBuildingRequest,
     GetAllBuildingsResponse,
+    GetBuildingResponse,
     GetIndoorMapResponse,
     UpdateIndoorMapGraphRequest
 )
@@ -88,5 +89,15 @@ async def get_all_building_categories(
 ) -> list[str]:
     try:
         return await service.get_all_building_categories(db=db)
+    except NotFoundError as e:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=str(e))
+
+@router.get(path="/{bld_id}", response_model=GetBuildingResponse)
+async def get_building(
+    bld_id: int,
+    db: Database
+) -> GetBuildingResponse:
+    try:
+        return await service.get_building_by_id(bld_id=bld_id, db=db)
     except NotFoundError as e:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=str(e))

@@ -2,15 +2,20 @@ from pydantic import BaseModel, Field
 
 
 class GetAllBuildingsResponse(BaseModel):
-	buildings: list[BuildingModel]
+	buildings: list[BuildingModel] = Field(default_factory=list)
 
 
 class BuildingModel(BaseModel):
-	id: int
-	name: str = Field(max_length=128)
-	code: str = Field(max_length=10)
-	num_floors: int
+    id: int
+    name: str = Field(max_length=128)
+    code: str = Field(max_length=10)
+    address: str = Field(max_length=256)
+    category_type: str = Field(max_length=24)
+    num_floors: int
 
+
+class GetBuildingResponse(BuildingModel):
+    floor_svgs: list[str] = Field(default_factory=list)
 
 class GetIndoorMapResponse(BaseModel):
     svg: str
@@ -29,7 +34,7 @@ class CreateBuildingRequest(BaseModel):
     name: str = Field(max_length=128)
     code: str = Field(max_length=10)
     address: str = Field(max_length=256)
-    category_type: str = Field(max_length=64)
+    category_type: str = Field(max_length=24)
     num_floors: int
     floor_svgs: list[str]
 

@@ -217,7 +217,6 @@ async def test_get_user_success(client: AsyncClient) -> None:
 	user_id: int = (await register_test_user(client))["id"]
 
 	response: Response = await client.get(f"/api/users/{user_id}")
-
 	response_data = response.json()
 
 	assert response.status_code == status.HTTP_200_OK
@@ -226,6 +225,14 @@ async def test_get_user_success(client: AsyncClient) -> None:
 	assert "email" not in response_data
 	assert "password" not in response_data
 	assert "password_hash" not in response_data
+
+
+def test_building_schema_uses_category_id_column_only() -> None:
+	from backend.schema.building import Building
+
+	assert "category_id" in Building.__table__.columns.keys()
+	assert "building_category" not in Building.__table__.columns.keys()
+	assert "building_category" in [rel.key for rel in Building.__mapper__.relationships]
 
 
 @pytest.mark.anyio
