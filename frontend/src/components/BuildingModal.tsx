@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { clsx } from "clsx";
 import { format } from "numerable";
+import { titleCase } from "title-case";
 import ConfirmationModal from "./ConfirmationModal";
 import api from "../api";
 import closeIcon from "../assets/icons/close.svg";
@@ -18,16 +19,13 @@ interface BuildingData {
 	floor_svgs: { [floorNumber: number]: string };
 }
 
-interface BuildingCategoriesResponse {
-	categories: string[];
-}
-
 interface BuildingModalProps {
 	bld_id?: number;
 	onClose: () => void;
+	onBuildingSaved?: (buildingId?: number) => Promise<void> | void;
 }
 
-export default function BuildingModal({ bld_id, onClose }: BuildingModalProps): React.JSX.Element {
+export default function BuildingModal({ bld_id, onClose, onBuildingSaved }: BuildingModalProps): React.JSX.Element {
 	const [buildingCategoryTypes, setBuildingCategoryTypes] = useState<string[]>([]);
 	const [buildingDataLoaded, setBuildingDataLoaded] = useState<boolean>(false);
 	const [changesMade, setChangesMade] = useState<boolean>(false);
@@ -82,12 +80,16 @@ export default function BuildingModal({ bld_id, onClose }: BuildingModalProps): 
 
 	async function getBuildingCategoryTypes() {
 		try {
-			const response: BuildingCategoriesResponse = await api.get("/api/buildings/categories");
-			setBuildingCategoryTypes(response.categories);
+			const response = await api.get<string[]>("/api/buildings/categories");
+			const categories: string[] = response.data.map((category) => titleCase(category));
+
+			setBuildingCategoryTypes(categories);
 		} catch (error) {
 			console.error("Error fetching building category types:", error);
 			showError(
-				error instanceof Error ? error.message : "Unable to load building categories. Please close this window and try again.",
+				error instanceof Error
+					? error.message
+					: "Unable to load building categories. Please close this window and try again.",
 				"Failed to Load Building Categories"
 			);
 		}
@@ -97,7 +99,7 @@ export default function BuildingModal({ bld_id, onClose }: BuildingModalProps): 
 		try {
 			const response: BuildingData = (await api.get<BuildingData>(`/api/buildings/${bld_id}`)).data;
 
-			setBuildingCategoryType(response.category_type);
+			setBuildingCategoryType(titleCase(response.category_type));
 			setBuildingName(response.name);
 			setBuildingCode(response.code);
 			setBuildingAddress(response.address);
@@ -105,7 +107,7 @@ export default function BuildingModal({ bld_id, onClose }: BuildingModalProps): 
 			setFloorSvgs(response.floor_svgs);
 
 			initialFormRef.current = {
-				buildingCategoryType: response.category_type,
+				buildingCategoryType: titleCase(response.category_type),
 				buildingName: response.name,
 				buildingCode: response.code,
 				buildingAddress: response.address,
@@ -124,6 +126,55 @@ export default function BuildingModal({ bld_id, onClose }: BuildingModalProps): 
 		}
 	}
 
+	function getFloorSvgForFloor(floorSvgData: { [floorNumber: number]: string }, floorNumber: number): string {
+		const oneBasedSvg: string | undefined = floorSvgData[floorNumber];
+
+		if (typeof oneBasedSvg === "string") return oneBasedSvg;
+
+		const zeroBasedSvg: string | undefined = floorSvgData[floorNumber - 1];
+
+		return typeof zeroBasedSvg === "string" ? zeroBasedSvg : "";
+	}
+
+	function buildFloorSvgUpdatePayload(): (string | null)[] | null {
+		if (!initialFormRef.current) return null;
+
+		const originalNumFloors: number = initialFormRef.current.numFloors;
+		const svgPayload: (string | null)[] = Array.from({ length: numFloors }, () => null);
+		let hasSvgChanges: boolean = false;
+
+		for (let floorNumber = 1; floorNumber <= numFloors; floorNumber++) {
+			const currentSvg: string = getFloorSvgForFloor(floorSvgs, floorNumber).trim();
+			const initialSvg: string =
+				floorNumber <= originalNumFloors
+					? getFloorSvgForFloor(initialFormRef.current.floorSvgs, floorNumber).trim()
+					: "";
+
+			if (currentSvg === initialSvg) continue;
+
+			hasSvgChanges = true;
+			svgPayload[floorNumber - 1] = currentSvg === "" ? null : currentSvg;
+		}
+
+		return hasSvgChanges ? svgPayload : null;
+	}
+
+	function buildFloorSvgCreatePayload(): (string | null)[] | null {
+		const svgPayload: (string | null)[] = Array.from({ length: numFloors }, () => null);
+		let hasUploadedSvg: boolean = false;
+
+		for (let floorNumber = 1; floorNumber <= numFloors; floorNumber++) {
+			const svg: string = getFloorSvgForFloor(floorSvgs, floorNumber).trim();
+
+			if (svg === "") continue;
+
+			hasUploadedSvg = true;
+			svgPayload[floorNumber - 1] = svg;
+		}
+
+		return hasUploadedSvg ? svgPayload : null;
+	}
+
 	async function saveChanges() {
 		try {
 			if (!requiredFieldsFilled()) {
@@ -131,15 +182,27 @@ export default function BuildingModal({ bld_id, onClose }: BuildingModalProps): 
 				return;
 			}
 
-			await api.put(`/api/buildings/${bld_id}`, {
+			const svgs: (string | null)[] | null = buildFloorSvgUpdatePayload();
+
+			console.log(floorSvgs);
+			console.log("Saving building changes:", {
 				category_type: buildingCategoryType,
 				name: buildingName,
 				code: buildingCode,
 				address: buildingAddress,
 				num_floors: numFloors,
-				floor_svgs: floorSvgs
+				floor_svgs: svgs
+			});
+			await api.patch(`/api/buildings/${bld_id}`, {
+				category_type: buildingCategoryType,
+				name: buildingName,
+				code: buildingCode,
+				address: buildingAddress,
+				num_floors: numFloors,
+				floor_svgs: svgs
 			});
 
+			await onBuildingSaved?.(bld_id);
 			showSuccess("Building updated successfully!", "Building Saved!");
 			onClose();
 		} catch (error) {
@@ -161,15 +224,18 @@ export default function BuildingModal({ bld_id, onClose }: BuildingModalProps): 
 				return;
 			}
 
+			const svgs: (string | null)[] | null = buildFloorSvgCreatePayload();
+
 			await api.post("/api/buildings", {
 				category_type: buildingCategoryType,
 				name: buildingName,
 				code: buildingCode,
 				address: buildingAddress,
 				num_floors: numFloors,
-				floor_svgs: floorSvgs
+				floor_svgs: svgs
 			});
 
+			await onBuildingSaved?.();
 			showSuccess("Building created successfully!", "Building Created!");
 			onClose();
 		} catch (error) {
@@ -196,6 +262,16 @@ export default function BuildingModal({ bld_id, onClose }: BuildingModalProps): 
 		);
 	}
 
+	const isCreateMode = bld_id === undefined;
+	const hasCreateFormData =
+		buildingCategoryType !== null ||
+		buildingName.trim() !== "" ||
+		buildingCode.trim() !== "" ||
+		buildingAddress.trim() !== "" ||
+		numFloors !== 1 ||
+		Object.keys(floorSvgs).length > 0;
+	const shouldConfirmDiscard = isCreateMode ? hasCreateFormData : changesMade;
+
 	return (
 		<div className="modal-backdrop">
 			<div className="building-modal">
@@ -205,10 +281,10 @@ export default function BuildingModal({ bld_id, onClose }: BuildingModalProps): 
 
 					<button
 						className={clsx("icon-button", {
-							secondary: !changesMade && bld_id !== undefined,
-							danger: changesMade || bld_id === undefined
+							secondary: !shouldConfirmDiscard,
+							danger: shouldConfirmDiscard
 						})}
-						onClick={() => (changesMade || bld_id === undefined ? setDiscardPending(true) : onClose())}
+						onClick={() => (shouldConfirmDiscard ? setDiscardPending(true) : onClose())}
 						aria-label="Close dialog"
 					>
 						<img src={closeIcon} alt="close dialog" />
@@ -315,10 +391,10 @@ export default function BuildingModal({ bld_id, onClose }: BuildingModalProps): 
 				<div className="modal-footer">
 					<button
 						className={clsx({
-							"button secondary": !changesMade && bld_id !== undefined,
-							"outline-button danger": changesMade || bld_id === undefined
+							"button secondary": !shouldConfirmDiscard,
+							"outline-button danger": shouldConfirmDiscard
 						})}
-						onClick={() => (changesMade || bld_id === undefined ? setDiscardPending(true) : onClose())}
+						onClick={() => (shouldConfirmDiscard ? setDiscardPending(true) : onClose())}
 					>
 						Cancel
 					</button>

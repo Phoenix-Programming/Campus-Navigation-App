@@ -140,6 +140,10 @@ async def get_current_user(
 		)
 
 	user: User | None = await user_repo.get_user_by_id(user_id=user_id_int, db=db)
+	role: str | None = token_data.role
+
+	if role is None:
+		role = await user_repo.get_user_role_name(user_id=user_id_int, db=db)
 
 	if not user:
 		raise HTTPException(
@@ -148,7 +152,7 @@ async def get_current_user(
 			headers={"WWW-Authenticate": "Bearer"}
 		)
 
-	return CurrentUserContext(user, token_data.permissions)
+	return CurrentUserContext(user, token_data.permissions, role)
 
 
 async def get_admin_user(
@@ -157,11 +161,12 @@ async def get_admin_user(
 ) -> CurrentUserContext:
     context: CurrentUserContext = await get_current_user(token, db)
 
-    if CurrentUserContext.user.is_admin: raise HTTPException(
-		status_code=status.HTTP_403_FORBIDDEN,
-		detail="User not an admin.",
-		headers={"WWW-Authenticate": "Bearer"}
-	)
+    if context.role != "admin":
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="User not an admin.",
+            headers={"WWW-Authenticate": "Bearer"}
+        )
 
     return context
 

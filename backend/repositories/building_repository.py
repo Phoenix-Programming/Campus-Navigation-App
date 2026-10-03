@@ -1,4 +1,4 @@
-from sqlalchemy import Result, select, text
+from sqlalchemy import Result, delete, func, select, text
 from sqlalchemy.orm import selectinload
 from backend.exceptions import BuildingCodeNotFoundError, BuildingNotFoundError, FloorNumberNotFoundError, BuildingCategoryNotFoundError
 from backend.schema.building import Building
@@ -137,7 +137,7 @@ class BuildingRepository:
     async def get_building_category_id_by_category_type(self, category_type: str, db: Database) -> int:
         result: Result[tuple[int]] = await db.execute(
             select(BuildingCategory.id)
-            .where(BuildingCategory.category == category_type)
+            .where(func.lower(BuildingCategory.category) == category_type.lower())
         )
 
         category_id: int | None = result.scalar_one_or_none()
@@ -175,7 +175,8 @@ class BuildingRepository:
             floor: Floor = Floor(
                 building_id=building.id,
                 floor_num=floor_num,
-                svg=svg
+                svg=svg,
+                last_updated_by=current_user_id
             )
             db.add(floor)
 
@@ -205,3 +206,66 @@ class BuildingRepository:
         if not bld: raise BuildingNotFoundError(bld_id=bld_id)
 
         return bld
+
+    async def update_building(
+        self,
+        bld_id: int,
+        name: str | None,
+        code: str | None,
+        address: str | None,
+        category_id: int | None,
+        num_floors: int | None,
+        floor_svgs: list[str | None] | None,
+        current_user_id: int,
+        db: Database
+    ) -> None:
+        building: Building = await self.get_building_by_id(bld_id=bld_id, db=db)
+        original_num_floors: int = building.num_floors
+
+        if name: building.name = name
+        if code: building.code = code
+        if address: building.address = address
+        if category_id: building.category_id = category_id
+        if num_floors:
+            building.num_floors = num_floors
+
+            # Remove floors if the number of floors has decreased
+            if num_floors < len(building.floors):
+                await db.execute(delete(Floor).where(Floor.building_id == bld_id, Floor.floor_num > num_floors))
+
+            # Add new floors if the number of floors has increased
+            for floor_num in range(original_num_floors + 1, num_floors + 1):
+                new_floor: Floor = Floor(
+                    building_id=building.id,
+                    floor_num=floor_num,
+                    svg=floor_svgs[floor_num - 1] if floor_svgs and floor_svgs[floor_num - 1] else "",
+                    last_updated_by=current_user_id
+                )
+
+                db.add(new_floor)
+
+        # Update floor SVGs if provided, but only for existing floors
+        if floor_svgs:
+            for floor_num, svg in enumerate(floor_svgs, start=1):
+                if floor_num > original_num_floors: break
+                if not svg: continue
+
+                floors_result: Result[tuple[Floor]] = await db.execute(
+                    select(Floor)
+                    .where(Floor.building_id == bld_id, Floor.floor_num == floor_num)
+                )
+
+                floor: Floor | None = floors_result.scalar_one_or_none()
+
+                if not floor: raise FloorNumberNotFoundError(bld_id=bld_id)
+
+                floor.svg = svg
+                floor.last_updated_by = current_user_id
+
+        building.last_updated_by = current_user_id
+
+        try:
+            await db.commit()
+        except:
+            await db.rollback()
+            raise

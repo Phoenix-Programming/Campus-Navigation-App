@@ -6,6 +6,7 @@ from backend.models.buildings import (
     GetAllBuildingsResponse,
     GetBuildingResponse,
     GetIndoorMapResponse,
+    UpdateBuildingRequest,
     UpdateIndoorMapGraphRequest
 )
 from backend.services.buildings_service import BuildingsService
@@ -101,3 +102,28 @@ async def get_building(
         return await service.get_building_by_id(bld_id=bld_id, db=db)
     except NotFoundError as e:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=str(e))
+
+@router.patch("/{bld_id}")
+async def update_building(
+    request: UpdateBuildingRequest,
+    bld_id: int,
+    current_user: AdminUser,
+    db: Database
+) -> None:
+    try:
+        await service.update_building(
+            bld_id=bld_id,
+            name=request.name,
+            code=request.code,
+            address=request.address,
+            category_type=request.category_type,
+            num_floors=request.num_floors,
+            floor_svgs=request.floor_svgs,
+            current_user=current_user,
+            db=db
+        )
+    except NotFoundError as e:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=str(e))
+    except ValueError as e:
+        print(f"ValueError in update_building: {e}")
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(e))

@@ -79,7 +79,7 @@ class BuildingsService:
 		db: Database
 	) -> None:
 		# TODO: Replace with permission check instead of role check???
-		if current_user.user.role not in ["admin", "editor"]: raise NotAuthorizedToEditIndoorMapError()
+		if current_user.role not in ["admin", "editor"]: raise NotAuthorizedToEditIndoorMapError()
 
 		bld_id: int = await self.repo.get_building_id_by_building_code(bld_code=bld_code, db=db)
 		floor_id: int = await self.repo.get_floor_id(bld_id=bld_id, floor_num=floor_num, db=db)
@@ -112,11 +112,14 @@ class BuildingsService:
 		address: str,
 		category_type: str,
 		num_floors: int,
-		floor_svgs: list[str],
+		floor_svgs: list[str | None] | None,
 		current_user: CurrentUserContext,
 		db: Database
 	) -> None:
-		if current_user.user.role not in ["admin", "editor"]: raise NotAuthorizedToEditIndoorMapError()
+		# TODO: Replace with permission check instead of role check???
+		if current_user.role not in ["admin", "editor"]: raise NotAuthorizedToEditIndoorMapError()
+
+		if not floor_svgs: floor_svgs = ["" for _ in range(num_floors)]
 
 		if len(floor_svgs) != num_floors:
 			raise ValueError("Number of floor SVGs must match the number of floors")
@@ -132,12 +135,62 @@ class BuildingsService:
 			address=address,
 			category_id=category_id,
 			num_floors=num_floors,
-			floor_svgs=floor_svgs,
+			floor_svgs=[svg if svg is not None else "" for svg in floor_svgs],
 			current_user_id=current_user.user.id,
 			db=db
 		)
+
 
 	async def get_all_building_categories(self, db: Database) -> list[str]:
 		categories: list[BuildingCategory] = await self.repo.get_all_building_categories(db=db)
 
 		return [category.category for category in categories]
+
+
+	async def update_building(
+		self,
+		bld_id: int,
+		name: str | None,
+		code: str | None,
+		address: str | None,
+		category_type: str | None,
+		num_floors: int | None,
+		floor_svgs: list[str | None] | None,
+		current_user: CurrentUserContext,
+		db: Database
+	) -> None:
+		# TODO: Replace with permission check instead of role check???
+		if current_user.role not in ["admin", "editor"]: raise NotAuthorizedToEditIndoorMapError()
+
+		if not (name or code or address or category_type or num_floors or floor_svgs):
+			raise ValueError("At least one field must be provided for update")
+
+		bld: Building = await self.repo.get_building_by_id(bld_id=bld_id, db=db)
+
+		if floor_svgs:
+			if num_floors and len(floor_svgs) != num_floors:
+				raise ValueError("Number of floor SVGs must match the number of floors")
+
+			if len(floor_svgs) != bld.num_floors:
+				raise ValueError("Number of floor SVGs must match the current number of floors")
+
+
+		category_id: int | None = (
+  			await self.repo.get_building_category_id_by_category_type(
+				category_type=category_type,
+				db=db
+			)
+			if category_type else None
+		)
+
+		await self.repo.update_building(
+			bld_id=bld_id,
+			name=name,
+			code=code,
+			address=address,
+			category_id=category_id,
+			num_floors=num_floors,
+			floor_svgs=floor_svgs,
+			current_user_id=current_user.user.id,
+			db=db
+		)

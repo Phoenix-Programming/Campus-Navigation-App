@@ -127,17 +127,43 @@ export default function IndoorMapEditor(): React.JSX.Element {
 		setMapLoaded(false);
 	}
 
-	async function getBuildings(): Promise<void> {
+	async function getBuildings(): Promise<Building[]> {
 		try {
 			const response: GetBuildingsResponse = (await api.get("/api/buildings")).data;
+			const nextBuildings: Building[] = response.buildings;
 
-			setBuildings(response.buildings);
+			setBuildings(nextBuildings);
+			return nextBuildings;
 		} catch (error) {
 			console.error("Error fetching buildings:", error);
 			showError(
 				error instanceof Error ? error.message : "The building list could not be loaded.",
 				"Failed to Load Building List"
 			);
+			return [];
+		}
+	}
+
+	async function refreshBuildings(buildingId?: number): Promise<void> {
+		const refreshedBuildings: Building[] = await getBuildings();
+
+		if (selectedBuilding === null) return;
+
+		const updatedSelectedBuilding: Building | null =
+			refreshedBuildings.find((building) => building.id === (buildingId ?? selectedBuilding.id)) ?? null;
+
+		if (updatedSelectedBuilding === null) {
+			setSelectedBuilding(null);
+			setSelectedFloor(null);
+			clearMapData();
+			return;
+		}
+
+		setSelectedBuilding(updatedSelectedBuilding);
+
+		if (selectedFloor !== null && selectedFloor > updatedSelectedBuilding.num_floors) {
+			setSelectedFloor(null);
+			clearMapData();
 		}
 	}
 
@@ -800,11 +826,17 @@ export default function IndoorMapEditor(): React.JSX.Element {
 			)}
 
 			{/* Create Building Modal */}
-			{showCreateBuildingModal && <BuildingModal onClose={() => setShowCreateBuildingModal(false)} />}
+			{showCreateBuildingModal && (
+				<BuildingModal onClose={() => setShowCreateBuildingModal(false)} onBuildingSaved={refreshBuildings} />
+			)}
 
 			{/* Edit Building Modal */}
 			{showEditBuildingModal && (
-				<BuildingModal bld_id={selectedBuilding!.id} onClose={() => setShowEditBuildingModal(false)} />
+				<BuildingModal
+					bld_id={selectedBuilding!.id}
+					onClose={() => setShowEditBuildingModal(false)}
+					onBuildingSaved={refreshBuildings}
+				/>
 			)}
 		</>
 	);
