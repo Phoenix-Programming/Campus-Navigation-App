@@ -1,4 +1,4 @@
-@use "../abstracts/variables" as var;
+@use "../abstracts/variables" as *;
 
 .button {
 	border: none;
@@ -16,54 +16,54 @@
 	column-gap: 5px;
 
 	&.primary {
-		background: var.$primary-color;
-		color: var.$primary-text-color;
+		background: $primary-color;
+		color: $primary-text-color;
 
 		img {
-			filter: var.$white-color-filter;
+			filter: $white-color-filter;
 		}
 
 		&:hover {
-			background: var.$primary-color-hover;
+			background: $primary-color-hover;
 		}
 	}
 
 	&.secondary {
-		background: var.$secondary-color;
+		background: $secondary-color;
 		color: black;
 
 		img {
-			filter: var.$black-color-filter;
+			filter: $black-color-filter;
 		}
 
 		&:hover {
-			background: var.$secondary-color-hover;
+			background: $secondary-color-hover;
 		}
 	}
 
 	&.success {
-		background: var.$success-color;
-		color: var.$primary-text-color;
+		background: $success-color;
+		color: $primary-text-color;
 
 		img {
-			filter: var.$white-color-filter;
+			filter: $white-color-filter;
 		}
 
 		&:hover {
-			background: var.$success-color-hover;
+			background: $success-color-hover;
 		}
 	}
 
 	&.danger {
-		background: var.$danger-color;
-		color: var.$primary-text-color;
+		background: $danger-color;
+		color: $primary-text-color;
 
 		img {
-			filter: var.$white-color-filter;
+			filter: $white-color-filter;
 		}
 
 		&:hover {
-			background: var.$danger-color-hover;
+			background: $danger-color-hover;
 		}
 	}
 
@@ -90,73 +90,73 @@
 	column-gap: 5px;
 
 	&.primary {
-		color: var.$primary-color;
-		border: 1px solid var.$primary-color;
+		color: $primary-color;
+		border: 1px solid $primary-color;
 
 		img {
-			filter: var.$primary-color-filter;
+			filter: $primary-color-filter;
 		}
 
 		&:hover {
-			background: var.$primary-color;
-			color: var.$primary-text-color;
+			background: $primary-color;
+			color: $primary-text-color;
 
 			img {
-				filter: var.$white-color-filter;
+				filter: $white-color-filter;
 			}
 		}
 	}
 
 	&.secondary {
-		color: var.$secondary-color;
-		border: 1px solid var.$secondary-color;
+		color: $secondary-color;
+		border: 1px solid $secondary-color;
 
 		img {
-			filter: var.$secondary-color-filter;
+			filter: $secondary-color-filter;
 		}
 
 		&:hover {
-			background: var.$secondary-color;
-			color: var.$secondary-text-color;
+			background: $secondary-color;
+			color: black;
 
 			img {
-				filter: var.$black-color-filter;
+				filter: $black-color-filter;
 			}
 		}
 	}
 
 	&.success {
-		color: var.$success-color;
-		border: 1px solid var.$success-color;
+		color: $success-color;
+		border: 1px solid $success-color;
 
 		img {
-			filter: var.$success-color-filter;
+			filter: $success-color-filter;
 		}
 
 		&:hover {
-			background: var.$success-color;
-			color: var.$primary-text-color;
+			background: $success-color;
+			color: $primary-text-color;
 
 			img {
-				filter: var.$white-color-filter;
+				filter: $white-color-filter;
 			}
 		}
 	}
 
 	&.danger {
-		color: var.$danger-color;
-		border: 1px solid var.$danger-color;
+		color: $danger-color;
+		border: 1px solid $danger-color;
 
 		img {
-			filter: var.$danger-color-filter;
+			filter: $danger-color-filter;
 		}
 
 		&:hover {
-			background: var.$danger-color-hover;
-			color: var.$primary-text-color;
+			background: $danger-color-hover;
+			color: $primary-text-color;
 
 			img {
-				filter: var.$white-color-filter;
+				filter: $white-color-filter;
 			}
 		}
 	}
@@ -181,69 +181,69 @@
 	cursor: pointer;
 
 	img {
-		filter: var.$white-color-filter;
+		filter: $white-color-filter;
 	}
 
 	&:hover {
 		background: white;
 
 		img {
-			filter: var.$black-color-filter;
+			filter: $black-color-filter;
 		}
 	}
 
 	&.primary {
 		img {
-			filter: var.$primary-color-filter;
+			filter: $primary-color-filter;
 		}
 
 		&:hover {
-			background: var.$primary-color-hover;
+			background: $primary-color-hover;
 
 			img {
-				filter: var.$white-color-filter;
+				filter: $white-color-filter;
 			}
 		}
 	}
 
 	&.secondary {
 		img {
-			filter: var.$secondary-color-filter;
+			filter: $secondary-color-filter;
 		}
 
 		&:hover {
-			background: var.$secondary-color-hover;
+			background: $secondary-color-hover;
 
 			img {
-				filter: var.$black-color-filter;
+				filter: $black-color-filter;
 			}
 		}
 	}
 
 	&.success {
 		img {
-			filter: var.$success-color-filter;
+			filter: $success-color-filter;
 		}
 
 		&:hover {
-			background: var.$success-color-hover;
+			background: $success-color-hover;
 
 			img {
-				filter: var.$white-color-filter;
+				filter: $white-color-filter;
 			}
 		}
 	}
 
 	&.danger {
 		img {
-			filter: var.$danger-color-filter;
+			filter: $danger-color-filter;
 		}
 
 		&:hover {
-			background: var.$danger-color-hover;
+			background: $danger-color-hover;
 
 			img {
-				filter: var.$white-color-filter;
+				filter: $white-color-filter;
 			}
 		}
 	}
