@@ -184,15 +184,6 @@ export default function BuildingModal({ bld_id, onClose, onBuildingSaved }: Buil
 
 			const svgs: (string | null)[] | null = buildFloorSvgUpdatePayload();
 
-			console.log(floorSvgs);
-			console.log("Saving building changes:", {
-				category_type: buildingCategoryType,
-				name: buildingName,
-				code: buildingCode,
-				address: buildingAddress,
-				num_floors: numFloors,
-				floor_svgs: svgs
-			});
 			await api.patch(`/api/buildings/${bld_id}`, {
 				category_type: buildingCategoryType,
 				name: buildingName,
