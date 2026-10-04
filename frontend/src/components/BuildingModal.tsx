@@ -5,6 +5,7 @@ import { titleCase } from "title-case";
 import ConfirmationModal from "./ConfirmationModal";
 import api from "../api";
 import closeIcon from "../assets/icons/close.svg";
+import downloadIcon from "../assets/icons/download.svg";
 import uploadIcon from "../assets/icons/upload.svg";
 import { showError, showSuccess, showWarning } from "../services/notifications";
 import "@styles/main.scss";
@@ -16,7 +17,7 @@ interface BuildingData {
 	code: string;
 	address: string;
 	num_floors: number;
-	floor_svgs: { [floorNumber: number]: string };
+	floor_svgs: string[] | { [floorNumber: number]: string };
 }
 
 interface BuildingModalProps {
@@ -136,10 +137,22 @@ export default function BuildingModal({ bld_id, onClose, onBuildingSaved }: Buil
 	}
 
 	function normalizeFloorSvgData(
-		floorSvgData: { [floorNumber: number]: string },
+		floorSvgData: string[] | { [floorNumber: number]: string },
 		totalFloors: number
 	): { [floorNumber: number]: string } {
 		const normalizedFloorSvgs: { [floorNumber: number]: string } = {};
+
+		if (Array.isArray(floorSvgData)) {
+			for (let floorNumber = 1; floorNumber <= totalFloors; floorNumber++) {
+				const svg: string | undefined = floorSvgData[floorNumber - 1];
+
+				if (!svg || svg.trim() === "") continue;
+
+				normalizedFloorSvgs[floorNumber] = svg;
+			}
+
+			return normalizedFloorSvgs;
+		}
 
 		for (let floorNumber = 1; floorNumber <= totalFloors; floorNumber++) {
 			const oneBasedSvg: string | undefined = floorSvgData[floorNumber];
@@ -202,6 +215,35 @@ export default function BuildingModal({ bld_id, onClose, onBuildingSaved }: Buil
 
 	function openFloorSvgFilePicker(floorNumber: number): void {
 		floorSvgUploadInputRefs.current[floorNumber]?.click();
+	}
+
+	function sanitizeBuildingCodeForFileName(code: string): string {
+		const trimmedCode: string = code.trim();
+
+		if (trimmedCode === "") return "unknown";
+
+		return trimmedCode.replace(/[^a-zA-Z0-9-_]/g, "-");
+	}
+
+	function downloadFloorSvg(floorNumber: number): void {
+		const svgContent: string = getFloorSvgForFloor(floorSvgs, floorNumber).trim();
+
+		if (svgContent === "") {
+			showWarning("No SVG is available to download for this floor.", "Nothing to Download");
+			return;
+		}
+
+		const fileName: string = `campus-map-${sanitizeBuildingCodeForFileName(buildingCode)}-${format(floorNumber, "0o")}-floor.svg`;
+		const blob: Blob = new Blob([svgContent], { type: "image/svg+xml;charset=utf-8" });
+		const objectUrl: string = window.URL.createObjectURL(blob);
+		const downloadLink: HTMLAnchorElement = document.createElement("a");
+
+		downloadLink.href = objectUrl;
+		downloadLink.download = fileName;
+		document.body.appendChild(downloadLink);
+		downloadLink.click();
+		downloadLink.remove();
+		window.URL.revokeObjectURL(objectUrl);
 	}
 
 	async function handleFloorSvgUpload(floorNumber: number, event: React.ChangeEvent<HTMLInputElement>): Promise<void> {
@@ -338,8 +380,7 @@ export default function BuildingModal({ bld_id, onClose, onBuildingSaved }: Buil
 
 	function getFloorUploadStatus(floorNumber: number): string {
 		if (!hasUploadedSvgForFloor(floorNumber)) return "No file";
-		if (sessionUploadedFloors.has(floorNumber))
-			return `Uploaded ${sessionUploadedFileNames[floorNumber]}`;
+		if (sessionUploadedFloors.has(floorNumber)) return `Uploaded ${sessionUploadedFileNames[floorNumber]}`;
 		if (hasBackendSvgForFloor(floorNumber)) return "Live SVG";
 
 		return "SVG uploaded";
@@ -478,27 +519,50 @@ export default function BuildingModal({ bld_id, onClose, onBuildingSaved }: Buil
 									{Array.from({ length: numFloors! }, (_, index) => index + 1).map((floorNumber) => (
 										<tr key={floorNumber}>
 											<td className="label">{format(floorNumber, "0o")} Floor</td>
+
 											<td>
-												<input
-													type="file"
-													accept=".svg,image/svg+xml"
-													ref={(element) => {
-														floorSvgUploadInputRefs.current[floorNumber] = element;
-													}}
-													onChange={(event) => {
-														void handleFloorSvgUpload(floorNumber, event);
-													}}
-													style={{ display: "none" }}
-												/>
-												<button
-													className="button primary upload-button"
-													type="button"
-													onClick={() => openFloorSvgFilePicker(floorNumber)}
-												>
-													{hasUploadedSvgForFloor(floorNumber) ? "Replace" : "Upload"}
-													<img src={uploadIcon} alt="upload icon" />
-												</button>
+												<div className="svg-action-buttons">
+													<input
+														type="file"
+														accept=".svg,image/svg+xml"
+														ref={(element) => {
+															floorSvgUploadInputRefs.current[floorNumber] = element;
+														}}
+														onChange={(event) => {
+															void handleFloorSvgUpload(floorNumber, event);
+														}}
+														style={{ display: "none" }}
+													/>
+
+													<button
+														className={clsx(
+															"primary upload-button",
+															{
+																"button": !hasUploadedSvgForFloor(floorNumber),
+																"outline-button": hasUploadedSvgForFloor(floorNumber)
+															}
+														)}
+														type="button"
+														onClick={() => openFloorSvgFilePicker(floorNumber)}
+													>
+														{hasUploadedSvgForFloor(floorNumber) ? "Replace" : "Upload"}
+														<img src={uploadIcon} alt="upload icon" />
+													</button>
+
+													{bld_id !== undefined && (
+														<button
+														className="button secondary download-button"
+														type="button"
+														onClick={() => downloadFloorSvg(floorNumber)}
+														disabled={!hasUploadedSvgForFloor(floorNumber)}
+													>
+														Download
+														<img src={downloadIcon} alt="download icon" />
+													</button>
+												)}
+												</div>
 											</td>
+
 											<td className="data">{getFloorUploadStatus(floorNumber)}</td>
 										</tr>
 									))}

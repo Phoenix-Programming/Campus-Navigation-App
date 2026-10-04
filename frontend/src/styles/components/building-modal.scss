@@ -69,8 +69,18 @@
 					padding-right: 20px;
 				}
 
+				.svg-action-buttons {
+					display: flex;
+					align-items: center;
+					gap: 8px;
+				}
+
 				.upload-button {
 					width: 100px;
+				}
+
+				.download-button {
+					width: 120px;
 				}
 			}
 
