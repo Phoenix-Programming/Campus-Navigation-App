@@ -1,4 +1,5 @@
 import { useEffect, useState, type ReactNode } from "react";
+import clsx from "clsx";
 import { NavLink, Outlet } from "react-router";
 import { AUTH_CHANGE_EVENT } from "../auth/authEvents";
 import { hasAdminAccess } from "../auth/adminAccess";
@@ -8,6 +9,9 @@ interface RootLayoutProps {
 	pageName: string;
 	children?: ReactNode;
 }
+
+const creationYear: number = 2026; // The year this project was created
+const currentYear: number = new Date().getFullYear();
 
 const publicLinks = [
 	{ to: "/", label: "Home" },
@@ -29,16 +33,12 @@ export default function RootLayout({ pageName, children }: RootLayoutProps) {
 	const currentLinks = canSeeAdminLinks ? [...publicLinks, ...adminLinks] : publicLinks;
 
 	useEffect(() => {
-		let isMounted = true;
+		let isMounted: boolean = true;
 
 		const updateAdminLinks = async () => {
-			if (!hasAdminAccess()) {
-				await refreshAuthTokens();
-			}
+			if (!hasAdminAccess()) await refreshAuthTokens();
 
-			if (isMounted) {
-				setCanSeeAdminLinks(hasAdminAccess());
-			}
+			if (isMounted) setCanSeeAdminLinks(hasAdminAccess());
 		};
 
 		const handleAuthChange = () => {
@@ -60,20 +60,24 @@ export default function RootLayout({ pageName, children }: RootLayoutProps) {
 
 	return (
 		<div className="root-layout">
-			<header className="root-layout__header">
-				<div className="root-layout__brand">
-					<p className="root-layout__eyebrow">Florida Polytechnic University</p>
-					<h1 className="root-layout__title">Campus Map</h1>
-					<p className="root-layout__tagline">a student project</p>
+			<header>
+				<div className="brand">
+					<p className="eyebrow">Florida Polytechnic University</p>
+					<h1 className="title">Campus Map</h1>
+					<p className="tagline">a student project</p>
 				</div>
 
-				<nav className="root-layout__nav" aria-label="Primary navigation">
-					<div className="root-layout__links">
+				<nav aria-label="Primary navigation">
+					<div className="links">
 						{currentLinks.map((link) => (
 							<NavLink
 								key={link.to}
 								to={link.to}
-								className={({ isActive }) => `root-layout__link${isActive ? " root-layout__link--active" : ""}`}
+								className={({ isActive }) =>
+									clsx("link", {
+										active: isActive
+									})
+								}
 							>
 								{link.label}
 							</NavLink>
@@ -82,12 +86,18 @@ export default function RootLayout({ pageName, children }: RootLayoutProps) {
 				</nav>
 			</header>
 
-			<main className="root-layout__main">{displayedChildren}</main>
+			<main>{displayedChildren}</main>
 
-			<footer className="root-layout__footer">
+			<footer>
+				<hr />
+
 				<small>
-					&copy; 2026 Florida Poly Campus Map - Unofficial student-developed project. Not affiliated with or endorsed by
-					Florida Polytechnic University.
+					&copy; {creationYear + (currentYear > creationYear ? `-${currentYear}` : "")} Phoenix Programming.
+					All Rights Reserved.
+					<br />
+					Developed independently by Phoenix Programming, a student club. This project is
+					not an official Florida Polytechnic University application and is not sponsored,
+					endorsed, or maintained by the University.
 				</small>
 			</footer>
 		</div>
