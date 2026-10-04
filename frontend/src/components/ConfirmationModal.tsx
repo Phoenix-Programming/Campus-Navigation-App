@@ -1,4 +1,4 @@
-import React, { type ReactNode } from "react";
+import React, { useEffect, type ReactNode } from "react";
 import { clsx } from "clsx";
 import closeIcon from "../assets/icons/close.svg";
 import "@styles/main.scss";
@@ -25,6 +25,23 @@ export default function ConfirmationModal({
 	cancelText = "Cancel",
 	isDanger = false
 }: ConfirmationModalProps): React.JSX.Element | null {
+	useEffect(() => {
+		if (!isOpen || !onClose) return;
+
+		const onKeyDown = (event: KeyboardEvent): void => {
+			if (event.key !== "Escape" || event.defaultPrevented) return;
+
+			event.preventDefault();
+			onClose();
+		};
+
+		window.addEventListener("keydown", onKeyDown);
+
+		return () => {
+			window.removeEventListener("keydown", onKeyDown);
+		};
+	}, [isOpen, onClose]);
+
 	if (!isOpen) return null;
 
 	return (
@@ -51,12 +68,10 @@ export default function ConfirmationModal({
 					</button>
 					<button
 						type="button"
-						className={clsx(
-							{
-								"button primary": !isDanger,
-								"outline-button danger": isDanger
-							}
-						)}
+						className={clsx({
+							"button primary": !isDanger,
+							"outline-button danger": isDanger
+						})}
 						onClick={onConfirm}
 					>
 						{confirmText}

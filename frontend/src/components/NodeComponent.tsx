@@ -101,13 +101,17 @@ export default function NodeComponent({
 
 	function getNodeCursor(): string {
 		switch (selectedTool) {
-			case Tool.CreateNode: return "not-allowed";
-			case Tool.MoveNode: return draggingRef.current ? "grabbing" : "grab";
+			case Tool.CreateNode:
+				return "not-allowed";
+			case Tool.MoveNode:
+				return draggingRef.current ? "grabbing" : "grab";
 			case Tool.SingleSelect:
 			case Tool.MultiSelect:
 			case Tool.SingleConnect:
-			case Tool.MultiConnect: return "pointer";
-			default: return "move";
+			case Tool.MultiConnect:
+				return "pointer";
+			default:
+				return "move";
 		}
 	}
 
@@ -134,11 +138,13 @@ export default function NodeComponent({
 	}
 
 	function onPointerMove(event: React.PointerEvent<SVGSVGElement>): void {
-		if (!draggingRef.current ||
+		if (
+			!draggingRef.current ||
 			selectedTool !== Tool.MoveNode ||
 			dragPointerIdRef.current !== event.pointerId ||
 			!svgViewport
-		) return;
+		)
+			return;
 
 		event.preventDefault();
 		event.stopPropagation();
@@ -164,7 +170,10 @@ export default function NodeComponent({
 
 		event.currentTarget.releasePointerCapture(event.pointerId);
 
-		if (suppressClicksRef) window.setTimeout(() => { suppressClicksRef.current = false; }, 0);
+		if (suppressClicksRef)
+			window.setTimeout(() => {
+				suppressClicksRef.current = false;
+			}, 0);
 	}
 
 	return (
@@ -194,11 +203,16 @@ export default function NodeComponent({
 				cx="50"
 				cy="50"
 				r="44"
+				data-ds-selectable="true"
+				data-ds-type="node"
+				data-ds-id={node.id}
 				className={clsx("node", `${node.type}`, {
 					selected: isSelected,
 					hovered: isHovered
 				})}
-				onClick={(e) => { onClick(e, node); }}
+				onClick={(e) => {
+					onClick(e, node);
+				}}
 			/>
 		</svg>
 	);

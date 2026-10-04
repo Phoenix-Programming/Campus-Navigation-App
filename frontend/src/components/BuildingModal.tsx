@@ -271,6 +271,25 @@ export default function BuildingModal({ bld_id, onClose, onBuildingSaved }: Buil
 		numFloors !== 1 ||
 		Object.keys(floorSvgs).length > 0;
 	const shouldConfirmDiscard = isCreateMode ? hasCreateFormData : changesMade;
+	const isConfirmationModalOpen = createPending || savePending || discardPending;
+
+	useEffect(() => {
+		if (isConfirmationModalOpen) return;
+
+		const onKeyDown = (event: KeyboardEvent): void => {
+			if (event.key !== "Escape" || event.defaultPrevented) return;
+
+			event.preventDefault();
+			if (shouldConfirmDiscard) setDiscardPending(true);
+			else onClose();
+		};
+
+		window.addEventListener("keydown", onKeyDown);
+
+		return () => {
+			window.removeEventListener("keydown", onKeyDown);
+		};
+	}, [isConfirmationModalOpen, shouldConfirmDiscard, onClose]);
 
 	return (
 		<div className="modal-backdrop">

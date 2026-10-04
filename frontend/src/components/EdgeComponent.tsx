@@ -54,8 +54,10 @@ export default function EdgeComponent({
 	function getEdgeCursor(): string {
 		switch (selectedTool) {
 			case Tool.SingleSelect:
-			case Tool.MultiSelect: return "pointer";
-			default: return "move";
+			case Tool.MultiSelect:
+				return "pointer";
+			default:
+				return "move";
 		}
 	}
 
@@ -71,7 +73,7 @@ export default function EdgeComponent({
 		if (suppressClicksRef?.current) return;
 
 		e.stopPropagation();
-		
+
 		onEdgeClick(edge);
 	}
 
@@ -92,8 +94,13 @@ export default function EdgeComponent({
 			onMouseLeave={() => handleIsHoveredChange(false)}
 		>
 			<line
-				x1={x1} y1={y1}
-				x2={x2} y2={y2}
+				x1={x1}
+				y1={y1}
+				x2={x2}
+				y2={y2}
+				data-ds-selectable="true"
+				data-ds-type="edge"
+				data-ds-id={edge.id}
 				className={clsx("edge", { selected: isSelected })}
 				style={{ pointerEvents: "stroke", cursor: getEdgeCursor() }}
 				onClick={handleEdgeClick}

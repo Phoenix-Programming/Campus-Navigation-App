@@ -35,9 +35,12 @@ const SvgViewerComponent = forwardRef<SvgViewerHandle, SvgViewerComponentProps>(
 	{ svg, allowPan, selectedTool, onMapClick, children, zoomStep = DEFAULT_SVG_VIEWER_ZOOM_STEP },
 	ref
 ): React.JSX.Element {
+	const isMacOS = /Mac|iPhone|iPad|iPod/i.test(navigator.platform);
 	const [transform, setTransform] = useState({ scale: 1, x: 0, y: 0 });
 	const [isDragging, setIsDragging] = useState(false);
 	const [isHovering, setIsHovering] = useState(false);
+	const [isShiftPressed, setIsShiftPressed] = useState(false);
+	const [isPrimaryModifierPressed, setIsPrimaryModifierPressed] = useState(false);
 
 	const viewerRef = useRef<HTMLDivElement>(null);
 	const imgRef = useRef<HTMLImageElement>(null);
@@ -62,7 +65,10 @@ const SvgViewerComponent = forwardRef<SvgViewerHandle, SvgViewerComponentProps>(
 
 		const viewBoxMatch: RegExpMatchArray | null = svg.match(/viewBox\s*=\s*["']([^"']+)['"]/i);
 		if (viewBoxMatch) {
-			const parts: number[] = viewBoxMatch[1].trim().split(/[\s,]+/).map(Number);
+			const parts: number[] = viewBoxMatch[1]
+				.trim()
+				.split(/[\s,]+/)
+				.map(Number);
 
 			if (parts.length === 4 && parts[2] > 0 && parts[3] > 0) return { width: parts[2], height: parts[3] };
 		}
@@ -73,7 +79,9 @@ const SvgViewerComponent = forwardRef<SvgViewerHandle, SvgViewerComponentProps>(
 	useEffect(() => {
 		setTransform({ scale: 1, x: 0, y: 0 });
 
-		const frame: number = window.requestAnimationFrame(() => { fitToViewer(); });
+		const frame: number = window.requestAnimationFrame(() => {
+			fitToViewer();
+		});
 
 		return () => window.cancelAnimationFrame(frame);
 	}, [svgSrc]);
@@ -81,8 +89,40 @@ const SvgViewerComponent = forwardRef<SvgViewerHandle, SvgViewerComponentProps>(
 	useEffect(() => {
 		document.body.style.overflow = isHovering ? "hidden" : "";
 
-		return () => { document.body.style.overflow = ""; };
+		return () => {
+			document.body.style.overflow = "";
+		};
 	}, [isHovering]);
+
+	useEffect(() => {
+		const updateModifierState = (event: KeyboardEvent): void => {
+			setIsShiftPressed(event.shiftKey);
+			setIsPrimaryModifierPressed(isMacOS ? event.metaKey : event.ctrlKey);
+		};
+
+		const onKeyDown = (event: KeyboardEvent): void => {
+			updateModifierState(event);
+		};
+
+		const onKeyUp = (event: KeyboardEvent): void => {
+			updateModifierState(event);
+		};
+
+		const onBlur = (): void => {
+			setIsShiftPressed(false);
+			setIsPrimaryModifierPressed(false);
+		};
+
+		window.addEventListener("keydown", onKeyDown);
+		window.addEventListener("keyup", onKeyUp);
+		window.addEventListener("blur", onBlur);
+
+		return () => {
+			window.removeEventListener("keydown", onKeyDown);
+			window.removeEventListener("keyup", onKeyUp);
+			window.removeEventListener("blur", onBlur);
+		};
+	}, [isMacOS]);
 
 	useImperativeHandle(
 		ref,
@@ -126,7 +166,10 @@ const SvgViewerComponent = forwardRef<SvgViewerHandle, SvgViewerComponentProps>(
 		const viewBoxMatch: RegExpMatchArray | null = svg.match(/viewBox\s*=\s*["']([^"']+)["']/i);
 
 		if (viewBoxMatch) {
-			const parts: number[] = viewBoxMatch[1].trim().split(/[\s,]+/).map(Number);
+			const parts: number[] = viewBoxMatch[1]
+				.trim()
+				.split(/[\s,]+/)
+				.map(Number);
 
 			if (parts.length === 4 && parts[2] > 0 && parts[3] > 0) return { width: parts[2], height: parts[3] };
 		}
@@ -189,10 +232,8 @@ const SvgViewerComponent = forwardRef<SvgViewerHandle, SvgViewerComponentProps>(
 	function getMapCoordinatesFromPointer(event: React.MouseEvent<HTMLDivElement>): { x: number; y: number } | null {
 		if (!svgMetrics) return null;
 
-		const renderRect: Pick<DOMRect, "left" | "top" | "width" | "height"> =
-			imgRef.current?.getBoundingClientRect() ??
-			viewerRef.current?.getBoundingClientRect() ??
-			{ left: 0, top: 0, width: 0, height: 0 };
+		const renderRect: Pick<DOMRect, "left" | "top" | "width" | "height"> = imgRef.current?.getBoundingClientRect() ??
+			viewerRef.current?.getBoundingClientRect() ?? { left: 0, top: 0, width: 0, height: 0 };
 
 		if (renderRect.width <= 0 || renderRect.height <= 0) return null;
 
@@ -222,8 +263,11 @@ const SvgViewerComponent = forwardRef<SvgViewerHandle, SvgViewerComponentProps>(
 		if (e.button !== 0 && e.button !== 1) return;
 
 		if (!allowPan) {
-			e.preventDefault();
-			e.stopPropagation();
+			if (selectedTool === Tool.CreateNode) {
+				e.preventDefault();
+				e.stopPropagation();
+			}
+
 			return;
 		}
 
@@ -275,7 +319,7 @@ const SvgViewerComponent = forwardRef<SvgViewerHandle, SvgViewerComponentProps>(
 	}
 
 	function onMouseUp(e?: React.MouseEvent<HTMLDivElement>): void {
-		if (!allowPan && e) {
+		if (!allowPan && selectedTool === Tool.CreateNode && e) {
 			e.preventDefault();
 			e.stopPropagation();
 
@@ -292,17 +336,22 @@ const SvgViewerComponent = forwardRef<SvgViewerHandle, SvgViewerComponentProps>(
 		setIsDragging(false);
 
 		if (shouldSuppressClick)
-			window.setTimeout(() => { suppressClicksRef.current = false; }, 0);
+			window.setTimeout(() => {
+				suppressClicksRef.current = false;
+			}, 0);
 	}
 
 	function getCursorType(): string {
+		if (selectedTool === Tool.MultiSelect && isShiftPressed) return "crosshair";
 		if (selectedTool === Tool.CreateNode) return "crosshair";
 		if (selectedTool === Tool.MoveNode && isDragging) return "grabbing";
 
 		return "move";
 	}
 
-	const onMouseEnter = (): void => { setIsHovering(true); };
+	const onMouseEnter = (): void => {
+		setIsHovering(true);
+	};
 
 	const onMouseLeave = (): void => {
 		setIsHovering(false);
@@ -333,9 +382,7 @@ const SvgViewerComponent = forwardRef<SvgViewerHandle, SvgViewerComponentProps>(
 				}}
 				onMouseDown={onMouseDown}
 			>
-				<SvgViewportContext.Provider
-					value={svgMetrics ? { ...svgMetrics, suppressClicksRef } : null}
-				>
+				<SvgViewportContext.Provider value={svgMetrics ? { ...svgMetrics, suppressClicksRef } : null}>
 					<img
 						ref={imgRef}
 						src={svgSrc}
