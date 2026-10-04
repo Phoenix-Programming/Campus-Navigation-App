@@ -35,9 +35,12 @@ export default function BuildingModal({ bld_id, onClose, onBuildingSaved }: Buil
 	const [buildingAddress, setBuildingAddress] = useState<string>("");
 	const [numFloors, setNumFloors] = useState<number>(1);
 	const [floorSvgs, setFloorSvgs] = useState<{ [floorNumber: number]: string }>({});
+	const [sessionUploadedFloors, setSessionUploadedFloors] = useState<Set<number>>(new Set());
+	const [sessionUploadedFileNames, setSessionUploadedFileNames] = useState<Record<number, string>>({});
 	const [savePending, setSavePending] = useState<boolean>(false);
 	const [createPending, setCreatePending] = useState<boolean>(false);
 	const [discardPending, setDiscardPending] = useState<boolean>(false);
+	const floorSvgUploadInputRefs = useRef<Record<number, HTMLInputElement | null>>({});
 	const initialFormRef = useRef<{
 		buildingCategoryType: string;
 		buildingName: string;
@@ -98,13 +101,19 @@ export default function BuildingModal({ bld_id, onClose, onBuildingSaved }: Buil
 	async function getBuildingData() {
 		try {
 			const response: BuildingData = (await api.get<BuildingData>(`/api/buildings/${bld_id}`)).data;
+			const normalizedFloorSvgs: { [floorNumber: number]: string } = normalizeFloorSvgData(
+				response.floor_svgs,
+				response.num_floors
+			);
 
 			setBuildingCategoryType(titleCase(response.category_type));
 			setBuildingName(response.name);
 			setBuildingCode(response.code);
 			setBuildingAddress(response.address);
 			setNumFloors(response.num_floors);
-			setFloorSvgs(response.floor_svgs);
+			setFloorSvgs(normalizedFloorSvgs);
+			setSessionUploadedFloors(new Set());
+			setSessionUploadedFileNames({});
 
 			initialFormRef.current = {
 				buildingCategoryType: titleCase(response.category_type),
@@ -112,7 +121,7 @@ export default function BuildingModal({ bld_id, onClose, onBuildingSaved }: Buil
 				buildingCode: response.code,
 				buildingAddress: response.address,
 				numFloors: response.num_floors,
-				floorSvgs: response.floor_svgs
+				floorSvgs: normalizedFloorSvgs
 			};
 
 			setChangesMade(false);
@@ -126,14 +135,30 @@ export default function BuildingModal({ bld_id, onClose, onBuildingSaved }: Buil
 		}
 	}
 
+	function normalizeFloorSvgData(
+		floorSvgData: { [floorNumber: number]: string },
+		totalFloors: number
+	): { [floorNumber: number]: string } {
+		const normalizedFloorSvgs: { [floorNumber: number]: string } = {};
+
+		for (let floorNumber = 1; floorNumber <= totalFloors; floorNumber++) {
+			const oneBasedSvg: string | undefined = floorSvgData[floorNumber];
+			const zeroBasedSvg: string | undefined = floorSvgData[floorNumber - 1];
+			const resolvedSvg: string | undefined =
+				typeof oneBasedSvg === "string" ? oneBasedSvg : typeof zeroBasedSvg === "string" ? zeroBasedSvg : undefined;
+
+			if (!resolvedSvg || resolvedSvg.trim() === "") continue;
+
+			normalizedFloorSvgs[floorNumber] = resolvedSvg;
+		}
+
+		return normalizedFloorSvgs;
+	}
+
 	function getFloorSvgForFloor(floorSvgData: { [floorNumber: number]: string }, floorNumber: number): string {
-		const oneBasedSvg: string | undefined = floorSvgData[floorNumber];
+		const svgForFloor: string | undefined = floorSvgData[floorNumber];
 
-		if (typeof oneBasedSvg === "string") return oneBasedSvg;
-
-		const zeroBasedSvg: string | undefined = floorSvgData[floorNumber - 1];
-
-		return typeof zeroBasedSvg === "string" ? zeroBasedSvg : "";
+		return typeof svgForFloor === "string" ? svgForFloor : "";
 	}
 
 	function buildFloorSvgUpdatePayload(): (string | null)[] | null {
@@ -173,6 +198,53 @@ export default function BuildingModal({ bld_id, onClose, onBuildingSaved }: Buil
 		}
 
 		return hasUploadedSvg ? svgPayload : null;
+	}
+
+	function openFloorSvgFilePicker(floorNumber: number): void {
+		floorSvgUploadInputRefs.current[floorNumber]?.click();
+	}
+
+	async function handleFloorSvgUpload(floorNumber: number, event: React.ChangeEvent<HTMLInputElement>): Promise<void> {
+		const file: File | undefined = event.target.files?.[0];
+
+		if (!file) return;
+
+		const isSvgFile: boolean = file.type === "image/svg+xml" || file.name.toLowerCase().endsWith(".svg");
+
+		if (!isSvgFile) {
+			showWarning("Please upload an SVG file.", "Invalid File Type");
+			event.target.value = "";
+			return;
+		}
+
+		try {
+			const svgContent: string = await file.text();
+
+			if (!/<svg[\s>]/i.test(svgContent)) {
+				showWarning("The selected file does not contain valid SVG markup.", "Invalid SVG");
+				event.target.value = "";
+				return;
+			}
+
+			setFloorSvgs((prev) => ({
+				...prev,
+				[floorNumber]: svgContent
+			}));
+			setSessionUploadedFloors((prev) => {
+				const next = new Set(prev);
+				next.add(floorNumber);
+				return next;
+			});
+			setSessionUploadedFileNames((prev) => ({
+				...prev,
+				[floorNumber]: file.name
+			}));
+		} catch (error) {
+			console.error("Error reading SVG file:", error);
+			showError("The selected SVG could not be read. Please try another file.", "Failed to Read SVG");
+		} finally {
+			event.target.value = "";
+		}
 	}
 
 	async function saveChanges() {
@@ -254,6 +326,25 @@ export default function BuildingModal({ bld_id, onClose, onBuildingSaved }: Buil
 	}
 
 	const isCreateMode = bld_id === undefined;
+
+	const hasUploadedSvgForFloor = (floorNumber: number): boolean =>
+		getFloorSvgForFloor(floorSvgs, floorNumber).trim().length > 0;
+
+	const hasBackendSvgForFloor = (floorNumber: number): boolean => {
+		if (isCreateMode || !initialFormRef.current) return false;
+
+		return getFloorSvgForFloor(initialFormRef.current.floorSvgs, floorNumber).trim().length > 0;
+	};
+
+	function getFloorUploadStatus(floorNumber: number): string {
+		if (!hasUploadedSvgForFloor(floorNumber)) return "No file";
+		if (sessionUploadedFloors.has(floorNumber))
+			return `Uploaded ${sessionUploadedFileNames[floorNumber]}`;
+		if (hasBackendSvgForFloor(floorNumber)) return "Live SVG";
+
+		return "SVG uploaded";
+	}
+
 	const hasCreateFormData =
 		buildingCategoryType !== null ||
 		buildingName.trim() !== "" ||
@@ -382,17 +473,37 @@ export default function BuildingModal({ bld_id, onClose, onBuildingSaved }: Buil
 						<div>
 							<h3>Floor SVGs</h3>
 
-							<div className="svg-uploads">
-								{Array.from({ length: numFloors! }, (_, index) => index + 1).map((floorNumber) => (
-									<div key={floorNumber} className="item same-row">
-										<span className="label">{format(floorNumber, "0o")} Floor</span>
-										<button className="button primary">
-											Upload
-											<img src={uploadIcon} alt="upload icon" />
-										</button>
-									</div>
-								))}
-							</div>
+							<table className="svg-uploads" aria-label="Floor SVG uploads">
+								<tbody>
+									{Array.from({ length: numFloors! }, (_, index) => index + 1).map((floorNumber) => (
+										<tr key={floorNumber}>
+											<td className="label">{format(floorNumber, "0o")} Floor</td>
+											<td>
+												<input
+													type="file"
+													accept=".svg,image/svg+xml"
+													ref={(element) => {
+														floorSvgUploadInputRefs.current[floorNumber] = element;
+													}}
+													onChange={(event) => {
+														void handleFloorSvgUpload(floorNumber, event);
+													}}
+													style={{ display: "none" }}
+												/>
+												<button
+													className="button primary upload-button"
+													type="button"
+													onClick={() => openFloorSvgFilePicker(floorNumber)}
+												>
+													{hasUploadedSvgForFloor(floorNumber) ? "Replace" : "Upload"}
+													<img src={uploadIcon} alt="upload icon" />
+												</button>
+											</td>
+											<td className="data">{getFloorUploadStatus(floorNumber)}</td>
+										</tr>
+									))}
+								</tbody>
+							</table>
 						</div>
 					</div>
 				)}

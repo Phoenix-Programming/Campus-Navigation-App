@@ -166,13 +166,11 @@ class BuildingsService:
 			raise ValueError("At least one field must be provided for update")
 
 		bld: Building = await self.repo.get_building_by_id(bld_id=bld_id, db=db)
+		target_num_floors: int = num_floors if num_floors is not None else bld.num_floors
 
 		if floor_svgs:
-			if num_floors and len(floor_svgs) != num_floors:
+			if len(floor_svgs) != target_num_floors:
 				raise ValueError("Number of floor SVGs must match the number of floors")
-
-			if len(floor_svgs) != bld.num_floors:
-				raise ValueError("Number of floor SVGs must match the current number of floors")
 
 
 		category_id: int | None = (

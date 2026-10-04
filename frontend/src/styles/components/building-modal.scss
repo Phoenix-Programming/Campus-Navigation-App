@@ -1,4 +1,4 @@
-@use '../abstracts/variables' as var;
+@use "../abstracts/variables" as var;
 
 .modal-backdrop {
 	position: fixed;
@@ -52,12 +52,26 @@
 			padding-right: 4px;
 
 			.svg-uploads {
-				display: flex;
-				flex-direction: row;
-				justify-content: flex-start;
-				flex-wrap: wrap;
-				column-gap: 20px;
+				border-collapse: collapse;
+				border-spacing: 0;
 				margin-bottom: 10px;
+
+				tr {
+					height: 44px;
+				}
+
+				td {
+					padding: 4px 0;
+				}
+
+				tr td:nth-child(1),
+				tr td:nth-child(2) {
+					padding-right: 20px;
+				}
+
+				.upload-button {
+					width: 100px;
+				}
 			}
 
 			.item-row {
