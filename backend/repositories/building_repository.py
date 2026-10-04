@@ -116,18 +116,26 @@ class BuildingRepository:
             raise
 
 
-    async def delete_all_indoor_nodes(self, db: Database) -> None:
+    async def delete_all_indoor_nodes_for_bld_floor(self, bld_id: int, floor_id: int, db: Database) -> None:
+        await db.execute(
+            delete(IndoorNode)
+            .where(IndoorNode.building_id == bld_id, IndoorNode.floor_id == floor_id)
+        )
+
         try:
-            await db.execute(text("TRUNCATE TABLE indoor_nodes"))
             await db.commit()
         except:
             await db.rollback()
             raise
 
 
-    async def delete_all_indoor_edges(self, db: Database) -> None:
+    async def delete_all_indoor_edges_for_bld_floor(self, bld_id: int, floor_id: int, db: Database) -> None:
+        await db.execute(
+            delete(IndoorEdge)
+            .where(IndoorEdge.building_id == bld_id, IndoorEdge.floor_id == floor_id)
+        )
+
         try:
-            await db.execute(text("TRUNCATE TABLE indoor_edges"))
             await db.commit()
         except:
             await db.rollback()

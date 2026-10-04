@@ -84,9 +84,8 @@ class BuildingsService:
 		bld_id: int = await self.repo.get_building_id_by_building_code(bld_code=bld_code, db=db)
 		floor_id: int = await self.repo.get_floor_id(bld_id=bld_id, floor_num=floor_num, db=db)
 
-		# TODO: Replace deleting all nodes/edges with updating existing nodes/edges, inserting new nodes/edges, and deleting removed nodes/edges
-		await self.repo.delete_all_indoor_edges(db=db)
-		await self.repo.delete_all_indoor_nodes(db=db)
+		await self.repo.delete_all_indoor_edges_for_bld_floor(bld_id=bld_id, floor_id=floor_id, db=db)
+		await self.repo.delete_all_indoor_nodes_for_bld_floor(bld_id=bld_id, floor_id=floor_id, db=db)
 
 		await self.repo.insert_indoor_nodes(
 			bld_id=bld_id,
