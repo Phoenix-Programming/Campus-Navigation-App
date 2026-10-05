@@ -66,8 +66,12 @@ export default function LeafletMap() {
 
 	return (
 		<MapContainer
-			center={[28.1477, -81.8485]}
-			zoom={17}
+			//id = map 
+			// then do L.map (ID, options), move all the options to option and then
+			// run additional leaflet commands there (Store JSON with all options and pass
+			// into L.map (ID,options))
+			center={[28.1477, -81.8485]} // Move these parameters to a leaflet map creation 
+			zoom={17} // from that map creation pass the map into the map container.
 			zoomSnap={0}
 			wheelPxPerZoomLevel={15}
 			minZoom={17}
