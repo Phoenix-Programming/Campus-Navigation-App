@@ -1,5 +1,19 @@
 //css imported from figma design file
 
+:root {
+    --welcomewidth: 60vw;
+    --welcomeheight: 70vh;
+
+    --accent: #512D82;
+    --subaccent: #DEDEDE;
+    --background: #EEEEEE;
+
+    --titlewidth: calc(var(--welcomewidth) * 0.4116667);
+    --descriptionwidth: calc(var(--welcomewidth) * 0.75);
+    --buttonwidth: calc(var(--welcomewidth) * 0.1533333);
+    --buttongap: calc(var(--welcomewidth) * 0.0066667);
+}
+
 .map-ui {
     position: absolute;
     inset: 0;
@@ -15,27 +29,20 @@
     pointer-events: auto;
 }
 
-/* Welcome - Intro */
-
-.welcome-page {
-    position: relative;
-    width: 100vw;
-    height: 100vh;
-}
-
-
 /* Welcome Box */
 
 .welcome-box {
     position: absolute;
-    width: 60vw;
-    height: 70vh;
-    left: 20vw;
-    top: 15vh;
+    pointer-events: auto;
+    width: var(--welcomewidth);
+    height: var(--welcomeheight);
+    left: calc((100% - var(--welcomewidth)) / 2);
+    top: calc((100% - var(--welcomeheight)) / 2);
 
-    background: #EEEEEE;
+    background: var(--background);
     box-shadow: 0 0.4vh 0.4vh rgba(0, 0, 0, 0.25);
     border-radius: 1.0vw;
+    overflow: hidden;
 }
 
 
@@ -43,10 +50,11 @@
 
 .welcome-title {
     position: absolute;
-    width: 24.7vw;
+    width: var(--titlewidth);
     height: 3.5vh;
-    left: calc(50% - 12.3vw);
-    top: 35vh;
+    left: 50%;
+    top: 30vh;
+    transform: translateX(-50%);
 
     font-family: 'Fira Sans';
     font-style: normal;
@@ -63,10 +71,11 @@
 
 .welcome-description {
     position: absolute;
-    width: 45vw;
+    width: var(--descriptionwidth);
     height: 8vh;
-    left: calc(50% - 22.5vw);
-    top: 40vh;
+    left: 50%;
+    top: 35vh;
+    transform: translateX(-50%);
 
     font-family: 'Fira Sans';
     font-style: normal;
@@ -78,38 +87,13 @@
     color: #000000;
 }
 
-
-/* Next Button */
+/* Next */
 
 .next-button {
     position: absolute;
-    width: 9.2vw;
+    width: var(--buttonwidth);
     height: 5.5vh;
-    left: 33.5vw;
-    top: 58.5vh;
-}
-
-
-/* Next Button */
-
-.next-button-background {
-    position: absolute;
-    width: 9.2vw;
-    height: 5.3vh;
-    left: 33.5vw;
-    top: 58.7vh;
-
-    background: #DEDEDE;
-}
-
-
-/* Next */
-
-.next {
-    position: absolute;
-    width: 9.2vw;
-    height: 5.5vh;
-    left: 33.5vw;
+    left: calc(50% + (var(--buttongap) / 2));
     top: 58.5vh;
 
     font-family: 'Fira Sans';
@@ -124,27 +108,20 @@
     text-align: center;
 
     color: #000000;
+    border: transparent;
+
+    cursor: pointer;
+
+    background: var(--subaccent);
 }
-
-
-/* Previous Button */
-
-.previous-button {
-    position: absolute;
-    width: 9.2vw;
-    height: 5.5vh;
-    left: 24.1vw;
-    top: 58.5vh;
-}
-
 
 /* Previous */
 
-.previous {
+.previous-button {
     position: absolute;
-    width: 9.2vw;
+    width: var(--buttonwidth);
     height: 5.5vh;
-    left: 24.1vw;
+    left: calc(50% - var(--buttonwidth) - (var(--buttongap) / 2));
     top: 58.5vh;
 
     font-family: 'Fira Sans';
@@ -157,8 +134,12 @@
     align-items: center;
     justify-content: center;
     text-align: center;
-
-    color: #414141;
+    border: transparent;
+    
+    cursor: pointer;
+    
+    background: var(--subaccent);
+    color: #000000;
 }
 
 
@@ -166,177 +147,45 @@
 
 .welcome-top-bar {
     position: absolute;
-    width: 41.7vw;
-    height: 5.6vh;
+    width: var(--welcomewidth);
+    height: 5vh;
     left: 0;
     top: -0.3vh;
 
     display: flex;
     flex-direction: row;
     align-items: center;
+    justify-content: flex-start;
     padding: 0;
+    overflow: clip;
 
-    background: #DEDEDE;
+    background: transparent;
+
+
 }
 
-
-/* Intro */
-
-.intro {
-    width: 8.3vw;
-    height: 5.6vh;
-
-    font-family: 'Fira Sans';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 1.0vw;
-    line-height: 2.2vh;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-
-    color: #EEEEEE;
-
-    flex: none;
-    order: 0;
-    flex-grow: 0;
-}
-
-
-/* I Am A ... */
-
-.i-am-a {
-    width: 8.3vw;
-    height: 5.6vh;
-
-    font-family: 'Fira Sans';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 1.0vw;
-    line-height: 2.2vh;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-
+.welcome-tab {
+    width: calc(var(--welcomewidth) / 8);
+    height: 5vh;
+    border: 0;
+    padding: 0;
+    background: var(--subaccent);
     color: #000000;
 
-    flex: none;
-    order: 1;
-    flex-grow: 0;
-}
 
-
-/* Directions */
-
-.directions {
-    width: 8.3vw;
-    height: 5.6vh;
-
+    cursor: pointer;
     font-family: 'Fira Sans';
-    font-style: normal;
+    font-size: 1.1vw;
     font-weight: 400;
-    font-size: 1.0vw;
     line-height: 2.2vh;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
     text-align: center;
-
-    color: #000000;
-
-    flex: none;
-    order: 2;
-    flex-grow: 0;
 }
 
-
-/* Settings */
-
-.settings {
-    width: 8.3vw;
-    height: 5.6vh;
-
-    font-family: 'Fira Sans';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 1.0vw;
-    line-height: 2.2vh;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-
-    color: #000000;
-
-    flex: none;
-    order: 3;
-    flex-grow: 0;
+.welcome-top-bar-many-steps .welcome-tab {
+    width: calc(var(--welcomewidth) / var(--welcome-step-count));
 }
 
-
-/* Feedback */
-
-.feedback {
-    width: 8.3vw;
-    height: 5.6vh;
-
-    font-family: 'Fira Sans';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 1.0vw;
-    line-height: 2.2vh;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-
-    color: #000000;
-
-    flex: none;
-    order: 4;
-    flex-grow: 0;
-}
-
-
-/* Purple Button */
-
-.purple-button {
-    position: absolute;
-    width: 8.3vw;
-    height: 5.6vh;
-    left: 0;
-    top: -0.3vh;
-
-    background: #512D82;
-}
-
-
-/* Intro */
-
-.intro-active {
-    position: absolute;
-    width: 8.3vw;
-    height: 5.6vh;
-    left: 0;
-    top: -0.3vh;
-
-    font-family: 'Fira Sans';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 1.0vw;
-    line-height: 2.2vh;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-
-    color: #EEEEEE;
+.welcome-tab-active {
+    background: var(--accent);
+    color: var(--background);
 }
