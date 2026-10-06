@@ -20,6 +20,37 @@ interface BuildingData {
 	floor_svgs: string[] | { [floorNumber: number]: string };
 }
 
+interface IndoorMapGraphResponse {
+	svg: string;
+	nodes: IndoorGraphNode[];
+	edges: IndoorGraphEdge[];
+}
+
+interface IndoorMapGraphUploadPayload {
+	bld_code: string;
+	floor_num: number;
+	nodes: IndoorGraphNode[];
+	edges: IndoorGraphEdge[];
+}
+
+interface StagedIndoorMapGraphData {
+	nodes: IndoorGraphNode[];
+	edges: IndoorGraphEdge[];
+}
+
+interface IndoorGraphNode {
+	id: number;
+	label: string | null;
+	x: number;
+	y: number;
+}
+
+interface IndoorGraphEdge {
+	id: number;
+	source_node_id: number;
+	target_node_id: number;
+}
+
 interface BuildingModalProps {
 	bld_id?: number;
 	onClose: () => void;
@@ -38,10 +69,15 @@ export default function BuildingModal({ bld_id, onClose, onBuildingSaved }: Buil
 	const [floorSvgs, setFloorSvgs] = useState<{ [floorNumber: number]: string }>({});
 	const [sessionUploadedFloors, setSessionUploadedFloors] = useState<Set<number>>(new Set());
 	const [sessionUploadedFileNames, setSessionUploadedFileNames] = useState<Record<number, string>>({});
+	const [liveGraphFloors, setLiveGraphFloors] = useState<Set<number>>(new Set());
+	const [stagedGraphDataByFloor, setStagedGraphDataByFloor] = useState<Record<number, StagedIndoorMapGraphData>>({});
+	const [sessionUploadedGraphFloors, setSessionUploadedGraphFloors] = useState<Set<number>>(new Set());
+	const [sessionUploadedGraphFileNames, setSessionUploadedGraphFileNames] = useState<Record<number, string>>({});
 	const [savePending, setSavePending] = useState<boolean>(false);
 	const [createPending, setCreatePending] = useState<boolean>(false);
 	const [discardPending, setDiscardPending] = useState<boolean>(false);
 	const floorSvgUploadInputRefs = useRef<Record<number, HTMLInputElement | null>>({});
+	const floorGraphUploadInputRefs = useRef<Record<number, HTMLInputElement | null>>({});
 	const initialFormRef = useRef<{
 		buildingCategoryType: string;
 		buildingName: string;
@@ -78,9 +114,19 @@ export default function BuildingModal({ bld_id, onClose, onBuildingSaved }: Buil
 				buildingCode !== initialFormRef.current.buildingCode ||
 				buildingAddress !== initialFormRef.current.buildingAddress ||
 				numFloors !== initialFormRef.current.numFloors ||
-				JSON.stringify(floorSvgs) !== JSON.stringify(initialFormRef.current.floorSvgs)
+				JSON.stringify(floorSvgs) !== JSON.stringify(initialFormRef.current.floorSvgs) ||
+				Object.keys(stagedGraphDataByFloor).length > 0
 		);
-	}, [buildingDataLoaded, buildingCategoryType, buildingName, buildingCode, buildingAddress, numFloors, floorSvgs]);
+	}, [
+		buildingDataLoaded,
+		buildingCategoryType,
+		buildingName,
+		buildingCode,
+		buildingAddress,
+		numFloors,
+		floorSvgs,
+		stagedGraphDataByFloor
+	]);
 
 	async function getBuildingCategoryTypes() {
 		try {
@@ -106,6 +152,7 @@ export default function BuildingModal({ bld_id, onClose, onBuildingSaved }: Buil
 				response.floor_svgs,
 				response.num_floors
 			);
+			const nextLiveGraphFloors: Set<number> = await getLiveGraphFloors(response.code, response.num_floors);
 
 			setBuildingCategoryType(titleCase(response.category_type));
 			setBuildingName(response.name);
@@ -115,6 +162,10 @@ export default function BuildingModal({ bld_id, onClose, onBuildingSaved }: Buil
 			setFloorSvgs(normalizedFloorSvgs);
 			setSessionUploadedFloors(new Set());
 			setSessionUploadedFileNames({});
+			setLiveGraphFloors(nextLiveGraphFloors);
+			setStagedGraphDataByFloor({});
+			setSessionUploadedGraphFloors(new Set());
+			setSessionUploadedGraphFileNames({});
 
 			initialFormRef.current = {
 				buildingCategoryType: titleCase(response.category_type),
@@ -134,6 +185,45 @@ export default function BuildingModal({ bld_id, onClose, onBuildingSaved }: Buil
 				"Failed to Load Building Details"
 			);
 		}
+	}
+
+	async function getLiveGraphFloors(targetBuildingCode: string, totalFloors: number): Promise<Set<number>> {
+		const nextLiveGraphFloors: Set<number> = new Set();
+		const floorRequests: Promise<{ floorNumber: number; hasGraphData: boolean }>[] = Array.from(
+			{ length: totalFloors },
+			(_, index) => index + 1
+		).map(async (floorNumber) => {
+			try {
+				const response: IndoorMapGraphResponse = (
+					await api.get<IndoorMapGraphResponse>("/api/buildings/map", {
+						params: {
+							bld_code: targetBuildingCode,
+							floor_num: floorNumber
+						}
+					})
+				).data;
+
+				return {
+					floorNumber,
+					hasGraphData: response.nodes.length > 0 || response.edges.length > 0
+				};
+			} catch (error) {
+				console.warn(`Unable to determine graph status for floor ${floorNumber}:`, error);
+
+				return {
+					floorNumber,
+					hasGraphData: false
+				};
+			}
+		});
+
+		const floorResults = await Promise.all(floorRequests);
+
+		for (const result of floorResults) {
+			if (result.hasGraphData) nextLiveGraphFloors.add(result.floorNumber);
+		}
+
+		return nextLiveGraphFloors;
 	}
 
 	function normalizeFloorSvgData(
@@ -217,12 +307,160 @@ export default function BuildingModal({ bld_id, onClose, onBuildingSaved }: Buil
 		floorSvgUploadInputRefs.current[floorNumber]?.click();
 	}
 
+	function openFloorGraphFilePicker(floorNumber: number): void {
+		floorGraphUploadInputRefs.current[floorNumber]?.click();
+	}
+
 	function sanitizeBuildingCodeForFileName(code: string): string {
 		const trimmedCode: string = code.trim();
 
 		if (trimmedCode === "") return "unknown";
 
 		return trimmedCode.replace(/[^a-zA-Z0-9-_]/g, "-");
+	}
+
+	function getGraphTargetBuildingCode(): string {
+		if (isCreateMode) return buildingCode.trim();
+
+		return initialFormRef.current?.buildingCode.trim() ?? buildingCode.trim();
+	}
+
+	function isRecord(value: unknown): value is Record<string, unknown> {
+		return typeof value === "object" && value !== null && !Array.isArray(value);
+	}
+
+	function parseFiniteNumber(value: unknown, fieldName: string): number {
+		const numericValue: number = typeof value === "number" ? value : Number(value);
+
+		if (!Number.isFinite(numericValue)) {
+			throw new Error(`Each ${fieldName} value must be a valid number.`);
+		}
+
+		return numericValue;
+	}
+
+	function normalizeUploadedGraphPayload(rawPayload: unknown, floorNumber: number): StagedIndoorMapGraphData {
+		const targetBuildingCode: string = getGraphTargetBuildingCode();
+
+		if (!isRecord(rawPayload)) {
+			throw new Error("The selected file must contain a JSON object with nodes and edges arrays.");
+		}
+
+		const graphRoot: Record<string, unknown> = isRecord(rawPayload.graph) ? rawPayload.graph : rawPayload;
+		const fileBuildingCode: unknown = graphRoot.bld_code;
+		const fileFloorNumber: unknown = graphRoot.floor_num;
+
+		if (
+			typeof fileBuildingCode === "string" &&
+			targetBuildingCode !== "" &&
+			fileBuildingCode.trim() !== "" &&
+			fileBuildingCode.trim() !== targetBuildingCode
+		) {
+			throw new Error(
+				`This graph file is for building ${fileBuildingCode.trim()}, but the selected building is ${targetBuildingCode}.`
+			);
+		}
+
+		if (fileFloorNumber !== undefined && parseFiniteNumber(fileFloorNumber, "floor number") !== floorNumber) {
+			throw new Error(
+				`This graph file is for floor ${String(fileFloorNumber)}, but floor ${floorNumber} is currently selected.`
+			);
+		}
+
+		const rawNodes: unknown = graphRoot.nodes;
+		const rawEdges: unknown = graphRoot.edges;
+
+		if (!Array.isArray(rawNodes)) {
+			throw new Error("The selected file must include a nodes array.");
+		}
+
+		if (!Array.isArray(rawEdges)) {
+			throw new Error("The selected file must include an edges array.");
+		}
+
+		const nodeIdMap: Map<string, number> = new Map();
+		const nodes: IndoorGraphNode[] = rawNodes.map((rawNode, index) => {
+			if (!isRecord(rawNode)) {
+				throw new Error("Each node in the selected file must be an object.");
+			}
+
+			const sourceNodeId: unknown = rawNode.id ?? index + 1;
+
+			if (typeof sourceNodeId !== "string" && typeof sourceNodeId !== "number") {
+				throw new Error("Each node must include an id value.");
+			}
+
+			const sourceNodeKey: string = String(sourceNodeId);
+
+			if (nodeIdMap.has(sourceNodeKey)) {
+				throw new Error("Duplicate node ids were found in the selected graph file.");
+			}
+
+			const normalizedNodeId: number = index + 1;
+			nodeIdMap.set(sourceNodeKey, normalizedNodeId);
+
+			const rawLabel: unknown = rawNode.label ?? rawNode.name;
+
+			return {
+				id: normalizedNodeId,
+				label: typeof rawLabel === "string" && rawLabel.trim() !== "" ? rawLabel : null,
+				x: parseFiniteNumber(rawNode.x, "node x"),
+				y: parseFiniteNumber(rawNode.y, "node y")
+			};
+		});
+
+		const edges: IndoorGraphEdge[] = rawEdges.map((rawEdge, index) => {
+			if (!isRecord(rawEdge)) {
+				throw new Error("Each edge in the selected file must be an object.");
+			}
+
+			const sourceNodeId: unknown = rawEdge.source_node_id ?? rawEdge.sourceNodeId;
+			const targetNodeId: unknown = rawEdge.target_node_id ?? rawEdge.targetNodeId;
+
+			if (
+				(typeof sourceNodeId !== "string" && typeof sourceNodeId !== "number") ||
+				(typeof targetNodeId !== "string" && typeof targetNodeId !== "number")
+			) {
+				throw new Error("Each edge must include source and target node ids.");
+			}
+
+			const normalizedSourceNodeId: number | undefined = nodeIdMap.get(String(sourceNodeId));
+			const normalizedTargetNodeId: number | undefined = nodeIdMap.get(String(targetNodeId));
+
+			if (normalizedSourceNodeId === undefined || normalizedTargetNodeId === undefined) {
+				throw new Error("Each edge must reference node ids that exist in the uploaded nodes array.");
+			}
+
+			return {
+				id: index + 1,
+				source_node_id: normalizedSourceNodeId,
+				target_node_id: normalizedTargetNodeId
+			};
+		});
+
+		return { nodes, edges };
+	}
+
+	async function persistStagedGraphData(targetBuildingCode: string): Promise<void> {
+		const floorNumbers: number[] = Object.keys(stagedGraphDataByFloor)
+			.map((floorNumber) => Number(floorNumber))
+			.filter((floorNumber) => Number.isInteger(floorNumber) && floorNumber >= 1 && floorNumber <= numFloors)
+			.sort((floorA, floorB) => floorA - floorB);
+
+		for (const floorNumber of floorNumbers) {
+			const stagedGraphData: StagedIndoorMapGraphData | undefined = stagedGraphDataByFloor[floorNumber];
+
+			if (!stagedGraphData) continue;
+
+			const payload: IndoorMapGraphUploadPayload = {
+				bld_code: targetBuildingCode,
+				floor_num: floorNumber,
+				nodes: stagedGraphData.nodes,
+				edges: stagedGraphData.edges
+			};
+
+			await api.post("/api/buildings/map", payload);
+		}
 	}
 
 	function downloadFloorSvg(floorNumber: number): void {
@@ -244,6 +482,50 @@ export default function BuildingModal({ bld_id, onClose, onBuildingSaved }: Buil
 		downloadLink.click();
 		downloadLink.remove();
 		window.URL.revokeObjectURL(objectUrl);
+	}
+
+	async function downloadFloorGraphData(floorNumber: number): Promise<void> {
+		const targetBuildingCode: string = getGraphTargetBuildingCode();
+
+		if (targetBuildingCode === "") {
+			showWarning("Save the building before downloading graph data.", "Building Code Required");
+			return;
+		}
+
+		try {
+			const response: IndoorMapGraphResponse = (
+				await api.get<IndoorMapGraphResponse>("/api/buildings/map", {
+					params: {
+						bld_code: targetBuildingCode,
+						floor_num: floorNumber
+					}
+				})
+			).data;
+
+			const fileName: string = `campus-map-graph-${sanitizeBuildingCodeForFileName(targetBuildingCode)}-${format(floorNumber, "0o")}-floor.json`;
+			const payload: IndoorMapGraphUploadPayload = {
+				bld_code: targetBuildingCode,
+				floor_num: floorNumber,
+				nodes: response.nodes,
+				edges: response.edges
+			};
+			const blob: Blob = new Blob([JSON.stringify(payload, null, 2)], { type: "application/json;charset=utf-8" });
+			const objectUrl: string = window.URL.createObjectURL(blob);
+			const downloadLink: HTMLAnchorElement = document.createElement("a");
+
+			downloadLink.href = objectUrl;
+			downloadLink.download = fileName;
+			document.body.appendChild(downloadLink);
+			downloadLink.click();
+			downloadLink.remove();
+			window.URL.revokeObjectURL(objectUrl);
+		} catch (error) {
+			console.error("Error downloading indoor graph data:", error);
+			showError(
+				error instanceof Error ? error.message : "The graph data could not be downloaded for this floor.",
+				"Failed to Download Graph Data"
+			);
+		}
 	}
 
 	async function handleFloorSvgUpload(floorNumber: number, event: React.ChangeEvent<HTMLInputElement>): Promise<void> {
@@ -289,6 +571,56 @@ export default function BuildingModal({ bld_id, onClose, onBuildingSaved }: Buil
 		}
 	}
 
+	async function handleFloorGraphUpload(
+		floorNumber: number,
+		event: React.ChangeEvent<HTMLInputElement>
+	): Promise<void> {
+		const file: File | undefined = event.target.files?.[0];
+
+		if (!file) return;
+
+		const isJsonFile: boolean = file.type === "application/json" || file.name.toLowerCase().endsWith(".json");
+
+		if (!isJsonFile) {
+			showWarning("Please upload a JSON file.", "Invalid File Type");
+			event.target.value = "";
+			return;
+		}
+
+		try {
+			const fileText: string = await file.text();
+			const parsedPayload: unknown = JSON.parse(fileText);
+			const normalizedGraphData: StagedIndoorMapGraphData = normalizeUploadedGraphPayload(parsedPayload, floorNumber);
+
+			setStagedGraphDataByFloor((prev) => ({
+				...prev,
+				[floorNumber]: normalizedGraphData
+			}));
+			setSessionUploadedGraphFloors((prev) => {
+				const next = new Set(prev);
+				next.add(floorNumber);
+				return next;
+			});
+			setSessionUploadedGraphFileNames((prev) => ({
+				...prev,
+				[floorNumber]: file.name
+			}));
+
+			showSuccess(
+				`Indoor graph data for floor ${format(floorNumber, "0o")} was uploaded successfully. Save the building to make it live.`,
+				"Graph Uploaded"
+			);
+		} catch (error) {
+			console.error("Error uploading indoor graph data:", error);
+			showError(
+				error instanceof Error ? error.message : "The selected graph file could not be uploaded.",
+				"Failed to Upload Graph Data"
+			);
+		} finally {
+			event.target.value = "";
+		}
+	}
+
 	async function saveChanges() {
 		try {
 			if (!requiredFieldsFilled()) {
@@ -306,6 +638,8 @@ export default function BuildingModal({ bld_id, onClose, onBuildingSaved }: Buil
 				num_floors: numFloors,
 				floor_svgs: svgs
 			});
+
+			await persistStagedGraphData(buildingCode.trim());
 
 			await onBuildingSaved?.(bld_id);
 			showSuccess("Building updated successfully!", "Building Saved!");
@@ -339,6 +673,8 @@ export default function BuildingModal({ bld_id, onClose, onBuildingSaved }: Buil
 				num_floors: numFloors,
 				floor_svgs: svgs
 			});
+
+			await persistStagedGraphData(buildingCode.trim());
 
 			await onBuildingSaved?.();
 			showSuccess("Building created successfully!", "Building Created!");
@@ -386,13 +722,28 @@ export default function BuildingModal({ bld_id, onClose, onBuildingSaved }: Buil
 		return "SVG uploaded";
 	}
 
+	function hasGraphJsonForFloor(floorNumber: number): boolean {
+		return sessionUploadedGraphFloors.has(floorNumber) || liveGraphFloors.has(floorNumber);
+	}
+
+	function getFloorGraphStatus(floorNumber: number): string {
+		if (sessionUploadedGraphFloors.has(floorNumber)) {
+			return `Uploaded ${sessionUploadedGraphFileNames[floorNumber]}`;
+		}
+
+		if (liveGraphFloors.has(floorNumber)) return "Live graph JSON";
+
+		return "No graph JSON";
+	}
+
 	const hasCreateFormData =
 		buildingCategoryType !== null ||
 		buildingName.trim() !== "" ||
 		buildingCode.trim() !== "" ||
 		buildingAddress.trim() !== "" ||
 		numFloors !== 1 ||
-		Object.keys(floorSvgs).length > 0;
+		Object.keys(floorSvgs).length > 0 ||
+		Object.keys(stagedGraphDataByFloor).length > 0;
 	const shouldConfirmDiscard = isCreateMode ? hasCreateFormData : changesMade;
 	const isConfirmationModalOpen = createPending || savePending || discardPending;
 
@@ -514,6 +865,8 @@ export default function BuildingModal({ bld_id, onClose, onBuildingSaved }: Buil
 						<div>
 							<h3>Floor SVGs</h3>
 
+							<p className="section-note">Upload or download the SVG for each floor.</p>
+
 							<table className="svg-uploads" aria-label="Floor SVG uploads">
 								<tbody>
 									{Array.from({ length: numFloors! }, (_, index) => index + 1).map((floorNumber) => (
@@ -535,13 +888,10 @@ export default function BuildingModal({ bld_id, onClose, onBuildingSaved }: Buil
 													/>
 
 													<button
-														className={clsx(
-															"primary upload-button",
-															{
-																"button": !hasUploadedSvgForFloor(floorNumber),
-																"outline-button": hasUploadedSvgForFloor(floorNumber)
-															}
-														)}
+														className={clsx("primary upload-button", {
+															button: !hasUploadedSvgForFloor(floorNumber),
+															"outline-button": hasUploadedSvgForFloor(floorNumber)
+														})}
 														type="button"
 														onClick={() => openFloorSvgFilePicker(floorNumber)}
 													>
@@ -551,19 +901,81 @@ export default function BuildingModal({ bld_id, onClose, onBuildingSaved }: Buil
 
 													{bld_id !== undefined && (
 														<button
-														className="button secondary download-button"
-														type="button"
-														onClick={() => downloadFloorSvg(floorNumber)}
-														disabled={!hasUploadedSvgForFloor(floorNumber)}
-													>
-														Download
-														<img src={downloadIcon} alt="download icon" />
-													</button>
-												)}
+															className="button secondary download-button"
+															type="button"
+															onClick={() => downloadFloorSvg(floorNumber)}
+															disabled={!hasUploadedSvgForFloor(floorNumber)}
+														>
+															Download
+															<img src={downloadIcon} alt="download icon" />
+														</button>
+													)}
 												</div>
 											</td>
 
 											<td className="data">{getFloorUploadStatus(floorNumber)}</td>
+										</tr>
+									))}
+								</tbody>
+							</table>
+						</div>
+
+						<hr className="divider" />
+
+						<div>
+							<h3>Floor Graphs</h3>
+
+							<p className="section-note">
+								Upload graph JSON for any floor. Downloads stay disabled until live graph data exists.
+							</p>
+
+							<table className="graph-uploads" aria-label="Floor graph uploads and downloads">
+								<tbody>
+									{Array.from({ length: numFloors! }, (_, index) => index + 1).map((floorNumber) => (
+										<tr key={`graph-${floorNumber}`}>
+											<td className="label">{format(floorNumber, "0o")} Floor</td>
+
+											<td>
+												<div className="graph-action-buttons">
+													<input
+														type="file"
+														accept=".json,application/json"
+														ref={(element) => {
+															floorGraphUploadInputRefs.current[floorNumber] = element;
+														}}
+														onChange={(event) => {
+															void handleFloorGraphUpload(floorNumber, event);
+														}}
+														style={{ display: "none" }}
+													/>
+
+													<button
+														className={clsx("primary graph-upload-button", {
+															button: !hasGraphJsonForFloor(floorNumber),
+															"outline-button": hasGraphJsonForFloor(floorNumber)
+														})}
+														type="button"
+														onClick={() => openFloorGraphFilePicker(floorNumber)}
+													>
+														{hasGraphJsonForFloor(floorNumber) ? "Replace JSON" : "Upload JSON"}
+														<img src={uploadIcon} alt="upload graph icon" />
+													</button>
+
+													<button
+														className="button secondary graph-download-button"
+														type="button"
+														onClick={() => {
+															void downloadFloorGraphData(floorNumber);
+														}}
+														disabled={isCreateMode || !liveGraphFloors.has(floorNumber)}
+													>
+														Download JSON
+														<img src={downloadIcon} alt="download graph icon" />
+													</button>
+												</div>
+											</td>
+
+											<td className="data">{getFloorGraphStatus(floorNumber)}</td>
 										</tr>
 									))}
 								</tbody>

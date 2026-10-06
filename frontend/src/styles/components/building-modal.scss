@@ -84,6 +84,45 @@
 				}
 			}
 
+			.graph-uploads {
+				border-collapse: collapse;
+				border-spacing: 0;
+				margin-bottom: 10px;
+
+				tr {
+					height: 44px;
+				}
+
+				td {
+					padding: 4px 0;
+				}
+
+				tr td:nth-child(1),
+				tr td:nth-child(2) {
+					padding-right: 20px;
+				}
+
+				.graph-action-buttons {
+					display: flex;
+					align-items: center;
+					gap: 8px;
+				}
+
+				.graph-upload-button {
+					width: 150px;
+				}
+
+				.graph-download-button {
+					width: 170px;
+				}
+			}
+
+			.section-note {
+				margin: 0 0 12px;
+				color: rgba(255, 255, 255, 0.82);
+				font-size: 0.95rem;
+			}
+
 			.item-row {
 				display: flex;
 				flex-direction: row;

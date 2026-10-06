@@ -79,7 +79,7 @@ class BuildingRepository:
         nodes_coords: list[tuple[float, float]],
         nodes_labels: list[str | None],
         db: Database
-    ) -> None:
+    ) -> list[int]:
         nodes: list[IndoorNode] = [
             IndoorNode(building_id=bld_id, floor_id=floor_id, label=label, x=x, y=y)
             for (x, y), label in zip(nodes_coords, nodes_labels)
@@ -88,7 +88,11 @@ class BuildingRepository:
         db.add_all(nodes)
 
         try:
+            await db.flush()
+
+            inserted_node_ids: list[int] = [node.id for node in nodes]
             await db.commit()
+            return inserted_node_ids
         except:
             await db.rollback()
             raise

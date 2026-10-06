@@ -87,7 +87,7 @@ class BuildingsService:
 		await self.repo.delete_all_indoor_edges_for_bld_floor(bld_id=bld_id, floor_id=floor_id, db=db)
 		await self.repo.delete_all_indoor_nodes_for_bld_floor(bld_id=bld_id, floor_id=floor_id, db=db)
 
-		await self.repo.insert_indoor_nodes(
+		inserted_node_ids: list[int] = await self.repo.insert_indoor_nodes(
 			bld_id=bld_id,
 			floor_id=floor_id,
 			nodes_coords=[(node.x, node.y) for node in nodes],
@@ -95,11 +95,19 @@ class BuildingsService:
 			db=db
 		)
 
+		node_id_map: dict[int, int] = {node.id: inserted_id for node, inserted_id in zip(nodes, inserted_node_ids)}
+
+		try:
+			source_node_ids: list[int] = [node_id_map[edge.source_node_id] for edge in edges]
+			target_node_ids: list[int] = [node_id_map[edge.target_node_id] for edge in edges]
+		except KeyError as error:
+			raise ValueError("Indoor map edges must reference nodes present in the uploaded graph.") from error
+
 		await self.repo.insert_indoor_edges(
 			bld_id=bld_id,
 			floor_id=floor_id,
-			source_nodes_ids=[edge.source_node_id for edge in edges],
-			target_nodes_ids=[edge.target_node_id for edge in edges],
+			source_nodes_ids=source_node_ids,
+			target_nodes_ids=target_node_ids,
 			db=db
 		)
 
