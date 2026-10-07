@@ -1,6 +1,14 @@
 from backend.auth.current_user_context import CurrentUserContext
 from backend.exceptions import NotAuthorizedToEditIndoorMapError
-from backend.models.buildings import BuildingModel, GetAllBuildingsResponse, GetBuildingResponse, GetIndoorMapResponse, IndoorEdgeModel, IndoorNodeModel, UpdateIndoorMapGraphRequest
+from backend.models.buildings import (
+    BuildingModel,
+    GetAllBuildingsResponse,
+    GetBuildingResponse,
+    GetIndoorMapResponse,
+    IncomingIndoorEdgeModel,
+    IndoorEdgeModel,
+    IndoorNodeModel
+)
 from backend.repositories.building_repository import BuildingRepository
 from backend.schema.building import Building
 from backend.schema.building_category import BuildingCategory
@@ -59,7 +67,10 @@ class BuildingsService:
 
 		response: GetIndoorMapResponse = GetIndoorMapResponse(
 			svg=svg,
-			nodes=[IndoorNodeModel(id=node.id, label=node.label, x=node.x, y=node.y) for node in indoor_nodes],
+			nodes=[
+       			IndoorNodeModel(id=node.id, type=node.node_type.type, label=node.label, x=node.x, y=node.y)
+          		for node in indoor_nodes
+            ],
 			edges=[
 				IndoorEdgeModel(id=edge.id, source_node_id=edge.source_node_id, target_node_id=edge.target_node_id)
 				for edge in indoor_edges
@@ -74,7 +85,7 @@ class BuildingsService:
 		bld_code: str,
 		floor_num: int,
 		nodes: list[IndoorNodeModel],
-		edges: list[IndoorEdgeModel],
+		edges: list[IncomingIndoorEdgeModel],
 		current_user: CurrentUserContext,
 		db: Database
 	) -> None:
@@ -87,11 +98,17 @@ class BuildingsService:
 		await self.repo.delete_all_indoor_edges_for_bld_floor(bld_id=bld_id, floor_id=floor_id, db=db)
 		await self.repo.delete_all_indoor_nodes_for_bld_floor(bld_id=bld_id, floor_id=floor_id, db=db)
 
+		node_type_ids: list[int] = [await self.repo.get_node_type_id_by_type(node_type=node.type, db=db) for node in nodes]
+
+
+		# TODO: Something is going wrong here!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 		inserted_node_ids: list[int] = await self.repo.insert_indoor_nodes(
 			bld_id=bld_id,
 			floor_id=floor_id,
+			node_types_ids=node_type_ids,
 			nodes_coords=[(node.x, node.y) for node in nodes],
 			nodes_labels=[node.label for node in nodes],
+			current_user_id=current_user.user.id,
 			db=db
 		)
 
@@ -100,14 +117,15 @@ class BuildingsService:
 		try:
 			source_node_ids: list[int] = [node_id_map[edge.source_node_id] for edge in edges]
 			target_node_ids: list[int] = [node_id_map[edge.target_node_id] for edge in edges]
-		except KeyError as error:
-			raise ValueError("Indoor map edges must reference nodes present in the uploaded graph.") from error
+		except KeyError:
+			raise ValueError("Indoor map edges must reference nodes present in the uploaded graph.")
 
 		await self.repo.insert_indoor_edges(
 			bld_id=bld_id,
 			floor_id=floor_id,
 			source_nodes_ids=source_node_ids,
 			target_nodes_ids=target_node_ids,
+			current_user_id=current_user.user.id,
 			db=db
 		)
 

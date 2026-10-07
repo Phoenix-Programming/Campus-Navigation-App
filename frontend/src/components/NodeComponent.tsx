@@ -6,8 +6,8 @@ import { SvgViewportContext, type SvgViewportMetrics } from "./SvgViewerComponen
 import "@styles/components/node-component.scss";
 
 export interface Node {
-	id: string;
-	name: string;
+	id: number;
+	label: string;
 	type: string;
 	x: number;
 	y: number;
@@ -31,7 +31,7 @@ interface NodeComponentProps {
 	selectedTool?: Tool;
 	onNodeClick: (node: Node) => void;
 	setHoveredNode: (node: Node | null) => void;
-	moveNode: (nodeId: string, newX: number, newY: number) => void;
+	moveNode: (nodeId: number, newX: number, newY: number) => void;
 }
 
 export default function NodeComponent({

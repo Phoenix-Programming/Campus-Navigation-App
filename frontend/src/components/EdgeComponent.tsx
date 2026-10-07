@@ -7,12 +7,12 @@ import "@styles/components/edge-component.scss";
 
 export interface Edge {
 	id: string;
-	sourceNodeId: string;
-	targetNodeId: string;
+	source_node_id: number;
+	target_node_id: number;
 }
 
 export function isEdge(item: Node | Edge): item is Edge {
-	return "sourceNodeId" in item && "targetNodeId" in item;
+	return "source_node_id" in item && "target_node_id" in item;
 }
 
 interface EdgeComponentProps {

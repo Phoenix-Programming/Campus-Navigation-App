@@ -27,7 +27,7 @@ class UpdateIndoorMapGraphRequest(BaseModel):
     bld_code: str = Field(max_length=10)
     floor_num: int = Field(gt=0)
     nodes: list[IndoorNodeModel]
-    edges: list[IndoorEdgeModel]
+    edges: list[IncomingIndoorEdgeModel]
 
 
 class CreateBuildingRequest(BaseModel):
@@ -50,6 +50,7 @@ class UpdateBuildingRequest(BaseModel):
 
 class IndoorNodeModel(BaseModel):
     id: int
+    type: str
     label: str | None = Field(default=None, max_length=64)
     x: float
     y: float
@@ -57,5 +58,11 @@ class IndoorNodeModel(BaseModel):
 
 class IndoorEdgeModel(BaseModel):
     id: int
+    source_node_id: int
+    target_node_id: int
+
+
+class IncomingIndoorEdgeModel(BaseModel):
+    id: int | str
     source_node_id: int
     target_node_id: int

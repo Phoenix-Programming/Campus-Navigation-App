@@ -73,3 +73,7 @@ class FloorNumberNotFoundError(NotFoundError):
 class BuildingCategoryNotFoundError(NotFoundError):
     def __init__(self, category_type: str):
         super().__init__(msg=f"Building category '{category_type}' not found.")
+
+class NodeTypeNotFoundError(NotFoundError):
+    def __init__(self, node_type: int | str):
+        super().__init__(msg=f"Node type '{node_type}' not found.")

@@ -1,11 +1,18 @@
 from sqlalchemy import Result, delete, func, select, text
 from sqlalchemy.orm import selectinload
-from backend.exceptions import BuildingCodeNotFoundError, BuildingNotFoundError, FloorNumberNotFoundError, BuildingCategoryNotFoundError
+from backend.exceptions import (
+    BuildingCodeNotFoundError,
+    BuildingNotFoundError,
+    FloorNumberNotFoundError,
+    BuildingCategoryNotFoundError,
+    NodeTypeNotFoundError
+)
 from backend.schema.building import Building
 from backend.schema.building_category import BuildingCategory
 from backend.schema.floor import Floor
 from backend.schema.indoor_edge import IndoorEdge
 from backend.schema.indoor_node import IndoorNode
+from backend.schema.node_type import NodeType
 from backend.utilities.db_connection import Database
 
 
@@ -57,9 +64,11 @@ class BuildingRepository:
 
 
     async def get_all_indoor_nodes_for_bld_floor(self, bld_id: int, floor_id: int, db: Database) -> list[IndoorNode]:
-        nodes_result: Result[tuple[IndoorNode]] = await db.execute(select(IndoorNode).where(
-            IndoorNode.building_id == bld_id, IndoorNode.floor_id == floor_id
-        ))
+        nodes_result: Result[tuple[IndoorNode]] = await db.execute(
+            select(IndoorNode)
+            .options(selectinload(IndoorNode.node_type))
+            .where(IndoorNode.building_id == bld_id, IndoorNode.floor_id == floor_id)
+        )
 
         return list(nodes_result.scalars().all())
 
@@ -78,11 +87,21 @@ class BuildingRepository:
         floor_id: int,
         nodes_coords: list[tuple[float, float]],
         nodes_labels: list[str | None],
+        node_types_ids: list[int],
+        current_user_id: int,
         db: Database
     ) -> list[int]:
         nodes: list[IndoorNode] = [
-            IndoorNode(building_id=bld_id, floor_id=floor_id, label=label, x=x, y=y)
-            for (x, y), label in zip(nodes_coords, nodes_labels)
+            IndoorNode(
+                building_id=bld_id,
+                floor_id=floor_id,
+                node_type_id=node_type_id,
+                label=label,
+                x=x,
+                y=y,
+                last_updated_by=current_user_id
+            )
+            for (x, y), label, node_type_id in zip(nodes_coords, nodes_labels, node_types_ids)
         ]
 
         db.add_all(nodes)
@@ -104,10 +123,17 @@ class BuildingRepository:
         floor_id: int,
         source_nodes_ids: list[int],
         target_nodes_ids: list[int],
+        current_user_id: int,
         db: Database
     ) -> None:
         edges: list[IndoorEdge] = [
-            IndoorEdge(building_id=bld_id, floor_id=floor_id, source_node_id=source, target_node_id=target)
+            IndoorEdge(
+                building_id=bld_id,
+                floor_id=floor_id,
+                source_node_id=source,
+                target_node_id=target,
+                last_updated_by=current_user_id
+            )
             for source, target in zip(source_nodes_ids, target_nodes_ids)
         ]
 
@@ -281,3 +307,22 @@ class BuildingRepository:
         except:
             await db.rollback()
             raise
+
+
+    async def get_all_node_types(self, db: Database) -> list[NodeType]:
+        node_types_result: Result[tuple[NodeType]] = await db.execute(select(NodeType))
+
+        return list(node_types_result.scalars().all())
+
+
+    async def get_node_type_id_by_type(self, node_type: str, db: Database) -> int:
+        result: Result[tuple[int]] = await db.execute(
+            select(NodeType.id)
+            .where(func.lower(NodeType.type) == node_type.lower())
+        )
+
+        node_type_id: int | None = result.scalar_one_or_none()
+
+        if not node_type_id: raise NodeTypeNotFoundError(node_type=node_type)
+
+        return node_type_id

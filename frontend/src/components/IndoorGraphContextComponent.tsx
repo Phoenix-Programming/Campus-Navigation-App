@@ -8,9 +8,9 @@ interface IndoorGraphContextProps {
 	nodes: Node[];
 	edges: Edge[];
 	isHovered: boolean;
-	updateNode?: (nodeId: string, newLabel: string | null, newType: string | null) => void;
-	deleteNode?: (nodeId: string) => void;
-	deleteEdge?: (nodeAId: string, nodeBId: string) => void;
+	updateNode?: (nodeId: number, newLabel: string | null, newType: string | null) => void;
+	deleteNode?: (nodeId: number) => void;
+	deleteEdge?: (nodeAId: number, nodeBId: number) => void;
 }
 
 export default function IndoorGraphContextComponent({
@@ -29,7 +29,6 @@ export default function IndoorGraphContextComponent({
 
 	const node: Node | null = isSingleNode ? nodes[0] : null;
 	const edge: Edge | null = isSingleEdge ? edges[0] : null;
-
 
 	function setSelectedNodeType(newType: string): void {
 		updateNode!(node!.id, null, newType);
@@ -63,7 +62,7 @@ export default function IndoorGraphContextComponent({
 
 				{isHovered ? (
 					<>
-						<span>Label: {node!.name}</span>
+						<span>Label: {node!.label}</span>
 						<span className="capitalize">Type: {node!.type}</span>
 					</>
 				) : (
@@ -72,7 +71,7 @@ export default function IndoorGraphContextComponent({
 							<span>Label:</span>
 
 							<input
-								value={node!.name}
+								value={node!.label}
 								onChange={(e) => setSelectedNodeLabel(e.target.value)}
 								placeholder="Enter label (optional)"
 								style={{ height: "24px" }}
@@ -97,7 +96,9 @@ export default function IndoorGraphContextComponent({
 					</>
 				)}
 
-				<span>Coordinates: ({Number(node!.x.toFixed(3))}, {Number(node!.y.toFixed(3))})</span>
+				<span>
+					Coordinates: ({Number(node!.x.toFixed(3))}, {Number(node!.y.toFixed(3))})
+				</span>
 			</>
 		);
 	}
@@ -106,8 +107,8 @@ export default function IndoorGraphContextComponent({
 		return (
 			<>
 				<span>ID: {edge!.id}</span>
-				<span>Source Node ID: {edge!.sourceNodeId}</span>
-				<span>Target Node ID: {edge!.targetNodeId}</span>
+				<span>Source Node ID: {edge!.source_node_id}</span>
+				<span>Target Node ID: {edge!.target_node_id}</span>
 			</>
 		);
 	}
@@ -121,12 +122,11 @@ export default function IndoorGraphContextComponent({
 
 	function onDeleteButtonClicked(): void {
 		if (isSingleNode) return deleteNode!(node!.id);
-		if (isSingleEdge) return deleteEdge!(edge!.sourceNodeId, edge!.targetNodeId);
+		if (isSingleEdge) return deleteEdge!(edge!.source_node_id, edge!.target_node_id);
 
 		nodes.forEach((node) => deleteNode!(node.id));
-		edges.forEach((edge) => deleteEdge!(edge.sourceNodeId, edge.targetNodeId));
+		edges.forEach((edge) => deleteEdge!(edge.source_node_id, edge.target_node_id));
 	}
-
 
 	return (
 		<div className="context-overlay">

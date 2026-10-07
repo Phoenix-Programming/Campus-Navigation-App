@@ -60,7 +60,7 @@ export default function IndoorMapEditor(): React.JSX.Element {
 	const svgViewerRef = useRef<SvgViewerHandle>(null);
 	const mapContainerRef = useRef<HTMLDivElement>(null);
 	const dragSelectRef = useRef<DragSelect | null>(null);
-	const dragSelectBaselineRef = useRef<{ nodeIds: Set<string>; edgeIds: Set<string> } | null>(null);
+	const dragSelectBaselineRef = useRef<{ nodeIds: Set<number>; edgeIds: Set<string> } | null>(null);
 	const nodesRef = useRef<Node[] | null>(null);
 	const edgesRef = useRef<Edge[] | null>(null);
 	const selectedNodeRef = useRef<Node | null>(null);
@@ -305,8 +305,8 @@ export default function IndoorMapEditor(): React.JSX.Element {
 
 		dragSelectRef.current = dragSelect;
 
-		const getSelectionIds = (): { nodeIds: Set<string>; edgeIds: Set<string> } => {
-			const nodeIds: Set<string> = new Set();
+		const getSelectionIds = (): { nodeIds: Set<number>; edgeIds: Set<string> } => {
+			const nodeIds: Set<number> = new Set();
 			const edgeIds: Set<string> = new Set();
 
 			if (selectedNodeRef.current) nodeIds.add(selectedNodeRef.current.id);
@@ -321,10 +321,10 @@ export default function IndoorMapEditor(): React.JSX.Element {
 		};
 
 		const applyMergedSelection = (elements: Element[]): void => {
-			const baseline: { nodeIds: Set<string>; edgeIds: Set<string> } =
+			const baseline: { nodeIds: Set<number>; edgeIds: Set<string> } =
 				dragSelectBaselineRef.current ?? getSelectionIds();
 
-			const draggedNodeIds: Set<string> = new Set();
+			const draggedNodeIds: Set<number> = new Set();
 			const draggedEdgeIds: Set<string> = new Set();
 
 			for (const element of elements) {
@@ -334,12 +334,12 @@ export default function IndoorMapEditor(): React.JSX.Element {
 
 				if (!selectableId || !selectableType) continue;
 
-				if (selectableType === "node") draggedNodeIds.add(selectableId);
+				if (selectableType === "node") draggedNodeIds.add(Number(selectableId));
 				if (selectableType === "edge") draggedEdgeIds.add(selectableId);
 			}
 
 			const selectionMode: DragSelectionMode = dragSelectionModeRef.current;
-			const nodeIds: Set<string> =
+			const nodeIds: Set<number> =
 				selectionMode === "deselect"
 					? new Set(Array.from(baseline.nodeIds).filter((id) => !draggedNodeIds.has(id)))
 					: new Set([...baseline.nodeIds, ...draggedNodeIds]);
@@ -415,16 +415,16 @@ export default function IndoorMapEditor(): React.JSX.Element {
 		await getIndoorMapData(bld_code, floor);
 
 		// Temporary hardcoded data for testing purposes
-		setNodes([
-			{ id: "1", name: "Node 1", type: "room", x: 100, y: 250 },
-			{ id: "2", name: "Node 2", type: "hallway", x: 200, y: 150 },
-			{ id: "3", name: "Node 3", type: "room", x: 300, y: 200 }
-		]);
+		// setNodes([
+		// 	{ id: 1, label: "Node 1", type: "room", x: 100, y: 250 },
+		// 	{ id: 2, label: "Node 2", type: "hallway", x: 200, y: 150 },
+		// 	{ id: 3, label: "Node 3", type: "room", x: 300, y: 200 }
+		// ]);
 
-		setEdges([
-			{ id: "1-2", sourceNodeId: "1", targetNodeId: "2" },
-			{ id: "2-3", sourceNodeId: "2", targetNodeId: "3" }
-		]);
+		// setEdges([
+		// 	{ id: "1-2", source_node_id: 1, target_node_id: 2 },
+		// 	{ id: "2-3", source_node_id: 2, target_node_id: 3 }
+		// ]);
 	}
 
 	function clearMapData(): void {
@@ -610,7 +610,7 @@ export default function IndoorMapEditor(): React.JSX.Element {
 		else makeConnection(selectedNode, node);
 	}
 
-	function moveNode(nodeId: string, newX: number, newY: number): void {
+	function moveNode(nodeId: number, newX: number, newY: number): void {
 		setNodes(
 			(prevNodes) => prevNodes?.map((node) => (node.id === nodeId ? { ...node, x: newX, y: newY } : node)) ?? null
 		);
@@ -669,7 +669,7 @@ export default function IndoorMapEditor(): React.JSX.Element {
 	function deleteSelectedItems(): void {
 		if (!nodes || !edges) return;
 
-		const selectedNodeIds: Set<string> = new Set();
+		const selectedNodeIds: Set<number> = new Set();
 		const selectedEdgeIds: Set<string> = new Set();
 
 		if (selectedNode) selectedNodeIds.add(selectedNode.id);
@@ -686,7 +686,7 @@ export default function IndoorMapEditor(): React.JSX.Element {
 		setEdges(
 			(prevEdges) =>
 				prevEdges?.filter((edge) => {
-					if (selectedNodeIds.has(edge.sourceNodeId) || selectedNodeIds.has(edge.targetNodeId)) return false;
+					if (selectedNodeIds.has(edge.source_node_id) || selectedNodeIds.has(edge.target_node_id)) return false;
 					return !selectedEdgeIds.has(edge.id);
 				}) ?? null
 		);
@@ -700,7 +700,7 @@ export default function IndoorMapEditor(): React.JSX.Element {
 			if (!prevEdge) return prevEdge;
 
 			const deletedWithNode: boolean =
-				selectedNodeIds.has(prevEdge.sourceNodeId) || selectedNodeIds.has(prevEdge.targetNodeId);
+				selectedNodeIds.has(prevEdge.source_node_id) || selectedNodeIds.has(prevEdge.target_node_id);
 
 			if (deletedWithNode) return null;
 			return selectedEdgeIds.has(prevEdge.id) ? null : prevEdge;
@@ -801,8 +801,8 @@ export default function IndoorMapEditor(): React.JSX.Element {
 		}
 
 		const newNode: Node = {
-			id: `${Date.now()}`,
-			name: `Node ${nodes!.length + 1}`,
+			id: Date.now(),
+			label: `Node ${nodes!.length + 1}`,
 			type: nodeType,
 			x,
 			y
@@ -816,24 +816,24 @@ export default function IndoorMapEditor(): React.JSX.Element {
 	function nodesHaveConnection(nodeA: Node, nodeB: Node): boolean {
 		return edges!.some(
 			(edge) =>
-				(edge.sourceNodeId === nodeA.id && edge.targetNodeId === nodeB.id) ||
-				(edge.sourceNodeId === nodeB.id && edge.targetNodeId === nodeA.id)
+				(edge.source_node_id === nodeA.id && edge.target_node_id === nodeB.id) ||
+				(edge.source_node_id === nodeB.id && edge.target_node_id === nodeA.id)
 		);
 	}
 
 	function makeConnection(sourceNode: Node, targetNode: Node): void {
-		console.log(`Making connection from ${sourceNode.name} to ${targetNode.name}`);
+		console.log(`Making connection from ${sourceNode.label} to ${targetNode.label}`);
 		const newEdge: Edge = {
 			id: `${sourceNode.id}-${targetNode.id}`, // Temporary unique ID based on source and target node IDs
-			sourceNodeId: sourceNode.id,
-			targetNodeId: targetNode.id
+			source_node_id: sourceNode.id,
+			target_node_id: targetNode.id
 		};
 
 		setEdges((prevEdges) => [...prevEdges!, newEdge]);
 		setChangesMade(true);
 	}
 
-	function updateNode(nodeId: string, newLabel: string | null, newType: string | null): void {
+	function updateNode(nodeId: number, newLabel: string | null, newType: string | null): void {
 		let updatedNode: Node | null = null;
 
 		setNodes((prevNodes) =>
@@ -842,7 +842,7 @@ export default function IndoorMapEditor(): React.JSX.Element {
 
 				updatedNode = {
 					...node,
-					name: newLabel !== null ? newLabel : node.name,
+					label: newLabel !== null ? newLabel : node.label,
 					type: newType !== null ? newType : node.type
 				};
 
@@ -866,12 +866,14 @@ export default function IndoorMapEditor(): React.JSX.Element {
 		setChangesMade(true);
 	}
 
-	function deleteNode(nodeId: string): void {
+	function deleteNode(nodeId: number): void {
 		setNodes((prevNodes) => prevNodes!.filter((node) => node.id !== nodeId));
-		setEdges((prevEdges) => prevEdges!.filter((edge) => edge.sourceNodeId !== nodeId && edge.targetNodeId !== nodeId));
+		setEdges((prevEdges) =>
+			prevEdges!.filter((edge) => edge.source_node_id !== nodeId && edge.target_node_id !== nodeId)
+		);
 		setSelectedNode((prevNode) => (prevNode?.id === nodeId ? null : prevNode));
 		setSelectedEdge((prevEdge) =>
-			prevEdge && (prevEdge.sourceNodeId === nodeId || prevEdge.targetNodeId === nodeId) ? null : prevEdge
+			prevEdge && (prevEdge.source_node_id === nodeId || prevEdge.target_node_id === nodeId) ? null : prevEdge
 		);
 
 		setSelectedNodesAndEdges(
@@ -879,7 +881,7 @@ export default function IndoorMapEditor(): React.JSX.Element {
 				new Set(
 					Array.from(prevSelection).filter((item) => {
 						if (isNode(item)) return item.id !== nodeId;
-						if (isEdge(item)) return !(item.sourceNodeId === nodeId || item.targetNodeId === nodeId);
+						if (isEdge(item)) return !(item.source_node_id === nodeId || item.target_node_id === nodeId);
 						return true;
 					})
 				)
@@ -889,12 +891,12 @@ export default function IndoorMapEditor(): React.JSX.Element {
 		setChangesMade(true);
 	}
 
-	function deleteEdge(nodeIdA: string, nodeIdB: string): void {
+	function deleteEdge(nodeIdA: number, nodeIdB: number): void {
 		setEdges((prevEdges) =>
 			prevEdges!.filter(
 				(edge) =>
-					!(edge.sourceNodeId === nodeIdA && edge.targetNodeId === nodeIdB) &&
-					!(edge.sourceNodeId === nodeIdB && edge.targetNodeId === nodeIdA)
+					!(edge.source_node_id === nodeIdA && edge.target_node_id === nodeIdB) &&
+					!(edge.source_node_id === nodeIdB && edge.target_node_id === nodeIdA)
 			)
 		);
 
@@ -902,8 +904,8 @@ export default function IndoorMapEditor(): React.JSX.Element {
 			if (!prevEdge) return prevEdge;
 
 			const isDeletedEdge =
-				(prevEdge.sourceNodeId === nodeIdA && prevEdge.targetNodeId === nodeIdB) ||
-				(prevEdge.sourceNodeId === nodeIdB && prevEdge.targetNodeId === nodeIdA);
+				(prevEdge.source_node_id === nodeIdA && prevEdge.target_node_id === nodeIdB) ||
+				(prevEdge.source_node_id === nodeIdB && prevEdge.target_node_id === nodeIdA);
 
 			return isDeletedEdge ? null : prevEdge;
 		});
@@ -915,8 +917,8 @@ export default function IndoorMapEditor(): React.JSX.Element {
 						if (!isEdge(item)) return true;
 
 						const matchesEdge: boolean =
-							(item.sourceNodeId === nodeIdA && item.targetNodeId === nodeIdB) ||
-							(item.sourceNodeId === nodeIdB && item.targetNodeId === nodeIdA);
+							(item.source_node_id === nodeIdA && item.target_node_id === nodeIdB) ||
+							(item.source_node_id === nodeIdB && item.target_node_id === nodeIdA);
 
 						return !matchesEdge;
 					})
@@ -948,7 +950,6 @@ export default function IndoorMapEditor(): React.JSX.Element {
 		await postChangesToDatabase();
 
 		await loadMapData(selectedBuilding.code, selectedFloor);
-		showSuccess("Indoor map saved successfully.", "Successfully Saved Indoor Map");
 		setChangesMade(false);
 		setSavePending(false);
 	}
@@ -961,8 +962,11 @@ export default function IndoorMapEditor(): React.JSX.Element {
 				nodes: nodes!,
 				edges: edges!
 			};
+			console.log("Posting changes to the database with payload:", payload);
 
 			await api.post("/api/buildings/map", payload);
+
+			showSuccess("Indoor map saved successfully.", "Successfully Saved Indoor Map");
 		} catch (error) {
 			console.error("Error saving changes to the database:", error);
 			showError(
@@ -1121,8 +1125,8 @@ export default function IndoorMapEditor(): React.JSX.Element {
 							onMapClick={onMapClick}
 						>
 							{edges!.map((edge) => {
-								const sourceNode = nodes!.find((node) => node.id === edge.sourceNodeId);
-								const targetNode = nodes!.find((node) => node.id === edge.targetNodeId);
+								const sourceNode = nodes!.find((node) => node.id === edge.source_node_id);
+								const targetNode = nodes!.find((node) => node.id === edge.target_node_id);
 
 								if (!sourceNode || !targetNode) return null;
 
