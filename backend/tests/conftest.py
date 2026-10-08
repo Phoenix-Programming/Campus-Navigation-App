@@ -7,7 +7,7 @@ import pytest
 from httpx import ASGITransport, AsyncClient
 
 
-os.environ.setdefault("DATABASE_URL", "postgresql+psycopg://test_user:testpassword123@localhost/test-fl-poly-campus-map")
+os.environ.setdefault("DB_URL", "postgresql+psycopg://test_user:testpassword123@localhost/test-fl-poly-campus-map")
 os.environ.setdefault("SECRET_KEY", "test-secret-key-for-testing-only")
 
 from backend.auth import auth as auth_module
