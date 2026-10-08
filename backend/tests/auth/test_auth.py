@@ -1,6 +1,7 @@
 from datetime import timedelta
 from types import SimpleNamespace
 from typing import Any, cast
+from pydantic import SecretStr
 
 import pytest
 from fastapi import HTTPException, status
@@ -29,6 +30,16 @@ def test_generate_reset_token_and_hash_token() -> None:
     assert len(token) > 20
     assert auth_module.hash_token("abc") == auth_module.hash_token("abc")
     assert auth_module.hash_token("abc") != auth_module.hash_token("def")
+
+
+def test_hash_token_depends_on_secret(monkeypatch: pytest.MonkeyPatch) -> None:
+    monkeypatch.setattr(auth_module.settings, "secret_key", SecretStr("secret-one"))
+    hash_one = auth_module.hash_token("same-token")
+
+    monkeypatch.setattr(auth_module.settings, "secret_key", SecretStr("secret-two"))
+    hash_two = auth_module.hash_token("same-token")
+
+    assert hash_one != hash_two
 
 
 def test_create_and_verify_access_token_with_optional_claims() -> None:

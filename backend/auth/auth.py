@@ -1,4 +1,5 @@
 import hashlib
+import hmac
 import secrets
 from datetime import UTC, datetime, timedelta
 from fastapi import Depends, HTTPException, status
@@ -37,7 +38,8 @@ def generate_reset_token() -> str:
 
 
 def hash_token(token: str) -> str:
-    return hashlib.sha256(token.encode()).hexdigest()
+	secret: bytes = settings.secret_key.get_secret_value().encode()
+	return hmac.new(secret, token.encode(), hashlib.sha256).hexdigest()
 
 
 def create_token(
