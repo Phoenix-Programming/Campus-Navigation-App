@@ -1,10 +1,16 @@
 import { type JSX } from "react";
-import { useRoutes } from "react-router";
+import { createBrowserRouter, RouterProvider } from "react-router";
+import NotificationCenter from "./components/NotificationCenter";
 import routes from "./routes/Routes";
+import "@styles/main.scss";
 
+const router = createBrowserRouter(routes);
 
 export default function App(): JSX.Element {
-	const element = useRoutes(routes);
-
-	return element ?? <></>;
+	return (
+		<>
+			<NotificationCenter />
+			<RouterProvider router={router} />
+		</>
+	);
 }

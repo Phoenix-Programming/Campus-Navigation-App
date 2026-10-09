@@ -1,0 +1,12 @@
+User-agent: GPTBot
+User-agent: ClaudeBot
+User-agent: anthropic-ai
+User-agent: Google-Extended
+User-agent: CCBot
+User-agent: PerplexityBot
+User-agent: Meta-ExternalAgent
+Disallow: /
+
+User-agent: *
+Crawl-delay: 10
+Disallow: /admin/

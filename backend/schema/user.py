@@ -1,6 +1,6 @@
 from __future__ import annotations
-from sqlalchemy import Boolean, CheckConstraint, ForeignKey, String
-from sqlalchemy.orm import Mapped, mapped_column, relationship
+from sqlalchemy import Boolean, CheckConstraint, ForeignKey, String, select, func
+from sqlalchemy.orm import Mapped, MappedSQLExpression, mapped_column, relationship, column_property
 from backend.utilities.db_connection import Base
 from .mixins.id_mixin import IdMixin
 from .active_refresh_token import ActiveRefreshToken
@@ -28,6 +28,17 @@ class User(IdMixin, Base):
         "ActiveRefreshToken",
         cascade="all, delete-orphan",
         passive_deletes=True
+    )
+
+    is_admin: MappedSQLExpression[bool] = column_property(
+        select(Role.id)
+        .where(func.lower(Role.name) == "admin")
+        .exists()
+    )
+    is_editor: MappedSQLExpression[bool] = column_property(
+        select(Role.id)
+        .where(func.lower(Role.name) == "admin" or func.lower(Role.name) == "editor")
+        .exists()
     )
 
     __table_args__ = (

@@ -1,4 +1,5 @@
 import hashlib
+import hmac
 import secrets
 from datetime import UTC, datetime, timedelta
 from fastapi import Depends, HTTPException, status
@@ -37,19 +38,23 @@ def generate_reset_token() -> str:
 
 
 def hash_token(token: str) -> str:
-    return hashlib.sha256(token.encode()).hexdigest()
+	secret: bytes = settings.secret_key.get_secret_value().encode()
+	return hmac.new(secret, token.encode(), hashlib.sha256).hexdigest()
 
 
 def create_token(
     user_id: int,
     token_type: Literal["access", "refresh"],
     permissions: list[str] | None = None,
+    role: str | None = None,
     expires_delta: timedelta | None = None
 ) -> str:
 	"""Creates a JWT access token."""
 	to_encode: dict[str, str | list[str] | datetime] = {"sub": str(user_id), "type": token_type}
 	if permissions:
 		to_encode["permissions"] = permissions
+	if role:
+		to_encode["role"] = role
 
 	expire: datetime = datetime.now(UTC) + (
 		expires_delta
@@ -81,7 +86,8 @@ def verify_access_token(token: str) -> TokenData | None:
 
         return TokenData(
             user_id=payload.get("sub"),
-            permissions=payload.get("permissions") or set()
+			permissions=payload.get("permissions") or set(),
+			role=payload.get("role")
         )
     except InvalidTokenError:
         return None
@@ -136,6 +142,10 @@ async def get_current_user(
 		)
 
 	user: User | None = await user_repo.get_user_by_id(user_id=user_id_int, db=db)
+	role: str | None = token_data.role
+
+	if role is None:
+		role = await user_repo.get_user_role_name(user_id=user_id_int, db=db)
 
 	if not user:
 		raise HTTPException(
@@ -144,7 +154,24 @@ async def get_current_user(
 			headers={"WWW-Authenticate": "Bearer"}
 		)
 
-	return CurrentUserContext(user, token_data.permissions)
+	return CurrentUserContext(user, token_data.permissions, role)
+
+
+async def get_admin_user(
+    token: Annotated[str, Depends(oauth2_scheme)],
+    db: Database
+) -> CurrentUserContext:
+    context: CurrentUserContext = await get_current_user(token, db)
+
+    if context.role != "admin":
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="User not an admin.",
+            headers={"WWW-Authenticate": "Bearer"}
+        )
+
+    return context
 
 
 CurrentUser = Annotated[CurrentUserContext, Depends(get_current_user)]
+AdminUser = Annotated[CurrentUserContext, Depends(get_admin_user)]

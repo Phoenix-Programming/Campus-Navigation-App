@@ -1,0 +1,64 @@
+.toolbar {
+	background-color: #484848;
+	border: 1px solid #333333;
+	border-radius: 10px;
+
+	.buttons-container {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		row-gap: 12px;
+		margin: 6px;
+	}
+
+	.tool-buttons,
+	.action-buttons {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 8px;
+		width: 100%;
+	}
+
+	.tool-button,
+	.icon-button {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 30px;
+		height: 30px;
+		padding: 0;
+		border: 1px solid #666666;
+		border-radius: 8px;
+		background-color: #2f2f2f;
+		cursor: pointer;
+		transition:
+			background-color 0.2s ease,
+			border-color 0.2s ease,
+			transform 0.2s ease;
+
+		&:hover {
+			background-color: #3c3c3c;
+			border-color: #8f8f8f;
+		}
+
+		img {
+			width: 22px;
+			height: 22px;
+			filter: brightness(0) invert(1);
+		}
+	}
+
+	.tool-button.selected {
+		background-color: #5a6f9c;
+		border-color: #9bb4ff;
+		box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.12);
+	}
+
+	.separator-line {
+		border: none;
+		border-top: 1px solid #333333;
+		margin: 0;
+		width: 90%;
+	}
+}

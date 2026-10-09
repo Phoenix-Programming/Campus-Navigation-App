@@ -1,20 +1,104 @@
-import { Link, Outlet } from "react-router";
+import { useEffect, useState, type ReactNode } from "react";
+import clsx from "clsx";
+import { NavLink, Outlet } from "react-router";
+import { AUTH_CHANGE_EVENT } from "../auth/authEvents";
+import { hasAdminAccess } from "../auth/adminAccess";
+import { refreshAuthTokens } from "../auth/session";
 
+interface RootLayoutProps {
+	pageName: string;
+	children?: ReactNode;
+}
 
-export default function RootLayout() {
+const creationYear: number = 2026; // The year this project was created
+const currentYear: number = new Date().getFullYear();
+
+const publicLinks = [
+	{ to: "/", label: "Home" },
+	{ to: "/map", label: "Map" }
+];
+
+const adminLinks = [
+	{ to: "/admin/login", label: "Login" },
+	{ to: "/admin/register", label: "Register" },
+	{ to: "/admin/account", label: "Account" },
+	{ to: "/admin/dashboard", label: "Dashboard" },
+	{ to: "/admin/node-connections-editor", label: "Node Connections Editor" },
+	{ to: "/admin/indoor-map-editor", label: "Indoor Map Editor" }
+];
+
+export default function RootLayout({ pageName, children }: RootLayoutProps) {
+	const displayedChildren = children ?? <Outlet />;
+	const [canSeeAdminLinks, setCanSeeAdminLinks] = useState(() => hasAdminAccess());
+	const currentLinks = canSeeAdminLinks ? [...publicLinks, ...adminLinks] : publicLinks;
+
+	useEffect(() => {
+		let isMounted: boolean = true;
+
+		const updateAdminLinks = async () => {
+			if (!hasAdminAccess()) await refreshAuthTokens();
+
+			if (isMounted) setCanSeeAdminLinks(hasAdminAccess());
+		};
+
+		const handleAuthChange = () => {
+			void updateAdminLinks();
+		};
+
+		void updateAdminLinks();
+		window.addEventListener(AUTH_CHANGE_EVENT, handleAuthChange);
+		window.addEventListener("storage", handleAuthChange);
+		window.addEventListener("focus", handleAuthChange);
+
+		return () => {
+			isMounted = false;
+			window.removeEventListener(AUTH_CHANGE_EVENT, handleAuthChange);
+			window.removeEventListener("storage", handleAuthChange);
+			window.removeEventListener("focus", handleAuthChange);
+		};
+	}, []);
+
 	return (
-		<div>
+		<div className="root-layout">
 			<header>
-				<h1>Florida Polytechnic University Campus Map</h1>
-				<nav>
-					<Link to="/">Home</Link> | <Link to="/map">Map</Link> | <Link to="/login">Login</Link> | <Link to="/register">Register</Link> | <Link to="/account">Account</Link>
+				<div className="brand">
+					<p className="eyebrow">Florida Polytechnic University</p>
+					<h1 className="title">Campus Map</h1>
+					<p className="tagline">a student project</p>
+				</div>
+
+				<nav aria-label="Primary navigation">
+					<div className="links">
+						{currentLinks.map((link) => (
+							<NavLink
+								key={link.to}
+								to={link.to}
+								className={({ isActive }) =>
+									clsx("link", {
+										active: isActive
+									})
+								}
+							>
+								{link.label}
+							</NavLink>
+						))}
+					</div>
 				</nav>
 			</header>
-			<main>
-				<Outlet />
-			</main>
+
+			<main>{displayedChildren}</main>
+
 			<footer>
-				<small>&copy; 2026 Florida Poly Campus Map - Unofficial student-developed project. Not affiliated with or endorsed by Florida Polytechnic University.</small>
+				<hr />
+
+				<small>
+					&copy; {creationYear + (currentYear > creationYear ? `-${currentYear}` : "")} Phoenix Programming.
+					All Rights Reserved.
+					<br />
+					Developed independently by Phoenix Programming, a student club. This project is
+					not an official Florida Polytechnic University application and is not sponsored,
+					endorsed, or maintained by the University.
+				</small>
 			</footer>
 		</div>
 	);

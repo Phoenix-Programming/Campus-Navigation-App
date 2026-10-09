@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { MapContainer, TileLayer, LayersControl, GeoJSON } from "react-leaflet";
 import type { GeoJsonObject } from "geojson";
 import type { LayerData, LayerConfig, LoadedLayer } from "../types/layers";
+import { showError } from "../services/notifications";
 import "@styles/main.scss";
 
 const { BaseLayer, Overlay } = LayersControl;
@@ -41,6 +42,7 @@ export default function LeafletMap() {
 				setLayers(loadedLayers);
 			} catch (error) {
 				console.error("Error loading layers:", error);
+				showError(error instanceof Error ? error.message : "The map layers could not be loaded.", "Failed to Load Map Layers");
 			}
 		};
 
@@ -66,6 +68,7 @@ export default function LeafletMap() {
 
 	return (
 		<MapContainer
+			id="map"
 			center={[28.1477, -81.8485]}
 			zoom={17}
 			zoomSnap={0}

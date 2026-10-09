@@ -1,0 +1,255 @@
+@use "../abstracts/variables" as *;
+
+.button {
+	border: none;
+	border-radius: 8px;
+	padding: 5px 10px;
+	min-width: 80px;
+	min-height: 32px;
+	font-size: 0.95rem;
+	font-weight: 500;
+	transition: background-color 0.2s ease, color 0.2s ease;
+	cursor: pointer;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	column-gap: 5px;
+
+	&.primary {
+		background: $primary-color;
+		color: $primary-text-color;
+
+		img {
+			filter: $white-color-filter;
+		}
+
+		&:hover {
+			background: $primary-color-hover;
+		}
+	}
+
+	&.secondary {
+		background: $secondary-color;
+		color: black;
+
+		img {
+			filter: $black-color-filter;
+		}
+
+		&:hover {
+			background: $secondary-color-hover;
+		}
+	}
+
+	&.success {
+		background: $success-color;
+		color: $primary-text-color;
+
+		img {
+			filter: $white-color-filter;
+		}
+
+		&:hover {
+			background: $success-color-hover;
+		}
+	}
+
+	&.danger {
+		background: $danger-color;
+		color: $primary-text-color;
+
+		img {
+			filter: $white-color-filter;
+		}
+
+		&:hover {
+			background: $danger-color-hover;
+		}
+	}
+
+	&:disabled {
+		opacity: 0.5;
+		cursor: not-allowed;
+	}
+}
+
+.outline-button {
+	border: none;
+	border-radius: 8px;
+	padding: 5px 10px;
+	min-width: 80px;
+	min-height: 32px;
+	font-size: 0.95rem;
+	font-weight: 500;
+	background: transparent;
+	transition: background-color 0.2s ease, color 0.2s ease;
+	cursor: pointer;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	column-gap: 5px;
+
+	&.primary {
+		color: $primary-color;
+		border: 1px solid $primary-color;
+
+		img {
+			filter: $primary-color-filter;
+		}
+
+		&:hover {
+			background: $primary-color;
+			color: $primary-text-color;
+
+			img {
+				filter: $white-color-filter;
+			}
+		}
+	}
+
+	&.secondary {
+		color: $secondary-color;
+		border: 1px solid $secondary-color;
+
+		img {
+			filter: $secondary-color-filter;
+		}
+
+		&:hover {
+			background: $secondary-color;
+			color: black;
+
+			img {
+				filter: $black-color-filter;
+			}
+		}
+	}
+
+	&.success {
+		color: $success-color;
+		border: 1px solid $success-color;
+
+		img {
+			filter: $success-color-filter;
+		}
+
+		&:hover {
+			background: $success-color;
+			color: $primary-text-color;
+
+			img {
+				filter: $white-color-filter;
+			}
+		}
+	}
+
+	&.danger {
+		color: $danger-color;
+		border: 1px solid $danger-color;
+
+		img {
+			filter: $danger-color-filter;
+		}
+
+		&:hover {
+			background: $danger-color-hover;
+			color: $primary-text-color;
+
+			img {
+				filter: $white-color-filter;
+			}
+		}
+	}
+
+	&:disabled {
+		opacity: 0.5;
+		cursor: not-allowed;
+	}
+}
+
+.icon-button {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border: none;
+	border-radius: 8px;
+	padding: 2px;
+	font-size: 0.95rem;
+	font-weight: 600;
+	background: transparent;
+	transition: background-color 0.2s ease, color 0.2s ease;
+	cursor: pointer;
+
+	img {
+		filter: $white-color-filter;
+	}
+
+	&:hover {
+		background: white;
+
+		img {
+			filter: $black-color-filter;
+		}
+	}
+
+	&.primary {
+		img {
+			filter: $primary-color-filter;
+		}
+
+		&:hover {
+			background: $primary-color-hover;
+
+			img {
+				filter: $white-color-filter;
+			}
+		}
+	}
+
+	&.secondary {
+		img {
+			filter: $secondary-color-filter;
+		}
+
+		&:hover {
+			background: $secondary-color-hover;
+
+			img {
+				filter: $black-color-filter;
+			}
+		}
+	}
+
+	&.success {
+		img {
+			filter: $success-color-filter;
+		}
+
+		&:hover {
+			background: $success-color-hover;
+
+			img {
+				filter: $white-color-filter;
+			}
+		}
+	}
+
+	&.danger {
+		img {
+			filter: $danger-color-filter;
+		}
+
+		&:hover {
+			background: $danger-color-hover;
+
+			img {
+				filter: $white-color-filter;
+			}
+		}
+	}
+
+	&:disabled {
+		opacity: 0.5;
+		cursor: not-allowed;
+	}
+}

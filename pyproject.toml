@@ -22,6 +22,7 @@ dependencies = [
     "typing-extensions (>=4.15.0,<5.0.0)",
     "apscheduler (>=3.11.2,<4.0.0)",
     "apscheduler-stubs (>=0.1.0.dev2,<0.2.0)",
+    "bleach (>=6.4.0,<7.0.0)",
 ]
 
 [tool.poetry]
@@ -38,7 +39,8 @@ dev = [
     "requests (>=2.34.2,<3.0.0)",
     "bs4 (>=0.0.2,<0.0.3)",
     "pytest (>=9.1.1,<10.0.0)",
-    "pytest-cov (>=7.1.0,<8.0.0)"
+    "pytest-cov (>=7.1.0,<8.0.0)",
+    "types-bleach (>=6.4.0.20260728,<7.0.0.0)"
 ]
 
 [tool.pytest.ini_options]
