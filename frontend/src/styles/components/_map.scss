@@ -1,7 +1,17 @@
+.map-page {
+	height: 100dvh;
+	width: 100%;
+	position: relative;
+}
+
 .map-container {
 	height: 100dvh; //percentage of the screen the map will take
 	width: 100%;
 	margin: 0;
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: 0;
 
 
 	box-sizing: border-box;

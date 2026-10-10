@@ -1,0 +1,204 @@
+//css imported from figma design file for the welcome box and related UI elements
+
+:root {
+    --welcomewidth: 60vw;
+    --welcomeheight: 70vh;
+
+    --accent: #512D82;
+    --subaccent: #DEDEDE;
+    --background: #EEEEEE;
+
+    --titlewidth: calc(var(--welcomewidth) * 0.4116667);
+    --descriptionwidth: calc(var(--welcomewidth) * 0.75);
+    --buttonwidth: calc(var(--welcomewidth) * 0.1533333);
+    --buttongap: calc(var(--welcomewidth) * 0.0066667);
+}
+
+.map-ui {
+    position: absolute;
+    inset: 0;
+    z-index: 1000;
+    pointer-events: none;
+}
+
+.map-ui button,
+.map-ui a,
+.map-ui input,
+.map-ui select,
+.map-ui textarea {
+    pointer-events: auto;
+}
+
+.topbar {
+    position: absolute;
+    width: 98vw;
+    height: 5vh;
+    left: 1vw;
+    top: 0;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    pointer-events: auto;
+}
+
+/* Welcome Box */
+
+.welcome-box {
+    position: absolute;
+    pointer-events: auto;
+    width: var(--welcomewidth);
+    height: var(--welcomeheight);
+    left: calc((100% - var(--welcomewidth)) / 2);
+    top: calc((100% - var(--welcomeheight)) / 2);
+
+    background: var(--background);
+    box-shadow: 0 0.4vh 0.4vh rgba(0, 0, 0, 0.25);
+    border-radius: 1.0vw;
+    overflow: hidden;
+}
+
+
+/* FLPoly Campus Navigation Guide */
+
+.welcome-title {
+    position: absolute;
+    width: var(--titlewidth);
+    height: 3.5vh;
+    left: 50%;
+    top: 30vh;
+    transform: translateX(-50%);
+
+    font-family: 'Fira Sans';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 1.7vw;
+    line-height: 3.5vh;
+    text-align: center;
+
+    color: #000000;
+}
+
+
+/* Welcome to FLPoly Campus Navigation! FLPoly Campus Navigation is a web-based mapping service for Florida Polytechnic University. */
+
+.welcome-description {
+    position: absolute;
+    width: var(--descriptionwidth);
+    height: 8vh;
+    left: 50%;
+    top: 35vh;
+    transform: translateX(-50%);
+
+    font-family: 'Fira Sans';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 1.0vw;
+    line-height: 2.2vh;
+    text-align: center;
+
+    color: #000000;
+}
+
+/* Next */
+
+.next-button {
+    position: absolute;
+    width: var(--buttonwidth);
+    height: 5.5vh;
+    left: calc(50% + (var(--buttongap) / 2));
+    top: 58.5vh;
+
+    font-family: 'Fira Sans';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 1.0vw;
+    line-height: 2.2vh;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+
+    color: #000000;
+    border: transparent;
+
+    cursor: pointer;
+
+    background: var(--subaccent);
+}
+
+/* Previous */
+
+.previous-button {
+    position: absolute;
+    width: var(--buttonwidth);
+    height: 5.5vh;
+    left: calc(50% - var(--buttonwidth) - (var(--buttongap) / 2));
+    top: 58.5vh;
+
+    font-family: 'Fira Sans';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 1.0vw;
+    line-height: 2.2vh;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    border: transparent;
+    
+    cursor: pointer;
+    
+    background: var(--subaccent);
+    color: #000000;
+}
+
+
+/* Welcome Top Bar */
+
+.welcome-top-bar {
+    position: absolute;
+    width: var(--welcomewidth);
+    height: 5vh;
+    left: 0;
+    top: -0.3vh;
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 0;
+    overflow: clip;
+
+    background: transparent;
+
+
+}
+
+.welcome-tab {
+    width: calc(var(--welcomewidth) / 8);
+    height: 5vh;
+    border: 0;
+    padding: 0;
+    background: var(--subaccent);
+    color: #000000;
+
+
+    cursor: pointer;
+    font-family: 'Fira Sans';
+    font-size: 1.1vw;
+    font-weight: 400;
+    line-height: 2.2vh;
+    text-align: center;
+}
+
+.welcome-top-bar-many-steps .welcome-tab {
+    width: calc(var(--welcomewidth) / var(--welcome-step-count));
+}
+
+.welcome-tab-active {
+    background: var(--accent);
+    color: var(--background);
+}

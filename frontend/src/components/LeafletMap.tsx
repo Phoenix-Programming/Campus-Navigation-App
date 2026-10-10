@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { MapContainer, TileLayer, LayersControl, GeoJSON } from "react-leaflet";
+import { MapContainer, TileLayer, LayersControl, GeoJSON, ZoomControl } from "react-leaflet";
 import type { GeoJsonObject } from "geojson";
 import type { LayerData, LayerConfig, LoadedLayer } from "../types/layers";
 import { showError } from "../services/notifications";
@@ -71,6 +71,7 @@ export default function LeafletMap() {
 			id="map"
 			center={[28.1477, -81.8485]}
 			zoom={17}
+			zoomControl={false}
 			zoomSnap={0}
 			wheelPxPerZoomLevel={15}
 			minZoom={17}
@@ -82,7 +83,9 @@ export default function LeafletMap() {
 			]}
 			maxBoundsViscosity={1.0}
 		>
-			<LayersControl position="topright">
+			<ZoomControl position="bottomleft" />
+
+			<LayersControl position="bottomright">
 				<BaseLayer checked name="Map">
 					<TileLayer
 						attribution='&copy; <a href="https://carto.com/">CARTO</a>'

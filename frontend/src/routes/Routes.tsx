@@ -1,7 +1,7 @@
 import { type ReactNode } from "react";
 import { Navigate, type RouteObject } from "react-router";
 import { adminRoute } from "./AdminRoute";
-import LeafletMap from "../components/LeafletMap";
+import Map from "../pages/Map";
 import RootLayout from "../layouts/RootLayout";
 import AccountPage from "../pages/admin/Account";
 import LoginPage from "../pages/admin/Login";
@@ -21,7 +21,7 @@ const routes: RouteObject[] = [
 		path: "/",
 		children: [
 			{ index: true, element: <Navigate to="/map" replace /> },
-			{ path: "map", element: withLayout("Map", <LeafletMap />) },
+			{ path: "map", element: withLayout("Map", <Map />) },
 			{ path: "unauthorized", element: withLayout("Unauthorized", <Unauthorized />) },
 			{ path: "*", element: withLayout("Page Not Found", <NotFound />) }
 		]
