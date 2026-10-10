@@ -1,4 +1,4 @@
-//css imported from figma design file
+//css imported from figma design file for the welcome box and related UI elements
 
 :root {
     --welcomewidth: 60vw;
@@ -26,6 +26,19 @@
 .map-ui input,
 .map-ui select,
 .map-ui textarea {
+    pointer-events: auto;
+}
+
+.topbar {
+    position: absolute;
+    width: 98vw;
+    height: 5vh;
+    left: 1vw;
+    top: 0;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
     pointer-events: auto;
 }
 
