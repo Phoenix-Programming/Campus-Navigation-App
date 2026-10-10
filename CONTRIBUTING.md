@@ -22,7 +22,7 @@ cd Campus-Navigation-App
 
 ```bash
 cd frontend
-npm install
+npm ci
 cd ..
 ```
 
@@ -95,6 +95,14 @@ alembic upgrade head
 ##### Add your Database Credentials to Your Environment Variables
 
 Once you have created your PostgreSQL database, populate the DB_URL environment variable in your `.env` file using your username, password, and database name.
+
+##### Seed the database
+
+Run the database seeding script.
+
+```bash
+poetry run python3 -m backend.seed.seed_db
+```
 
 ## Development Workflow
 

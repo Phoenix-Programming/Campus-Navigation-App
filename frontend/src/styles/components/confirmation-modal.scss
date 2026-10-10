@@ -1,0 +1,44 @@
+.modal-backdrop {
+	position: fixed;
+	inset: 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background: rgba(0, 0, 0, 0.55);
+	z-index: 1000;
+}
+
+.confirmation-modal {
+	width: min(420px, calc(100vw - 32px));
+	background: #484848;
+	border-radius: 12px;
+	box-shadow: 0 12px 32px rgba(0, 0, 0, 0.2);
+	padding: 20px 20px 16px;
+}
+
+.modal-header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 16px;
+	margin-bottom: 12px;
+
+	h2 {
+		margin: 0;
+		font-size: 1.25rem;
+		font-weight: 600;
+		color: #ffffff;
+	}
+}
+
+.modal-content {
+	margin-bottom: 20px;
+	line-height: 1.5;
+	color: #ffffff;
+}
+
+.modal-actions {
+	display: flex;
+	justify-content: flex-end;
+	gap: 10px;
+}

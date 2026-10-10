@@ -5,3 +5,4 @@ from backend.schema.user import User
 class CurrentUserContext:
 	user: User
 	permissions: set[str]
+	role: str | None = None

@@ -63,6 +63,14 @@ class UserRepository:
         return result.scalars().first()
 
 
+    async def get_user_role_name(self, user_id: int, db: Database) -> str | None:
+        result: Result[tuple[str]] = await db.execute(
+            select(Role.name).join(User.role).where(User.id == user_id)
+        )
+
+        return result.scalars().first()
+
+
     async def update_user(self, user: User, db: Database, username: str | None = None, email: str | None = None) -> User:
         try:
             if username: user.username = username.lower()

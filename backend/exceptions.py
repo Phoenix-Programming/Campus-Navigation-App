@@ -1,3 +1,13 @@
+class NotFoundError(Exception):
+    def __init__(self, msg: str = "Resource not found."):
+        super().__init__(msg)
+
+
+class NotAuthorizedError(Exception):
+    def __init__(self, msg: str = "Not authorized."):
+        super().__init__(msg)
+
+
 class NotUniqueError(Exception):
     def __init__(self, field: str):
         self.field: str = field
@@ -30,16 +40,40 @@ class SamePasswordError(Exception):
         super().__init__("The new password cannot be the same as the current password.")
 
 
-class UserNotFoundError(Exception):
+class UserNotFoundError(NotFoundError):
     def __init__(self):
-        super().__init__("User not found.")
+        super().__init__(msg="User not found.")
 
 
-class NotAuthorizedToUpdateUserError(Exception):
+class NotAuthorizedToUpdateUserError(NotAuthorizedError):
     def __init__(self):
-        super().__init__("Not authorized to update this user.")
+        super().__init__(msg="Not authorized to update this user.")
 
 
-class NotAuthorizedToDeleteUserError(Exception):
+class NotAuthorizedToDeleteUserError(NotAuthorizedError):
     def __init__(self):
-        super().__init__("Not authorized to delete this user.")
+        super().__init__(msg="Not authorized to delete this user.")
+
+class NotAuthorizedToEditIndoorMapError(NotAuthorizedError):
+    def __init__(self):
+        super().__init__(msg="Not authorized to edit indoor map.")
+
+class BuildingNotFoundError(NotFoundError):
+    def __init__(self, bld_id: int):
+        super().__init__(msg=f"Building with id {bld_id} not found.")
+
+class BuildingCodeNotFoundError(NotFoundError):
+    def __init__(self):
+        super().__init__(msg="Building code not found.")
+
+class FloorNumberNotFoundError(NotFoundError):
+    def __init__(self, bld_id: int):
+        super().__init__(msg=f"Floor number not found for building id: {bld_id}.")
+
+class BuildingCategoryNotFoundError(NotFoundError):
+    def __init__(self, category_type: str):
+        super().__init__(msg=f"Building category '{category_type}' not found.")
+
+class NodeTypeNotFoundError(NotFoundError):
+    def __init__(self, node_type: int | str):
+        super().__init__(msg=f"Node type '{node_type}' not found.")
