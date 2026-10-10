@@ -1,0 +1,42 @@
+.welcome-top-bar {
+    position: absolute;
+    width: var(--welcomewidth);
+    height: 5vh;
+    left: 0;
+    top: -0.3vh;
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 0;
+    overflow: clip;
+
+    background: transparent;
+
+	.welcome-tab {
+		width: calc(var(--welcomewidth) / 8);
+		height: 5vh;
+		border: 0;
+		padding: 0;
+		background: var(--subaccent);
+		color: #000000;
+
+
+		cursor: pointer;
+		font-family: 'Fira Sans';
+		font-size: 1.1vw;
+		font-weight: 400;
+		line-height: 2.2vh;
+		text-align: center;
+	}
+
+	&.welcome-top-bar-many-steps .welcome-tab {
+		width: calc(var(--welcomewidth) / var(--welcome-step-count));
+	}
+
+	&.welcome-tab-active {
+		background: var(--accent);
+		color: var(--background);
+	}
+}

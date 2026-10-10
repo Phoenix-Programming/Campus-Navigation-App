@@ -1,5 +1,12 @@
 {
 	"compilerOptions": {
+		"paths": {
+			"@/*": ["/*"],
+			"@public/*": ["./public/*"],
+			"@assets/*": ["./src/assets/*"],
+			"@features/*": ["./src/features/*"],
+			"@shared/*": ["./src/shared/*"]
+		},
 		"tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo",
 		"target": "ES2022",
 		"useDefineForClassFields": true,

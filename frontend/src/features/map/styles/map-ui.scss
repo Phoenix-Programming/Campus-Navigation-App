@@ -1,0 +1,41 @@
+:root {
+    --welcomewidth: 60vw;
+    --welcomeheight: 70vh;
+
+    --accent: #512D82;
+    --subaccent: #DEDEDE;
+    --background: #EEEEEE;
+
+    --titlewidth: calc(var(--welcomewidth) * 0.4116667);
+    --descriptionwidth: calc(var(--welcomewidth) * 0.75);
+    --buttonwidth: calc(var(--welcomewidth) * 0.1533333);
+    --buttongap: calc(var(--welcomewidth) * 0.0066667);
+}
+
+.map-ui {
+    position: absolute;
+    inset: 0;
+    z-index: 1000;
+    pointer-events: none;
+
+    button,
+    a,
+    input,
+    select,
+    textarea {
+        pointer-events: auto;
+    }
+
+    .topbar {
+        position: absolute;
+        width: 98vw;
+        height: 5vh;
+        left: 1vw;
+        top: 0;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: flex-start;
+        pointer-events: auto;
+    }
+}

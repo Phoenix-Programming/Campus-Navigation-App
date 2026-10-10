@@ -1,8 +1,8 @@
 import { type JSX } from "react";
 import { createBrowserRouter, RouterProvider } from "react-router";
-import NotificationCenter from "./components/NotificationCenter";
+import NotificationCenter from "./features/notifications/components/NotificationCenter";
 import routes from "./routes/Routes";
-import "@styles/main.scss";
+import "@shared/styles/main.scss";
 
 const router = createBrowserRouter(routes);
 

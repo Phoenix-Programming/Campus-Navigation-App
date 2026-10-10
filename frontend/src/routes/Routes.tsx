@@ -1,16 +1,15 @@
 import { type ReactNode } from "react";
 import { Navigate, type RouteObject } from "react-router";
 import { adminRoute } from "./AdminRoute";
-import Map from "../pages/Map";
-import RootLayout from "../layouts/RootLayout";
-import AccountPage from "../pages/admin/Account";
-import LoginPage from "../pages/admin/Login";
-import NotFound from "../pages/NotFound";
-import RegisterPage from "../pages/admin/Register";
-import NodeConnectionsEditor from "../pages/admin/NodeConnectionsEditor";
-import Unauthorized from "../pages/Unauthorized";
-import AdminDashboard from "../pages/admin/AdminDashboard";
-import IndoorMapEditor from "../pages/admin/IndoorMapEditor";
+import Map from "@features/map/pages/Map";
+import RootLayout from "@shared/layouts/RootLayout";
+import AccountPage from "@features/user/pages/Account";
+import LoginPage from "@features/user/pages/Login";
+import NotFound from "@shared/pages/NotFound";
+import RegisterPage from "@features/user/pages/Register";
+import Unauthorized from "@features/auth/pages/Unauthorized";
+import AdminDashboard from "@features/auth/pages/AdminDashboard";
+import IndoorMapEditor from "@features/indoor-map-editor/pages/IndoorMapEditor";
 
 function withLayout(pageName: string, element: ReactNode): ReactNode {
 	return <RootLayout pageName={pageName}>{element}</RootLayout>;
@@ -36,10 +35,6 @@ const routes: RouteObject[] = [
 				children: [
 					{ path: "account", element: withLayout("Account", <AccountPage />) },
 					{ path: "dashboard", element: withLayout("Admin Dashboard", <AdminDashboard />) },
-					{
-						path: "node-connections-editor",
-						element: withLayout("Node Connections Editor", <NodeConnectionsEditor />)
-					},
 					{ path: "indoor-map-editor", element: withLayout("Indoor Map Editor", <IndoorMapEditor />) }
 				]
 			}
