@@ -18,7 +18,7 @@ class UserRepository:
         role_name: str,
         db: Database
     ) -> User:
-        result: Result[tuple[Role]] = await db.execute(select(Role).where(Role.name == role_name))
+        result: Result[Role] = await db.execute(select(Role).where(Role.name == role_name))
         role: Role | None = result.scalars().first()
         assert role
 
@@ -42,13 +42,13 @@ class UserRepository:
 
 
     async def get_user_by_id(self, user_id: int, db: Database) -> User | None:
-        result: Result[tuple[User]] = await db.execute(select(User).where(User.id == user_id))
+        result: Result[User] = await db.execute(select(User).where(User.id == user_id))
 
         return result.scalars().first()
 
 
     async def get_user_by_email(self, email: str, db: Database) -> User | None:
-        result: Result[tuple[User]] = await db.execute(
+        result: Result[User] = await db.execute(
             select(User).where(func.lower(User.email) == email.lower())
         )
 
@@ -56,7 +56,7 @@ class UserRepository:
 
 
     async def get_user_by_username(self, username: str, db: Database) -> User | None:
-        result: Result[tuple[User]] = await db.execute(
+        result: Result[User] = await db.execute(
             select(User).where(func.lower(User.username) == username.lower())
         )
 
@@ -64,7 +64,7 @@ class UserRepository:
 
 
     async def get_user_role_name(self, user_id: int, db: Database) -> str | None:
-        result: Result[tuple[str]] = await db.execute(
+        result: Result[str] = await db.execute(
             select(Role.name).join(User.role).where(User.id == user_id)
         )
 
@@ -106,7 +106,7 @@ class UserRepository:
         token_hash: str,
         db: Database
     ) -> ActiveRefreshToken | None:
-        result: Result[tuple[ActiveRefreshToken]] = await db.execute(
+        result: Result[ActiveRefreshToken] = await db.execute(
             select(ActiveRefreshToken).where(ActiveRefreshToken.token_hash == token_hash)
         )
 
@@ -137,7 +137,7 @@ class UserRepository:
 
 
     async def revoke_all_refresh_tokens_for_user(self, user_id: int, db: Database) -> None:
-        result: Result[tuple[ActiveRefreshToken]] = await db.execute(
+        result: Result[ActiveRefreshToken] = await db.execute(
             select(ActiveRefreshToken)
             .where(ActiveRefreshToken.user_id == user_id)
             .where(ActiveRefreshToken.is_revoked == False)
@@ -173,7 +173,7 @@ class UserRepository:
         token_hash: str,
         db: Database
     ) -> PasswordResetToken | None:
-        result: Result[tuple[PasswordResetToken]] = await db.execute(
+        result: Result[PasswordResetToken] = await db.execute(
             select(PasswordResetToken).where(PasswordResetToken.token_hash == token_hash)
         )
 
@@ -185,9 +185,9 @@ class UserRepository:
         token: PasswordResetToken,
         db: Database
     ) -> User | None:
-        result: Result[tuple[User]] = await db.execute(
-			select(User).where(User.id == token.user_id)
-		)
+        result: Result[User] = await db.execute(
+            select(User).where(User.id == token.user_id)
+        )
 
         return result.scalars().first()
 
@@ -214,12 +214,12 @@ class UserRepository:
 
 
     async def get_user_permissions(self, user_id: int, db: Database) -> list[Permission]:
-        user_result: Result[tuple[User]] = await db.execute(select(User).where(User.id == user_id))
+        user_result: Result[User] = await db.execute(select(User).where(User.id == user_id))
         user: User | None = user_result.scalars().first()
 
         if not user: raise UserNotFoundError()
 
-        permission_result: Result[tuple[Permission]] = await db.execute(
+        permission_result: Result[Permission] = await db.execute(
             select(Permission).join(Role.permissions).where(Role.id == user.role_id)
         )
 

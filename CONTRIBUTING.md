@@ -84,6 +84,37 @@ psql -U postgres -c "CREATE USER myusername WITH PASSWORD 'mypassword';"
 createdb -U postgres -O myusername mydbname
 ```
 
+#### Install PostGIS
+
+Follow the appropriate commands to install PostGIS on your system.
+
+##### MacOS
+
+```bash
+brew install postgis
+```
+
+##### Linux
+
+Follow the [official PostGIS installation steps for Linux](https://postgis.net/documentation/getting_started/install_ubuntu/).
+
+##### Windows
+
+Follow the [official PostGIS installation steps for Windows](https://postgis.net/documentation/getting_started/install_windows/).
+
+#### Add PostGIS Extension to Your Database
+
+```bash
+# Connect to your database (if you are not already connected)
+psql -U myusername -d mydbname
+
+# Add PostGIS extension
+CREATE EXTENSION postgis;
+
+# Verify that the extension was added successfully
+SELECT PostGIS_Full_Version();
+```
+
 #### Update Database
 
 Upgrade your local database to the latest schema using Alembic migrations.
