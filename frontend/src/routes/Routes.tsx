@@ -21,7 +21,7 @@ const routes: RouteObject[] = [
 		path: "/",
 		children: [
 			{ index: true, element: <Navigate to="/map" replace /> },
-			{ path: "map", element: withLayout("Map", <LeafletMap />) },
+			{ path: "map", element: withLayout("Map", <Map />) },
 			{ path: "unauthorized", element: withLayout("Unauthorized", <Unauthorized />) },
 			{ path: "*", element: withLayout("Page Not Found", <NotFound />) }
 		]
