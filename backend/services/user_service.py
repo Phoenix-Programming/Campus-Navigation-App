@@ -23,7 +23,7 @@ from backend.schema.password_reset_token import PasswordResetToken
 from backend.schema.permissions import Permission
 from backend.schema.user import User
 from backend.utilities.db_connection import Database
-from backend.utilities.email import send_password_reset_email
+from backend.utilities.mailer import send_password_reset_email
 from backend.repositories.user_repository import UserRepository
 
 
