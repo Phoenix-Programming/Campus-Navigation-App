@@ -13,5 +13,5 @@ if TYPE_CHECKING:
 class BuildingCategory(IdMixin, Base):
 	__tablename__ = "building_categories"
 
-	category: Mapped[str] = mapped_column(String, unique=True, nullable=False)
+	category: Mapped[str] = mapped_column(String(24), unique=True, nullable=False)
 	buildings: Mapped[list["Building"]] = relationship(back_populates="building_category")
