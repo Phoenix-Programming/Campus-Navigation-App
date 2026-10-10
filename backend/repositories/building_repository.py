@@ -1,4 +1,4 @@
-from sqlalchemy import Result, delete, func, select, text
+from sqlalchemy import Result, delete, func, select
 from sqlalchemy.orm import selectinload
 from backend.exceptions import (
     BuildingCodeNotFoundError,
@@ -18,7 +18,7 @@ from backend.utilities.db_connection import Database
 
 class BuildingRepository:
     async def get_all_buildings(self, db: Database) -> list[Building]:
-        buildings_result: Result[tuple[Building]] = await db.execute(
+        buildings_result: Result[Building] = await db.execute(
             select(Building).options(selectinload(Building.building_category))
         )
 
@@ -26,7 +26,7 @@ class BuildingRepository:
 
 
     async def get_building_id_by_building_code(self, bld_code: str, db: Database) -> int:
-        buildings_result: Result[tuple[Building]] = await db.execute(
+        buildings_result: Result[Building] = await db.execute(
             select(Building)
             .where(Building.code == bld_code)
         )
@@ -39,7 +39,7 @@ class BuildingRepository:
 
 
     async def get_floor_id(self, bld_id: int, floor_num: int, db: Database) -> int:
-        floors_result: Result[tuple[Floor]] = await db.execute(
+        floors_result: Result[Floor] = await db.execute(
             select(Floor)
             .where(Floor.building_id == bld_id, Floor.floor_num == floor_num))
 
@@ -51,7 +51,7 @@ class BuildingRepository:
 
 
     async def get_indoor_svg_for_bld_floor(self, floor_id: int, db: Database) -> str:
-        floors_result: Result[tuple[Floor]] = await db.execute(
+        floors_result: Result[Floor] = await db.execute(
             select(Floor)
             .where(Floor.id == floor_id)
         )
@@ -64,7 +64,7 @@ class BuildingRepository:
 
 
     async def get_all_indoor_nodes_for_bld_floor(self, bld_id: int, floor_id: int, db: Database) -> list[IndoorNode]:
-        nodes_result: Result[tuple[IndoorNode]] = await db.execute(
+        nodes_result: Result[IndoorNode] = await db.execute(
             select(IndoorNode)
             .options(selectinload(IndoorNode.node_type))
             .where(IndoorNode.building_id == bld_id, IndoorNode.floor_id == floor_id)
@@ -74,7 +74,7 @@ class BuildingRepository:
 
 
     async def get_all_indoor_edges_for_bld_floor(self, bld_id: int, floor_id: int, db: Database) -> list[IndoorEdge]:
-        edges_result: Result[tuple[IndoorEdge]] = await db.execute(select(IndoorEdge).where(
+        edges_result: Result[IndoorEdge] = await db.execute(select(IndoorEdge).where(
             IndoorEdge.building_id == bld_id, IndoorEdge.floor_id == floor_id
         ))
 
@@ -173,7 +173,7 @@ class BuildingRepository:
 
 
     async def get_building_category_id_by_category_type(self, category_type: str, db: Database) -> int:
-        result: Result[tuple[int]] = await db.execute(
+        result: Result[int] = await db.execute(
             select(BuildingCategory.id)
             .where(func.lower(BuildingCategory.category) == category_type.lower())
         )
@@ -225,12 +225,12 @@ class BuildingRepository:
             raise
 
     async def get_all_building_categories(self, db: Database) -> list[BuildingCategory]:
-        categories_result: Result[tuple[BuildingCategory]] = await db.execute(select(BuildingCategory))
+        categories_result: Result[BuildingCategory] = await db.execute(select(BuildingCategory))
 
         return list(categories_result.scalars().all())
 
     async def get_building_by_id(self, bld_id: int, db: Database) -> Building:
-        buildings_result: Result[tuple[Building]] = await db.execute(
+        buildings_result: Result[Building] = await db.execute(
             select(Building)
             .options(
                 selectinload(Building.building_category),
@@ -288,7 +288,7 @@ class BuildingRepository:
                 if floor_num > original_num_floors: break
                 if not svg: continue
 
-                floors_result: Result[tuple[Floor]] = await db.execute(
+                floors_result: Result[Floor] = await db.execute(
                     select(Floor)
                     .where(Floor.building_id == bld_id, Floor.floor_num == floor_num)
                 )
@@ -310,13 +310,13 @@ class BuildingRepository:
 
 
     async def get_all_node_types(self, db: Database) -> list[NodeType]:
-        node_types_result: Result[tuple[NodeType]] = await db.execute(select(NodeType))
+        node_types_result: Result[NodeType] = await db.execute(select(NodeType))
 
         return list(node_types_result.scalars().all())
 
 
     async def get_node_type_id_by_type(self, node_type: str, db: Database) -> int:
-        result: Result[tuple[int]] = await db.execute(
+        result: Result[int] = await db.execute(
             select(NodeType.id)
             .where(func.lower(NodeType.type) == node_type.lower())
         )
