@@ -51,3 +51,6 @@ def get_faculty_list() -> str:
 	json_obj: str = json.dumps(faculty)
 
 	return json_obj
+
+if __name__ == "__main__":
+	print(get_faculty_list())
