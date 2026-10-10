@@ -1,25 +1,14 @@
 import React, { useRef, useState } from "react";
-import api from "@shared/api/api";
-import { showError } from "@features/notifications/services/notifications";
+import { getUser as getUserService } from "../services/user_service";
+import type { UserPublicResponse } from "../models/user_models";
 
-export default function AccountPage() {
+export default function AccountPage(): React.JSX.Element {
 	const userIdInputRef = useRef<HTMLInputElement>(null);
-	const [user, setUser] = useState<unknown>(null);
+	const [user, setUser] = useState<UserPublicResponse | null>(null);
 
 	const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
-		await getUser(userIdInputRef.current?.valueAsNumber ?? -1);
-	};
-
-	const getUser = async (user_id: number) => {
-		try {
-			const response = await api.get(`/api/users/${user_id}`);
-
-			setUser(response.data);
-		} catch (error) {
-			console.error("Error fetching user:", error);
-			showError(error instanceof Error ? error.message : "The user could not be loaded.", "Failed to Load User Data");
-		}
+		setUser(await getUserService(userIdInputRef.current?.valueAsNumber ?? -1));
 	};
 
 	return (
