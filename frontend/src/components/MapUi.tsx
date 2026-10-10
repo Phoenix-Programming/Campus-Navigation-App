@@ -1,4 +1,3 @@
-import {useEffect, useState} from "react";
 import "@styles/main.scss";
 import WelcomeBox from "./WelcomeBox";
 
