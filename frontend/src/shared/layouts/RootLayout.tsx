@@ -26,7 +26,6 @@ const adminLinks = [
 	{ to: "/admin/register", label: "Register" },
 	{ to: "/admin/account", label: "Account" },
 	{ to: "/admin/dashboard", label: "Dashboard" },
-	{ to: "/admin/node-connections-editor", label: "Node Connections Editor" },
 	{ to: "/admin/indoor-map-editor", label: "Indoor Map Editor" }
 ];
 
