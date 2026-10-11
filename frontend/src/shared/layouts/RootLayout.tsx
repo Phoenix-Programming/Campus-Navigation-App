@@ -1,17 +1,15 @@
 import { useEffect, useState, type ReactNode } from "react";
 import clsx from "clsx";
 import { NavLink, Outlet } from "react-router";
-import { AUTH_CHANGE_EVENT } from "@features/auth/utils/authEvents";
-import { hasAdminAccess } from "@features/auth/utils/adminAccess";
-import { refreshAuthTokens } from "@features/auth/utils/session";
+import { AUTH_CHANGE_EVENT } from "@features/auth/utils/authEvents.utils";
+import { hasAdminAccess } from "@features/auth/utils/adminAccess.utils";
+import { refreshAuthTokens } from "@features/auth/utils/session.utils";
 import "@shared/styles/layouts/root-layout.scss";
-
 
 interface RootLayoutProps {
 	pageName: string;
 	children?: ReactNode;
 }
-
 
 const creationYear: number = 2026; // The year this project was created
 const currentYear: number = new Date().getFullYear();
@@ -28,7 +26,6 @@ const adminLinks = [
 	{ to: "/admin/dashboard", label: "Dashboard" },
 	{ to: "/admin/indoor-map-editor", label: "Indoor Map Editor" }
 ];
-
 
 export default function RootLayout({ pageName, children }: RootLayoutProps) {
 	const displayedChildren = children ?? <Outlet />;
@@ -95,12 +92,11 @@ export default function RootLayout({ pageName, children }: RootLayoutProps) {
 				<hr />
 
 				<small>
-					&copy; {creationYear + (currentYear > creationYear ? `-${currentYear}` : "")} Phoenix Programming.
-					All Rights Reserved.
+					&copy; {creationYear + (currentYear > creationYear ? `-${currentYear}` : "")} Phoenix Programming. All Rights
+					Reserved.
 					<br />
-					Developed independently by Phoenix Programming, a student club. This project is
-					not an official Florida Polytechnic University application and is not sponsored,
-					endorsed, or maintained by the University.
+					Developed independently by Phoenix Programming, a student club. This project is not an official Florida
+					Polytechnic University application and is not sponsored, endorsed, or maintained by the University.
 				</small>
 			</footer>
 		</div>

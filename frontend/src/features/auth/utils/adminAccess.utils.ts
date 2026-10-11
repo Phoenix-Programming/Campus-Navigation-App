@@ -1,5 +1,5 @@
 import { jwtDecode, type JwtPayload } from "jwt-decode";
-import { getAccessToken } from "./session";
+import { getAccessToken } from "./session.utils";
 
 interface AdminTokenPayload extends JwtPayload {
 	role?: string;

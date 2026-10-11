@@ -1,5 +1,5 @@
 import axios, { type AxiosError, type AxiosHeaders, type AxiosInstance, type InternalAxiosRequestConfig } from "axios";
-import { getAccessToken, refreshAuthTokens } from "@features/auth/utils/session";
+import { getAccessToken, refreshAuthTokens } from "@features/auth/utils/session.utils";
 
 const api: AxiosInstance = axios.create({
 	baseURL: import.meta.env.VITE_API_URL

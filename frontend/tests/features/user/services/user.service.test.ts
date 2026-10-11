@@ -1,9 +1,9 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import * as session from "@features/auth/utils/session";
+import * as session from "@features/auth/utils/session.utils";
 import * as userApi from "@features/user/api/user.api";
 import { getUser, loginUser, registerUser } from "@features/user/services/user.service";
 
-vi.mock("@features/auth/utils/session", () => ({
+vi.mock("@features/auth/utils/session.utils", () => ({
 	storeAuthTokens: vi.fn()
 }));
 

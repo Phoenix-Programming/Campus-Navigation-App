@@ -6,7 +6,7 @@ import {
 	isAccessTokenExpired,
 	refreshAuthTokens,
 	storeAuthTokens
-} from "@features/auth/utils/session";
+} from "@features/auth/utils/session.utils";
 
 function encodeJwtPayload(payload: Record<string, unknown>): string {
 	const encodedPayload = btoa(JSON.stringify(payload)).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/g, "");

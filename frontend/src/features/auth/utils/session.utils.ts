@@ -1,5 +1,5 @@
 import { jwtDecode, type JwtPayload } from "jwt-decode";
-import { notifyAuthChange } from "./authEvents";
+import { notifyAuthChange } from "./authEvents.utils";
 
 export interface AuthTokenPair {
 	access_token: string;

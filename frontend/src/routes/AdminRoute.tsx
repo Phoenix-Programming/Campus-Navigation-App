@@ -1,6 +1,6 @@
 import { redirect } from "react-router";
-import { hasAdminAccess } from "../features/auth/utils/adminAccess";
-import { clearAuthTokens, getRefreshToken, refreshAuthTokens } from "../features/auth/utils/session";
+import { hasAdminAccess } from "../features/auth/utils/adminAccess.utils";
+import { clearAuthTokens, getRefreshToken, refreshAuthTokens } from "../features/auth/utils/session.utils";
 
 /**
  * Protects a route that is restricted to admins

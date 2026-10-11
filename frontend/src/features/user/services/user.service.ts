@@ -1,4 +1,4 @@
-import { storeAuthTokens } from "@features/auth/utils/session";
+import { storeAuthTokens } from "@features/auth/utils/session.utils";
 import { getUser as getUserApi, loginUser as loginUserApi, registerUser as registerUserApi } from "../api/user.api";
 import type { LoginUserResponse, PrivateUserData, PublicUserData } from "../models/user_models";
 
