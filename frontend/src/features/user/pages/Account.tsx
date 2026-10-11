@@ -1,10 +1,10 @@
 import React, { useRef, useState } from "react";
 import { getUser as getUserService } from "../services/user_service";
-import type { UserPublicResponse } from "../models/user_models";
+import type { PublicUserData } from "../models/user_models";
 
 export default function AccountPage(): React.JSX.Element {
 	const userIdInputRef = useRef<HTMLInputElement>(null);
-	const [user, setUser] = useState<UserPublicResponse | null>(null);
+	const [user, setUser] = useState<PublicUserData | null>(null);
 
 	const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();

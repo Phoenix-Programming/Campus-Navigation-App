@@ -1,11 +1,13 @@
-export interface UserPublicResponse {
+export interface PublicUserData {
 	id: number;
 	username: string;
 }
 
-export interface UserPrivateResponse extends UserPublicResponse {
+export interface PrivateUserData extends PublicUserData {
 	email: string;
 }
+
+export interface GetUserResponse extends PublicUserData {}
 
 export interface LoginUserRequest {
 	username: string;
@@ -19,7 +21,9 @@ export interface LoginUserResponse {
 }
 
 export interface RegisterUserRequest {
-    email: string;
-    username: string;
-    password: string;
+	email: string;
+	username: string;
+	password: string;
 }
+
+export interface RegisterUserResponse extends PrivateUserData {}

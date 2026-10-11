@@ -1,19 +1,19 @@
 import type { AxiosResponse } from "axios";
 import api from "@shared/api/api";
 import type {
-	UserPublicResponse,
+	GetUserResponse,
 	LoginUserRequest,
 	LoginUserResponse,
-	UserPrivateResponse,
-	RegisterUserRequest
+	RegisterUserRequest,
+	RegisterUserResponse
 } from "../models/user_models";
 import { showError, showSuccess, showWarning } from "@features/notifications/services/notifications";
 
-export async function getUser(user_id: number): Promise<UserPublicResponse | null> {
+export async function getUser(user_id: number): Promise<GetUserResponse | null> {
 	try {
-		const response: AxiosResponse<UserPublicResponse> = await api.get(`/api/users/${user_id}`);
+		const response: AxiosResponse<GetUserResponse> = await api.get(`/api/users/${user_id}`);
 
-		return response.data as UserPublicResponse;
+		return response.data as GetUserResponse;
 	} catch (error) {
 		console.error("Error fetching user:", error);
 		showError(error instanceof Error ? error.message : "The user could not be loaded.", "Failed to Load User Data");
@@ -57,15 +57,15 @@ export async function registerUser(
 	email: string,
 	username: string,
 	password: string
-): Promise<UserPrivateResponse | null> {
+): Promise<RegisterUserResponse | null> {
 	try {
 		const request: RegisterUserRequest = { email, username, password };
 
-		const response: AxiosResponse<UserPrivateResponse> = await api.post(`/api/users/register`, request);
+		const response: AxiosResponse<RegisterUserResponse> = await api.post(`/api/users/register`, request);
 
 		if (response.status === 201) {
 			showSuccess("Registration successful.", "Account Created");
-			return response.data as UserPrivateResponse;
+			return response.data as RegisterUserResponse;
 		}
 
 		throw new Error(`Unexpected response status: ${response.status}`);
