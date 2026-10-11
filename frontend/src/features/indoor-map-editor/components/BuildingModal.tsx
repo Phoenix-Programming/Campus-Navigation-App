@@ -2,11 +2,8 @@ import React, { useEffect, useRef, useState } from "react";
 import { clsx } from "clsx";
 import { format } from "numerable";
 import { titleCase } from "title-case";
-import type {
-	BuildingData,
-	IndoorMapData
-} from "../models/buildings_models";
-import type { IndoorMapGraphUploadPayload, StagedIndoorMapGraphData } from "../models/indoor_map_editor_models"
+import type { BuildingData, IndoorMapData } from "../models/buildings_models";
+import type { IndoorMapGraphUploadPayload, StagedIndoorMapGraphData } from "../models/indoor_map_editor_models";
 import {
 	getBuildingCategoryTypes as getBuildingCategoryTypesService,
 	getBuildingData as getBuildingDataService,
@@ -14,7 +11,7 @@ import {
 	updateIndoorMap as updateIndoorMapService,
 	updateBuilding as updateBuildingService,
 	createBuilding as createBuildingService
-} from "../services/buildings_service";
+} from "../services/indoor_map_editor_service";
 import type { Node } from "../models/buildings_models";
 import type { Edge } from "../models/buildings_models";
 import ConfirmationModal from "@shared/components/ConfirmationModal";

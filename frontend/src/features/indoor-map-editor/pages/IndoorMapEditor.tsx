@@ -8,7 +8,7 @@ import {
 	getBuildings as getBuildingsService,
 	getIndoorMapData as getIndoorMapDataService,
 	updateIndoorMap as updateIndoorMapService
-} from "../services/buildings_service";
+} from "../services/indoor_map_editor_service";
 import ConfirmationModal from "@shared/components/ConfirmationModal";
 import EdgeComponent, { isEdge } from "../components/EdgeComponent";
 import BuildingModal from "../components/BuildingModal";
