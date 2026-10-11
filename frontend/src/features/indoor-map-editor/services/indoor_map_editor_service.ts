@@ -8,8 +8,7 @@ import {
 	updateBuilding as updateBuildingApi,
 	createBuilding as createBuildingApi
 } from "../api/buildings_api";
-import type { Node } from "../models/buildings_models";
-import type { Edge } from "../models/buildings_models";
+import type { Node, Edge } from "../models/buildings_models";
 
 export async function getBuildings(): Promise<Building[]> {
 	return (await getBuildingsApi()) ?? [];

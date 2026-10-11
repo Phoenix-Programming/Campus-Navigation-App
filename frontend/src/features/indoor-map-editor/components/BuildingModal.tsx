@@ -12,8 +12,7 @@ import {
 	updateBuilding as updateBuildingService,
 	createBuilding as createBuildingService
 } from "../services/indoor_map_editor_service";
-import type { Node } from "../models/buildings_models";
-import type { Edge } from "../models/buildings_models";
+import type { Node, Edge } from "../models/buildings_models";
 import ConfirmationModal from "@shared/components/ConfirmationModal";
 import { showError, showSuccess, showWarning } from "@features/notifications/services/notifications";
 import closeIcon from "@assets/icons/close.svg";
