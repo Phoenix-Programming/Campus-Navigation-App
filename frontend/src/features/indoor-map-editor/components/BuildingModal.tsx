@@ -3,18 +3,25 @@ import { clsx } from "clsx";
 import { format } from "numerable";
 import { titleCase } from "title-case";
 import type { BuildingData, IndoorMapData } from "../models/buildings_models";
-import type { IndoorMapGraphUploadPayload, StagedIndoorMapGraphData } from "../models/indoor_map_editor_models";
+import type { StagedIndoorMapGraphData } from "../models/indoor_map_editor_models";
 import {
+	buildFloorSvgCreatePayload,
+	buildFloorSvgUpdatePayload,
+	buildIndoorMapGraphDownloadPayload,
 	getBuildingCategoryTypes as getBuildingCategoryTypesService,
 	getBuildingData as getBuildingDataService,
+	getFloorSvgForFloor,
 	getIndoorMapData as getIndoorMapDataService,
+	getLiveGraphFloors,
+	normalizeFloorSvgData,
+	normalizeUploadedGraphPayload,
+	sanitizeBuildingCodeForFileName,
 	updateIndoorMap as updateIndoorMapService,
 	updateBuilding as updateBuildingService,
 	createBuilding as createBuildingService
-} from "../services/indoor_map_editor_service";
-import type { Node, Edge } from "../models/buildings_models";
+} from "../services/indoor_map_editor.service";
 import ConfirmationModal from "@shared/components/ConfirmationModal";
-import { showError, showSuccess, showWarning } from "@features/notifications/services/notifications";
+import { showError, showSuccess, showWarning } from "@features/notifications/services/notifications.service";
 import closeIcon from "@assets/icons/close.svg";
 import downloadIcon from "@assets/icons/download.svg";
 import uploadIcon from "@assets/icons/upload.svg";
@@ -138,106 +145,6 @@ export default function BuildingModal({ bld_id, onClose, onBuildingSaved }: Buil
 		setBuildingDataLoaded(true);
 	}
 
-	async function getLiveGraphFloors(targetBuildingCode: string, totalFloors: number): Promise<Set<number>> {
-		const nextLiveGraphFloors: Set<number> = new Set();
-		const floorRequests: Promise<{ floorNumber: number; hasGraphData: boolean }>[] = Array.from(
-			{ length: totalFloors },
-			(_, index) => index + 1
-		).map(async (floorNumber) => {
-			const data: IndoorMapData = await getIndoorMapDataService(targetBuildingCode, floorNumber);
-
-			return {
-				floorNumber,
-				hasGraphData: data.nodes.length > 0 || data.edges.length > 0
-			};
-		});
-
-		const floorResults = await Promise.all(floorRequests);
-
-		for (const result of floorResults) {
-			if (result.hasGraphData) nextLiveGraphFloors.add(result.floorNumber);
-		}
-
-		return nextLiveGraphFloors;
-	}
-
-	function normalizeFloorSvgData(
-		floorSvgData: string[] | { [floorNumber: number]: string },
-		totalFloors: number
-	): { [floorNumber: number]: string } {
-		const normalizedFloorSvgs: { [floorNumber: number]: string } = {};
-
-		if (Array.isArray(floorSvgData)) {
-			for (let floorNumber = 1; floorNumber <= totalFloors; floorNumber++) {
-				const svg: string | undefined = floorSvgData[floorNumber - 1];
-
-				if (!svg || svg.trim() === "") continue;
-
-				normalizedFloorSvgs[floorNumber] = svg;
-			}
-
-			return normalizedFloorSvgs;
-		}
-
-		for (let floorNumber = 1; floorNumber <= totalFloors; floorNumber++) {
-			const oneBasedSvg: string | undefined = floorSvgData[floorNumber];
-			const zeroBasedSvg: string | undefined = floorSvgData[floorNumber - 1];
-			const resolvedSvg: string | undefined =
-				typeof oneBasedSvg === "string" ? oneBasedSvg : typeof zeroBasedSvg === "string" ? zeroBasedSvg : undefined;
-
-			if (!resolvedSvg || resolvedSvg.trim() === "") continue;
-
-			normalizedFloorSvgs[floorNumber] = resolvedSvg;
-		}
-
-		return normalizedFloorSvgs;
-	}
-
-	function getFloorSvgForFloor(floorSvgData: { [floorNumber: number]: string }, floorNumber: number): string {
-		const svgForFloor: string | undefined = floorSvgData[floorNumber];
-
-		return typeof svgForFloor === "string" ? svgForFloor : "";
-	}
-
-	function buildFloorSvgUpdatePayload(): (string | null)[] | null {
-		if (!initialFormRef.current) return null;
-
-		const originalNumFloors: number = initialFormRef.current.numFloors;
-		const svgPayload: (string | null)[] = Array.from({ length: numFloors }, () => null);
-		let hasSvgChanges: boolean = false;
-
-		for (let floorNumber = 1; floorNumber <= numFloors; floorNumber++) {
-			const currentSvg: string = getFloorSvgForFloor(floorSvgs, floorNumber).trim();
-			const initialSvg: string =
-				floorNumber <= originalNumFloors
-					? getFloorSvgForFloor(initialFormRef.current.floorSvgs, floorNumber).trim()
-					: "";
-
-			if (currentSvg === initialSvg) continue;
-
-			hasSvgChanges = true;
-			svgPayload[floorNumber - 1] = currentSvg === "" ? null : currentSvg;
-		}
-
-		return hasSvgChanges ? svgPayload : null;
-	}
-
-	function buildFloorSvgCreatePayload(): (string | null)[] | null {
-		const svgPayload: (string | null)[] = Array.from({ length: numFloors }, () => null);
-		let hasUploadedSvg: boolean = false;
-
-		for (let floorNumber = 1; floorNumber <= numFloors; floorNumber++) {
-			const svg: string = getFloorSvgForFloor(floorSvgs, floorNumber).trim();
-
-			if (svg === "") continue;
-
-			hasUploadedSvg = true;
-			svgPayload[floorNumber - 1] = svg;
-		}
-
-		return hasUploadedSvg ? svgPayload : null;
-	}
-
 	function openFloorSvgFilePicker(floorNumber: number): void {
 		floorSvgUploadInputRefs.current[floorNumber]?.click();
 	}
@@ -246,120 +153,10 @@ export default function BuildingModal({ bld_id, onClose, onBuildingSaved }: Buil
 		floorGraphUploadInputRefs.current[floorNumber]?.click();
 	}
 
-	function sanitizeBuildingCodeForFileName(code: string): string {
-		const trimmedCode: string = code.trim();
-
-		if (trimmedCode === "") return "unknown";
-
-		return trimmedCode.replace(/[^a-zA-Z0-9-_]/g, "-");
-	}
-
 	function getGraphTargetBuildingCode(): string {
 		if (isCreateMode) return buildingCode.trim();
 
 		return initialFormRef.current?.buildingCode.trim() ?? buildingCode.trim();
-	}
-
-	function isRecord(value: unknown): value is Record<string, unknown> {
-		return typeof value === "object" && value !== null && !Array.isArray(value);
-	}
-
-	function parseFiniteNumber(value: unknown, fieldName: string): number {
-		const numericValue: number = typeof value === "number" ? value : Number(value);
-
-		if (!Number.isFinite(numericValue)) throw new Error(`Each ${fieldName} value must be a valid number.`);
-
-		return numericValue;
-	}
-
-	function normalizeUploadedGraphPayload(rawPayload: unknown, floorNumber: number): StagedIndoorMapGraphData {
-		const targetBuildingCode: string = getGraphTargetBuildingCode();
-
-		if (!isRecord(rawPayload))
-			throw new Error("The selected file must contain a JSON object with nodes and edges arrays.");
-
-		const graphRoot: Record<string, unknown> = isRecord(rawPayload.graph) ? rawPayload.graph : rawPayload;
-		const fileBuildingCode: unknown = graphRoot.bld_code;
-		const fileFloorNumber: unknown = graphRoot.floor_num;
-
-		if (
-			typeof fileBuildingCode === "string" &&
-			targetBuildingCode !== "" &&
-			fileBuildingCode.trim() !== "" &&
-			fileBuildingCode.trim() !== targetBuildingCode
-		) {
-			throw new Error(
-				`This graph file is for building ${fileBuildingCode.trim()}, but the selected building is ${targetBuildingCode}.`
-			);
-		}
-
-		if (fileFloorNumber !== undefined && parseFiniteNumber(fileFloorNumber, "floor number") !== floorNumber) {
-			throw new Error(
-				`This graph file is for floor ${String(fileFloorNumber)}, but floor ${floorNumber} is currently selected.`
-			);
-		}
-
-		const rawNodes: unknown = graphRoot.nodes;
-		const rawEdges: unknown = graphRoot.edges;
-
-		if (!Array.isArray(rawNodes)) throw new Error("The selected file must include a nodes array.");
-
-		if (!Array.isArray(rawEdges)) throw new Error("The selected file must include an edges array.");
-
-		const nodeIdMap: Map<string, number> = new Map();
-		const nodes: Node[] = rawNodes.map((rawNode, index) => {
-			if (!isRecord(rawNode)) throw new Error("Each node in the selected file must be an object.");
-
-			const sourceNodeId: unknown = rawNode.id ?? index + 1;
-
-			if (typeof sourceNodeId !== "string" && typeof sourceNodeId !== "number")
-				throw new Error("Each node must include an id value.");
-
-			const sourceNodeKey: string = String(sourceNodeId);
-
-			if (nodeIdMap.has(sourceNodeKey)) throw new Error("Duplicate node ids were found in the selected graph file.");
-
-			const normalizedNodeId: number = index + 1;
-			nodeIdMap.set(sourceNodeKey, normalizedNodeId);
-
-			const rawLabel: unknown = rawNode.label ?? rawNode.name;
-
-			return {
-				id: normalizedNodeId,
-				label: typeof rawLabel === "string" && rawLabel.trim() !== "" ? rawLabel : "",
-				type: typeof rawNode.type === "string" && rawNode.type.trim() !== "" ? rawNode.type : "room",
-				x: parseFiniteNumber(rawNode.x, "node x"),
-				y: parseFiniteNumber(rawNode.y, "node y")
-			};
-		});
-
-		const edges: Edge[] = rawEdges.map((rawEdge, index) => {
-			if (!isRecord(rawEdge)) throw new Error("Each edge in the selected file must be an object.");
-
-			const sourceNodeId: unknown = rawEdge.source_node_id ?? rawEdge.sourceNodeId;
-			const targetNodeId: unknown = rawEdge.target_node_id ?? rawEdge.targetNodeId;
-
-			if (
-				(typeof sourceNodeId !== "string" && typeof sourceNodeId !== "number") ||
-				(typeof targetNodeId !== "string" && typeof targetNodeId !== "number")
-			) {
-				throw new Error("Each edge must include source and target node ids.");
-			}
-
-			const normalizedSourceNodeId: number | undefined = nodeIdMap.get(String(sourceNodeId));
-			const normalizedTargetNodeId: number | undefined = nodeIdMap.get(String(targetNodeId));
-
-			if (normalizedSourceNodeId === undefined || normalizedTargetNodeId === undefined)
-				throw new Error("Each edge must reference node ids that exist in the uploaded nodes array.");
-
-			return {
-				id: String(index + 1),
-				source_node_id: normalizedSourceNodeId,
-				target_node_id: normalizedTargetNodeId
-			};
-		});
-
-		return { nodes, edges };
 	}
 
 	async function persistStagedGraphData(targetBuildingCode: string): Promise<void> {
@@ -410,12 +207,7 @@ export default function BuildingModal({ bld_id, onClose, onBuildingSaved }: Buil
 			const data: IndoorMapData = await getIndoorMapDataService(targetBuildingCode, floorNumber);
 
 			const fileName: string = `campus-map-graph-${sanitizeBuildingCodeForFileName(targetBuildingCode)}-${format(floorNumber, "0o")}-floor.json`;
-			const payload: IndoorMapGraphUploadPayload = {
-				bld_code: targetBuildingCode,
-				floor_num: floorNumber,
-				nodes: data.nodes,
-				edges: data.edges
-			};
+			const payload = buildIndoorMapGraphDownloadPayload(targetBuildingCode, floorNumber, data);
 			const blob: Blob = new Blob([JSON.stringify(payload, null, 2)], { type: "application/json;charset=utf-8" });
 			const objectUrl: string = window.URL.createObjectURL(blob);
 			const downloadLink: HTMLAnchorElement = document.createElement("a");
@@ -497,7 +289,11 @@ export default function BuildingModal({ bld_id, onClose, onBuildingSaved }: Buil
 		try {
 			const fileText: string = await file.text();
 			const parsedPayload: unknown = JSON.parse(fileText);
-			const normalizedGraphData: StagedIndoorMapGraphData = normalizeUploadedGraphPayload(parsedPayload, floorNumber);
+			const normalizedGraphData: StagedIndoorMapGraphData = normalizeUploadedGraphPayload(
+				parsedPayload,
+				floorNumber,
+				getGraphTargetBuildingCode()
+			);
 
 			setStagedGraphDataByFloor((prev) => ({
 				...prev,
@@ -535,7 +331,14 @@ export default function BuildingModal({ bld_id, onClose, onBuildingSaved }: Buil
 				return;
 			}
 
-			const svgs: (string | null)[] | null = buildFloorSvgUpdatePayload();
+			if (!initialFormRef.current) return;
+
+			const svgs: (string | null)[] | null = buildFloorSvgUpdatePayload(
+				initialFormRef.current.floorSvgs,
+				floorSvgs,
+				initialFormRef.current.numFloors,
+				numFloors
+			);
 
 			await updateBuildingService(
 				bld_id!,
@@ -571,7 +374,7 @@ export default function BuildingModal({ bld_id, onClose, onBuildingSaved }: Buil
 				return;
 			}
 
-			const svgs: (string | null)[] | null = buildFloorSvgCreatePayload();
+			const svgs: (string | null)[] | null = buildFloorSvgCreatePayload(floorSvgs, numFloors);
 
 			await createBuildingService(buildingCategoryType!, buildingName, buildingCode, buildingAddress, numFloors, svgs);
 

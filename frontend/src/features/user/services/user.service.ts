@@ -1,5 +1,5 @@
 import { storeAuthTokens } from "@features/auth/utils/session";
-import { getUser as getUserApi, loginUser as loginUserApi, registerUser as registerUserApi } from "../api/user_api";
+import { getUser as getUserApi, loginUser as loginUserApi, registerUser as registerUserApi } from "../api/user.api";
 import type { LoginUserResponse, PrivateUserData, PublicUserData } from "../models/user_models";
 
 export async function getUser(user_id: number): Promise<PublicUserData | null> {

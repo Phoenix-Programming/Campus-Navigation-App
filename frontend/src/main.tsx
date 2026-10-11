@@ -2,7 +2,7 @@ import { StrictMode } from "react";
 import { createRoot, type Container, type Root } from "react-dom/client";
 import "leaflet/dist/leaflet.css";
 import App from "./App.tsx";
-import { showError } from "@features/notifications/services/notifications.ts";
+import { showError } from "@features/notifications/services/notifications.service.ts";
 import "@shared/styles/main.scss";
 
 const container: Container = document.getElementById("root")!;

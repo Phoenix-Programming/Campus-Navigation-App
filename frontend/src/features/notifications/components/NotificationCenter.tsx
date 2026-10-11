@@ -1,6 +1,6 @@
 import { type JSX, useState } from "react";
 import clsx from "clsx";
-import { useNotifications } from "../services/notifications";
+import { useNotifications } from "../services/notifications.service";
 import close from "@assets/icons/close.svg";
 import "../styles/notification-center.scss";
 import "@shared/styles/main.scss";

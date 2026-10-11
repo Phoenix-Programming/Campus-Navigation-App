@@ -1,7 +1,6 @@
 import { useRef, type JSX } from "react";
-import { loginUser as loginUserService } from "../services/user_service";
-import { showWarning } from "@features/notifications/services/notifications";
-
+import { loginUser as loginUserService } from "../services/user.service";
+import { showWarning } from "@features/notifications/services/notifications.service";
 
 export default function LoginPage(): JSX.Element {
 	const loginFormRef = useRef<HTMLFormElement>(null);
@@ -25,7 +24,6 @@ export default function LoginPage(): JSX.Element {
 		await loginUserService(username, password);
 	};
 
-	
 	return (
 		<section>
 			<h2>Login</h2>

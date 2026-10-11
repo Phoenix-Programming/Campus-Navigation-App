@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { MapContainer, TileLayer, LayersControl, GeoJSON, ZoomControl } from "react-leaflet";
 import type { GeoJsonObject } from "geojson";
-import type { LayerData, LayerConfig, LoadedLayer } from "@shared/types/layers";
-import { showError } from "@features/notifications/services/notifications";
+import type { LayerData, LayerConfig, LoadedLayer } from "@features/map/models/layers";
+import { showError } from "@features/notifications/services/notifications.service";
 import "@shared/styles/main.scss";
 
 const { BaseLayer, Overlay } = LayersControl;

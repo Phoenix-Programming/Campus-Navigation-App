@@ -9,7 +9,7 @@ import type {
 	UpdateIndoorMapRequest
 } from "../models/buildings_models";
 import api from "@shared/api/api";
-import { showError, showSuccess } from "@features/notifications/services/notifications";
+import { showError, showSuccess } from "@features/notifications/services/notifications.service";
 import type { AxiosResponse } from "axios";
 import type { Node, Edge } from "../models/buildings_models";
 

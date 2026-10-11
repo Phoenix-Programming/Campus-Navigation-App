@@ -1,15 +1,15 @@
 import { type ReactNode } from "react";
 import { Navigate, type RouteObject } from "react-router";
 import { adminRoute } from "./AdminRoute";
-import Map from "@features/map/pages/Map";
+import Map from "@features/map/pages/Map.page";
 import RootLayout from "@shared/layouts/RootLayout";
-import AccountPage from "@features/user/pages/Account";
-import LoginPage from "@features/user/pages/Login";
-import NotFound from "@shared/pages/NotFound";
-import RegisterPage from "@features/user/pages/Register";
+import AccountPage from "@features/user/pages/Account.page";
+import LoginPage from "@features/user/pages/Login.page";
+import NotFound from "@shared/pages/NotFound.page";
+import RegisterPage from "@features/user/pages/Register.page";
 import Unauthorized from "@features/auth/pages/Unauthorized";
 import AdminDashboard from "@features/auth/pages/AdminDashboard";
-import IndoorMapEditor from "@features/indoor-map-editor/pages/IndoorMapEditor";
+import IndoorMapEditor from "@features/indoor-map-editor/pages/IndoorMapEditor.page";
 
 function withLayout(pageName: string, element: ReactNode): ReactNode {
 	return <RootLayout pageName={pageName}>{element}</RootLayout>;

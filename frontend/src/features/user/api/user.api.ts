@@ -7,7 +7,7 @@ import type {
 	RegisterUserRequest,
 	RegisterUserResponse
 } from "../models/user_models";
-import { showError, showSuccess, showWarning } from "@features/notifications/services/notifications";
+import { showError, showSuccess, showWarning } from "@features/notifications/services/notifications.service";
 
 export async function getUser(user_id: number): Promise<GetUserResponse | null> {
 	try {

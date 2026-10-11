@@ -1,5 +1,5 @@
 import React, { useRef, useState } from "react";
-import { getUser as getUserService } from "../services/user_service";
+import { getUser as getUserService } from "../services/user.service";
 import type { PublicUserData } from "../models/user_models";
 
 export default function AccountPage(): React.JSX.Element {

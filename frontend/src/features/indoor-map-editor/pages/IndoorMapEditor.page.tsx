@@ -8,7 +8,7 @@ import {
 	getBuildings as getBuildingsService,
 	getIndoorMapData as getIndoorMapDataService,
 	updateIndoorMap as updateIndoorMapService
-} from "../services/indoor_map_editor_service";
+} from "../services/indoor_map_editor.service";
 import ConfirmationModal from "@shared/components/ConfirmationModal";
 import EdgeComponent, { isEdge } from "../components/EdgeComponent";
 import BuildingModal from "../components/BuildingModal";
@@ -16,7 +16,7 @@ import IndoorGraphContextComponent from "../components/IndoorGraphContextCompone
 import IndoorMapEditorToolbar from "../components/IndoorMapEditorToolbar";
 import NodeComponent, { isNode } from "../components/NodeComponent";
 import SvgViewerComponent from "../components/SvgViewerComponent";
-import { showWarning } from "@features/notifications/services/notifications";
+import { showWarning } from "@features/notifications/services/notifications.service";
 import circleIcon from "@assets/icons/circle.svg";
 import lineIcon from "@assets/icons/remove.svg";
 import addIcon from "@assets/icons/add.svg";

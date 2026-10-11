@@ -1,7 +1,6 @@
 import { useRef, type JSX } from "react";
-import { registerUser as registerUserService } from "../api/user_api";
-import { showWarning } from "@features/notifications/services/notifications";
-
+import { registerUser as registerUserService } from "../api/user.api";
+import { showWarning } from "@features/notifications/services/notifications.service";
 
 export default function RegisterPage(): JSX.Element {
 	const emailInputRef = useRef<HTMLInputElement>(null);
@@ -28,7 +27,6 @@ export default function RegisterPage(): JSX.Element {
 
 		await registerUserService(email, username, password);
 	};
-
 
 	return (
 		<section>
