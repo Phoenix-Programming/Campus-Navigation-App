@@ -1,6 +1,5 @@
 import React from "react";
-import { NodeType, type Node } from "./NodeComponent";
-import { type Edge } from "./EdgeComponent";
+import { NodeType, type Node, type Edge } from "../models/buildings_models";
 import deleteIcon from "@assets/icons/delete.svg";
 import "../styles/indoor-graph-context-component.scss";
 

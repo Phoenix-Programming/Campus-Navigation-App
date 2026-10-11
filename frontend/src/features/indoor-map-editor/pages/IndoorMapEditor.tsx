@@ -1,15 +1,22 @@
 import React, { useEffect, useRef, useState } from "react";
 import { clsx } from "clsx";
 import DragSelect from "dragselect";
+import { NodeType, type Node, type Edge, type Building, type IndoorMapData } from "../models/buildings_models";
+import { Tool, type DragSelectionMode } from "../models/indoor_map_editor_models";
+import { type SvgViewerHandle } from "../models/svg_viewer_models";
+import {
+	getBuildings as getBuildingsService,
+	getIndoorMapData as getIndoorMapDataService,
+	updateIndoorMap as updateIndoorMapService
+} from "../services/buildings_service";
 import ConfirmationModal from "@shared/components/ConfirmationModal";
-import EdgeComponent, { isEdge, type Edge } from "../components/EdgeComponent";
+import EdgeComponent, { isEdge } from "../components/EdgeComponent";
 import BuildingModal from "../components/BuildingModal";
 import IndoorGraphContextComponent from "../components/IndoorGraphContextComponent";
-import IndoorMapEditorToolbar, { Tool } from "../components/IndoorMapEditorToolbar";
-import NodeComponent, { isNode, NodeType, type Node } from "../components/NodeComponent";
-import SvgViewerComponent, { type SvgViewerHandle } from "../components/SvgViewerComponent";
-import api from "@shared/api/api";
-import { showError, showSuccess, showWarning } from "@features/notifications/services/notifications";
+import IndoorMapEditorToolbar from "../components/IndoorMapEditorToolbar";
+import NodeComponent, { isNode } from "../components/NodeComponent";
+import SvgViewerComponent from "../components/SvgViewerComponent";
+import { showWarning } from "@features/notifications/services/notifications";
 import circleIcon from "@assets/icons/circle.svg";
 import lineIcon from "@assets/icons/remove.svg";
 import addIcon from "@assets/icons/add.svg";
@@ -17,32 +24,6 @@ import editIcon from "@assets/icons/edit.svg";
 import saveIcon from "@assets/icons/save.svg";
 import "../styles/indoor-map-editor.scss";
 import "@shared/styles/main.scss";
-
-interface GetIndoorMapResponse {
-	svg: string;
-	nodes: Node[];
-	edges: Edge[];
-}
-
-interface GetBuildingsResponse {
-	buildings: Building[];
-}
-
-interface UpdateIndoorMapRequest {
-	bld_code: string;
-	floor_num: number;
-	nodes: Node[];
-	edges: Edge[];
-}
-
-interface Building {
-	id: number;
-	name: string;
-	code: string;
-	num_floors: number;
-}
-
-type DragSelectionMode = "select" | "deselect";
 
 export default function IndoorMapEditor(): React.JSX.Element {
 	const svgViewerZoomStep = 0.1;
@@ -413,18 +394,6 @@ export default function IndoorMapEditor(): React.JSX.Element {
 		clearMapData();
 
 		await getIndoorMapData(bld_code, floor);
-
-		// Temporary hardcoded data for testing purposes
-		// setNodes([
-		// 	{ id: 1, label: "Node 1", type: "room", x: 100, y: 250 },
-		// 	{ id: 2, label: "Node 2", type: "hallway", x: 200, y: 150 },
-		// 	{ id: 3, label: "Node 3", type: "room", x: 300, y: 200 }
-		// ]);
-
-		// setEdges([
-		// 	{ id: "1-2", source_node_id: 1, target_node_id: 2 },
-		// 	{ id: "2-3", source_node_id: 2, target_node_id: 3 }
-		// ]);
 	}
 
 	function clearMapData(): void {
@@ -440,20 +409,9 @@ export default function IndoorMapEditor(): React.JSX.Element {
 	}
 
 	async function getBuildings(): Promise<Building[]> {
-		try {
-			const response: GetBuildingsResponse = (await api.get("/api/buildings")).data;
-			const nextBuildings: Building[] = response.buildings;
-
-			setBuildings(nextBuildings);
-			return nextBuildings;
-		} catch (error) {
-			console.error("Error fetching buildings:", error);
-			showError(
-				error instanceof Error ? error.message : "The building list could not be loaded.",
-				"Failed to Load Building List"
-			);
-			return [];
-		}
+		const nextBuildings: Building[] = await getBuildingsService();
+		setBuildings(nextBuildings);
+		return nextBuildings;
 	}
 
 	async function refreshBuildings(buildingId?: number): Promise<void> {
@@ -480,26 +438,11 @@ export default function IndoorMapEditor(): React.JSX.Element {
 	}
 
 	async function getIndoorMapData(bldCode: string, floor: number): Promise<void> {
-		try {
-			const response: GetIndoorMapResponse = (
-				await api.get("/api/buildings/map", {
-					params: {
-						bld_code: bldCode,
-						floor_num: floor
-					}
-				})
-			).data;
+		const data: IndoorMapData = await getIndoorMapDataService(bldCode, floor);
 
-			setSvg(response.svg);
-			setNodes(response.nodes);
-			setEdges(response.edges);
-		} catch (error) {
-			console.error("Error fetching indoor map data:", error);
-			showError(
-				error instanceof Error ? error.message : "The indoor map could not be loaded.",
-				"Failed to Load Indoor Map"
-			);
-		}
+		setSvg(data.svg);
+		setNodes(data.nodes);
+		setEdges(data.edges);
 	}
 
 	function onSelectedToolChange(tool: Tool): void {
@@ -955,25 +898,7 @@ export default function IndoorMapEditor(): React.JSX.Element {
 	}
 
 	async function postChangesToDatabase(): Promise<void> {
-		try {
-			const payload: UpdateIndoorMapRequest = {
-				bld_code: selectedBuilding!.code,
-				floor_num: selectedFloor!,
-				nodes: nodes!,
-				edges: edges!
-			};
-			console.log("Posting changes to the database with payload:", payload);
-
-			await api.post("/api/buildings/map", payload);
-
-			showSuccess("Indoor map saved successfully.", "Successfully Saved Indoor Map");
-		} catch (error) {
-			console.error("Error saving changes to the database:", error);
-			showError(
-				error instanceof Error ? error.message : "The indoor map could not be saved. Please try again.",
-				"Failed to Save Indoor Map"
-			);
-		}
+		await updateIndoorMapService(selectedBuilding!.code, selectedFloor!, nodes!, edges!);
 	}
 
 	return (

@@ -1,15 +1,10 @@
 import React, { useContext, useRef } from "react";
 import { clsx } from "clsx";
-import { Tool } from "./IndoorMapEditorToolbar";
-import { type Node } from "./NodeComponent";
-import { SvgViewportContext, type SvgViewportMetrics } from "./SvgViewerComponent";
+import type { Node, Edge } from "../models/buildings_models";
+import { Tool } from "../models/indoor_map_editor_models";
+import { SvgViewportContext } from "./SvgViewerComponent";
+import type { SvgViewportMetrics } from "../models/svg_viewer_models";
 import "../styles/edge-component.scss";
-
-export interface Edge {
-	id: string;
-	source_node_id: number;
-	target_node_id: number;
-}
 
 export function isEdge(item: Node | Edge): item is Edge {
 	return "source_node_id" in item && "target_node_id" in item;

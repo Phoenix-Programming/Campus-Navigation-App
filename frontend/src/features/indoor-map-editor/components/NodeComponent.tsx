@@ -1,25 +1,10 @@
 import React, { useContext, useRef, useState } from "react";
 import { clsx } from "clsx";
-import { type Edge } from "./EdgeComponent";
-import { Tool } from "./IndoorMapEditorToolbar";
-import { SvgViewportContext, type SvgViewportMetrics } from "./SvgViewerComponent";
+import type { Node, Edge } from "../models/buildings_models";
+import { Tool } from "../models/indoor_map_editor_models"
+import { SvgViewportContext } from "./SvgViewerComponent";
+import type { SvgViewportMetrics } from "../models/svg_viewer_models";
 import "../styles/node-component.scss";
-
-export interface Node {
-	id: number;
-	label: string;
-	type: string;
-	x: number;
-	y: number;
-}
-
-export enum NodeType {
-	room = "room",
-	roomDoor = "room-door",
-	hallway = "hallway",
-	staircase = "staircase",
-	elevator = "elevator"
-}
 
 export function isNode(item: Node | Edge): item is Node {
 	return "x" in item && "y" in item;

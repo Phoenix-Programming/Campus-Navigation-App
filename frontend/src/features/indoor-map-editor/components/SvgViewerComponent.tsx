@@ -1,5 +1,6 @@
 import { createContext, forwardRef, useEffect, useImperativeHandle, useMemo, useRef, useState } from "react";
-import { Tool } from "./IndoorMapEditorToolbar";
+import { Tool } from "../models/indoor_map_editor_models";
+import type { SvgViewportContextValue, SvgViewportMetrics, SvgViewerHandle } from "../models/svg_viewer_models";
 import "../styles/svg-viewer-component.scss";
 
 interface SvgViewerComponentProps {
@@ -11,23 +12,9 @@ interface SvgViewerComponentProps {
 	zoomStep?: number;
 }
 
-export interface SvgViewerHandle {
-	getScale: () => number;
-	zoomBy: (amount: number) => void;
-}
-
-export interface SvgViewportMetrics {
-	width: number;
-	height: number;
-}
-
-export interface SvgViewportContextValue extends SvgViewportMetrics {
-	suppressClicksRef: React.MutableRefObject<boolean>;
-}
-
-export const DEFAULT_SVG_VIEWER_ZOOM_STEP = 0.1;
-export const MIN_SVG_VIEWER_SCALE = 0.025;
-export const MAX_SVG_VIEWER_SCALE = 1;
+const DEFAULT_SVG_VIEWER_ZOOM_STEP = 0.1;
+const MIN_SVG_VIEWER_SCALE = 0.025;
+const MAX_SVG_VIEWER_SCALE = 1;
 
 export const SvgViewportContext = createContext<SvgViewportContextValue | null>(null);
 

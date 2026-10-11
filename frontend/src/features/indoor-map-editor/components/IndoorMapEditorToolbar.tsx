@@ -1,4 +1,5 @@
 import React from "react";
+import { Tool } from "../models/indoor_map_editor_models";
 import selectIcon from "@assets/icons/select.svg";
 import selectBox from "@assets/icons/select-box.svg";
 import diagonalIcon from "@assets/icons/diagonal-line.svg";
@@ -8,15 +9,6 @@ import addIcon from "@assets/icons/add.svg";
 import zoomInIcon from "@assets/icons/zoom-in.svg";
 import zoomOutIcon from "@assets/icons/zoom-out.svg";
 import "../styles/indoor-map-editor-toolbar.scss";
-
-export enum Tool {
-	SingleSelect,
-	MultiSelect,
-	SingleConnect,
-	MultiConnect,
-	MoveNode,
-	CreateNode
-}
 
 interface IndoorMapEditorToolbarProps {
 	selectedTool: Tool;
