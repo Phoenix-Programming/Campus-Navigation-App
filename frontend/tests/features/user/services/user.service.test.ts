@@ -7,7 +7,7 @@ vi.mock("@features/auth/utils/session", () => ({
 	storeAuthTokens: vi.fn()
 }));
 
-vi.mock("@features/user/api/user_api", () => ({
+vi.mock("@features/user/api/user.api", () => ({
 	getUser: vi.fn(),
 	loginUser: vi.fn(),
 	registerUser: vi.fn()

@@ -10,7 +10,7 @@ vi.mock("@shared/api/api", () => ({
 	}
 }));
 
-vi.mock("@features/notifications/services/notifications", () => ({
+vi.mock("@features/notifications/services/notifications.service", () => ({
 	showError: vi.fn(),
 	showSuccess: vi.fn(),
 	showWarning: vi.fn()
