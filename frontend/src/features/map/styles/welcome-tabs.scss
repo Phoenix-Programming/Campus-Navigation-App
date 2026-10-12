@@ -29,14 +29,16 @@
 		font-weight: 400;
 		line-height: 2.2vh;
 		text-align: center;
+
+		&.welcome-tab-active {
+		background: var(--accent);
+		color: var(--background);
+	}
 	}
 
 	&.welcome-top-bar-many-steps .welcome-tab {
 		width: calc(var(--welcomewidth) / var(--welcome-step-count));
 	}
 
-	&.welcome-tab-active {
-		background: var(--accent);
-		color: var(--background);
-	}
+	
 }
