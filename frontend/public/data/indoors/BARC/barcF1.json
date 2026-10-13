@@ -1,0 +1,2144 @@
+[
+  {
+    "id": "barc_hall_e-w_a_1_f1",
+    "x": 116.56996295,
+    "y": 40.90335209,
+    "type": "hall",
+    "role": "routing"
+  },
+  {
+    "id": "barc_hall_e-w_a_2_f1",
+    "x": 111.69256031,
+    "y": 48.29835508,
+    "type": "hall",
+    "role": "routing"
+  },
+  {
+    "id": "barc_hall_e-w_a_3_f1",
+    "x": 113.80922146,
+    "y": 51.57919285,
+    "type": "hall",
+    "role": "routing"
+  },
+  {
+    "id": "barc_hall_e-w_a_4_f1",
+    "x": 56.6591926,
+    "y": 100.23608413,
+    "type": "hall",
+    "role": "routing"
+  },
+  {
+    "id": "barc_hall_e-w_b_1_f1",
+    "x": 106.39700745,
+    "y": 40.90335209,
+    "type": "hall",
+    "role": "routing"
+  },
+  {
+    "id": "barc_hall_e-w_b_2_f1",
+    "x": 109.41713909,
+    "y": 49.75356787,
+    "type": "hall",
+    "role": "routing"
+  },
+  {
+    "id": "barc_hall_e-w_b_3_f1",
+    "x": 116.45505289,
+    "y": 55.81253214,
+    "type": "hall",
+    "role": "routing"
+  },
+  {
+    "id": "barc_hall_e-w_b_4_f1",
+    "x": 51.843778,
+    "y": 103.35818581,
+    "type": "hall",
+    "role": "routing"
+  },
+  {
+    "id": "barc_hall_e-w_c_1_f1",
+    "x": 101.86595501,
+    "y": 40.90335209,
+    "type": "hall",
+    "role": "routing"
+  },
+  {
+    "id": "barc_hall_e-w_c_2_f1",
+    "x": 101.850055,
+    "y": 54.59544648,
+    "type": "hall",
+    "role": "routing"
+  },
+  {
+    "id": "barc_hall_e-w_c_3_f1",
+    "x": 119.18026436,
+    "y": 59.8077383,
+    "type": "hall",
+    "role": "routing"
+  },
+  {
+    "id": "barc_hall_e-w_c_4_f1",
+    "x": 50.7325264,
+    "y": 104.17837626,
+    "type": "hall",
+    "role": "routing"
+  },
+  {
+    "id": "barc_hall_e-w_d_1_f1",
+    "x": 96.71317823,
+    "y": 40.90335209,
+    "type": "hall",
+    "role": "routing"
+  },
+  {
+    "id": "barc_hall_e-w_d_2_f1",
+    "x": 92.66900704,
+    "y": 60.57502871,
+    "type": "hall",
+    "role": "routing"
+  },
+  {
+    "id": "barc_hall_e-w_d_3_f1",
+    "x": 117.14298326,
+    "y": 61.02482395,
+    "type": "hall",
+    "role": "routing"
+  },
+  {
+    "id": "barc_hall_e-w_d_3_f1_(1)",
+    "x": 114.02090157,
+    "y": 62.90336697,
+    "type": "hall",
+    "role": "routing"
+  },
+  {
+    "id": "barc_hall_e-w_d_4_f1",
+    "x": 47.68981875,
+    "y": 105.97755723,
+    "type": "hall",
+    "role": "routing"
+  },
+  {
+    "id": "barc_hall_e-w_e_1_f1",
+    "x": 92.35168287,
+    "y": 40.90335209,
+    "type": "hall",
+    "role": "routing"
+  },
+  {
+    "id": "barc_hall_e-w_e_2_f1",
+    "x": 82.42962651,
+    "y": 67.29545034,
+    "type": "hall",
+    "role": "routing"
+  },
+  {
+    "id": "barc_hall_e-w_e_3_f1",
+    "x": 109.15255894,
+    "y": 66.02544765,
+    "type": "hall",
+    "role": "routing"
+  },
+  {
+    "id": "barc_hall_e-w_e_4_f1",
+    "x": 46.03367286,
+    "y": 107.07921782,
+    "type": "hall",
+    "role": "routing"
+  },
+  {
+    "id": "barc_hall_e-w_f_1_f1",
+    "x": 81.478956,
+    "y": 40.90335209,
+    "type": "hall",
+    "role": "routing"
+  },
+  {
+    "id": "barc_hall_e-w_f_2_f1",
+    "x": 74.94191447,
+    "y": 72.216705,
+    "type": "hall",
+    "role": "routing"
+  },
+  {
+    "id": "barc_hall_e-w_f_3_f1",
+    "x": 108.01484833,
+    "y": 66.81919708,
+    "type": "hall",
+    "role": "routing"
+  },
+  {
+    "id": "barc_hall_e-w_f_4_f1",
+    "x": 41.36627134,
+    "y": 99.70692384,
+    "type": "hall",
+    "role": "routing"
+  },
+  {
+    "id": "barc_hall_e-w_g_1_f1",
+    "x": 73.93243092,
+    "y": 40.90335209,
+    "type": "hall",
+    "role": "routing"
+  },
+  {
+    "id": "barc_hall_e-w_g_2_f1",
+    "x": 69.65024061,
+    "y": 75.78858093,
+    "type": "hall",
+    "role": "routing"
+  },
+  {
+    "id": "barc_hall_e-w_g_3_f1",
+    "x": 107.10337784,
+    "y": 67.46455543,
+    "type": "hall",
+    "role": "routing"
+  },
+  {
+    "id": "barc_hall_e-w_h_1_f1",
+    "x": 65.08956515,
+    "y": 40.90335209,
+    "type": "hall",
+    "role": "routing"
+  },
+  {
+    "id": "barc_hall_e-w_h_2_f1",
+    "x": 65.02003011,
+    "y": 78.85775058,
+    "type": "hall",
+    "role": "routing"
+  },
+  {
+    "id": "barc_hall_e-w_h_3_f1",
+    "x": 103.12006568,
+    "y": 70.04711883,
+    "type": "hall",
+    "role": "routing"
+  },
+  {
+    "id": "barc_hall_e-w_i_1_f1",
+    "x": 65.08956515,
+    "y": 36.84001789,
+    "type": "hall",
+    "role": "routing"
+  },
+  {
+    "id": "barc_hall_e-w_i_2_f1",
+    "x": 59.27857401,
+    "y": 82.50900155,
+    "type": "hall",
+    "role": "routing"
+  },
+  {
+    "id": "barc_hall_e-w_i_3_f1",
+    "x": 102.00880508,
+    "y": 70.84086825,
+    "type": "hall",
+    "role": "routing"
+  },
+  {
+    "id": "barc_hall_e-w_j_1_f1",
+    "x": 59.71076124,
+    "y": 36.84001789,
+    "type": "hall",
+    "role": "routing"
+  },
+  {
+    "id": "barc_hall_e-w_j_2_f1",
+    "x": 55.20398581,
+    "y": 85.23421103,
+    "type": "hall",
+    "role": "routing"
+  },
+  {
+    "id": "barc_hall_e-w_j_3_f1",
+    "x": 98.09296097,
+    "y": 73.30149158,
+    "type": "hall",
+    "role": "routing"
+  },
+  {
+    "id": "barc_hall_e-w_k_1_f1",
+    "x": 55.7351231,
+    "y": 36.84001789,
+    "type": "hall",
+    "role": "routing"
+  },
+  {
+    "id": "barc_hall_e-w_k_2_f1",
+    "x": 47.5839817,
+    "y": 90.04962563,
+    "type": "hall",
+    "role": "routing"
+  },
+  {
+    "id": "barc_hall_e-w_k_3_f1",
+    "x": 97.14046646,
+    "y": 73.98941295,
+    "type": "hall",
+    "role": "routing"
+  },
+  {
+    "id": "barc_hall_e-w_l_1_f1",
+    "x": 52.18335818,
+    "y": 36.84001789,
+    "type": "hall",
+    "role": "routing"
+  },
+  {
+    "id": "barc_hall_e-w_l_2_f1",
+    "x": 46.36689804,
+    "y": 90.81692204,
+    "type": "hall",
+    "role": "routing"
+  },
+  {
+    "id": "barc_hall_e-w_l_3_f1",
+    "x": 96.05567287,
+    "y": 74.73024635,
+    "type": "hall",
+    "role": "routing"
+  },
+  {
+    "id": "barc_hall_e-w_m_1_f1",
+    "x": 51.3048567,
+    "y": 36.84001789,
+    "type": "hall",
+    "role": "routing"
+  },
+  {
+    "id": "barc_hall_e-w_m_2_f1",
+    "x": 38.90564501,
+    "y": 95.84400476,
+    "type": "hall",
+    "role": "routing"
+  },
+  {
+    "id": "barc_hall_e-w_m_3_f1",
+    "x": 94.04483778,
+    "y": 76.00024904,
+    "type": "hall",
+    "role": "routing"
+  },
+  {
+    "id": "barc_hall_e-w_n_1_f1",
+    "x": 48.18359802,
+    "y": 36.84001789,
+    "type": "hall",
+    "role": "routing"
+  },
+  {
+    "id": "barc_hall_e-w_n_3_f1",
+    "x": 91.16087723,
+    "y": 77.74649898,
+    "type": "hall",
+    "role": "routing"
+  },
+  {
+    "id": "barc_hall_e-w_o_1_f1",
+    "x": 48.18359802,
+    "y": 34.87631183,
+    "type": "hall",
+    "role": "routing"
+  },
+  {
+    "id": "barc_hall_e-w_o_3_f1",
+    "x": 89.91733856,
+    "y": 78.64607647,
+    "type": "hall",
+    "role": "routing"
+  },
+  {
+    "id": "barc_hall_e-w_p_1_f1",
+    "x": 48.18359802,
+    "y": 31.27963189,
+    "type": "hall",
+    "role": "routing"
+  },
+  {
+    "id": "barc_hall_e-w_p_3_f1",
+    "x": 87.08629503,
+    "y": 80.44524944,
+    "type": "hall",
+    "role": "routing"
+  },
+  {
+    "id": "barc_hall_e-w_q_1_f1",
+    "x": 48.18359802,
+    "y": 29.20223877,
+    "type": "hall",
+    "role": "routing"
+  },
+  {
+    "id": "barc_hall_e-w_q_3_f1",
+    "x": 82.0327483,
+    "y": 83.6996292,
+    "type": "hall",
+    "role": "routing"
+  },
+  {
+    "id": "barc_hall_e-w_r_3_f1",
+    "x": 80.65691755,
+    "y": 84.59921268,
+    "type": "hall",
+    "role": "routing"
+  },
+  {
+    "id": "barc_hall_e-w_s_3_f1",
+    "x": 76.89983253,
+    "y": 87.11275404,
+    "type": "hall",
+    "role": "routing"
+  },
+  {
+    "id": "barc_hall_e-w_t_3_f1",
+    "x": 72.98399541,
+    "y": 89.59983638,
+    "type": "hall",
+    "role": "routing"
+  },
+  {
+    "id": "barc_hall_e-w_u_3_f1",
+    "x": 71.81982678,
+    "y": 90.39358581,
+    "type": "hall",
+    "role": "routing"
+  },
+  {
+    "id": "barc_hall_e-w_v_3_f1",
+    "x": 69.86190873,
+    "y": 91.58421346,
+    "type": "hall",
+    "role": "routing"
+  },
+  {
+    "id": "barc_hall_e-w_w_3_f1",
+    "x": 67.0308652,
+    "y": 93.48921448,
+    "type": "hall",
+    "role": "routing"
+  },
+  {
+    "id": "barc_hall_e-w_x_3_f1",
+    "x": 63.8823255,
+    "y": 95.5529666,
+    "type": "hall",
+    "role": "routing"
+  },
+  {
+    "id": "barc_hall_e-w_y_3_f1",
+    "x": 61.87149041,
+    "y": 96.87588131,
+    "type": "hall",
+    "role": "routing"
+  },
+  {
+    "id": "barc_hall_e-w_z_3_f1",
+    "x": 57.87627825,
+    "y": 99.41588068,
+    "type": "hall",
+    "role": "routing"
+  },
+  {
+    "id": "barc_hall_n-s_a_1_f1",
+    "x": 128.22901924,
+    "y": 36.86835391,
+    "type": "hall",
+    "role": "routing"
+  },
+  {
+    "id": "barc_hall_n-s_a_2_f1",
+    "x": 64.67607493,
+    "y": 43.93272972,
+    "type": "hall",
+    "role": "routing"
+  },
+  {
+    "id": "barc_hall_n-s_a_3_f1",
+    "x": 98.99255046,
+    "y": 42.84793914,
+    "type": "hall",
+    "role": "routing"
+  },
+  {
+    "id": "barc_hall_n-s_a_4_f1",
+    "x": 80.04837223,
+    "y": 43.80043765,
+    "type": "hall",
+    "role": "routing"
+  },
+  {
+    "id": "barc_hall_n-s_a_5_f1",
+    "x": 72.56066518,
+    "y": 80.52462548,
+    "type": "hall",
+    "role": "routing"
+  },
+  {
+    "id": "barc_hall_n-s_b_1_f1",
+    "x": 128.04381914,
+    "y": 28.26938927,
+    "type": "hall",
+    "role": "routing"
+  },
+  {
+    "id": "barc_hall_n-s_b_2_f1",
+    "x": 63.15915411,
+    "y": 47.5898647,
+    "type": "hall",
+    "role": "routing"
+  },
+  {
+    "id": "barc_hall_n-s_b_3_f1",
+    "x": 97.90775687,
+    "y": 44.83231321,
+    "type": "hall",
+    "role": "routing"
+  },
+  {
+    "id": "barc_hall_n-s_b_5_f1",
+    "x": 74.33720714,
+    "y": 83.25750596,
+    "type": "hall",
+    "role": "routing"
+  },
+  {
+    "id": "barc_hall_n-s_c_2_f1",
+    "x": 62.4006547,
+    "y": 52.45231832,
+    "type": "hall",
+    "role": "routing"
+  },
+  {
+    "id": "barc_hall_n-s_c_3_f1",
+    "x": 96.24088197,
+    "y": 47.9543979,
+    "type": "hall",
+    "role": "routing"
+  },
+  {
+    "id": "barc_hall_n-s_d_2_f1",
+    "x": 62.18899258,
+    "y": 57.47940704,
+    "type": "hall",
+    "role": "routing"
+  },
+  {
+    "id": "barc_hall_n-s_d_3_f1",
+    "x": 93.59504854,
+    "y": 52.63752842,
+    "type": "hall",
+    "role": "routing"
+  },
+  {
+    "id": "barc_hall_n-s_e_2_f1",
+    "x": 62.15421356,
+    "y": 65.27492925,
+    "type": "hall",
+    "role": "routing"
+  },
+  {
+    "id": "barc_hall_n-s_e_3_f1",
+    "x": 90.79046403,
+    "y": 57.63815212,
+    "type": "hall",
+    "role": "routing"
+  },
+  {
+    "id": "barc_hall_n-s_f_2_f1",
+    "x": 63.59128234,
+    "y": 68.72419811,
+    "type": "hall",
+    "role": "routing"
+  },
+  {
+    "id": "barc_hall_n-s_f_3_f1",
+    "x": 87.9594205,
+    "y": 61.2894031,
+    "type": "hall",
+    "role": "routing"
+  },
+  {
+    "id": "barc_hall_n-s_g_2_f1",
+    "x": 66.68691101,
+    "y": 73.30149158,
+    "type": "hall",
+    "role": "routing"
+  },
+  {
+    "id": "barc_hall_n-s_g_3_f1",
+    "x": 83.8848333,
+    "y": 64.83482601,
+    "type": "hall",
+    "role": "routing"
+  },
+  {
+    "id": "barc_hall_n-w_a_1_f1",
+    "x": 124.33188714,
+    "y": 40.93911211,
+    "type": "hall",
+    "role": "routing"
+  },
+  {
+    "id": "barc_hall_n-w_b_1_f1",
+    "x": 125.78864793,
+    "y": 36.31892661,
+    "type": "hall",
+    "role": "routing"
+  },
+  {
+    "id": "barc_hall_n-w_c_1_f1",
+    "x": 123.30776659,
+    "y": 31.12689181,
+    "type": "hall",
+    "role": "routing"
+  },
+  {
+    "id": "barc_hall_n-w_d_1_f1",
+    "x": 122.93735639,
+    "y": 23.16292851,
+    "type": "hall",
+    "role": "routing"
+  },
+  {
+    "id": "barc_hall_n-w_e_1_f1",
+    "x": 120.88497528,
+    "y": 23.16292851,
+    "type": "hall",
+    "role": "routing"
+  },
+  {
+    "id": "barc_hall_n-w_f_1_f1",
+    "x": 120.0015248,
+    "y": 23.16292851,
+    "type": "hall",
+    "role": "routing"
+  },
+  {
+    "id": "barc_hall_n-w_g_1_f1",
+    "x": 119.38801447,
+    "y": 23.16292851,
+    "type": "hall",
+    "role": "routing"
+  },
+  {
+    "id": "barc_hall_n-w_h_1_f1",
+    "x": 105.28964686,
+    "y": 23.16292851,
+    "type": "hall",
+    "role": "routing"
+  },
+  {
+    "id": "barc_hall_n-w_i_1_f1",
+    "x": 103.16692571,
+    "y": 23.16292851,
+    "type": "hall",
+    "role": "routing"
+  },
+  {
+    "id": "barc_hall_n-w_j_1_f1",
+    "x": 101.36935474,
+    "y": 23.16292851,
+    "type": "hall",
+    "role": "routing"
+  },
+  {
+    "id": "barc_hall_n-w_k_1_f1",
+    "x": 97.47359064,
+    "y": 23.16292851,
+    "type": "hall",
+    "role": "routing"
+  },
+  {
+    "id": "barc_hall_n-w_l_1_f1",
+    "x": 96.55946914,
+    "y": 23.16292851,
+    "type": "hall",
+    "role": "routing"
+  },
+  {
+    "id": "barc_hall_n-w_m_1_f1",
+    "x": 94.98275929,
+    "y": 23.16292851,
+    "type": "hall",
+    "role": "routing"
+  },
+  {
+    "id": "barc_hall_n-w_n_1_f1",
+    "x": 93.87231169,
+    "y": 23.16292851,
+    "type": "hall",
+    "role": "routing"
+  },
+  {
+    "id": "barc_hall_n-w_o_1_f1",
+    "x": 92.42443691,
+    "y": 23.16292851,
+    "type": "hall",
+    "role": "routing"
+  },
+  {
+    "id": "barc_hall_n-w_p_1_f1",
+    "x": 90.98270113,
+    "y": 23.16292851,
+    "type": "hall",
+    "role": "routing"
+  },
+  {
+    "id": "barc_hall_n-w_q_1_f1",
+    "x": 84.84764482,
+    "y": 23.16292851,
+    "type": "hall",
+    "role": "routing"
+  },
+  {
+    "id": "barc_hall_n-w_r_1_f1",
+    "x": 83.5224721,
+    "y": 23.16292851,
+    "type": "hall",
+    "role": "routing"
+  },
+  {
+    "id": "barc_hall_n-w_s_1_f1",
+    "x": 79.89665414,
+    "y": 23.16292851,
+    "type": "hall",
+    "role": "routing"
+  },
+  {
+    "id": "barc_hall_n-w_t_1_f1",
+    "x": 76.93342554,
+    "y": 23.16292851,
+    "type": "hall",
+    "role": "routing"
+  },
+  {
+    "id": "barc_hall_n-w_u_1_f1",
+    "x": 74.49167223,
+    "y": 23.16292851,
+    "type": "hall",
+    "role": "routing"
+  },
+  {
+    "id": "barc_hall_n-w_v_1_f1",
+    "x": 68.69404409,
+    "y": 23.16292851,
+    "type": "hall",
+    "role": "routing"
+  },
+  {
+    "id": "barc_hall_n-w_w_1_f1",
+    "x": 67.31365935,
+    "y": 23.16292851,
+    "type": "hall",
+    "role": "routing"
+  },
+  {
+    "id": "barc_hall_n-w_x_1_f1",
+    "x": 64.91485205,
+    "y": 23.16292851,
+    "type": "hall",
+    "role": "routing"
+  },
+  {
+    "id": "barc_hall_n-w_y_1_f1",
+    "x": 64.91485205,
+    "y": 27.73967998,
+    "type": "hall",
+    "role": "routing"
+  },
+  {
+    "id": "barc_hall_n-w_z_1_f1",
+    "x": 64.91485205,
+    "y": 30.88082868,
+    "type": "hall",
+    "role": "routing"
+  },
+  {
+    "id": "barc_elevator_west_1_f1",
+    "x": 57.10898784,
+    "y": 65.31107327,
+    "type": "elevator",
+    "role": "routing"
+  },
+  {
+    "id": "barc_elevator_west_2_f1",
+    "x": 58.80232075,
+    "y": 67.98336571,
+    "type": "elevator",
+    "role": "routing"
+  },
+  {
+    "id": "barc_entrance_east_1_f1",
+    "x": 130.68085057,
+    "y": 37.7797064,
+    "type": "entrance",
+    "role": "routing"
+  },
+  {
+    "id": "barc_entrance_north_1_f1",
+    "x": 125.53027779,
+    "y": 18.34750891,
+    "type": "entrance",
+    "role": "routing"
+  },
+  {
+    "id": "barc_entrance_north_2_f1",
+    "x": 61.95663546,
+    "y": 18.34750891,
+    "type": "entrance",
+    "role": "routing"
+  },
+  {
+    "id": "barc_entrance_south_1_f1",
+    "x": 120.42381503,
+    "y": 61.71273932,
+    "type": "entrance",
+    "role": "routing"
+  },
+  {
+    "id": "barc_entrance_south_2_f1",
+    "x": 64.42509779,
+    "y": 100.68034437,
+    "type": "entrance",
+    "role": "routing"
+  },
+  {
+    "id": "barc_fountain_north_1_f1",
+    "x": 63.67065738,
+    "y": 23.11001148,
+    "type": "fountain",
+    "role": "routing"
+  },
+  {
+    "id": "barc_fountain_north_2_f1",
+    "x": 96.69067721,
+    "y": 36.89480892,
+    "type": "fountain",
+    "role": "routing"
+  },
+  {
+    "id": "barc_fountain_south_1_f1",
+    "x": 95.48088656,
+    "y": 73.78769885,
+    "type": "fountain",
+    "role": "routing"
+  },
+  {
+    "id": "barc_fountain_south_2_f1",
+    "x": 60.94544791,
+    "y": 85.44587914,
+    "type": "fountain",
+    "role": "routing"
+  },
+  {
+    "id": "barc_rm_1101_f1",
+    "x": 130.42499043,
+    "y": 21.58463566,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "barc_rm_1102_f1",
+    "x": 122.0377759,
+    "y": 20.27896795,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "barc_rm_1103_f1",
+    "x": 118.28067387,
+    "y": 20.33114198,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "barc_rm_1104_f1",
+    "x": 110.21246951,
+    "y": 20.33114198,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "barc_rm_1105_f1",
+    "x": 102.13695515,
+    "y": 20.33114198,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "barc_rm_1106_f1",
+    "x": 98.47308918,
+    "y": 20.33114198,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "barc_rm_1107_f1",
+    "x": 94.95908928,
+    "y": 20.33114198,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "barc_rm_1108_f1",
+    "x": 91.36757434,
+    "y": 20.33114198,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "barc_rm_1109_f1",
+    "x": 86.82521489,
+    "y": 20.33114198,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "barc_rm_1110_f1",
+    "x": 82.29319144,
+    "y": 20.33114198,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "barc_rm_1111_f1",
+    "x": 77.79217401,
+    "y": 20.33114198,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "barc_rm_1112_f1",
+    "x": 73.34283361,
+    "y": 20.33114198,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "barc_rm_1113_f1",
+    "x": 69.77198868,
+    "y": 20.33114198,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "barc_rm_1114_f1",
+    "x": 65.57069341,
+    "y": 20.33114198,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "barc_rm_1115_f1",
+    "x": 70.97316033,
+    "y": 31.15334982,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "barc_rm_1116_f1",
+    "x": 82.45608453,
+    "y": 35.14855898,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "barc_rm_1117_f1",
+    "x": 84.54628965,
+    "y": 27.68730495,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "barc_rm_1118_f1",
+    "x": 94.49463203,
+    "y": 25.94105501,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "barc_rm_1119_f1",
+    "x": 98.04004994,
+    "y": 25.96751402,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "barc_rm_1120_f1",
+    "x": 104.41650638,
+    "y": 26.20563715,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "barc_rm_1121_f1",
+    "x": 114.78818199,
+    "y": 26.20563715,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "barc_rm_1122_f1",
+    "x": 119.10089431,
+    "y": 33.87855929,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "barc_rm_1123_f1",
+    "x": 111.13693001,
+    "y": 33.74626622,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "barc_rm_1124_f1",
+    "x": 103.1465157,
+    "y": 33.74626622,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "barc_rm_1125_f1",
+    "x": 98.99255046,
+    "y": 35.51897518,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "barc_rm_1126_f1",
+    "x": 94.54188705,
+    "y": 35.51897518,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "barc_rm_1127_f1",
+    "x": 91.37254534,
+    "y": 35.49251717,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "barc_rm_1128_f1",
+    "x": 62.32127965,
+    "y": 29.03668068,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "barc_rm_1129_f1",
+    "x": 62.26836262,
+    "y": 33.48168408,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "barc_rm_1130_f1",
+    "x": 61.87149041,
+    "y": 40.46668785,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "barc_rm_1131_f1",
+    "x": 55.86544317,
+    "y": 39.83168651,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "barc_rm_1132_f1",
+    "x": 48.85398438,
+    "y": 40.25501974,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "barc_rm_1133_f1",
+    "x": 58.19378042,
+    "y": 33.21709894,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "barc_rm_1134_f1",
+    "x": 55.52148798,
+    "y": 32.97897581,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "barc_rm_1135_f1",
+    "x": 51.843778,
+    "y": 33.03189284,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "barc_rm_1136_f1",
+    "x": 48.139607,
+    "y": 22.73959428,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "barc_rm_1137_f1",
+    "x": 43.06249825,
+    "y": 24.36967716,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "barc_rm_1138_f1",
+    "x": 42.82147812,
+    "y": 32.00001628,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "barc_rm_1139_f1",
+    "x": 42.71564407,
+    "y": 38.24418765,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "barc_rm_1140_f1",
+    "x": 58.82462477,
+    "y": 70.95541032,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "barc_rm_1141_f1",
+    "x": 61.02482395,
+    "y": 75.15358258,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "barc_rm_1142_f1",
+    "x": 109.86692933,
+    "y": 58.27315647,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "barc_rm_1143_f1",
+    "x": 102.06172511,
+    "y": 63.35315521,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "barc_rm_1144_f1",
+    "x": 96.05567287,
+    "y": 67.0308652,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "barc_rm_1145_f1",
+    "x": 90.79046403,
+    "y": 70.52337208,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "barc_rm_1146_f1",
+    "x": 85.26067004,
+    "y": 70.23232793,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "barc_rm_1147_f1",
+    "x": 88.19754163,
+    "y": 74.78316338,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "barc_rm_1148_f1",
+    "x": 81.50358401,
+    "y": 76.2912922,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "barc_rm_1149_f1",
+    "x": 74.46566121,
+    "y": 77.11150064,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "barc_rm_1150_f1",
+    "x": 77.5877479,
+    "y": 81.95337325,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "barc_rm_1151_f1",
+    "x": 72.71941027,
+    "y": 86.87462691,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "barc_rm_1152_f1",
+    "x": 68.06274175,
+    "y": 83.24983395,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "barc_rm_1153_f1",
+    "x": 69.22691038,
+    "y": 89.20296517,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "barc_rm_1154_f1",
+    "x": 63.67065738,
+    "y": 85.34004508,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "barc_rm_1155_f1",
+    "x": 59.54315315,
+    "y": 87.90650347,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "barc_rm_1156_f1",
+    "x": 56.6591986,
+    "y": 88.83254597,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "barc_rm_1157_f1",
+    "x": 50.70606838,
+    "y": 96.16150693,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "barc_rm_1158_f1",
+    "x": 39.17023015,
+    "y": 111.34859013,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "barc_rm_1159_f1",
+    "x": 34.85751882,
+    "y": 102.80254551,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "barc_rm_1160_f1",
+    "x": 40.04335762,
+    "y": 90.52587888,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "barc_rm_1162A_f1",
+    "x": 48.74815332,
+    "y": 85.181294,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "barc_rm_1162B_f1",
+    "x": 51.12940461,
+    "y": 83.91129131,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "barc_rm_1162_f1",
+    "x": 41.44564738,
+    "y": 80.3658744,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "barc_rm_1163A_f1",
+    "x": 53.56356992,
+    "y": 81.97983127,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "barc_rm_1163_f1",
+    "x": 51.92315404,
+    "y": 74.51857824,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "barc_rm_1170_f1",
+    "x": 117.69860356,
+    "y": 63.98815955,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "barc_rm_1171_f1",
+    "x": 114.60297189,
+    "y": 65.94607261,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "barc_rm_1172_f1",
+    "x": 111.50734021,
+    "y": 67.90399067,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "barc_rm_1173_f1",
+    "x": 108.49109859,
+    "y": 69.94128477,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "barc_rm_1174_f1",
+    "x": 105.52775698,
+    "y": 71.8462858,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "barc_rm_1175_f1",
+    "x": 102.4056753,
+    "y": 73.75128683,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "barc_rm_1176_f1",
+    "x": 99.54113375,
+    "y": 75.75657291,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "barc_rm_1177_f1",
+    "x": 96.39637905,
+    "y": 77.69351595,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "barc_rm_1178_f1",
+    "x": 93.43629746,
+    "y": 79.70441704,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "barc_rm_1179_f1",
+    "x": 90.3671278,
+    "y": 81.50358401,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "barc_rm_1180_f1",
+    "x": 87.28172113,
+    "y": 83.5159631,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "barc_rm_1181_f1",
+    "x": 84.6274717,
+    "y": 85.29056706,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "barc_rm_1182_f1",
+    "x": 81.23899887,
+    "y": 87.50963126,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "barc_rm_1183_f1",
+    "x": 75.3652447,
+    "y": 91.4783794,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "barc_rm_1185_f1",
+    "x": 72.26961603,
+    "y": 93.27754637,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "barc_rm_1185_f1_(1)",
+    "x": 69.33274444,
+    "y": 95.3677575,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "barc_rm_1186_f1",
+    "x": 66.23711577,
+    "y": 97.32567556,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "barc_rm_1187_f1",
+    "x": 60.28399155,
+    "y": 101.24151467,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "barc_rm_1188_f1",
+    "x": 57.16190487,
+    "y": 103.1465157,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "barc_rm_1189_f1",
+    "x": 54.22502728,
+    "y": 105.15734678,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "barc_rm_1190_f1",
+    "x": 51.15585662,
+    "y": 107.14171786,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "barc_rm_1191_f1",
+    "x": 48.16606601,
+    "y": 108.91443881,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "barc_rm_M1100_f1",
+    "x": 126.03297806,
+    "y": 51.52627582,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "barc_rm_M1102_f1",
+    "x": 55.15106878,
+    "y": 24.77688738,
+    "type": "rm",
+    "role": "routing"
+  },
+  {
+    "id": "barc_rmdoor_1_1101_f1",
+    "x": 127.63708892,
+    "y": 26.38674025,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "barc_rmdoor_1_1102_f1",
+    "x": 120.87359527,
+    "y": 22.18396798,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "barc_rmdoor_1_1103_f1",
+    "x": 119.42418449,
+    "y": 22.19554299,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "barc_rmdoor_1_1104_f1",
+    "x": 105.28963686,
+    "y": 22.17942198,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "barc_rmdoor_1_1105_f1",
+    "x": 103.20190573,
+    "y": 22.17942198,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "barc_rmdoor_1_1106_f1",
+    "x": 97.47615964,
+    "y": 22.17942198,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "barc_rmdoor_1_1107_f1",
+    "x": 93.87947669,
+    "y": 22.17942198,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "barc_rmdoor_1_1108_f1",
+    "x": 92.44287192,
+    "y": 22.17942198,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "barc_rmdoor_1_1109_f1",
+    "x": 84.85677082,
+    "y": 22.17942198,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "barc_rmdoor_1_1110_f1",
+    "x": 83.5235151,
+    "y": 22.17942198,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "barc_rmdoor_1_1111_f1",
+    "x": 79.91649615,
+    "y": 22.17942198,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "barc_rmdoor_1_1112_f1",
+    "x": 74.51113924,
+    "y": 22.17942198,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "barc_rmdoor_1_1113_f1",
+    "x": 68.69237009,
+    "y": 22.17942198,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "barc_rmdoor_1_1114_f1",
+    "x": 67.32811436,
+    "y": 22.17942198,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "barc_rmdoor_1_1115_f1",
+    "x": 67.0308652,
+    "y": 36.86835091,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "barc_rmdoor_1_1116_f1",
+    "x": 76.92629054,
+    "y": 24.08896901,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "barc_rmdoor_1_1117_f1",
+    "x": 90.98228913,
+    "y": 24.08896901,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "barc_rmdoor_1_1118_f1",
+    "x": 95.0090803,
+    "y": 24.08896901,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "barc_rmdoor_1_1119_f1",
+    "x": 96.52917813,
+    "y": 24.08896901,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "barc_rmdoor_1_1120_f1",
+    "x": 101.35255473,
+    "y": 24.08896901,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "barc_rmdoor_1_1121_f1",
+    "x": 119.98835479,
+    "y": 24.08896901,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "barc_rmdoor_1_1122_f1",
+    "x": 117.24880331,
+    "y": 39.11907412,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "barc_rmdoor_1_1123_f1",
+    "x": 115.81640254,
+    "y": 39.11907412,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "barc_rmdoor_1_1124_f1",
+    "x": 101.87975502,
+    "y": 39.11907412,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "barc_rmdoor_1_1125_f1",
+    "x": 98.17234201,
+    "y": 38.32355969,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "barc_rmdoor_1_1126_f1",
+    "x": 95.1825534,
+    "y": 38.35001871,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "barc_rmdoor_1_1127_f1",
+    "x": 92.43087991,
+    "y": 39.11731012,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "barc_rmdoor_1_1128_f1",
+    "x": 63.80295045,
+    "y": 30.78293362,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "barc_rmdoor_1_1129_f1",
+    "x": 61.4746132,
+    "y": 35.49251717,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "barc_rmdoor_1_1130_f1",
+    "x": 61.81857338,
+    "y": 43.00668822,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "barc_rmdoor_1_1131_f1",
+    "x": 52.10835814,
+    "y": 42.66273004,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "barc_rmdoor_1_1132_f1",
+    "x": 47.2135675,
+    "y": 38.16481161,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "barc_rmdoor_1_1133_f1",
+    "x": 59.09336391,
+    "y": 33.32293299,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "barc_rmdoor_1_1134_f1",
+    "x": 55.7331561,
+    "y": 35.49251717,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "barc_rmdoor_1_1135_f1",
+    "x": 51.26169068,
+    "y": 35.51897518,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "barc_rmdoor_1_1136_f1",
+    "x": 49.30569163,
+    "y": 27.33299376,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "barc_rmdoor_1_1137_f1",
+    "x": 46.41981507,
+    "y": 29.30126282,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "barc_rmdoor_1_1138_f1",
+    "x": 46.44627408,
+    "y": 31.25918388,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "barc_rmdoor_1_1139_f1",
+    "x": 46.41981507,
+    "y": 34.91043285,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "barc_rmdoor_1_1140_f1",
+    "x": 60.25752654,
+    "y": 70.23232793,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "barc_rmdoor_1_1141_f1",
+    "x": 64.32472974,
+    "y": 76.61832537,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "barc_rmdoor_1_1142_f1",
+    "x": 110.13150947,
+    "y": 50.83836045,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "barc_rmdoor_1_1143_f1",
+    "x": 106.63901759,
+    "y": 66.60753497,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "barc_rmdoor_1_1144_f1",
+    "x": 97.69608276,
+    "y": 72.42836711,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "barc_rmdoor_1_1145_f1",
+    "x": 93.5156735,
+    "y": 75.12711757,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "barc_rmdoor_1_1146_f1",
+    "x": 83.17045891,
+    "y": 68.3273269,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "barc_rmdoor_1_1147_f1",
+    "x": 90.81692204,
+    "y": 76.8469155,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "barc_rmdoor_1_1148_f1",
+    "x": 86.68941781,
+    "y": 79.57212497,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "barc_rmdoor_1_1149_f1",
+    "x": 73.96295494,
+    "y": 79.70441704,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "barc_rmdoor_1_1150_f1",
+    "x": 80.12774727,
+    "y": 83.80545725,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "barc_rmdoor_1_1151_f1",
+    "x": 72.69295225,
+    "y": 88.7002529,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "barc_rmdoor_1_1152_f1",
+    "x": 72.98399541,
+    "y": 83.96420834,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "barc_rmdoor_1_1153_f1",
+    "x": 69.41211948,
+    "y": 90.79046403,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "barc_rmdoor_1_1154_f1",
+    "x": 61.44815418,
+    "y": 83.48796108,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "barc_rmdoor_1_1155_f1",
+    "x": 59.14628094,
+    "y": 84.96962588,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "barc_rmdoor_1_1156_f1",
+    "x": 55.3627369,
+    "y": 86.55712474,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "barc_rmdoor_1_1157_f1",
+    "x": 47.55013768,
+    "y": 91.44367138,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "barc_rmdoor_1_1158_f1",
+    "x": 44.17085685,
+    "y": 107.80317821,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "barc_rmdoor_1_1159_f1",
+    "x": 39.54064635,
+    "y": 100.5535943,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "barc_rmdoor_1_1160_f1",
+    "x": 42.55689898,
+    "y": 90.63171894,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "barc_rmdoor_1_1162A_f1",
+    "x": 47.90148087,
+    "y": 87.033378,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "barc_rmdoor_1_1162B_f1",
+    "x": 49.03919048,
+    "y": 78.38149733,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "barc_rmdoor_1_1162_f1",
+    "x": 46.1023159,
+    "y": 89.20296517,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "barc_rmdoor_1_1163A_f1",
+    "x": 55.7331561,
+    "y": 81.87400321,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "barc_rmdoor_1_1163_f1",
+    "x": 58.27315647,
+    "y": 81.31837491,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "barc_rmdoor_1_1170_f1",
+    "x": 117.67213354,
+    "y": 61.73919834,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "barc_rmdoor_1_1171_f1",
+    "x": 114.52360184,
+    "y": 63.77649144,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "barc_rmdoor_1_1172_f1",
+    "x": 109.70817924,
+    "y": 66.95149015,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "barc_rmdoor_1_1173_f1",
+    "x": 108.54401861,
+    "y": 67.69232255,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "barc_rmdoor_1_1174_f1",
+    "x": 103.64921597,
+    "y": 70.81440924,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "barc_rmdoor_1_1175_f1",
+    "x": 102.43213531,
+    "y": 71.60815867,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "barc_rmdoor_1_1176_f1",
+    "x": 97.64317773,
+    "y": 74.73024635,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "barc_rmdoor_1_1177_f1",
+    "x": 96.42609207,
+    "y": 75.52399578,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "barc_rmdoor_1_1178_f1",
+    "x": 91.55775444,
+    "y": 78.6989995,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "barc_rmdoor_1_1179_f1",
+    "x": 90.3671278,
+    "y": 79.49274893,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "barc_rmdoor_1_1180_f1",
+    "x": 87.39374819,
+    "y": 81.36295294,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "barc_rmdoor_1_1181_f1",
+    "x": 84.77977878,
+    "y": 83.06685986,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "barc_rmdoor_1_1182_f1",
+    "x": 81.40814496,
+    "y": 85.24030903,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "barc_rmdoor_1_1183_f1",
+    "x": 73.38086763,
+    "y": 90.49941987,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "barc_rmdoor_1_1184_f1",
+    "x": 72.36506108,
+    "y": 91.14352622,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "barc_rmdoor_1_1185_f1",
+    "x": 67.48066044,
+    "y": 94.33588094,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "barc_rmdoor_1_1186_f1",
+    "x": 64.27919771,
+    "y": 96.42609207,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "barc_rmdoor_1_1187_f1",
+    "x": 58.37899052,
+    "y": 100.20963411,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "barc_rmdoor_1_1188_f1",
+    "x": 57.24127991,
+    "y": 100.97692453,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "barc_rmdoor_1_1189_f1",
+    "x": 52.32002625,
+    "y": 104.12547623,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "barc_rmdoor_1_1190_f1",
+    "x": 51.17042463,
+    "y": 104.91922666,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "barc_rmdoor_1_1191_f1",
+    "x": 48.12503999,
+    "y": 106.83035769,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "barc_rmdoor_1_M1100_f1",
+    "x": 50.04461102,
+    "y": 28.87793259,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "barc_rmdoor_1_M1100_f1_(1)",
+    "x": 117.80443361,
+    "y": 54.93940067,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "barc_rmdoor_2_1115_f1",
+    "x": 73.81908686,
+    "y": 39.10821412,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "barc_rmdoor_2_1123_f1",
+    "x": 106.42542747,
+    "y": 39.11907412,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "barc_rmdoor_2_1132_f1",
+    "x": 47.2135675,
+    "y": 42.69586706,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "barc_rmdoor_2_1142_f1",
+    "x": 102.61734541,
+    "y": 55.70669808,
+    "type": "rmdoor",
+    "role": "routing"
+  },
+  {
+    "id": "barc_stairs_north_1_f1",
+    "x": 125.5567278,
+    "y": 22.68667725,
+    "type": "stairs",
+    "role": "routing"
+  },
+  {
+    "id": "barc_stairs_north_2_f1",
+    "x": 61.97732447,
+    "y": 22.36917808,
+    "type": "stairs",
+    "role": "routing"
+  },
+  {
+    "id": "barc_stairs_south_1_f1",
+    "x": 59.17273995,
+    "y": 92.589631,
+    "type": "stairs",
+    "role": "routing"
+  },
+  {
+    "id": "barc_stairs_west_1_f1",
+    "x": 83.56733113,
+    "y": 44.48835602,
+    "type": "stairs",
+    "role": "routing"
+  },
+  {
+    "id": "barc_stairs_west_2_f1",
+    "x": 74.28045111,
+    "y": 68.48607798,
+    "type": "stairs",
+    "role": "routing"
+  }
+]
