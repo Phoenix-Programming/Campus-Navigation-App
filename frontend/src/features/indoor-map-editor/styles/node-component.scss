@@ -19,7 +19,19 @@
 	}
 
 	&.elevator {
-		fill: #ffa500;
+		fill: #ffff00;
+	}
+
+	&.entrance-exit {
+		fill: #543b2b;
+	}
+
+	&.water-fountain {
+		fill: #00ffff;
+	}
+
+	&.vending {
+		fill: #03690a;
 	}
 
 	&.selected {

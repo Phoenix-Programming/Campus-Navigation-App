@@ -7,6 +7,7 @@ import { type SvgViewerHandle } from "../models/svg_viewer_models";
 import {
 	getBuildings as getBuildingsService,
 	getIndoorMapData as getIndoorMapDataService,
+	getMapReloadTargetFloor,
 	updateIndoorMap as updateIndoorMapService
 } from "../services/indoor_map_editor.service";
 import ConfirmationModal from "@shared/components/ConfirmationModal";
@@ -35,6 +36,9 @@ export default function IndoorMapEditor(): React.JSX.Element {
 		{ icon: circleIcon, label: "Hallway", className: "hallway" },
 		{ icon: circleIcon, label: "Staircase", className: "stairs" },
 		{ icon: circleIcon, label: "Elevator", className: "elevator" },
+		{ icon: circleIcon, label: "Entrance/Exit", className: "entrance-exit" },
+		{ icon: circleIcon, label: "Water Fountain", className: "water-fountain" },
+		{ icon: circleIcon, label: "Vending", className: "vending" },
 		{ icon: lineIcon, label: "Connection", className: "connection" }
 	];
 
@@ -431,10 +435,17 @@ export default function IndoorMapEditor(): React.JSX.Element {
 
 		setSelectedBuilding(updatedSelectedBuilding);
 
-		if (selectedFloor !== null && selectedFloor > updatedSelectedBuilding.num_floors) {
-			setSelectedFloor(null);
-			clearMapData();
+		const floorToReload: number | null = getMapReloadTargetFloor(selectedFloor, updatedSelectedBuilding);
+
+		if (floorToReload !== null) {
+			await loadMapData(updatedSelectedBuilding.code, floorToReload);
+			return;
 		}
+
+		if (selectedFloor === null) return;
+
+		setSelectedFloor(null);
+		clearMapData();
 	}
 
 	async function getIndoorMapData(bldCode: string, floor: number): Promise<void> {
