@@ -24,6 +24,7 @@ dependencies = [
     "apscheduler-stubs (>=0.1.0.dev2,<0.2.0)",
     "bleach (>=6.4.0,<7.0.0)",
     "geoalchemy2 (>=0.20.0,<0.21.0)",
+    "svgelements (>=1.9.6,<2.0.0)",
 ]
 
 [tool.poetry]
