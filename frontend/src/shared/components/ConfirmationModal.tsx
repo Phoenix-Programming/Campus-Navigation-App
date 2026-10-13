@@ -1,0 +1,83 @@
+import React, { useEffect, type ReactNode } from "react";
+import { clsx } from "clsx";
+import closeIcon from "@assets/icons/close.svg";
+import "@shared/styles/main.scss";
+import "@shared/styles/components/confirmation-modal.scss";
+
+interface ConfirmationModalProps {
+	isOpen: boolean;
+	title: string;
+	content: ReactNode;
+	onClose?: () => void;
+	onConfirm?: () => void;
+	confirmText?: string;
+	cancelText?: string;
+	isDanger?: boolean;
+}
+
+export default function ConfirmationModal({
+	isOpen,
+	title,
+	content,
+	onClose,
+	onConfirm,
+	confirmText = "Confirm",
+	cancelText = "Cancel",
+	isDanger = false
+}: ConfirmationModalProps): React.JSX.Element | null {
+	useEffect(() => {
+		if (!isOpen || !onClose) return;
+
+		const onKeyDown = (event: KeyboardEvent): void => {
+			if (event.key !== "Escape" || event.defaultPrevented) return;
+
+			event.preventDefault();
+			onClose();
+		};
+
+		window.addEventListener("keydown", onKeyDown);
+
+		return () => {
+			window.removeEventListener("keydown", onKeyDown);
+		};
+	}, [isOpen, onClose]);
+
+	if (!isOpen) return null;
+
+	return (
+		<div className="modal-backdrop" onClick={onClose}>
+			<div
+				className="confirmation-modal"
+				role="dialog"
+				aria-modal="true"
+				aria-labelledby="confirmation-modal-title"
+				onClick={(event) => event.stopPropagation()}
+			>
+				<div className="modal-header">
+					<h2 id="confirmation-modal-title">{title}</h2>
+					<button className="icon-button secondary" onClick={onClose} aria-label="Close dialog">
+						<img src={closeIcon} alt="close dialog" />
+					</button>
+				</div>
+
+				<div className="modal-content">{content}</div>
+
+				<div className="modal-actions">
+					<button className="button secondary" onClick={onClose}>
+						{cancelText}
+					</button>
+					<button
+						type="button"
+						className={clsx({
+							"button primary": !isDanger,
+							"outline-button danger": isDanger
+						})}
+						onClick={onConfirm}
+					>
+						{confirmText}
+					</button>
+				</div>
+			</div>
+		</div>
+	);
+}

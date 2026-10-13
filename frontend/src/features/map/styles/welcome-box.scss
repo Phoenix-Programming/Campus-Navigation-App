@@ -1,0 +1,100 @@
+.welcome-box {
+    position: absolute;
+    pointer-events: auto;
+    width: var(--welcomewidth);
+    height: var(--welcomeheight);
+    left: calc((100% - var(--welcomewidth)) / 2);
+    top: calc((100% - var(--welcomeheight)) / 2);
+
+    background: var(--background);
+    box-shadow: 0 0.4vh 0.4vh rgba(0, 0, 0, 0.25);
+    border-radius: 1.0vw;
+    overflow: hidden;
+
+	.welcome-title {
+		position: absolute;
+		width: var(--titlewidth);
+		height: 3.5vh;
+		left: 50%;
+		top: 30vh;
+		transform: translateX(-50%);
+
+		font-family: 'Fira Sans';
+		font-style: normal;
+		font-weight: 500;
+		font-size: 1.7vw;
+		line-height: 3.5vh;
+		text-align: center;
+
+		color: #000000;
+	}
+
+	.welcome-description {
+		position: absolute;
+		width: var(--descriptionwidth);
+		height: 8vh;
+		left: 50%;
+		top: 35vh;
+		transform: translateX(-50%);
+
+		font-family: 'Fira Sans';
+		font-style: normal;
+		font-weight: 400;
+		font-size: 1.0vw;
+		line-height: 2.2vh;
+		text-align: center;
+
+		color: #000000;
+	}
+
+	.next-button {
+		position: absolute;
+		width: var(--buttonwidth);
+		height: 5.5vh;
+		left: calc(50% + (var(--buttongap) / 2));
+		top: 58.5vh;
+
+		font-family: 'Fira Sans';
+		font-style: normal;
+		font-weight: 500;
+		font-size: 1.0vw;
+		line-height: 2.2vh;
+
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		text-align: center;
+
+		color: #000000;
+		border: transparent;
+
+		cursor: pointer;
+
+		background: var(--subaccent);
+	}
+
+	.previous-button {
+		position: absolute;
+		width: var(--buttonwidth);
+		height: 5.5vh;
+		left: calc(50% - var(--buttonwidth) - (var(--buttongap) / 2));
+		top: 58.5vh;
+
+		font-family: 'Fira Sans';
+		font-style: normal;
+		font-weight: 500;
+		font-size: 1.0vw;
+		line-height: 2.2vh;
+
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		text-align: center;
+		border: transparent;
+
+		cursor: pointer;
+
+		background: var(--subaccent);
+		color: #000000;
+	}
+}
