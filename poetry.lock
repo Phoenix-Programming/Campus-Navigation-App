@@ -2567,6 +2567,18 @@ anyio = ">=4.0.0,<5"
 full = ["httpx (>=0.27.0,<0.29.0)", "httpx2 (>=2.0.0)", "itsdangerous", "jinja2", "opentelemetry-api", "python-multipart (>=0.0.18)", "pyyaml"]
 
 [[package]]
+name = "svgelements"
+version = "1.9.6"
+description = "Svg Elements Parsing"
+optional = false
+python-versions = "*"
+groups = ["main"]
+files = [
+    {file = "svgelements-1.9.6-py2.py3-none-any.whl", hash = "sha256:8a5cf2cc066d98e713d5b875b1d6e5eeb9b92e855e835ebd7caab2713ae1dcad"},
+    {file = "svgelements-1.9.6.tar.gz", hash = "sha256:7c02ad6404cd3d1771fd50e40fbfc0550b0893933466f86a6eb815f3ba3f37f7"},
+]
+
+[[package]]
 name = "typer"
 version = "0.27.3"
 description = "Typer, build great CLIs. Easy to code. Based on Python type hints."
@@ -3029,4 +3041,4 @@ files = [
 [metadata]
 lock-version = "2.1"
 python-versions = ">=3.14"
-content-hash = "4a9b109da3cdc75872a601875aed82646b07c7fdd0c28fbcc5da3a3603ea4b2e"
+content-hash = "9190530d67972aef573f636ed171c5ef1a0a0dc3da590029fb023f59f8f0b129"

@@ -111,6 +111,16 @@ export function sanitizeBuildingCodeForFileName(code: string): string {
 	return trimmedCode.replace(/[^a-zA-Z0-9-_]/g, "-");
 }
 
+export function getMapReloadTargetFloor(
+	selectedFloor: number | null,
+	updatedSelectedBuilding: Building | null
+): number | null {
+	if (selectedFloor === null || updatedSelectedBuilding === null) return null;
+	if (selectedFloor < 1 || selectedFloor > updatedSelectedBuilding.num_floors) return null;
+
+	return selectedFloor;
+}
+
 export async function getLiveGraphFloors(targetBuildingCode: string, totalFloors: number): Promise<Set<number>> {
 	const nextLiveGraphFloors: Set<number> = new Set();
 	const floorRequests: Promise<{ floorNumber: number; hasGraphData: boolean }>[] = Array.from(

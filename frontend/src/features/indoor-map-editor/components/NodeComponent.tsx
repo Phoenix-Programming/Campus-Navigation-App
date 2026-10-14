@@ -191,7 +191,7 @@ export default function NodeComponent({
 				data-ds-selectable="true"
 				data-ds-type="node"
 				data-ds-id={node.id}
-				className={clsx("node", `${node.type}`, {
+				className={clsx("node", `${node.type.replaceAll(/[_/]/g, '-')}`, {
 					selected: isSelected,
 					hovered: isHovered
 				})}

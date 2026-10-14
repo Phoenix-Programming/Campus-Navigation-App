@@ -66,6 +66,9 @@ export enum NodeType {
 	room = "room",
 	roomDoor = "room-door",
 	hallway = "hallway",
-	staircase = "staircase",
-	elevator = "elevator"
+	staircase = "stairs",
+	elevator = "elevator",
+	entranceExit = "entrance/exit",
+	waterFountain = "water_fountain",
+	vending = "vending"
 }

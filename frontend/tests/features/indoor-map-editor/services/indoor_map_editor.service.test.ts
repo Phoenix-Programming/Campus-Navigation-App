@@ -11,6 +11,7 @@ import {
 	getFloorSvgForFloor,
 	getIndoorMapData,
 	getLiveGraphFloors,
+	getMapReloadTargetFloor,
 	isRecord,
 	normalizeFloorSvgData,
 	normalizeUploadedGraphPayload,
@@ -142,6 +143,19 @@ describe("indoor map editor service helpers", () => {
 			nodes: [{ id: 1, label: "Room", type: "room", x: 5, y: 6 }],
 			edges: [{ id: "1-2", source_node_id: 1, target_node_id: 2 }]
 		});
+	});
+
+	it("selects the active floor to reload after a building save when it still exists", () => {
+		expect(
+			getMapReloadTargetFloor(3, {
+				id: 1,
+				name: "Hall",
+				code: "H1",
+				num_floors: 4
+			})
+		).toBe(3);
+		expect(getMapReloadTargetFloor(6, { id: 1, name: "Hall", code: "H1", num_floors: 4 })).toBeNull();
+		expect(getMapReloadTargetFloor(null, null)).toBeNull();
 	});
 
 	it("detects which floors have live graph data", async () => {
