@@ -1,4 +1,4 @@
-from svgelements import SVG, Ellipse, Circle
+from svgelements import SVG, Ellipse, Circle #type: ignore
 from dataclasses import dataclass
 from dataclasses import asdict
 from typing import Final
@@ -203,7 +203,7 @@ class CNode:
         node = CNode(d["node_id"])
         node.connections = d["connections"]
         return node
-	
+
 #Graph class
 # self.nodes: dictionary of nodes in the graph
 # to_dict(): converts the graph to a dictionary format for JSON serialization
@@ -225,7 +225,7 @@ class Graph:
             graph.nodes[node.node_id] = node
 
         return graph
-	
+
 # Load exisiting graph from json file
 def load_graph(filename):
     with open(filename, "r") as f:
@@ -240,7 +240,7 @@ class Node:
 		self.connections = {} #dictionary of node_id: distance
 		self.type = None
 		self.role = None
-	
+
 	def add_connection(self, other_node_id, distance):
 		if other_node_id not in self.connections:
 			self.connections[other_node_id] = distance
@@ -252,7 +252,7 @@ class Node:
             "type": self.type,
             "role": self.role
         }
-	
+
 
 # function to calculate distance between two nodes
 def distance(node1: SNode, node2: SNode) -> float:
