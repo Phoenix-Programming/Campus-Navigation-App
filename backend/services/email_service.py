@@ -1,10 +1,11 @@
 import aiosmtplib
 from email.message import EmailMessage
 from backend.models.email import EmailPriority
+from backend.services.interfaces.email_service_interface import EmailServiceInterface
 from backend.settings import settings
 
 
-class EmailService:
+class EmailService(EmailServiceInterface):
 	async def send_email(
 		self,
 		*,

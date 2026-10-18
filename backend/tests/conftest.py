@@ -7,8 +7,26 @@ import pytest
 from httpx import ASGITransport, AsyncClient
 
 
-os.environ.setdefault("DB_URL", "postgresql+psycopg://test_user:testpassword123@localhost/test-fl-poly-campus-map")
-os.environ.setdefault("SECRET_KEY", "test-secret-key-for-testing-only")
+os.environ.setdefault("DB_NAME", "test-fl-poly-campus-map")
+os.environ.setdefault("DB_HOST", "localhost")
+os.environ.setdefault("DB_USERNAME", "test_user")
+os.environ.setdefault("DB_PASSWORD", "testpassword123")
+os.environ.setdefault("JWT_SECRET_KEY", "test-secret-key-for-testing-only")
+os.environ.setdefault("JWT_ALGORITHM", "HS256")
+os.environ.setdefault("ACCESS_TOKEN_EXPIRE_MINUTES", "30")
+os.environ.setdefault("RESET_TOKEN_EXPIRE_MINUTES", "60")
+os.environ.setdefault("STANDARD_REFRESH_TOKEN_EXPIRE_MINUTES", "1440")
+os.environ.setdefault("LONG_LIVED_REFRESH_TOKEN_EXPIRE_MINUTES", "129600")
+os.environ.setdefault("SLIDING_REFRESH_WINDOW_DAYS", "7")
+os.environ.setdefault("REFRESH_TOKEN_PRUNE_AFTER_DAYS", "14")
+os.environ.setdefault("FRONTEND_URL", "http://localhost:5173")
+os.environ.setdefault("MAIL_SERVER", "smtp.test.local")
+os.environ.setdefault("MAIL_PORT", "465")
+os.environ.setdefault("MAIL_SYSTEM_EMAIL", "noreply@example.com")
+os.environ.setdefault("MAIL_SYSTEM_USERNAME", "test-user")
+os.environ.setdefault("MAIL_SYSTEM_PASSWORD", "test-password")
+os.environ.setdefault("MAIL_PRIMARY_EMAIL", "primary@example.com")
+os.environ.setdefault("MAIL_SUPPORT_EMAIL", "support@example.com")
 
 from backend.auth import auth as auth_module
 from backend.main import app

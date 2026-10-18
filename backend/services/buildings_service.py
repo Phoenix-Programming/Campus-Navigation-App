@@ -1,30 +1,23 @@
 from backend.auth.current_user_context import CurrentUserContext
 from backend.exceptions import NotAuthorizedToEditIndoorMapError
 from backend.models.buildings import (
-    BuildingModel,
-    GetAllBuildingsResponse,
-    GetBuildingResponse,
-    GetIndoorMapResponse,
-    IncomingIndoorEdgeModel,
-    IndoorEdgeModel,
-    IndoorNodeModel
+    BuildingModel, GetAllBuildingsResponse, GetBuildingResponse, GetIndoorMapResponse,
+    IncomingIndoorEdgeModel, IndoorEdgeModel, IndoorNodeModel
 )
-from backend.repositories.building_repository import BuildingRepository
+from backend.repositories.interfaces.building_repository_interface import BuildingRepositoryInterface
 from backend.schema.building import Building
 from backend.schema.building_category import BuildingCategory
 from backend.schema.indoor_node import IndoorNode
 from backend.schema.indoor_edge import IndoorEdge
-from backend.schema.permissions import Permission
-from backend.utilities.db_connection import Database
 
 
 class BuildingsService:
-	def __init__(self) -> None:
-		self.repo: BuildingRepository = BuildingRepository()
+	def __init__(self, bld_repo: BuildingRepositoryInterface) -> None:
+		self.bld_repo: BuildingRepositoryInterface = bld_repo
 
 
-	async def get_building_by_id(self, bld_id: int, db: Database) -> GetBuildingResponse:
-		bld: Building = await self.repo.get_building_by_id(bld_id=bld_id, db=db)
+	async def get_building_by_id(self, bld_id: int) -> GetBuildingResponse:
+		bld: Building = await self.bld_repo.get_building_by_id(bld_id=bld_id)
 
 		response: GetBuildingResponse = GetBuildingResponse(
 			id=bld.id,
@@ -39,8 +32,8 @@ class BuildingsService:
 		return response
 
 
-	async def get_all_buildings(self, db: Database) -> GetAllBuildingsResponse:
-		buildings: list[Building] = await self.repo.get_all_buildings(db=db)
+	async def get_all_buildings(self) -> GetAllBuildingsResponse:
+		buildings: list[Building] = await self.bld_repo.get_all_buildings()
 
 		response: GetAllBuildingsResponse = GetAllBuildingsResponse(buildings=[
 			BuildingModel(
@@ -57,13 +50,13 @@ class BuildingsService:
 		return response
 
 
-	async def getIndoorMap(self, bld_code: str, floor_num: int, db: Database) -> GetIndoorMapResponse:
-		bld_id: int = await self.repo.get_building_id_by_building_code(bld_code=bld_code, db=db)
-		floor_id: int = await self.repo.get_floor_id(bld_id=bld_id, floor_num=floor_num, db=db)
+	async def getIndoorMap(self, bld_code: str, floor_num: int) -> GetIndoorMapResponse:
+		bld_id: int = await self.bld_repo.get_building_id_by_building_code(bld_code=bld_code)
+		floor_id: int = await self.bld_repo.get_floor_id(bld_id=bld_id, floor_num=floor_num)
 
-		svg: str = await self.repo.get_indoor_svg_for_bld_floor(floor_id=floor_id, db=db)
-		indoor_nodes: list[IndoorNode] = await self.repo.get_all_indoor_nodes_for_bld_floor(bld_id=bld_id, floor_id=floor_id, db=db)
-		indoor_edges: list[IndoorEdge] = await self.repo.get_all_indoor_edges_for_bld_floor(bld_id=bld_id, floor_id=floor_id, db=db)
+		svg: str = await self.bld_repo.get_indoor_svg_for_bld_floor(floor_id=floor_id)
+		indoor_nodes: list[IndoorNode] = await self.bld_repo.get_all_indoor_nodes_for_bld_floor(bld_id=bld_id, floor_id=floor_id)
+		indoor_edges: list[IndoorEdge] = await self.bld_repo.get_all_indoor_edges_for_bld_floor(bld_id=bld_id, floor_id=floor_id)
 
 		response: GetIndoorMapResponse = GetIndoorMapResponse(
 			svg=svg,
@@ -86,30 +79,29 @@ class BuildingsService:
 		floor_num: int,
 		nodes: list[IndoorNodeModel],
 		edges: list[IncomingIndoorEdgeModel],
-		current_user: CurrentUserContext,
-		db: Database
+		current_user: CurrentUserContext
 	) -> None:
 		# TODO: Replace with permission check instead of role check???
 		if current_user.role not in ["admin", "editor"]: raise NotAuthorizedToEditIndoorMapError()
 
-		bld_id: int = await self.repo.get_building_id_by_building_code(bld_code=bld_code, db=db)
-		floor_id: int = await self.repo.get_floor_id(bld_id=bld_id, floor_num=floor_num, db=db)
+		bld_id: int = await self.bld_repo.get_building_id_by_building_code(bld_code=bld_code)
+		floor_id: int = await self.bld_repo.get_floor_id(bld_id=bld_id, floor_num=floor_num)
 
-		await self.repo.delete_all_indoor_edges_for_bld_floor(bld_id=bld_id, floor_id=floor_id, db=db)
-		await self.repo.delete_all_indoor_nodes_for_bld_floor(bld_id=bld_id, floor_id=floor_id, db=db)
+		await self.bld_repo.delete_all_indoor_edges_for_bld_floor(bld_id=bld_id, floor_id=floor_id)
+		await self.bld_repo.delete_all_indoor_nodes_for_bld_floor(bld_id=bld_id, floor_id=floor_id)
 
-		node_type_ids: list[int] = [await self.repo.get_node_type_id_by_type(node_type=node.type, db=db) for node in nodes]
+		node_type_ids: list[int] = [await self.bld_repo.get_node_type_id_by_type(node_type=node.type) for node in nodes]
 
 
 		# TODO: Something is going wrong here!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-		inserted_node_ids: list[int] = await self.repo.insert_indoor_nodes(
+		inserted_node_ids: list[int] = await self.bld_repo.insert_indoor_nodes(
 			bld_id=bld_id,
 			floor_id=floor_id,
 			node_types_ids=node_type_ids,
 			nodes_coords=[(node.x, node.y) for node in nodes],
 			nodes_labels=[node.label for node in nodes],
 			current_user_id=current_user.user.id,
-			db=db
+
 		)
 
 		node_id_map: dict[int, int] = {node.id: inserted_id for node, inserted_id in zip(nodes, inserted_node_ids)}
@@ -120,13 +112,13 @@ class BuildingsService:
 		except KeyError:
 			raise ValueError("Indoor map edges must reference nodes present in the uploaded graph.")
 
-		await self.repo.insert_indoor_edges(
+		await self.bld_repo.insert_indoor_edges(
 			bld_id=bld_id,
 			floor_id=floor_id,
 			source_nodes_ids=source_node_ids,
 			target_nodes_ids=target_node_ids,
 			current_user_id=current_user.user.id,
-			db=db
+
 		)
 
 
@@ -138,8 +130,7 @@ class BuildingsService:
 		category_type: str,
 		num_floors: int,
 		floor_svgs: list[str | None] | None,
-		current_user: CurrentUserContext,
-		db: Database
+		current_user: CurrentUserContext
 	) -> None:
 		# TODO: Replace with permission check instead of role check???
 		if current_user.role not in ["admin", "editor"]: raise NotAuthorizedToEditIndoorMapError()
@@ -149,12 +140,12 @@ class BuildingsService:
 		if len(floor_svgs) != num_floors:
 			raise ValueError("Number of floor SVGs must match the number of floors")
 
-		category_id: int = await self.repo.get_building_category_id_by_category_type(
+		category_id: int = await self.bld_repo.get_building_category_id_by_category_type(
       		category_type=category_type,
-        	db=db
+
         )
 
-		await self.repo.insert_building(
+		await self.bld_repo.insert_building(
 			name=name,
 			code=code,
 			address=address,
@@ -162,12 +153,12 @@ class BuildingsService:
 			num_floors=num_floors,
 			floor_svgs=[svg if svg is not None else "" for svg in floor_svgs],
 			current_user_id=current_user.user.id,
-			db=db
+
 		)
 
 
-	async def get_all_building_categories(self, db: Database) -> list[str]:
-		categories: list[BuildingCategory] = await self.repo.get_all_building_categories(db=db)
+	async def get_all_building_categories(self) -> list[str]:
+		categories: list[BuildingCategory] = await self.bld_repo.get_all_building_categories()
 
 		return [category.category for category in categories]
 
@@ -181,8 +172,7 @@ class BuildingsService:
 		category_type: str | None,
 		num_floors: int | None,
 		floor_svgs: list[str | None] | None,
-		current_user: CurrentUserContext,
-		db: Database
+		current_user: CurrentUserContext
 	) -> None:
 		# TODO: Replace with permission check instead of role check???
 		if current_user.role not in ["admin", "editor"]: raise NotAuthorizedToEditIndoorMapError()
@@ -190,7 +180,7 @@ class BuildingsService:
 		if not (name or code or address or category_type or num_floors or floor_svgs):
 			raise ValueError("At least one field must be provided for update")
 
-		bld: Building = await self.repo.get_building_by_id(bld_id=bld_id, db=db)
+		bld: Building = await self.bld_repo.get_building_by_id(bld_id=bld_id)
 		target_num_floors: int = num_floors if num_floors is not None else bld.num_floors
 
 		if floor_svgs:
@@ -199,14 +189,14 @@ class BuildingsService:
 
 
 		category_id: int | None = (
-  			await self.repo.get_building_category_id_by_category_type(
+  			await self.bld_repo.get_building_category_id_by_category_type(
 				category_type=category_type,
-				db=db
+
 			)
 			if category_type else None
 		)
 
-		await self.repo.update_building(
+		await self.bld_repo.update_building(
 			bld_id=bld_id,
 			name=name,
 			code=code,
@@ -215,5 +205,5 @@ class BuildingsService:
 			num_floors=num_floors,
 			floor_svgs=floor_svgs,
 			current_user_id=current_user.user.id,
-			db=db
+
 		)

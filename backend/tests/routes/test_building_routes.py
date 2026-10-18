@@ -1,127 +1,116 @@
-from httpx import AsyncClient, Response
-from fastapi import status
+from types import SimpleNamespace
+from unittest.mock import AsyncMock
+
 import pytest
+from fastapi import status
+from httpx import AsyncClient, Response
 
 from backend.exceptions import NotFoundError
-from backend.routes.api import building_routes
+from backend.main import app
+from backend.routes import dependencies as route_dependencies
 
 
 @pytest.mark.anyio
-async def test_get_all_buildings_success_and_not_found(client: AsyncClient, monkeypatch: pytest.MonkeyPatch) -> None:
-    async def fake_get_all_buildings(**_kwargs):
-        return {
-            "buildings": [
-                {
-                    "id": 1,
-                    "name": "Alpha Hall",
-                    "code": "AH",
-                    "address": "456 Campus Drive",
-                    "category_type": "academic",
-                    "num_floors": 1,
-                }
-            ]
-        }
-
-    monkeypatch.setattr(building_routes.service, "get_all_buildings", fake_get_all_buildings)
+async def test_get_all_buildings_success_and_not_found(client: AsyncClient) -> None:
+    fake_service = SimpleNamespace(
+        get_all_buildings=AsyncMock(
+            return_value={
+                "buildings": [
+                    {
+                        "id": 1,
+                        "name": "Alpha Hall",
+                        "code": "AH",
+                        "address": "456 Campus Drive",
+                        "category_type": "academic",
+                        "num_floors": 1,
+                    }
+                ]
+            }
+        )
+    )
+    app.dependency_overrides[route_dependencies._get_buildings_service] = lambda: fake_service
 
     response: Response = await client.get("/api/buildings")
     assert response.status_code == status.HTTP_200_OK
     assert response.json()["buildings"][0]["code"] == "AH"
 
-    async def fake_get_all_buildings_not_found(**_kwargs):
-        raise NotFoundError("none")
-
-    monkeypatch.setattr(building_routes.service, "get_all_buildings", fake_get_all_buildings_not_found)
-
+    fake_service.get_all_buildings.side_effect = NotFoundError("none")
     response = await client.get("/api/buildings")
     assert response.status_code == status.HTTP_404_NOT_FOUND
 
 
 @pytest.mark.anyio
-async def test_get_building_success_and_not_found(client: AsyncClient, monkeypatch: pytest.MonkeyPatch) -> None:
-    async def fake_get_building_by_id(**_kwargs):
-        return {
-            "id": 1,
-            "name": "Science Center",
-            "code": "SC",
-            "address": "200 Research Way",
-            "category_type": "academic",
-            "num_floors": 2,
-            "floor_svgs": ["<svg>1</svg>", "<svg>2</svg>"],
-        }
-
-    monkeypatch.setattr(building_routes.service, "get_building_by_id", fake_get_building_by_id)
+async def test_get_building_success_and_not_found(client: AsyncClient) -> None:
+    fake_service = SimpleNamespace(
+        get_building_by_id=AsyncMock(
+            return_value={
+                "id": 1,
+                "name": "Science Center",
+                "code": "SC",
+                "address": "200 Research Way",
+                "category_type": "academic",
+                "num_floors": 2,
+                "floor_svgs": ["<svg>1</svg>", "<svg>2</svg>"],
+            }
+        )
+    )
+    app.dependency_overrides[route_dependencies._get_buildings_service] = lambda: fake_service
 
     response: Response = await client.get("/api/buildings/1")
     assert response.status_code == status.HTTP_200_OK
     assert response.json()["code"] == "SC"
 
-    async def fake_get_building_not_found(**_kwargs):
-        raise NotFoundError("missing")
-
-    monkeypatch.setattr(building_routes.service, "get_building_by_id", fake_get_building_not_found)
-
+    fake_service.get_building_by_id.side_effect = NotFoundError("missing")
     response = await client.get("/api/buildings/1")
     assert response.status_code == status.HTTP_404_NOT_FOUND
 
 
 @pytest.mark.anyio
-async def test_get_building_categories_success_and_not_found(client: AsyncClient, monkeypatch: pytest.MonkeyPatch) -> None:
-    async def fake_get_categories(**_kwargs):
-        return ["academic", "residential"]
-
-    monkeypatch.setattr(building_routes.service, "get_all_building_categories", fake_get_categories)
+async def test_get_building_categories_success_and_not_found(client: AsyncClient) -> None:
+    fake_service = SimpleNamespace(get_all_building_categories=AsyncMock(return_value=["academic", "residential"]))
+    app.dependency_overrides[route_dependencies._get_buildings_service] = lambda: fake_service
 
     response: Response = await client.get("/api/buildings/categories")
     assert response.status_code == status.HTTP_200_OK
     assert "academic" in response.json()
 
-    async def fake_get_categories_not_found(**_kwargs):
-        raise NotFoundError("no-categories")
-
-    monkeypatch.setattr(building_routes.service, "get_all_building_categories", fake_get_categories_not_found)
-
+    fake_service.get_all_building_categories.side_effect = NotFoundError("no-categories")
     response = await client.get("/api/buildings/categories")
     assert response.status_code == status.HTTP_404_NOT_FOUND
 
 
 @pytest.mark.anyio
-async def test_get_indoor_map_success_and_not_found(client: AsyncClient, monkeypatch: pytest.MonkeyPatch) -> None:
-    async def fake_get_map(**_kwargs):
-        return {
-            "svg": "<svg />",
-            "nodes": [{"id": 1, "type": "room", "label": "101", "x": 1.0, "y": 2.0}],
-            "edges": [{"id": 1, "source_node_id": 1, "target_node_id": 1}],
-        }
-
-    monkeypatch.setattr(building_routes.service, "getIndoorMap", fake_get_map)
+async def test_get_indoor_map_success_and_not_found(client: AsyncClient) -> None:
+    fake_service = SimpleNamespace(
+        getIndoorMap=AsyncMock(
+            return_value={
+                "svg": "<svg />",
+                "nodes": [{"id": 1, "type": "room", "label": "101", "x": 1.0, "y": 2.0}],
+                "edges": [{"id": 1, "source_node_id": 1, "target_node_id": 1}],
+            }
+        )
+    )
+    app.dependency_overrides[route_dependencies._get_buildings_service] = lambda: fake_service
 
     response: Response = await client.get("/api/buildings/map", params={"bld_code": "ENG", "floor_num": 1})
     assert response.status_code == status.HTTP_200_OK
     assert response.json()["nodes"][0]["type"] == "room"
 
-    async def fake_get_map_not_found(**_kwargs):
-        raise NotFoundError("missing-map")
-
-    monkeypatch.setattr(building_routes.service, "getIndoorMap", fake_get_map_not_found)
-
+    fake_service.getIndoorMap.side_effect = NotFoundError("missing-map")
     response = await client.get("/api/buildings/map", params={"bld_code": "ENG", "floor_num": 1})
     assert response.status_code == status.HTTP_404_NOT_FOUND
 
 
 @pytest.mark.anyio
-async def test_update_indoor_map_success_and_error_mappings(client: AsyncClient, monkeypatch: pytest.MonkeyPatch) -> None:
+async def test_update_indoor_map_success_and_error_mappings(client: AsyncClient) -> None:
     payload = {
         "bld_code": "ENG",
         "floor_num": 1,
         "nodes": [{"id": 1, "type": "room", "label": "101", "x": 1.0, "y": 2.0}],
         "edges": [{"id": "e1", "source_node_id": 1, "target_node_id": 1}],
     }
-
-    async def fake_update_map(**_kwargs):
-        return None
-
-    monkeypatch.setattr(building_routes.service, "updateIndoorMap", fake_update_map)
+    fake_service = SimpleNamespace(updateIndoorMap=AsyncMock(return_value=None))
+    app.dependency_overrides[route_dependencies._get_buildings_service] = lambda: fake_service
 
     response: Response = await client.post(
         "/api/buildings/map",
@@ -130,10 +119,7 @@ async def test_update_indoor_map_success_and_error_mappings(client: AsyncClient,
     )
     assert response.status_code == status.HTTP_200_OK
 
-    async def fake_update_map_not_found(**_kwargs):
-        raise NotFoundError("missing")
-
-    monkeypatch.setattr(building_routes.service, "updateIndoorMap", fake_update_map_not_found)
+    fake_service.updateIndoorMap.side_effect = NotFoundError("missing")
     response = await client.post(
         "/api/buildings/map",
         headers={"Authorization": "Bearer admin"},
@@ -141,10 +127,7 @@ async def test_update_indoor_map_success_and_error_mappings(client: AsyncClient,
     )
     assert response.status_code == status.HTTP_404_NOT_FOUND
 
-    async def fake_update_map_bad_request(**_kwargs):
-        raise ValueError("bad")
-
-    monkeypatch.setattr(building_routes.service, "updateIndoorMap", fake_update_map_bad_request)
+    fake_service.updateIndoorMap.side_effect = ValueError("bad")
     response = await client.post(
         "/api/buildings/map",
         headers={"Authorization": "Bearer admin"},
@@ -154,7 +137,7 @@ async def test_update_indoor_map_success_and_error_mappings(client: AsyncClient,
 
 
 @pytest.mark.anyio
-async def test_create_building_success_and_error_mappings(client: AsyncClient, monkeypatch: pytest.MonkeyPatch) -> None:
+async def test_create_building_success_and_error_mappings(client: AsyncClient) -> None:
     payload = {
         "name": "Library Annex",
         "code": "LIBA",
@@ -163,11 +146,8 @@ async def test_create_building_success_and_error_mappings(client: AsyncClient, m
         "num_floors": 2,
         "floor_svgs": ["<svg>1</svg>", "<svg>2</svg>"],
     }
-
-    async def fake_create_building(**_kwargs):
-        return None
-
-    monkeypatch.setattr(building_routes.service, "createBuilding", fake_create_building)
+    fake_service = SimpleNamespace(createBuilding=AsyncMock(return_value=None))
+    app.dependency_overrides[route_dependencies._get_buildings_service] = lambda: fake_service
 
     response: Response = await client.post(
         "/api/buildings",
@@ -176,10 +156,7 @@ async def test_create_building_success_and_error_mappings(client: AsyncClient, m
     )
     assert response.status_code == status.HTTP_200_OK
 
-    async def fake_create_building_not_found(**_kwargs):
-        raise NotFoundError("missing")
-
-    monkeypatch.setattr(building_routes.service, "createBuilding", fake_create_building_not_found)
+    fake_service.createBuilding.side_effect = NotFoundError("missing")
     response = await client.post(
         "/api/buildings",
         headers={"Authorization": "Bearer admin"},
@@ -187,10 +164,7 @@ async def test_create_building_success_and_error_mappings(client: AsyncClient, m
     )
     assert response.status_code == status.HTTP_404_NOT_FOUND
 
-    async def fake_create_building_bad_request(**_kwargs):
-        raise ValueError("bad")
-
-    monkeypatch.setattr(building_routes.service, "createBuilding", fake_create_building_bad_request)
+    fake_service.createBuilding.side_effect = ValueError("bad")
     response = await client.post(
         "/api/buildings",
         headers={"Authorization": "Bearer admin"},
@@ -200,18 +174,15 @@ async def test_create_building_success_and_error_mappings(client: AsyncClient, m
 
 
 @pytest.mark.anyio
-async def test_update_building_success_and_error_mappings(client: AsyncClient, monkeypatch: pytest.MonkeyPatch) -> None:
+async def test_update_building_success_and_error_mappings(client: AsyncClient) -> None:
     payload = {
         "name": "Updated Building",
         "address": "202 New Street",
         "num_floors": 2,
         "floor_svgs": ["<svg>1</svg>", "<svg>2</svg>"],
     }
-
-    async def fake_update_building(**_kwargs):
-        return None
-
-    monkeypatch.setattr(building_routes.service, "update_building", fake_update_building)
+    fake_service = SimpleNamespace(update_building=AsyncMock(return_value=None))
+    app.dependency_overrides[route_dependencies._get_buildings_service] = lambda: fake_service
 
     response: Response = await client.patch(
         "/api/buildings/1",
@@ -220,10 +191,7 @@ async def test_update_building_success_and_error_mappings(client: AsyncClient, m
     )
     assert response.status_code == status.HTTP_200_OK
 
-    async def fake_update_building_not_found(**_kwargs):
-        raise NotFoundError("missing")
-
-    monkeypatch.setattr(building_routes.service, "update_building", fake_update_building_not_found)
+    fake_service.update_building.side_effect = NotFoundError("missing")
     response = await client.patch(
         "/api/buildings/1",
         headers={"Authorization": "Bearer admin"},
@@ -231,10 +199,7 @@ async def test_update_building_success_and_error_mappings(client: AsyncClient, m
     )
     assert response.status_code == status.HTTP_404_NOT_FOUND
 
-    async def fake_update_building_bad_request(**_kwargs):
-        raise ValueError("bad")
-
-    monkeypatch.setattr(building_routes.service, "update_building", fake_update_building_bad_request)
+    fake_service.update_building.side_effect = ValueError("bad")
     response = await client.patch(
         "/api/buildings/1",
         headers={"Authorization": "Bearer admin"},

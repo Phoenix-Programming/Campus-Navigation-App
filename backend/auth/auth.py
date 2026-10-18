@@ -22,8 +22,6 @@ oauth2_scheme: OAuth2PasswordBearer = OAuth2PasswordBearer(
     refreshUrl="api/users/refresh"
 )
 
-user_repo: UserRepository = UserRepository()
-
 
 def hash_password(pwd: str) -> str:
     return pwd_hasher.hash(pwd)
@@ -123,6 +121,8 @@ async def get_current_user(
     token: Annotated[str, Depends(oauth2_scheme)],
     db: Database
 ) -> CurrentUserContext:
+	user_repo: UserRepository = UserRepository(db=db)
+
 	token_data: TokenData | None = verify_access_token(token)
 
 	if not token_data or not token_data.user_id or token_data.permissions is None:
@@ -141,11 +141,11 @@ async def get_current_user(
 			headers={"WWW-Authenticate": "Bearer"}
 		)
 
-	user: User | None = await user_repo.get_user_by_id(user_id=user_id_int, db=db)
+	user: User | None = await user_repo.get_user_by_id(user_id=user_id_int)
 	role: str | None = token_data.role
 
 	if role is None:
-		role = await user_repo.get_user_role_name(user_id=user_id_int, db=db)
+		role = await user_repo.get_user_role_name(user_id=user_id_int)
 
 	if not user:
 		raise HTTPException(
