@@ -1,6 +1,8 @@
 import os
 from pydantic import SecretStr
-from pydantic_settings import BaseSettings, SettingsConfigDict
+from pydantic_settings import (
+    BaseSettings, PydanticBaseSettingsSource, SettingsConfigDict, TomlConfigSettingsSource
+)
 
 
 # Settings loaded from config.toml and the environment variables
@@ -10,7 +12,24 @@ class Settings(BaseSettings):
             "backend/config/config.toml",
             f"backend/config/config.{os.environ.get('ENV', 'DEV').lower()}.toml"
         ],
+        case_sensitive=False
     )
+
+    @classmethod
+    def settings_customise_sources(
+        cls,
+        settings_cls: type[BaseSettings],
+        init_settings: PydanticBaseSettingsSource,
+        env_settings: PydanticBaseSettingsSource,
+        dotenv_settings: PydanticBaseSettingsSource,  # don't read directly from the .env, only read the env variables
+        file_secret_settings: PydanticBaseSettingsSource
+    ) -> tuple[PydanticBaseSettingsSource, ...]:
+        return (
+            init_settings,
+            env_settings,
+            TomlConfigSettingsSource(settings_cls),
+            file_secret_settings
+        )
 
     # Environment
     env: str = "DEV"
