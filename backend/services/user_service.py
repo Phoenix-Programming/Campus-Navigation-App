@@ -2,6 +2,7 @@ from datetime import UTC, datetime, timedelta
 from fastapi import BackgroundTasks, Depends
 from fastapi.security import OAuth2PasswordRequestForm
 from typing import Annotated
+from backend.email_templates.password_reset import PWD_RESET_EMAIL_BODY_TEMPLATE, PWD_RESET_EMAIL_SUBJECT_TEMPLATE
 from backend.exceptions import (
     IncorrectCurrentPasswordError, IncorrectUsernameOrPasswordError,
     InvalidOrExpiredPasswordResetTokenError, InvalidOrExpiredRefreshToken,
@@ -23,13 +24,15 @@ from backend.schema.password_reset_token import PasswordResetToken
 from backend.schema.permissions import Permission
 from backend.schema.user import User
 from backend.utilities.db_connection import Database
-from backend.utilities.email import send_password_reset_email
+from backend.services.email_service import EmailService, EmailPriority
 from backend.repositories.user_repository import UserRepository
 
 
 class UserService:
 	def __init__(self) -> None:
 		self.repo: UserRepository = UserRepository()
+
+		self.email_service: EmailService = EmailService()
 
 
 	async def register_user(self, user_create_request: UserRegisterRequest, db: Database) -> User:
@@ -183,7 +186,7 @@ class UserService:
 			)
 
 			background_tasks.add_task(
-				send_password_reset_email,
+				self._send_password_reset_email,
 				to_email=user.email,
 				username=user.username,
 				token=token
@@ -342,3 +345,18 @@ class UserService:
 			token_type="refresh"
 		)
 		return refresh_token
+
+
+	async def _send_password_reset_email(self, to_email: str, username: str, token: str) -> None:
+		content: str = PWD_RESET_EMAIL_BODY_TEMPLATE.format(
+			username=username,
+			reset_url=f"{settings.frontend_url}/reset-password?token={token}",
+			reset_token_expire_minutes=settings.reset_token_expire_minutes
+		)
+
+		await self.email_service.send_email(
+			to=to_email,
+			subject=PWD_RESET_EMAIL_SUBJECT_TEMPLATE,
+			plain_text=content,
+			priority=EmailPriority.High
+		)
