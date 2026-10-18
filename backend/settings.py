@@ -1,32 +1,51 @@
+import os
 from pydantic import SecretStr
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
+
+# Settings loaded from config.toml and the environment variables
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(
-		env_file="backend/.env",
-		env_file_encoding="utf-8"
-	)
+        toml_file=[
+            "backend/config/config.toml",
+            f"backend/config/config.{os.environ.get('ENV', 'DEV').lower()}.toml"
+        ],
+    )
 
-    db_url: str
+    # Environment
+    env: str = "DEV"
 
-    secret_key: SecretStr
-    algorithm: str = "HS256"
-    access_token_expire_minutes: int = 30
-    standard_refresh_token_expire_minutes: int = 24 * 60  # 24 hours
-    long_lived_refresh_token_expire_minutes: int = 90 * 24 * 60  # 90 days
-    sliding_refresh_window_days: int = 7
-    refresh_token_prune_after_days: int = 14
+    # Database
+    db_name: str
+    db_host: str
+    db_username: str
+    db_password: SecretStr
 
-    reset_token_expire_minutes: int = 60
+    # Tokens
+    jwt_secret_key: SecretStr
+    jwt_algorithm: str
 
-    mail_server: str = "localhost"
-    mail_port: int = 587
-    mail_username: str = ""
-    mail_password: SecretStr = SecretStr("")
-    mail_from: str = "noreply@example.com"
-    mail_use_tls: bool = True
+    access_token_expire_minutes: int
+    reset_token_expire_minutes: int
+    standard_refresh_token_expire_minutes: int
+    long_lived_refresh_token_expire_minutes: int
 
-    frontend_url: str = "http://localhost:8000"
+    sliding_refresh_window_days: int
+    refresh_token_prune_after_days: int
+
+    # Frontend
+    frontend_url: str
+
+    # Email
+    mail_server: str
+    mail_port: int
+
+    mail_system_email: str
+    mail_system_username: str
+    mail_system_password: SecretStr
+
+    mail_primary_email: str
+    mail_support_email: str
 
 
-settings: Settings = Settings()  # type: ignore[call-arg]  # loaded from .env file
+settings: Settings = Settings()  # type: ignore[call-arg]
