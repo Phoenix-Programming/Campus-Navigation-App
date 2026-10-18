@@ -14,4 +14,4 @@ mail_server = "imap.gmail.com"
 mail_port = 465
 
 mail_primary_email = "flpolycampusmap@gmail.com"
-mail_support_email = "support.flpolycampusmap@gmail.com"
+mail_support_email = "flpolycampusmap@gmail.com"
