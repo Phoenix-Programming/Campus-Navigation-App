@@ -2,8 +2,8 @@ from datetime import UTC, datetime, timedelta
 from fastapi import BackgroundTasks, Depends
 from fastapi.security import OAuth2PasswordRequestForm
 from typing import Annotated
-from backend.email_templates.password_reset import (
-    PWD_RESET_EMAIL_BODY_TEMPLATE, PWD_RESET_EMAIL_SUBJECT_TEMPLATE
+from backend.email_templates.password_reset_email import (
+    PWD_RESET_EMAIL_BODY, PWD_RESET_EMAIL_SUBJECT
 )
 from backend.exceptions import (
     IncorrectCurrentPasswordError, IncorrectUsernameOrPasswordError,
@@ -312,7 +312,7 @@ class UserService(UserServiceInterface):
 
 
 	async def _send_password_reset_email(self, to_email: str, username: str, token: str) -> None:
-		content: str = PWD_RESET_EMAIL_BODY_TEMPLATE.format(
+		content: str = PWD_RESET_EMAIL_BODY.format(
 			username=username,
 			reset_url=f"{settings.frontend_url}/reset-password?token={token}",
 			reset_token_expire_minutes=settings.reset_token_expire_minutes
@@ -320,7 +320,7 @@ class UserService(UserServiceInterface):
 
 		await self.email_service.send_email(
 			to=to_email,
-			subject=PWD_RESET_EMAIL_SUBJECT_TEMPLATE,
+			subject=PWD_RESET_EMAIL_SUBJECT,
 			plain_text=content,
 			priority=EmailPriority.High
 		)

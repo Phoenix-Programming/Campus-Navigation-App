@@ -1,7 +1,7 @@
-PWD_RESET_EMAIL_SUBJECT_TEMPLATE: str = "Reset Your Password - Florida Poly Campus Map"
+PWD_RESET_EMAIL_SUBJECT: str = "Reset Your Password - Florida Poly Campus Map"
 
 
-PWD_RESET_EMAIL_BODY_TEMPLATE: str = """Hi {username},
+PWD_RESET_EMAIL_BODY: str = """Hi {username},
 
 You requested to reset your password. Click the link below to set a new password:
 
