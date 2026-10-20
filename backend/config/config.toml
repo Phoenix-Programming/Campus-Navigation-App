@@ -10,8 +10,8 @@ sliding_refresh_window_days = 7
 refresh_token_prune_after_days = 14
 
 # Email
-mail_server = "imap.gmail.com"
-mail_port = 465
+mail_server = "smtp.gmail.com"
+mail_port = 587
 
 mail_primary_email = "flpolycampusmap@gmail.com"
 mail_support_email = "flpolycampusmap@gmail.com"

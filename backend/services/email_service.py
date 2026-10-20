@@ -30,7 +30,7 @@ class EmailService(EmailServiceInterface):
 		msg["Subject"] = subject
 
 		# Priority/importance with compatibility for different email clients
-		msg["X-Priority"] = priority.value
+		msg["X-Priority"] = str(priority.value)
 		msg["Importance"] = priority.name
 		msg["X-MSMail-Priority"] = priority.name
 
