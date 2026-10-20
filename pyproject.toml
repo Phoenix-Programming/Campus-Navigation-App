@@ -51,7 +51,10 @@ testpaths = ["backend/tests"]
 
 [tool.coverage.run]
 source = ["backend"]
-omit = ["backend/seed/*"]
+omit = ["backend/seed/*", "backend/email_templates"]
+
+[tool.poe]
+envfile = "backend/.env"
 
 [tool.poe.tasks]
 start = "uvicorn backend.main:app --reload --reload-dir ./backend"

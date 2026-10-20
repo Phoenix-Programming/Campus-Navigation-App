@@ -1,6 +1,7 @@
 from datetime import timedelta
 from types import SimpleNamespace
 from typing import Any, cast
+
 from pydantic import SecretStr
 
 import pytest
@@ -8,6 +9,7 @@ from fastapi import HTTPException, status
 
 from backend.auth import auth as auth_module
 from backend.models.token import RefreshTokenRequest, TokenData
+from backend.repositories.user_repository import UserRepository
 
 
 def _fake_db() -> Any:
@@ -33,10 +35,10 @@ def test_generate_reset_token_and_hash_token() -> None:
 
 
 def test_hash_token_depends_on_secret(monkeypatch: pytest.MonkeyPatch) -> None:
-    monkeypatch.setattr(auth_module.settings, "secret_key", SecretStr("secret-one"))
+    monkeypatch.setattr(auth_module.settings, "jwt_secret_key", SecretStr("secret-one"))
     hash_one = auth_module.hash_token("same-token")
 
-    monkeypatch.setattr(auth_module.settings, "secret_key", SecretStr("secret-two"))
+    monkeypatch.setattr(auth_module.settings, "jwt_secret_key", SecretStr("secret-two"))
     hash_two = auth_module.hash_token("same-token")
 
     assert hash_one != hash_two
@@ -118,15 +120,15 @@ async def test_get_current_user_success_uses_role_from_token(monkeypatch: pytest
         lambda _token: TokenData(user_id="3", permissions={"p.read"}, role="admin"),
     )
 
-    async def fake_get_user_by_id(user_id: int, db) -> object:
+    async def fake_get_user_by_id(self: UserRepository, user_id: int) -> object:
         assert user_id == 3
         return user
 
-    async def fake_get_role_name(user_id: int, db) -> str:
+    async def fake_get_role_name(self: UserRepository, user_id: int) -> str:
         raise AssertionError("Role lookup should not run when role claim exists")
 
-    monkeypatch.setattr(auth_module.user_repo, "get_user_by_id", fake_get_user_by_id)
-    monkeypatch.setattr(auth_module.user_repo, "get_user_role_name", fake_get_role_name)
+    monkeypatch.setattr(UserRepository, "get_user_by_id", fake_get_user_by_id)
+    monkeypatch.setattr(UserRepository, "get_user_role_name", fake_get_role_name)
 
     context = await auth_module.get_current_user(token="token", db=_fake_db())
 
@@ -145,15 +147,15 @@ async def test_get_current_user_success_fetches_role_when_missing(monkeypatch: p
         lambda _token: TokenData(user_id="3", permissions={"p.read"}, role=None),
     )
 
-    async def fake_get_user_by_id(user_id: int, db) -> object:
+    async def fake_get_user_by_id(self: UserRepository, user_id: int) -> object:
         return user
 
-    async def fake_get_role_name(user_id: int, db) -> str:
+    async def fake_get_role_name(self: UserRepository, user_id: int) -> str:
         assert user_id == 3
         return "editor"
 
-    monkeypatch.setattr(auth_module.user_repo, "get_user_by_id", fake_get_user_by_id)
-    monkeypatch.setattr(auth_module.user_repo, "get_user_role_name", fake_get_role_name)
+    monkeypatch.setattr(UserRepository, "get_user_by_id", fake_get_user_by_id)
+    monkeypatch.setattr(UserRepository, "get_user_role_name", fake_get_role_name)
 
     context = await auth_module.get_current_user(token="token", db=_fake_db())
 
@@ -188,10 +190,10 @@ async def test_get_current_user_missing_user_raises_401(monkeypatch: pytest.Monk
     token_data = TokenData(user_id="44", permissions={"perm"}, role="user")
     monkeypatch.setattr(auth_module, "verify_access_token", lambda _token: token_data)
 
-    async def fake_get_user_by_id(user_id: int, db) -> None:
+    async def fake_get_user_by_id(self: UserRepository, user_id: int) -> None:
         return None
 
-    monkeypatch.setattr(auth_module.user_repo, "get_user_by_id", fake_get_user_by_id)
+    monkeypatch.setattr(UserRepository, "get_user_by_id", fake_get_user_by_id)
 
     with pytest.raises(HTTPException) as exc_info:
         await auth_module.get_current_user(token="token", db=_fake_db())

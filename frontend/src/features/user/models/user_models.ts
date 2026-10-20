@@ -9,11 +9,6 @@ export interface PrivateUserData extends PublicUserData {
 
 export interface GetUserResponse extends PublicUserData {}
 
-export interface LoginUserRequest {
-	username: string;
-	password: string;
-}
-
 export interface LoginUserResponse {
 	access_token: string;
 	refresh_token: string;
