@@ -41,11 +41,16 @@ describe("user api", () => {
 		vi.mocked(api.post).mockResolvedValue({ status: 200, data: authTokens } as never);
 
 		await expect(loginUser("alicia", "secret")).resolves.toEqual(authTokens);
-		expect(api.post).toHaveBeenCalledWith(
-			"/api/users/login",
-			{ username: "alicia", password: "secret" },
-			{ validateStatus: expect.any(Function) }
-		);
+
+		expect(api.post).toHaveBeenCalledTimes(1);
+		const [, payload, config] = vi.mocked(api.post).mock.calls[0];
+		expect(payload).toBeInstanceOf(URLSearchParams);
+		expect((payload as URLSearchParams).get("username")).toBe("alicia");
+		expect((payload as URLSearchParams).get("password")).toBe("secret");
+		expect(config).toMatchObject({
+			headers: { "Content-Type": "application/x-www-form-urlencoded" },
+			validateStatus: expect.any(Function)
+		});
 		expect(showSuccess).toHaveBeenCalledWith("Welcome back!", "Login Successful!");
 	});
 
