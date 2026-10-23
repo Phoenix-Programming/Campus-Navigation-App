@@ -16,6 +16,7 @@ export default function WelcomeBox() {
 
 
     //Different pages for the welcome box
+    //implement in database
     const steps: Record<number, Step> = {
         0: {
             step: 0,
