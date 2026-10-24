@@ -8,6 +8,7 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 if TYPE_CHECKING:
 	from backend.schema.building_category import BuildingCategory
 	from backend.schema.floor import Floor
+	from backend.schema.indoor_poi import IndoorPOI
 from backend.schema.location import Location
 
 
@@ -22,6 +23,7 @@ class Building(Location):
 
 	building_category: Mapped["BuildingCategory"] = relationship(back_populates="buildings", foreign_keys=[category_id])
 	floors: Mapped[list["Floor"]] = relationship(back_populates="building")
+	indoor_pois: Mapped[list["IndoorPOI"]] = relationship(back_populates="building")
 
 	__mapper_args__ = {
         "polymorphic_identity": "building"
