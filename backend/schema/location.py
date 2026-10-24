@@ -1,9 +1,10 @@
 from __future__ import annotations
 from typing import TYPE_CHECKING
 
-from sqlalchemy import ForeignKey, String, Integer
+from sqlalchemy import ForeignKey, String
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
+from backend.schema.mixins.update_logging_mixin import UpdateLoggingMixin
 from backend.utilities.db_connection import Base
 
 # Prevent circular import issues with type checking
@@ -14,7 +15,7 @@ if TYPE_CHECKING:
 	from backend.schema.special_operating_hours import SpecialOperatingHours
 
 
-class Location(Base):
+class Location(UpdateLoggingMixin, Base):
 	__tablename__ = "locations"
 
 	id: Mapped[int] = mapped_column(primary_key=True)

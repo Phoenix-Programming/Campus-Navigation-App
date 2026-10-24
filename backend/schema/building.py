@@ -4,8 +4,6 @@ from typing import TYPE_CHECKING
 from sqlalchemy import ForeignKey, String
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
-from .mixins.update_logging_mixin import UpdateLoggingMixin
-
 # Prevent circular import issues with type checking
 if TYPE_CHECKING:
 	from backend.schema.building_category import BuildingCategory
@@ -13,7 +11,7 @@ if TYPE_CHECKING:
 from backend.schema.location import Location
 
 
-class Building(UpdateLoggingMixin, Location):
+class Building(Location):
 	__tablename__ = "buildings"
 
 	location_id: Mapped[int] = mapped_column(ForeignKey("locations.id"), primary_key=True)
