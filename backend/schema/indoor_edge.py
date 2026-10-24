@@ -9,7 +9,7 @@ from .mixins.update_logging_mixin import UpdateLoggingMixin
 class IndoorEdge(IdMixin, UpdateLoggingMixin, Base):
 	__tablename__ = "indoor_edges"
 
-	building_id: Mapped[int] = mapped_column(ForeignKey("buildings.id"), nullable=False)
+	building_id: Mapped[int] = mapped_column(ForeignKey("buildings.location_id"), nullable=False)
 	floor_id: Mapped[int] = mapped_column(ForeignKey("floors.id"), nullable=False)
 	source_node_id: Mapped[int] = mapped_column(ForeignKey("indoor_nodes.id"), nullable=False)
 	target_node_id: Mapped[int] = mapped_column(ForeignKey("indoor_nodes.id"), nullable=False)
