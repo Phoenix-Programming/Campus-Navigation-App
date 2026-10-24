@@ -10,6 +10,7 @@ from .mixins.id_mixin import IdMixin
 # Prevent circular import issues with type checking
 if TYPE_CHECKING:
 	from backend.schema.location_type import LocationType
+	from backend.schema.closure import Closure
 
 
 class Location(IdMixin, Base):
@@ -20,3 +21,4 @@ class Location(IdMixin, Base):
 	description: Mapped[str] = mapped_column(String)
 
 	location_type: Mapped["LocationType"] = relationship(back_populates="locations", foreign_keys=[location_type_id])
+	closures: Mapped[list["Closure"]] = relationship(back_populates="location")
