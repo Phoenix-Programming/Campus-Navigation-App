@@ -106,7 +106,20 @@ async def test_update_indoor_map_success_and_error_mappings(client: AsyncClient)
     payload = {
         "bld_code": "ENG",
         "floor_num": 1,
-        "nodes": [{"id": 1, "type": "room", "label": "101", "x": 1.0, "y": 2.0}],
+        "nodes": [
+            {
+                "id": 1,
+                "type": "room",
+                "label": "101",
+                "x": 1.0,
+                "y": 2.0,
+                "clickable_area": [
+                    {"x": 10.0, "y": 15.0},
+                    {"x": 20.0, "y": 15.0},
+                    {"x": 20.0, "y": 30.0},
+                ],
+            }
+        ],
         "edges": [{"id": "e1", "source_node_id": 1, "target_node_id": 1}],
     }
     fake_service = SimpleNamespace(updateIndoorMap=AsyncMock(return_value=None))

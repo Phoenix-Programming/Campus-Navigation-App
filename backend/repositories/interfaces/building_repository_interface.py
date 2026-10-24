@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+from geoalchemy2 import WKBElement
 from backend.schema.building import Building
 from backend.schema.building_category import BuildingCategory
 from backend.schema.indoor_edge import IndoorEdge
@@ -41,6 +42,7 @@ class BuildingRepositoryInterface(ABC):
         bld_id: int,
         floor_id: int,
         nodes_coords: list[tuple[float, float]],
+        clickable_areas: list[WKBElement | None],
         nodes_labels: list[str | None],
         node_types_ids: list[int],
         current_user_id: int

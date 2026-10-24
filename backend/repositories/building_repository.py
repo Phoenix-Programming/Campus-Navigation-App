@@ -1,3 +1,6 @@
+from geoalchemy2 import WKBElement
+from geoalchemy2.shape import from_shape
+from shapely.geometry import Polygon
 from sqlalchemy import Result, delete, func, select
 from sqlalchemy.orm import selectinload
 from backend.exceptions import (
@@ -96,6 +99,7 @@ class BuildingRepository(BuildingRepositoryInterface):
         bld_id: int,
         floor_id: int,
         nodes_coords: list[tuple[float, float]],
+        clickable_areas: list[WKBElement | None],
         nodes_labels: list[str | None],
         node_types_ids: list[int],
         current_user_id: int
@@ -108,9 +112,15 @@ class BuildingRepository(BuildingRepositoryInterface):
                 label=label,
                 x=x,
                 y=y,
+                clickable_area=clickable_area,
                 last_updated_by=current_user_id
             )
-            for (x, y), label, node_type_id in zip(nodes_coords, nodes_labels, node_types_ids)
+            for (x, y), clickable_area, label, node_type_id in zip(
+                nodes_coords,
+                clickable_areas,
+                nodes_labels,
+                node_types_ids
+            )
         ]
 
         self.db.add_all(nodes)

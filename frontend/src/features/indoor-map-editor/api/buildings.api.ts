@@ -62,6 +62,8 @@ export async function updateIndoorMap(
 			edges: edges
 		};
 
+		console.log(request);
+
 		await api.post("/api/buildings/map", request);
 
 		showSuccess("Indoor map saved successfully.", "Successfully Saved Indoor Map");

@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import UTC, datetime
 from sqlalchemy import Result, func, select
 from sqlalchemy import delete as sql_delete
 from backend.utilities.db_connection import Database
@@ -124,6 +124,7 @@ class UserRepository(UserRepositoryInterface):
                 user_id=user_id,
                 token_hash=token_hash,
                 is_long_lived=is_long_lived,
+                last_used_at=datetime.now(UTC),
                 expires_at=expires_at
             )
 

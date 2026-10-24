@@ -1,3 +1,6 @@
+from geoalchemy2 import WKBElement
+from geoalchemy2.shape import from_shape
+from shapely import Polygon
 from backend.auth.current_user_context import CurrentUserContext
 from backend.exceptions import NotAuthorizedToEditIndoorMapError
 from backend.models.buildings import (
@@ -92,16 +95,20 @@ class BuildingsService:
 
 		node_type_ids: list[int] = [await self.bld_repo.get_node_type_id_by_type(node_type=node.type) for node in nodes]
 
+		clickable_areas: list[WKBElement | None] = [
+			from_shape(Polygon([(point.x, point.y) for point in node.clickable_area]), srid=0)
+			if node.clickable_area else None
+            for node in nodes
+        ]
 
-		# TODO: Something is going wrong here!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 		inserted_node_ids: list[int] = await self.bld_repo.insert_indoor_nodes(
 			bld_id=bld_id,
 			floor_id=floor_id,
 			node_types_ids=node_type_ids,
 			nodes_coords=[(node.x, node.y) for node in nodes],
+			clickable_areas=clickable_areas,
 			nodes_labels=[node.label for node in nodes],
 			current_user_id=current_user.user.id,
-
 		)
 
 		node_id_map: dict[int, int] = {node.id: inserted_id for node, inserted_id in zip(nodes, inserted_node_ids)}

@@ -48,12 +48,18 @@ class UpdateBuildingRequest(BaseModel):
     floor_svgs: list[str | None] | None = Field(default=None)
 
 
+class ClickableAreaPointModel(BaseModel):
+    x: float
+    y: float
+
+
 class IndoorNodeModel(BaseModel):
     id: int
     type: str
     label: str | None = Field(default=None, max_length=64)
     x: float
     y: float
+    clickable_area: list[ClickableAreaPointModel] | None = Field(default=None)
 
 
 class IndoorEdgeModel(BaseModel):

@@ -1,7 +1,7 @@
 import React, { useContext, useRef, useState } from "react";
 import { clsx } from "clsx";
 import type { Node, Edge } from "../models/buildings_models";
-import { Tool } from "../models/indoor_map_editor_models"
+import { Tool } from "../models/indoor_map_editor_models";
 import { SvgViewportContext } from "./SvgViewerComponent";
 import type { SvgViewportMetrics } from "../models/svg_viewer_models";
 import "../styles/node-component.scss";
@@ -88,6 +88,8 @@ export default function NodeComponent({
 		switch (selectedTool) {
 			case Tool.CreateNode:
 				return "not-allowed";
+			case Tool.EditClickableArea:
+				return isSelected ? "crosshair" : "pointer";
 			case Tool.MoveNode:
 				return draggingRef.current ? "grabbing" : "grab";
 			case Tool.SingleSelect:
@@ -191,7 +193,7 @@ export default function NodeComponent({
 				data-ds-selectable="true"
 				data-ds-type="node"
 				data-ds-id={node.id}
-				className={clsx("node", `${node.type.replaceAll(/[_/]/g, '-')}`, {
+				className={clsx("node", `${node.type.replaceAll(/[_/]/g, "-")}`, {
 					selected: isSelected,
 					hovered: isHovered
 				})}

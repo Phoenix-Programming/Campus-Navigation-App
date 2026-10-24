@@ -5,6 +5,11 @@ export interface SvgViewerHandle {
 	zoomBy: (amount: number) => void;
 }
 
+export interface SvgMapCoordinates {
+	x: number;
+	y: number;
+}
+
 export interface SvgViewportMetrics {
 	width: number;
 	height: number;

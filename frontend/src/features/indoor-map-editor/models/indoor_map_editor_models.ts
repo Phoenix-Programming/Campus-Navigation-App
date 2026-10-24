@@ -8,7 +8,8 @@ export enum Tool {
 	SingleConnect,
 	MultiConnect,
 	MoveNode,
-	CreateNode
+	CreateNode,
+	EditClickableArea
 }
 
 export interface IndoorMapGraphUploadPayload {

@@ -12,6 +12,10 @@ class ActiveRefreshToken(IdMixin, Base):
 	user_id: Mapped[int] = mapped_column(ForeignKey("users.id", ondelete="CASCADE"), index=True)
 	token_hash: Mapped[str] = mapped_column(String, unique=True, nullable=False)
 	is_long_lived: Mapped[bool] = mapped_column(Boolean, default=False, nullable=False)
-	last_used_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=datetime.now(UTC), nullable=False)
+	last_used_at: Mapped[datetime] = mapped_column(
+		DateTime(timezone=True),
+		default=lambda: datetime.now(UTC),
+		nullable=False
+	)
 	expires_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False)
 	is_revoked: Mapped[bool] = mapped_column(Boolean, default=False, nullable=False)

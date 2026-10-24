@@ -1,4 +1,5 @@
 import React from "react";
+import clsx from "clsx";
 import { NodeType, type Node, type Edge } from "../models/buildings_models";
 import deleteIcon from "@assets/icons/delete.svg";
 import "../styles/indoor-graph-context-component.scss";
@@ -119,6 +120,10 @@ export default function IndoorGraphContextComponent({
 		return "Delete Selected Items";
 	}
 
+	function onEditClickableAreaButtonClicked(): void {
+
+	}
+
 	function onDeleteButtonClicked(): void {
 		if (isSingleNode) return deleteNode!(node!.id);
 		if (isSingleEdge) return deleteEdge!(edge!.source_node_id, edge!.target_node_id);
@@ -135,17 +140,19 @@ export default function IndoorGraphContextComponent({
 				{getContent()}
 
 				{/* Delete Button */}
-				{!isHovered && (
-					<button
-						type="button"
-						className="delete-button"
-						onClick={onDeleteButtonClicked}
-						aria-label={getDeleteLabel()}
-						title={getDeleteLabel()}
-					>
-						<img src={deleteIcon} alt="" />
-					</button>
-				)}
+				<div>
+					{!isHovered && (
+						<button
+							type="button"
+							className="icon-button danger"
+							onClick={onDeleteButtonClicked}
+							aria-label={getDeleteLabel()}
+							title={getDeleteLabel()}
+						>
+							<img src={deleteIcon} alt="" />
+						</button>
+					)}
+				</div>
 			</div>
 		</div>
 	);

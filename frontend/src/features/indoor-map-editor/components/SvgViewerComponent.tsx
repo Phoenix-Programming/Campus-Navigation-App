@@ -1,13 +1,21 @@
 import { createContext, forwardRef, useEffect, useImperativeHandle, useMemo, useRef, useState } from "react";
 import { Tool } from "../models/indoor_map_editor_models";
-import type { SvgViewportContextValue, SvgViewportMetrics, SvgViewerHandle } from "../models/svg_viewer_models";
+import type {
+	SvgMapCoordinates,
+	SvgViewportContextValue,
+	SvgViewportMetrics,
+	SvgViewerHandle
+} from "../models/svg_viewer_models";
 import "../styles/svg-viewer-component.scss";
 
 interface SvgViewerComponentProps {
 	svg: string;
 	allowPan: boolean;
 	selectedTool?: Tool;
+	isClickableAreaDraftActive?: boolean;
 	onMapClick: (coordinates: { x: number; y: number } | null) => void;
+	onMapMouseMove?: (coordinates: SvgMapCoordinates | null) => void;
+	onMapMouseLeave?: () => void;
 	children?: React.ReactNode;
 	zoomStep?: number;
 }
@@ -19,7 +27,17 @@ const MAX_SVG_VIEWER_SCALE = 1;
 export const SvgViewportContext = createContext<SvgViewportContextValue | null>(null);
 
 const SvgViewerComponent = forwardRef<SvgViewerHandle, SvgViewerComponentProps>(function SvgViewerComponent(
-	{ svg, allowPan, selectedTool, onMapClick, children, zoomStep = DEFAULT_SVG_VIEWER_ZOOM_STEP },
+	{
+		svg,
+		allowPan,
+		selectedTool,
+		isClickableAreaDraftActive = false,
+		onMapClick,
+		onMapMouseMove,
+		onMapMouseLeave,
+		children,
+		zoomStep = DEFAULT_SVG_VIEWER_ZOOM_STEP
+	},
 	ref
 ): React.JSX.Element {
 	const isMacOS = /Mac|iPhone|iPad|iPod/i.test(navigator.platform);
@@ -236,7 +254,8 @@ const SvgViewerComponent = forwardRef<SvgViewerHandle, SvgViewerComponentProps>(
 	}
 
 	function onMapClickHandler(event: React.MouseEvent<HTMLDivElement>): void {
-		if (allowPan) return;
+		if (suppressClicksRef.current) return;
+		if (allowPan && selectedTool !== Tool.EditClickableArea) return;
 
 		event.preventDefault();
 		event.stopPropagation();
@@ -246,11 +265,17 @@ const SvgViewerComponent = forwardRef<SvgViewerHandle, SvgViewerComponentProps>(
 		onMapClick(svgCoordinates);
 	}
 
+	function onMapMouseMoveHandler(event: React.MouseEvent<HTMLDivElement>): void {
+		if (allowPan && selectedTool !== Tool.EditClickableArea) return;
+
+		onMapMouseMove?.(getMapCoordinatesFromPointer(event));
+	}
+
 	function onMouseDown(e: React.MouseEvent<HTMLDivElement>) {
 		if (e.button !== 0 && e.button !== 1) return;
 
 		if (!allowPan) {
-			if (selectedTool === Tool.CreateNode) {
+			if (selectedTool === Tool.CreateNode || selectedTool === Tool.EditClickableArea) {
 				e.preventDefault();
 				e.stopPropagation();
 			}
@@ -271,7 +296,10 @@ const SvgViewerComponent = forwardRef<SvgViewerHandle, SvgViewerComponentProps>(
 	}
 
 	function onMouseMove(e: React.MouseEvent<HTMLDivElement>) {
-		if (!pointerDownRef.current) return;
+		if (!pointerDownRef.current) {
+			onMapMouseMoveHandler(e);
+			return;
+		}
 
 		const dx: number = e.clientX - last.current.x;
 		const dy: number = e.clientY - last.current.y;
@@ -331,6 +359,7 @@ const SvgViewerComponent = forwardRef<SvgViewerHandle, SvgViewerComponentProps>(
 	function getCursorType(): string {
 		if (selectedTool === Tool.MultiSelect && isShiftPressed) return "crosshair";
 		if (selectedTool === Tool.CreateNode) return "crosshair";
+		if (selectedTool === Tool.EditClickableArea) return isClickableAreaDraftActive ? "crosshair" : "pointer";
 		if (selectedTool === Tool.MoveNode && isDragging) return "grabbing";
 
 		return "move";
@@ -342,6 +371,7 @@ const SvgViewerComponent = forwardRef<SvgViewerHandle, SvgViewerComponentProps>(
 
 	const onMouseLeave = (): void => {
 		setIsHovering(false);
+		onMapMouseLeave?.();
 		onMouseUp();
 	};
 
@@ -354,6 +384,7 @@ const SvgViewerComponent = forwardRef<SvgViewerHandle, SvgViewerComponentProps>(
 			onMouseDown={onMouseDown}
 			onMouseMove={onMouseMove}
 			onMouseUp={onMouseUp}
+			onClick={onMapClickHandler}
 			onMouseLeave={onMouseLeave}
 			onMouseEnter={onMouseEnter}
 		>

@@ -25,6 +25,8 @@ dependencies = [
     "bleach (>=6.4.0,<7.0.0)",
     "geoalchemy2 (>=0.20.0,<0.21.0)",
     "svgelements (>=1.9.6,<2.0.0)",
+    "shapely (>=2.2.0,<3.0.0)",
+    "types-shapely (>=2.1.0.20260728,<3.0.0.0)",
 ]
 
 [tool.poetry]
@@ -61,3 +63,4 @@ start = "uvicorn backend.main:app --reload --reload-dir ./backend"
 seed = "python3 -m backend.seed.seed_db"
 test = "pytest"
 coverage = "pytest --cov=backend/ --cov-branch --cov-report=term-missing"
+alembic = "alembic"

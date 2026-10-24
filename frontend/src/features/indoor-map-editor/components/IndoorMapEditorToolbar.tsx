@@ -8,6 +8,7 @@ import moveIcon from "@assets/icons/move.svg";
 import addIcon from "@assets/icons/add.svg";
 import zoomInIcon from "@assets/icons/zoom-in.svg";
 import zoomOutIcon from "@assets/icons/zoom-out.svg";
+import areaIcon from "@assets/icons/area.svg";
 import "../styles/indoor-map-editor-toolbar.scss";
 
 interface IndoorMapEditorToolbarProps {
@@ -24,7 +25,8 @@ const toolButtons = [
 	{ tool: Tool.CreateNode, icon: addIcon, label: "Create Node" },
 	{ tool: Tool.SingleConnect, icon: diagonalIcon, label: "Connect Nodes" },
 	{ tool: Tool.MultiConnect, icon: graphIcon, label: "Connect Multiple Nodes" },
-	{ tool: Tool.MoveNode, icon: moveIcon, label: "Move Node" }
+	{ tool: Tool.MoveNode, icon: moveIcon, label: "Move Node" },
+	{ tool: Tool.EditClickableArea, icon: areaIcon, label: "Edit Clickable Area" }
 ];
 
 export default function IndoorMapEditorToolbar({

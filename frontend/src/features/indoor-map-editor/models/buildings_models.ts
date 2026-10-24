@@ -54,6 +54,7 @@ export interface Node {
 	type: string;
 	x: number;
 	y: number;
+	clickable_area?: { x: number; y: number }[] | null;
 }
 
 export interface Edge {

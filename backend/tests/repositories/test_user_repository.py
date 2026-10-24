@@ -7,6 +7,7 @@ import pytest
 
 from backend.exceptions import UserNotFoundError
 from backend.repositories.user_repository import UserRepository
+from backend.schema.active_refresh_token import ActiveRefreshToken
 from backend.schema.password_reset_token import PasswordResetToken
 from backend.schema.permissions import Permission, Role
 from backend.schema.user import User
@@ -45,6 +46,13 @@ def _scalar_result(first=None, all_values=None):
     result = MagicMock()
     result.scalars.return_value = scalars
     return result
+
+
+def test_active_refresh_token_last_used_at_default_is_callable() -> None:
+    default_factory = ActiveRefreshToken.__table__.c.last_used_at.default
+
+    assert default_factory is not None
+    assert callable(default_factory.arg)
 
 
 @pytest.mark.anyio
