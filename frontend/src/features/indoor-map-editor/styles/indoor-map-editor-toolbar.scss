@@ -1,3 +1,5 @@
+@use "../../../shared/styles/abstracts/variables" as *;
+
 .toolbar {
 	background-color: #484848;
 	border: 1px solid #333333;
@@ -42,10 +44,38 @@
 			border-color: #8f8f8f;
 		}
 
+		&:disabled {
+			opacity: 0.45;
+			cursor: not-allowed;
+			transform: none;
+		}
+
+		&:disabled:hover {
+			background-color: #2f2f2f;
+			border-color: #666666;
+		}
+
 		img {
 			width: 22px;
 			height: 22px;
-			filter: brightness(0) invert(1);
+			filter: $white-color-filter;
+		}
+
+		&.danger {
+			border-color: #666666;
+
+			img {
+				filter: $danger-color-filter;
+			}
+
+			&:hover {
+				background: $danger-color-hover;
+				border-color: #8f8f8f;
+
+				img {
+					filter: $white-color-filter;
+				}
+			}
 		}
 	}
 
@@ -60,5 +90,29 @@
 		border-top: 1px solid #333333;
 		margin: 0;
 		width: 90%;
+	}
+
+	&.clickable-area-toolbar {
+		.buttons-container {
+			flex-direction: row;
+			align-items: center;
+			column-gap: 12px;
+			row-gap: 0;
+		}
+
+		.tool-buttons,
+		.action-buttons {
+			flex-direction: row;
+			column-gap: 8px;
+			row-gap: 0;
+			width: auto;
+		}
+
+		.separator-line {
+			width: 1px;
+			height: 30px;
+			border: none;
+			border-left: 1px solid #333333;
+		}
 	}
 }

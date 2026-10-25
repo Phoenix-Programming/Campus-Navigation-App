@@ -12,6 +12,13 @@ export enum Tool {
 	EditClickableArea
 }
 
+export enum ClickableAreaTool {
+	SelectNode,
+	MovePoints,
+	AddPoint,
+	DeletePoint
+}
+
 export interface IndoorMapGraphUploadPayload {
 	bld_code: string;
 	floor_num: number;

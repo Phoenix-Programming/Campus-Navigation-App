@@ -46,10 +46,11 @@
 		height: 100%;
 	}
 
-	.clickable-area-delete-button-container {
+	.clickable-area-toolbar {
 		position: absolute;
-		top: 10px;
-		left: 10px;
+		top: -37px;
+		left: 74px;
+		z-index: 4;
 	}
 
 	.toolbar {
@@ -86,41 +87,50 @@
 				height: 10px;
 
 				&.room {
-					filter: brightness(0) saturate(100%) invert(13%) sepia(87%) saturate(4851%) hue-rotate(243deg) brightness(108%) contrast(117%); // #262aff
+					filter: brightness(0) saturate(100%) invert(13%) sepia(87%) saturate(4851%) hue-rotate(243deg)
+						brightness(108%) contrast(117%); // #262aff
 				}
 
 				&.hallway {
-					filter: brightness(0) saturate(100%) invert(74%) sepia(67%) saturate(2903%) hue-rotate(73deg) brightness(112%) contrast(101%); // #21ff37
+					filter: brightness(0) saturate(100%) invert(74%) sepia(67%) saturate(2903%) hue-rotate(73deg) brightness(112%)
+						contrast(101%); // #21ff37
 				}
 
 				&.room-door {
-					filter: brightness(0) saturate(100%) invert(27%) sepia(67%) saturate(3757%) hue-rotate(345deg) brightness(100%) contrast(107%); // #ff2626
+					filter: brightness(0) saturate(100%) invert(27%) sepia(67%) saturate(3757%) hue-rotate(345deg)
+						brightness(100%) contrast(107%); // #ff2626
 				}
 
 				&.stairs {
-					filter: brightness(0) saturate(100%) invert(61%) sepia(83%) saturate(994%) hue-rotate(357deg) brightness(98%) contrast(110%); // #ffa500
+					filter: brightness(0) saturate(100%) invert(61%) sepia(83%) saturate(994%) hue-rotate(357deg) brightness(98%)
+						contrast(110%); // #ffa500
 				}
 
 				&.elevator {
-					filter: brightness(0) saturate(100%) invert(100%) sepia(97%) saturate(5739%) hue-rotate(360deg) brightness(108%) contrast(103%);
+					filter: brightness(0) saturate(100%) invert(100%) sepia(97%) saturate(5739%) hue-rotate(360deg)
+						brightness(108%) contrast(103%);
 				}
 
 				&.entrance-exit {
-					filter: brightness(0) saturate(100%) invert(21%) sepia(12%) saturate(1719%) hue-rotate(340deg) brightness(99%) contrast(88%);
+					filter: brightness(0) saturate(100%) invert(21%) sepia(12%) saturate(1719%) hue-rotate(340deg) brightness(99%)
+						contrast(88%);
 				}
 
 				&.water-fountain {
-					filter: brightness(0) saturate(100%) invert(95%) sepia(10%) saturate(6569%) hue-rotate(108deg) brightness(101%) contrast(109%);
+					filter: brightness(0) saturate(100%) invert(95%) sepia(10%) saturate(6569%) hue-rotate(108deg)
+						brightness(101%) contrast(109%);
 				}
 
 				&.vending {
-					filter: brightness(0) saturate(100%) invert(17%) sepia(41%) saturate(6833%) hue-rotate(132deg) brightness(88%) contrast(98%);
+					filter: brightness(0) saturate(100%) invert(17%) sepia(41%) saturate(6833%) hue-rotate(132deg) brightness(88%)
+						contrast(98%);
 				}
 
 				&.connection {
 					height: 15px;
 					width: 15px;
-					filter: brightness(0) saturate(100%) invert(48%) sepia(40%) saturate(386%) hue-rotate(126deg) brightness(98%) contrast(89%); // #50928d
+					filter: brightness(0) saturate(100%) invert(48%) sepia(40%) saturate(386%) hue-rotate(126deg) brightness(98%)
+						contrast(89%); // #50928d
 				}
 			}
 		}

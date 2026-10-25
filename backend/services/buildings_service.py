@@ -1,11 +1,13 @@
+from typing import Any, cast
+
 from geoalchemy2 import WKBElement
-from geoalchemy2.shape import from_shape
+from geoalchemy2.shape import from_shape, to_shape
 from shapely import Polygon
 from backend.auth.current_user_context import CurrentUserContext
 from backend.exceptions import NotAuthorizedToEditIndoorMapError
 from backend.models.buildings import (
     BuildingModel, GetAllBuildingsResponse, GetBuildingResponse, GetIndoorMapResponse,
-    IncomingIndoorEdgeModel, IndoorEdgeModel, IndoorNodeModel
+	ClickableAreaPointModel, IncomingIndoorEdgeModel, IndoorEdgeModel, IndoorNodeModel
 )
 from backend.repositories.interfaces.building_repository_interface import BuildingRepositoryInterface
 from backend.schema.building import Building
@@ -64,7 +66,14 @@ class BuildingsService:
 		response: GetIndoorMapResponse = GetIndoorMapResponse(
 			svg=svg,
 			nodes=[
-       			IndoorNodeModel(id=node.id, type=node.node_type.type, label=node.label, x=node.x, y=node.y)
+	      		IndoorNodeModel(
+					id=node.id,
+					type=node.node_type.type,
+					label=node.label,
+					x=node.x,
+					y=node.y,
+					clickable_area=self._geometry_to_clickable_points(getattr(node, "clickable_area", None)),
+				)
           		for node in indoor_nodes
             ],
 			edges=[
@@ -74,6 +83,33 @@ class BuildingsService:
 		)
 
 		return response
+
+
+	def _geometry_to_clickable_points(self, geometry: Any) -> list[ClickableAreaPointModel] | None:
+		if geometry is None:
+			return None
+
+		shape = to_shape(cast(WKBElement, geometry))
+		if not isinstance(shape, Polygon):
+			return None
+
+		points: list[ClickableAreaPointModel] = []
+		coords: Any = shape.exterior.coords
+		for coord in coords:
+			if len(coord) < 2:
+				continue
+
+			points.append(ClickableAreaPointModel(x=float(coord[0]), y=float(coord[1])))
+
+		# PostGIS polygons repeat the first coordinate at the end; editor points should not.
+		if (
+			len(points) > 1 and
+			points[0].x == points[-1].x and
+			points[0].y == points[-1].y
+		):
+			points = points[:-1]
+
+		return points
 
 
 	async def updateIndoorMap(

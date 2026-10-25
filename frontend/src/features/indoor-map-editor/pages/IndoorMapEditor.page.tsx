@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useRef, useState } from "react";
 import { clsx } from "clsx";
 import DragSelect from "dragselect";
 import { NodeType, type Node, type Edge, type Building, type IndoorMapData } from "../models/buildings_models";
-import { Tool, type DragSelectionMode } from "../models/indoor_map_editor_models";
+import { ClickableAreaTool, Tool, type DragSelectionMode } from "../models/indoor_map_editor_models";
 import { type SvgMapCoordinates, type SvgViewerHandle } from "../models/svg_viewer_models";
 import {
 	getBuildings as getBuildingsService,
@@ -14,6 +14,7 @@ import { buildClickableAreaPoints, canFinalizeClickableArea } from "../utils/cli
 import ConfirmationModal from "@shared/components/ConfirmationModal";
 import EdgeComponent, { isEdge } from "../components/EdgeComponent";
 import BuildingModal from "../components/BuildingModal";
+import ClickableAreaToolbar from "../components/ClickableAreaToolbar";
 import IndoorGraphContextComponent from "../components/IndoorGraphContextComponent";
 import IndoorMapEditorToolbar from "../components/IndoorMapEditorToolbar";
 import NodeComponent, { isNode } from "../components/NodeComponent";
@@ -88,8 +89,12 @@ export default function IndoorMapEditor(): React.JSX.Element {
 	const [isPrimaryModifierPressed, setIsPrimaryModifierPressed] = useState(false);
 	const [isDragSelecting, setIsDragSelecting] = useState(false);
 	const [clickableAreaEditingNodeId, setClickableAreaEditingNodeId] = useState<number | null>(null);
+	const [selectedClickableAreaTool, setSelectedClickableAreaTool] = useState<ClickableAreaTool>(
+		ClickableAreaTool.SelectNode
+	);
 	const [clickableAreaDraftPoints, setClickableAreaDraftPoints] = useState<SvgMapCoordinates[]>([]);
 	const [clickableAreaCursorPosition, setClickableAreaCursorPosition] = useState<SvgMapCoordinates | null>(null);
+	const draggedClickableAreaPointRef = useRef<{ nodeId: number; pointIndex: number } | null>(null);
 
 	const svgDimensions = useMemo<{ width: number; height: number }>(() => {
 		const widthMatch: RegExpMatchArray | null = svg?.match(/width\s*=\s*["']([^"']+)["']/i) ?? null;
@@ -100,8 +105,7 @@ export default function IndoorMapEditor(): React.JSX.Element {
 			const width: number = Number.parseFloat(widthMatch[1]);
 			const height: number = Number.parseFloat(heightMatch[1]);
 
-			if (Number.isFinite(width) && Number.isFinite(height) && width > 0 && height > 0)
-				return { width, height };
+			if (Number.isFinite(width) && Number.isFinite(height) && width > 0 && height > 0) return { width, height };
 		}
 
 		if (viewBoxMatch) {
@@ -110,12 +114,7 @@ export default function IndoorMapEditor(): React.JSX.Element {
 				.split(/[\s,]+/)
 				.map(Number);
 
-			if (parts.length >= 4 &&
-				Number.isFinite(parts[2]) &&
-				Number.isFinite(parts[3]) &&
-				parts[2] > 0 &&
-				parts[3] > 0
-			) {
+			if (parts.length >= 4 && Number.isFinite(parts[2]) && Number.isFinite(parts[3]) && parts[2] > 0 && parts[3] > 0) {
 				return { width: parts[2], height: parts[3] };
 			}
 		}
@@ -148,9 +147,13 @@ export default function IndoorMapEditor(): React.JSX.Element {
 
 	function toRgba(hex: string, alpha: number): string {
 		const normalizedHex: string = hex.replace("#", "");
-		const value: string = normalizedHex.length === 3 ?
-			normalizedHex.split("").map((char) => char + char).join("") :
-			normalizedHex;
+		const value: string =
+			normalizedHex.length === 3
+				? normalizedHex
+						.split("")
+						.map((char) => char + char)
+						.join("")
+				: normalizedHex;
 		const intValue: number = Number.parseInt(value, 16);
 
 		const red: number = (intValue >> 16) & 255;
@@ -201,6 +204,15 @@ export default function IndoorMapEditor(): React.JSX.Element {
 		isDragSelectingRef.current = isDragSelecting;
 	}, [isDragSelecting]);
 
+	useEffect(() => {
+		if (selectedTool !== Tool.EditClickableArea) return;
+		if (selectedClickableAreaTool === ClickableAreaTool.SelectNode) return;
+		if (selectedNode !== null) return;
+
+		setSelectedClickableAreaTool(ClickableAreaTool.SelectNode);
+		draggedClickableAreaPointRef.current = null;
+	}, [selectedTool, selectedClickableAreaTool, selectedNode]);
+
 	function restoreSelectionFromBaseline(): void {
 		const baseline = dragSelectBaselineRef.current;
 		if (!baseline) return;
@@ -209,11 +221,9 @@ export default function IndoorMapEditor(): React.JSX.Element {
 		const nextNodes: Node[] = nodesRef.current ?? [];
 		const nextEdges: Edge[] = edgesRef.current ?? [];
 
-		for (const node of nextNodes)
-			if (baseline.nodeIds.has(node.id)) nextSelection.add(node);
+		for (const node of nextNodes) if (baseline.nodeIds.has(node.id)) nextSelection.add(node);
 
-		for (const edge of nextEdges)
-			if (baseline.edgeIds.has(edge.id)) nextSelection.add(edge);
+		for (const edge of nextEdges) if (baseline.edgeIds.has(edge.id)) nextSelection.add(edge);
 
 		setSelectedNode(null);
 		setSelectedEdge(null);
@@ -535,6 +545,8 @@ export default function IndoorMapEditor(): React.JSX.Element {
 		if (selectedTool === Tool.EditClickableArea) {
 			cancelClickableAreaEdit();
 			setClickableAreaEditingNodeId(null);
+			setSelectedClickableAreaTool(ClickableAreaTool.SelectNode);
+			draggedClickableAreaPointRef.current = null;
 		}
 
 		setSelectedTool(tool);
@@ -582,6 +594,8 @@ export default function IndoorMapEditor(): React.JSX.Element {
 					if (isNode(firstItem)) setSelectedNode(firstItem);
 				}
 
+				setSelectedClickableAreaTool(ClickableAreaTool.SelectNode);
+
 				if (selectedNode) setClickableAreaEditingNodeId(selectedNode.id);
 
 				setSelectedEdge(null);
@@ -594,41 +608,70 @@ export default function IndoorMapEditor(): React.JSX.Element {
 	function getToolHintText(): string | null {
 		switch (selectedTool) {
 			case Tool.SingleSelect:
-				return `Click a node/edge to select${
-					selectedNode || selectedEdge ? "/deselect" : ""
-				} it`;
+				return `Click a node/edge to select${selectedNode || selectedEdge ? "/deselect" : ""} it`;
 			case Tool.MultiSelect:
 				return `Hold ⇧ and Drag to select${
-					selectedNodesAndEdges.size > 0 ?
-					` | Hold ⇧ + ${primaryModifierLabel} and Drag to deselect` : ""
+					selectedNodesAndEdges.size > 0 ? ` | Hold ⇧ + ${primaryModifierLabel} and Drag to deselect` : ""
 				}`;
 			case Tool.SingleConnect:
 				return "Click 2 nodes to create or break a connection";
 			case Tool.MultiConnect:
-				return selectedNode === null ?
-					"Click a node to select it" :
-					"Click other nodes to create connections";
+				return selectedNode === null ? "Click a node to select it" : "Click other nodes to create connections";
 			case Tool.MoveNode:
 				return "Click and Drag a node to move it";
 			case Tool.CreateNode:
 				return "Click on the map to create a new node";
 			case Tool.EditClickableArea:
-				if (selectedNode?.clickable_area) return null;
 				if (!selectedNode) return "Click a node to select it";
+
+				if (selectedClickableAreaTool === ClickableAreaTool.MovePoints)
+					return "Click and Drag a clickable area point to move it";
+
+				if (selectedClickableAreaTool === ClickableAreaTool.AddPoint)
+					return "Click between 2 existing clickable area points to add a new point";
+
+				if (selectedClickableAreaTool === ClickableAreaTool.DeletePoint)
+					return "Click a clickable area point to delete it";
+
+				if (selectedNode.clickable_area?.length)
+					return "Use Select, Move, Add Point, or Delete Point tools in the clickable area toolbar";
 
 				const numDraftPoints: number = clickableAreaDraftPoints.length;
 
 				return (
-					numDraftPoints < 3 ?
-					"Click to designate the corners of the clickable area" :
-					"Press Enter to finalize the clickable area"
-				) + (numDraftPoints > 0 ? " | Press Esc to cancel" : "");
+					(numDraftPoints < 3
+						? "Click to designate the corners of the clickable area"
+						: "Press Enter to finalize the clickable area") + (numDraftPoints > 0 ? " | Press Esc to cancel" : "")
+				);
 		}
 	}
 
 	function onMapClick(coordinates: { x: number; y: number } | null): void {
 		if (selectedTool === Tool.CreateNode && coordinates) createNode(coordinates.x, coordinates.y, nodeTypeToCreate);
-		if (selectedTool === Tool.EditClickableArea && coordinates && clickableAreaEditingNodeId !== null) {
+
+		if (
+			selectedTool === Tool.EditClickableArea &&
+			selectedClickableAreaTool === ClickableAreaTool.AddPoint &&
+			coordinates
+		) {
+			const selectedEditableNode: Node | null = getSelectedClickableAreaNode();
+			const points = selectedEditableNode?.clickable_area;
+			if (!selectedEditableNode || !points || points.length < 3) return;
+
+			const insertIndex: number = getClosestEdgeInsertIndexForPoint(points, coordinates);
+			const nextPoints = [...points.slice(0, insertIndex), coordinates, ...points.slice(insertIndex)];
+
+			upsertNodeClickableArea(selectedEditableNode.id, nextPoints);
+			setChangesMade(true);
+			return;
+		}
+
+		if (
+			selectedTool === Tool.EditClickableArea &&
+			selectedClickableAreaTool === ClickableAreaTool.SelectNode &&
+			coordinates &&
+			clickableAreaEditingNodeId !== null
+		) {
 			const editingNode: Node | undefined = nodes?.find((node) => node.id === clickableAreaEditingNodeId);
 			if (!editingNode || editingNode.clickable_area?.length) return;
 
@@ -646,7 +689,11 @@ export default function IndoorMapEditor(): React.JSX.Element {
 	}
 
 	function onMapMouseMove(coordinates: SvgMapCoordinates | null): void {
-		if (selectedTool !== Tool.EditClickableArea || clickableAreaEditingNodeId === null) {
+		if (
+			selectedTool !== Tool.EditClickableArea ||
+			selectedClickableAreaTool !== ClickableAreaTool.SelectNode ||
+			clickableAreaEditingNodeId === null
+		) {
 			setClickableAreaCursorPosition(null);
 			return;
 		}
@@ -684,14 +731,9 @@ export default function IndoorMapEditor(): React.JSX.Element {
 		}
 	}
 
-	function onDeleteClickableAreaButtonClick(): void {
-		if (!selectedNode) return;
-		if (!selectedNode.clickable_area || selectedNode.clickable_area.length === 0) return;
-
-		deleteClickableArea(selectedNode.id);
-	}
-
 	function handleNodeClickEditClickableArea(node: Node): void {
+		if (selectedClickableAreaTool !== ClickableAreaTool.SelectNode) return;
+
 		if (clickableAreaEditingNodeId === node.id) {
 			cancelClickableAreaEdit();
 			setClickableAreaEditingNodeId(null);
@@ -918,43 +960,211 @@ export default function IndoorMapEditor(): React.JSX.Element {
 
 	function deleteClickableArea(nodeId: number): void {
 		setNodes(
-			(prevNodes) => prevNodes?.map((node) => (
-				node.id === nodeId ?
-				{ ...node, clickable_area: null } :
-				node
-			)) ?? null
+			(prevNodes) => prevNodes?.map((node) => (node.id === nodeId ? { ...node, clickable_area: null } : node)) ?? null
 		);
-		setSelectedNode((prevNode) => (
-			prevNode?.id === nodeId ?
-			{ ...prevNode, clickable_area: null } :
-			prevNode
-		));
+		setSelectedNode((prevNode) => (prevNode?.id === nodeId ? { ...prevNode, clickable_area: null } : prevNode));
 		setClickableAreaDraftPoints([]);
 		setClickableAreaCursorPosition(null);
 		setChangesMade(true);
 	}
 
-	function finalizeClickableArea(): void {
-		if (clickableAreaEditingNodeId === null ||
-			!canFinalizeClickableArea(clickableAreaDraftPoints)
-		) return;
+	function getSelectedClickableAreaNode(): Node | null {
+		if (!selectedNode || clickableAreaEditingNodeId !== selectedNode.id) return null;
+		return selectedNode;
+	}
 
-		const finalizedArea = clickableAreaDraftPoints.map(
-			(point) => ({ x: point.x, y: point.y })
+	function upsertNodeClickableArea(nodeId: number, nextPoints: { x: number; y: number }[] | null): void {
+		setNodes(
+			(prevNodes) =>
+				prevNodes?.map((node) => (node.id === nodeId ? { ...node, clickable_area: nextPoints } : node)) ?? null
 		);
+
+		setSelectedNode((prevNode) =>
+			prevNode && prevNode.id === nodeId ? { ...prevNode, clickable_area: nextPoints } : prevNode
+		);
+	}
+
+	function getClosestEdgeInsertIndexForPoint(
+		points: { x: number; y: number }[],
+		targetPoint: { x: number; y: number }
+	): number {
+		let minDistanceSquared: number = Number.POSITIVE_INFINITY;
+		let insertIndex: number = 1;
+
+		for (let index = 0; index < points.length; index++) {
+			const nextIndex: number = (index + 1) % points.length;
+			const start = points[index];
+			const end = points[nextIndex];
+			const segmentDx: number = end.x - start.x;
+			const segmentDy: number = end.y - start.y;
+			const segmentLengthSquared: number = segmentDx * segmentDx + segmentDy * segmentDy;
+
+			let projectionRatio: number = 0;
+			if (segmentLengthSquared > 0) {
+				const projectedNumerator: number =
+					(targetPoint.x - start.x) * segmentDx + (targetPoint.y - start.y) * segmentDy;
+				projectionRatio = Math.min(Math.max(projectedNumerator / segmentLengthSquared, 0), 1);
+			}
+
+			const projectedPointX: number = start.x + projectionRatio * segmentDx;
+			const projectedPointY: number = start.y + projectionRatio * segmentDy;
+			const dx: number = targetPoint.x - projectedPointX;
+			const dy: number = targetPoint.y - projectedPointY;
+			const distanceSquared: number = dx * dx + dy * dy;
+
+			if (distanceSquared >= minDistanceSquared) continue;
+
+			minDistanceSquared = distanceSquared;
+			insertIndex = nextIndex;
+		}
+
+		return insertIndex;
+	}
+
+	function onClickableAreaToolChange(tool: ClickableAreaTool): void {
+		const selectedEditableNode: Node | null = getSelectedClickableAreaNode();
+		if (tool === ClickableAreaTool.MovePoints && !selectedEditableNode?.clickable_area?.length) return;
+		if (
+			tool === ClickableAreaTool.AddPoint &&
+			(!selectedEditableNode?.clickable_area || selectedEditableNode.clickable_area.length < 3)
+		)
+			return;
+		if (
+			tool === ClickableAreaTool.DeletePoint &&
+			(!selectedEditableNode?.clickable_area || selectedEditableNode.clickable_area.length <= 3)
+		)
+			return;
+
+		setSelectedClickableAreaTool(tool);
+		draggedClickableAreaPointRef.current = null;
+	}
+
+	function onDeleteClickableAreaActionClick(): void {
+		const selectedEditableNode: Node | null = getSelectedClickableAreaNode();
+		if (!selectedEditableNode?.clickable_area?.length) return;
+
+		deleteClickableArea(selectedEditableNode.id);
+		setSelectedClickableAreaTool(ClickableAreaTool.SelectNode);
+		draggedClickableAreaPointRef.current = null;
+	}
+
+	function getSvgCoordinatesFromPointerEvent(
+		event: React.PointerEvent<SVGCircleElement>
+	): { x: number; y: number } | null {
+		if (svgDimensions.width <= 0 || svgDimensions.height <= 0) return null;
+
+		const imageElement: Element | null = mapContainerRef.current?.querySelector(".viewer img") ?? null;
+		const viewerElement: Element | null = mapContainerRef.current?.querySelector(".viewer") ?? null;
+		const renderRect: DOMRect | null =
+			imageElement instanceof HTMLElement
+				? imageElement.getBoundingClientRect()
+				: viewerElement instanceof HTMLElement
+					? viewerElement.getBoundingClientRect()
+					: null;
+
+		if (!renderRect || renderRect.width <= 0 || renderRect.height <= 0) return null;
+
+		const normalizedX: number = (event.clientX - renderRect.left) / renderRect.width;
+		const normalizedY: number = (event.clientY - renderRect.top) / renderRect.height;
+
+		if (!Number.isFinite(normalizedX) || !Number.isFinite(normalizedY)) return null;
+
+		return {
+			x: Math.min(Math.max(normalizedX * svgDimensions.width, 0), svgDimensions.width),
+			y: Math.min(Math.max(normalizedY * svgDimensions.height, 0), svgDimensions.height)
+		};
+	}
+
+	function onClickableAreaPointPointerDown(
+		event: React.PointerEvent<SVGCircleElement>,
+		nodeId: number,
+		pointIndex: number
+	): void {
+		if (selectedTool !== Tool.EditClickableArea || selectedClickableAreaTool !== ClickableAreaTool.MovePoints) return;
+		if (clickableAreaEditingNodeId !== nodeId) return;
+
+		event.preventDefault();
+		event.stopPropagation();
+		draggedClickableAreaPointRef.current = { nodeId, pointIndex };
+		event.currentTarget.setPointerCapture(event.pointerId);
+	}
+
+	function onClickableAreaPointMouseDown(event: React.MouseEvent<SVGCircleElement>): void {
+		if (selectedTool !== Tool.EditClickableArea || selectedClickableAreaTool !== ClickableAreaTool.MovePoints) return;
+
+		event.preventDefault();
+		event.stopPropagation();
+	}
+
+	function onClickableAreaPointPointerMove(event: React.PointerEvent<SVGCircleElement>): void {
+		const activeDrag = draggedClickableAreaPointRef.current;
+		if (!activeDrag) return;
+
+		event.preventDefault();
+		event.stopPropagation();
+
+		const nextCoordinates = getSvgCoordinatesFromPointerEvent(event);
+		if (!nextCoordinates) return;
+
+		const selectedEditableNode: Node | null = getSelectedClickableAreaNode();
+		if (!selectedEditableNode?.clickable_area || selectedEditableNode.id !== activeDrag.nodeId) return;
+
+		const nextPoints = selectedEditableNode.clickable_area.map((point, index) =>
+			index === activeDrag.pointIndex ? { ...point, x: nextCoordinates.x, y: nextCoordinates.y } : point
+		);
+
+		upsertNodeClickableArea(activeDrag.nodeId, nextPoints);
+		setChangesMade(true);
+	}
+
+	function onClickableAreaPointPointerUp(event: React.PointerEvent<SVGCircleElement>): void {
+		if (draggedClickableAreaPointRef.current) {
+			event.preventDefault();
+			event.stopPropagation();
+			draggedClickableAreaPointRef.current = null;
+		}
+
+		if (event.currentTarget.hasPointerCapture(event.pointerId)) {
+			event.currentTarget.releasePointerCapture(event.pointerId);
+		}
+	}
+
+	function onClickableAreaPointClick(
+		event: React.MouseEvent<SVGCircleElement>,
+		nodeId: number,
+		pointIndex: number
+	): void {
+		if (selectedTool !== Tool.EditClickableArea || selectedClickableAreaTool !== ClickableAreaTool.DeletePoint) return;
+		if (clickableAreaEditingNodeId !== nodeId) return;
+
+		event.preventDefault();
+		event.stopPropagation();
+
+		const selectedEditableNode: Node | null = getSelectedClickableAreaNode();
+		const points = selectedEditableNode?.clickable_area;
+		if (!points || points.length <= 3) return;
+
+		const nextPoints = points.filter((_, index) => index !== pointIndex);
+		upsertNodeClickableArea(nodeId, nextPoints);
+
+		if (nextPoints.length <= 3) setSelectedClickableAreaTool(ClickableAreaTool.SelectNode);
+
+		setChangesMade(true);
+	}
+
+	function finalizeClickableArea(): void {
+		if (clickableAreaEditingNodeId === null || !canFinalizeClickableArea(clickableAreaDraftPoints)) return;
+
+		const finalizedArea = clickableAreaDraftPoints.map((point) => ({ x: point.x, y: point.y }));
 
 		setNodes(
 			(prevNodes) =>
 				prevNodes?.map((node) =>
-					node.id === clickableAreaEditingNodeId ?
-					{ ...node, clickable_area: finalizedArea } :
-					node
+					node.id === clickableAreaEditingNodeId ? { ...node, clickable_area: finalizedArea } : node
 				) ?? null
 		);
 		setSelectedNode((prevNode) =>
-			prevNode && prevNode.id === clickableAreaEditingNodeId ?
-			{ ...prevNode, clickable_area: finalizedArea } :
-			prevNode
+			prevNode && prevNode.id === clickableAreaEditingNodeId ? { ...prevNode, clickable_area: finalizedArea } : prevNode
 		);
 		cancelClickableAreaEdit();
 		setChangesMade(true);
@@ -973,18 +1183,18 @@ export default function IndoorMapEditor(): React.JSX.Element {
 			.map(Number)
 			.filter((value) => Number.isFinite(value));
 		const normalizedSvgWidth =
-			Number.isFinite(svgWidth) && svgWidth > 0 ?
-			svgWidth : (
-				viewBoxValues && viewBoxValues.length >= 4 ?
-				viewBoxValues[2] : 0
-			);
+			Number.isFinite(svgWidth) && svgWidth > 0
+				? svgWidth
+				: viewBoxValues && viewBoxValues.length >= 4
+					? viewBoxValues[2]
+					: 0;
 
 		const normalizedSvgHeight =
-			Number.isFinite(svgHeight) && svgHeight > 0 ?
-			svgHeight : (
-				viewBoxValues && viewBoxValues.length >= 4 ?
-				viewBoxValues[3] : 0
-			);
+			Number.isFinite(svgHeight) && svgHeight > 0
+				? svgHeight
+				: viewBoxValues && viewBoxValues.length >= 4
+					? viewBoxValues[3]
+					: 0;
 
 		if (
 			!Number.isFinite(x) ||
@@ -1158,6 +1368,16 @@ export default function IndoorMapEditor(): React.JSX.Element {
 		await updateIndoorMapService(selectedBuilding!.code, selectedFloor!, nodes!, edges!);
 	}
 
+	const selectedClickableAreaNode: Node | null = getSelectedClickableAreaNode();
+	const canMoveClickableAreaPoints: boolean = Boolean(selectedClickableAreaNode?.clickable_area?.length);
+	const canAddClickableAreaPoint: boolean = Boolean(
+		selectedClickableAreaNode?.clickable_area && selectedClickableAreaNode.clickable_area.length >= 3
+	);
+	const canDeleteClickableAreaPoint: boolean = Boolean(
+		selectedClickableAreaNode?.clickable_area && selectedClickableAreaNode.clickable_area.length > 3
+	);
+	const canDeleteClickableArea: boolean = Boolean(selectedClickableAreaNode?.clickable_area?.length);
+
 	return (
 		<>
 			<div className="header-row">
@@ -1302,7 +1522,10 @@ export default function IndoorMapEditor(): React.JSX.Element {
 						<SvgViewerComponent
 							ref={svgViewerRef}
 							svg={svg!}
-							allowPan={selectedTool !== Tool.CreateNode && (selectedTool !== Tool.MultiSelect || !isShiftPressed)}
+							allowPan={
+								selectedTool !== Tool.CreateNode &&
+								(selectedTool !== Tool.MultiSelect || !isShiftPressed)
+							}
 							selectedTool={selectedTool}
 							isClickableAreaDraftActive={clickableAreaEditingNodeId !== null}
 							onMapClick={onMapClick}
@@ -1339,10 +1562,38 @@ export default function IndoorMapEditor(): React.JSX.Element {
 																key={`${node.id}-${index}`}
 																cx={point.x}
 																cy={point.y}
-																r={1}
+																r={
+																	(selectedClickableAreaTool === ClickableAreaTool.MovePoints ||
+																		selectedClickableAreaTool === ClickableAreaTool.DeletePoint) &&
+																	clickableAreaEditingNodeId === node.id
+																		? 1.6
+																		: 1
+																}
 																fill="rgba(255, 255, 255, 0.8)"
 																stroke="rgba(255, 255, 255, 0.9)"
 																strokeWidth={0.5}
+																style={{
+																	cursor:
+																		(selectedClickableAreaTool === ClickableAreaTool.MovePoints ||
+																			selectedClickableAreaTool === ClickableAreaTool.DeletePoint) &&
+																		clickableAreaEditingNodeId === node.id
+																			? selectedClickableAreaTool === ClickableAreaTool.MovePoints
+																				? "move"
+																				: "pointer"
+																			: "default",
+																	pointerEvents:
+																		(selectedClickableAreaTool === ClickableAreaTool.MovePoints ||
+																			selectedClickableAreaTool === ClickableAreaTool.DeletePoint) &&
+																		clickableAreaEditingNodeId === node.id
+																			? "all"
+																			: "none"
+																}}
+																onPointerDown={(event) => onClickableAreaPointPointerDown(event, node.id, index)}
+																onPointerMove={onClickableAreaPointPointerMove}
+																onPointerUp={onClickableAreaPointPointerUp}
+																onPointerCancel={onClickableAreaPointPointerUp}
+																onMouseDown={onClickableAreaPointMouseDown}
+																onClick={(event) => onClickableAreaPointClick(event, node.id, index)}
 															/>
 														))}
 													</g>
@@ -1420,16 +1671,19 @@ export default function IndoorMapEditor(): React.JSX.Element {
 						</SvgViewerComponent>
 					</div>
 
-					<div className="clickable-area-delete-button-container">
-						{selectedTool === Tool.EditClickableArea &&
-							selectedNode &&
-							selectedNode.clickable_area &&
-							selectedNode.clickable_area.length > 0 && (
-							<button type="button" className="outline-button danger" onClick={onDeleteClickableAreaButtonClick}>
-								Delete Clickable Area
-							</button>
-						)}
-					</div>
+					{selectedTool === Tool.EditClickableArea && (
+						<div className="clickable-area-toolbar">
+							<ClickableAreaToolbar
+								selectedTool={selectedClickableAreaTool}
+								onToolChange={onClickableAreaToolChange}
+								onDeleteArea={onDeleteClickableAreaActionClick}
+								canMovePoints={canMoveClickableAreaPoints}
+								canAddPoint={canAddClickableAreaPoint}
+								canDeletePoint={canDeleteClickableAreaPoint}
+								canDeleteArea={canDeleteClickableArea}
+							/>
+						</div>
+					)}
 
 					<div className="toolbar">
 						<IndoorMapEditorToolbar

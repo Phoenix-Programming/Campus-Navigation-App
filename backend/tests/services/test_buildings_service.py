@@ -3,6 +3,8 @@ from typing import Any, cast
 from unittest.mock import AsyncMock
 
 import pytest
+from geoalchemy2.shape import from_shape
+from shapely.geometry import Polygon
 
 from backend.auth.current_user_context import CurrentUserContext
 from backend.exceptions import NotAuthorizedToEditIndoorMapError
@@ -103,6 +105,32 @@ async def test_get_indoor_map_maps_nodes_and_edges() -> None:
     assert response.svg == "<svg></svg>"
     assert response.nodes[0].type == "room"
     assert response.edges[0].id == 500
+
+
+@pytest.mark.anyio
+async def test_get_indoor_map_includes_clickable_area_points() -> None:
+    service, repo = _service_with_mock_repo()
+    repo.get_building_id_by_building_code.return_value = 10
+    repo.get_floor_id.return_value = 20
+    repo.get_indoor_svg_for_bld_floor.return_value = "<svg></svg>"
+    repo.get_all_indoor_nodes_for_bld_floor.return_value = [
+        SimpleNamespace(
+            id=100,
+            node_type=SimpleNamespace(type="room"),
+            label="A",
+            x=1.0,
+            y=2.0,
+            clickable_area=from_shape(Polygon([(10.0, 15.0), (20.0, 15.0), (20.0, 30.0)]), srid=0),
+        )
+    ]
+    repo.get_all_indoor_edges_for_bld_floor.return_value = []
+
+    response = await service.getIndoorMap(bld_code="SCI", floor_num=1)
+
+    assert response.nodes[0].clickable_area is not None
+    assert len(response.nodes[0].clickable_area) == 3
+    assert response.nodes[0].clickable_area[0].x == 10.0
+    assert response.nodes[0].clickable_area[0].y == 15.0
 
 
 @pytest.mark.anyio
