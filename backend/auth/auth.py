@@ -22,8 +22,6 @@ oauth2_scheme: OAuth2PasswordBearer = OAuth2PasswordBearer(
     refreshUrl="api/users/refresh"
 )
 
-user_repo: UserRepository = UserRepository()
-
 
 def hash_password(pwd: str) -> str:
     return pwd_hasher.hash(pwd)
@@ -38,7 +36,7 @@ def generate_reset_token() -> str:
 
 
 def hash_token(token: str) -> str:
-	secret: bytes = settings.secret_key.get_secret_value().encode()
+	secret: bytes = settings.jwt_secret_key.get_secret_value().encode()
 	return hmac.new(secret, token.encode(), hashlib.sha256).hexdigest()
 
 
@@ -67,8 +65,8 @@ def create_token(
 
 	encoded_jwt = encode(
 		to_encode,
-		settings.secret_key.get_secret_value(),
-		algorithm=settings.algorithm
+		settings.jwt_secret_key.get_secret_value(),
+		algorithm=settings.jwt_algorithm
 	)
 
 	return encoded_jwt
@@ -79,8 +77,8 @@ def verify_access_token(token: str) -> TokenData | None:
     try:
         payload: dict[str, Any] = decode(
 			token,
-			settings.secret_key.get_secret_value(),
-			algorithms=[settings.algorithm],
+			settings.jwt_secret_key.get_secret_value(),
+			algorithms=[settings.jwt_algorithm],
 			options={"require": ["exp", "sub"]}
 		)
 
@@ -97,8 +95,8 @@ def verify_refresh_token(token: RefreshTokenRequest) -> RefreshTokenData:
 	try:
 		payload: dict[str, Any] = decode(
 			token.token,
-			settings.secret_key.get_secret_value(),
-			algorithms=[settings.algorithm]
+			settings.jwt_secret_key.get_secret_value(),
+			algorithms=[settings.jwt_algorithm]
 		)
 
 		# Enforce token type validation
@@ -123,6 +121,8 @@ async def get_current_user(
     token: Annotated[str, Depends(oauth2_scheme)],
     db: Database
 ) -> CurrentUserContext:
+	user_repo: UserRepository = UserRepository(db=db)
+
 	token_data: TokenData | None = verify_access_token(token)
 
 	if not token_data or not token_data.user_id or token_data.permissions is None:
@@ -141,11 +141,11 @@ async def get_current_user(
 			headers={"WWW-Authenticate": "Bearer"}
 		)
 
-	user: User | None = await user_repo.get_user_by_id(user_id=user_id_int, db=db)
+	user: User | None = await user_repo.get_user_by_id(user_id=user_id_int)
 	role: str | None = token_data.role
 
 	if role is None:
-		role = await user_repo.get_user_role_name(user_id=user_id_int, db=db)
+		role = await user_repo.get_user_role_name(user_id=user_id_int)
 
 	if not user:
 		raise HTTPException(
