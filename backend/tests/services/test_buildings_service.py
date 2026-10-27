@@ -41,8 +41,7 @@ def _service_with_mock_repo() -> tuple[BuildingsService, SimpleNamespace]:
         get_all_building_categories=AsyncMock(),
         update_building=AsyncMock(),
     )
-    service = BuildingsService()
-    service.repo = cast(BuildingRepository, repo)
+    service = BuildingsService(bld_repo=cast(BuildingRepository, repo))
     return service, repo
 
 
@@ -59,7 +58,7 @@ async def test_get_building_by_id_maps_response() -> None:
         floors=[SimpleNamespace(svg="<svg>1</svg>"), SimpleNamespace(svg="<svg>2</svg>")],
     )
 
-    response = await service.get_building_by_id(bld_id=1, db=_fake_db())
+    response = await service.get_building_by_id(bld_id=1)
 
     assert response.id == 1
     assert response.category_type == "academic"
@@ -80,7 +79,7 @@ async def test_get_all_buildings_maps_collection() -> None:
         )
     ]
 
-    response = await service.get_all_buildings(db=_fake_db())
+    response = await service.get_all_buildings()
 
     assert len(response.buildings) == 1
     assert response.buildings[0].code == "SCI"
@@ -99,7 +98,7 @@ async def test_get_indoor_map_maps_nodes_and_edges() -> None:
         SimpleNamespace(id=500, source_node_id=100, target_node_id=100)
     ]
 
-    response = await service.getIndoorMap(bld_code="SCI", floor_num=1, db=_fake_db())
+    response = await service.getIndoorMap(bld_code="SCI", floor_num=1)
 
     assert response.svg == "<svg></svg>"
     assert response.nodes[0].type == "room"
@@ -118,7 +117,6 @@ async def test_update_indoor_map_requires_admin_or_editor() -> None:
             nodes=[],
             edges=[],
             current_user=current_user,
-            db=_fake_db(),
         )
 
 
@@ -141,7 +139,6 @@ async def test_update_indoor_map_rejects_edge_refs_not_in_nodes() -> None:
             nodes=nodes,
             edges=edges,
             current_user=current_user,
-            db=_fake_db(),
         )
 
 
@@ -166,7 +163,6 @@ async def test_update_indoor_map_success() -> None:
         nodes=nodes,
         edges=edges,
         current_user=current_user,
-        db=_fake_db(),
     )
 
     repo.insert_indoor_edges.assert_awaited_once()
@@ -186,7 +182,6 @@ async def test_create_building_requires_admin_or_editor() -> None:
             num_floors=1,
             floor_svgs=["<svg></svg>"],
             current_user=current_user,
-            db=_fake_db(),
         )
 
 
@@ -204,7 +199,6 @@ async def test_create_building_validates_floor_count() -> None:
             num_floors=2,
             floor_svgs=["one"],
             current_user=current_user,
-            db=_fake_db(),
         )
 
 
@@ -222,7 +216,6 @@ async def test_create_building_defaults_empty_svgs_and_normalizes_none() -> None
         num_floors=2,
         floor_svgs=None,
         current_user=current_user,
-        db=_fake_db(),
     )
 
     kwargs = repo.insert_building.await_args.kwargs
@@ -237,7 +230,7 @@ async def test_get_all_building_categories_returns_strings() -> None:
         SimpleNamespace(category="residential"),
     ]
 
-    categories = await service.get_all_building_categories(db=_fake_db())
+    categories = await service.get_all_building_categories()
 
     assert categories == ["academic", "residential"]
 
@@ -257,7 +250,6 @@ async def test_update_building_requires_admin_or_editor() -> None:
             num_floors=None,
             floor_svgs=None,
             current_user=current_user,
-            db=_fake_db(),
         )
 
 
@@ -276,7 +268,6 @@ async def test_update_building_requires_at_least_one_field() -> None:
             num_floors=None,
             floor_svgs=None,
             current_user=current_user,
-            db=_fake_db(),
         )
 
 
@@ -296,7 +287,6 @@ async def test_update_building_validates_floor_svg_count() -> None:
             num_floors=2,
             floor_svgs=["one"],
             current_user=current_user,
-            db=_fake_db(),
         )
 
 
@@ -316,7 +306,6 @@ async def test_update_building_success_with_category_lookup() -> None:
         num_floors=1,
         floor_svgs=["<svg></svg>"],
         current_user=current_user,
-        db=_fake_db(),
     )
 
     repo.update_building.assert_awaited_once()
@@ -339,7 +328,6 @@ async def test_update_building_success_without_category_or_floor_svgs() -> None:
         num_floors=None,
         floor_svgs=None,
         current_user=current_user,
-        db=_fake_db(),
     )
 
     repo.get_building_category_id_by_category_type.assert_not_awaited()

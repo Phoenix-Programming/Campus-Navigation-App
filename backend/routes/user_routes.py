@@ -1,23 +1,22 @@
 from fastapi import APIRouter, BackgroundTasks, Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordRequestForm
 from typing import Annotated
+from backend.auth.auth import CurrentUser
 from backend.exceptions import (
     IncorrectUsernameOrPasswordError, IncorrectCurrentPasswordError,
     InvalidOrExpiredPasswordResetTokenError, InvalidOrExpiredRefreshToken,
-    NotAuthorizedToDeleteUserError, NotAuthorizedToUpdateUserError, NotUniqueError, SamePasswordError,
-    UserNotFoundError
-)
-from backend.auth.auth import CurrentUser
-from backend.utilities.db_connection import Database
-from backend.schema.user import User
-from backend.models.token import AccessRefreshTokenPair, RefreshTokenRequest
-from backend.models.user import (
-    UserRegisterRequest, UserUpdateRequest, UserPublicResponse, UserPrivateResponse
+    NotAuthorizedToDeleteUserError, NotAuthorizedToUpdateUserError, NotUniqueError,
+    SamePasswordError, UserNotFoundError
 )
 from backend.models.password_reset import (
     ChangePasswordRequest, ForgotPasswordRequest, ResetPasswordRequest
 )
-from backend.services.user_service import UserService
+from backend.models.token import AccessRefreshTokenPair, RefreshTokenRequest
+from backend.models.user import (
+    UserRegisterRequest, UserUpdateRequest, UserPublicResponse, UserPrivateResponse
+)
+from backend.schema.user import User
+from .dependencies import UserServiceDep as UserService
 
 
 router: APIRouter = APIRouter(
@@ -25,13 +24,15 @@ router: APIRouter = APIRouter(
 	tags=["Users"]
 )
 
-service: UserService = UserService()
 
-
-@router.post(path="/register", response_model=UserPrivateResponse, status_code=status.HTTP_201_CREATED)
-async def register_user(user: UserRegisterRequest, db: Database) -> User:
+@router.post(
+    path="/register",
+    response_model=UserPrivateResponse,
+    status_code=status.HTTP_201_CREATED
+)
+async def register_user(user: UserRegisterRequest, user_service: UserService) -> User:
 	try:
-		return await service.register_user(user_create_request=user, db=db)
+		return await user_service.register_user(user_create_request=user)
 	except NotUniqueError as e:
 		raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(e))
 
@@ -39,11 +40,11 @@ async def register_user(user: UserRegisterRequest, db: Database) -> User:
 @router.post("/login", response_model=AccessRefreshTokenPair)
 async def login(
 	form_data: Annotated[OAuth2PasswordRequestForm, Depends()],
-	db: Database,
+	user_service: UserService,
 	remember_me: bool = False
 ) -> AccessRefreshTokenPair:
 	try:
-		return await service.login_user(form_data=form_data, remember_me=remember_me, db=db)
+		return await user_service.login_user(form_data=form_data, remember_me=remember_me)
 	except (IncorrectUsernameOrPasswordError, UserNotFoundError) as e:
 		raise HTTPException(
 			status_code=status.HTTP_401_UNAUTHORIZED,
@@ -54,14 +55,11 @@ async def login(
 
 @router.post("/refresh", response_model=AccessRefreshTokenPair)
 async def refresh_token(
-    db: Database,
+    user_service: UserService,
     refresh_token: RefreshTokenRequest
 ) -> AccessRefreshTokenPair:
 	try:
-		return await service.refresh_token(
-    		refresh_token=refresh_token.token,
-      		db=db
-    	)
+		return await user_service.refresh_token(refresh_token=refresh_token.token)
 	except (InvalidOrExpiredRefreshToken, UserNotFoundError) as e:
 		raise HTTPException(
 			status_code=status.HTTP_401_UNAUTHORIZED,
@@ -80,22 +78,21 @@ async def get_current_user(current_user: CurrentUser) -> User:
 async def forgot_password(
 	request_data: ForgotPasswordRequest,
 	background_tasks: BackgroundTasks,
-	db: Database
+	user_service: UserService
 ) -> dict[str, str]:
-	return await service.forgot_password(
+	return await user_service.forgot_password(
 		request_data=request_data,
-		background_tasks=background_tasks,
-		db=db
-	)
+		background_tasks=background_tasks
+  	)
 
 
 @router.post("/reset-password", status_code=status.HTTP_200_OK)
 async def reset_password(
 	request_data: ResetPasswordRequest,
-	db: Database
+	user_service: UserService
 ) -> dict[str, str]:
 	try:
-		return await service.reset_password(request_data=request_data, db=db)
+		return await user_service.reset_password(request_data=request_data)
 	except InvalidOrExpiredPasswordResetTokenError as e:
 		raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(e))
 
@@ -104,22 +101,21 @@ async def reset_password(
 async def change_password(
 	password_data: ChangePasswordRequest,
 	current_user: CurrentUser,
-	db: Database
+	user_service: UserService
 ) -> dict[str, str]:
     try:
-        return await service.change_password(
+        return await user_service.change_password(
             password_data=password_data,
-            current_user=current_user,
-            db=db
+            current_user=current_user
         )
     except (IncorrectCurrentPasswordError, SamePasswordError) as e:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(e))
 
 
 @router.get("/{user_id}", response_model=UserPublicResponse)
-async def get_user(user_id: int, db: Database) -> User:
+async def get_user(user_id: int, user_service: UserService) -> User:
     try:
-        return await service.get_user(user_id=user_id, db=db)
+        return await user_service.get_user(user_id=user_id)
     except UserNotFoundError as e:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=str(e))
 
@@ -129,14 +125,13 @@ async def update_user(
 	user_id: int,
 	user_update: UserUpdateRequest,
 	current_user: CurrentUser,
-	db: Database
+	user_service: UserService
 ) -> User:
 	try:
-		return await service.update_user(
+		return await user_service.update_user(
       		user_id=user_id,
 			user_update=user_update,
-			current_user=current_user,
-			db=db
+			current_user=current_user
    		)
 	except NotAuthorizedToUpdateUserError as e:
 		raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail=str(e))
@@ -150,10 +145,10 @@ async def update_user(
 async def delete_user(
     user_id: int,
     current_user: CurrentUser,
-    db: Database
+    user_service: UserService
 ) -> None:
 	try:
-		await service.delete_user(user_id=user_id, current_user=current_user, db=db)
+		await user_service.delete_user(user_id=user_id, current_user=current_user)
 	except NotAuthorizedToDeleteUserError as e:
 		raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail=str(e))
 	except UserNotFoundError as e:

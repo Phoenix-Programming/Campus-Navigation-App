@@ -2,7 +2,6 @@ import type { AxiosResponse } from "axios";
 import api from "@shared/api/api";
 import type {
 	GetUserResponse,
-	LoginUserRequest,
 	LoginUserResponse,
 	RegisterUserRequest,
 	RegisterUserResponse
@@ -24,9 +23,12 @@ export async function getUser(user_id: number): Promise<GetUserResponse | null> 
 
 export async function loginUser(username: string, password: string): Promise<LoginUserResponse | null> {
 	try {
-		const request: LoginUserRequest = { username, password };
+		const request: URLSearchParams = new URLSearchParams({ username, password });
 
 		const response: AxiosResponse<LoginUserResponse> = await api.post(`/api/users/login`, request, {
+			headers: {
+				"Content-Type": "application/x-www-form-urlencoded"
+			},
 			validateStatus: function (_) {
 				return true;
 			}

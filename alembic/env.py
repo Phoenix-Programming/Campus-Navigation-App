@@ -14,7 +14,10 @@ from backend.utilities.db_connection import Base
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
 config = context.config
-config.set_main_option("sqlalchemy.url", settings.db_url)
+config.set_main_option(
+    "sqlalchemy.url",
+    f"postgresql+psycopg://{settings.db_username}:{settings.db_password.get_secret_value()}@{settings.db_host}/{settings.db_name}"
+)
 
 # Interpret the config file for Python logging.
 # This line sets up loggers basically.

@@ -1,32 +1,70 @@
+import os
 from pydantic import SecretStr
-from pydantic_settings import BaseSettings, SettingsConfigDict
+from pydantic_settings import (
+    BaseSettings, PydanticBaseSettingsSource, SettingsConfigDict, TomlConfigSettingsSource
+)
 
+
+# Settings loaded from config.toml and the environment variables
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(
-		env_file="backend/.env",
-		env_file_encoding="utf-8"
-	)
+        toml_file=[
+            "backend/config/config.toml",
+            f"backend/config/config.{os.environ.get('ENV', 'DEV').lower()}.toml"
+        ],
+        case_sensitive=False
+    )
 
-    db_url: str
+    @classmethod
+    def settings_customise_sources(
+        cls,
+        settings_cls: type[BaseSettings],
+        init_settings: PydanticBaseSettingsSource,
+        env_settings: PydanticBaseSettingsSource,
+        dotenv_settings: PydanticBaseSettingsSource,  # don't read directly from the .env, only read the env variables
+        file_secret_settings: PydanticBaseSettingsSource
+    ) -> tuple[PydanticBaseSettingsSource, ...]:
+        return (
+            init_settings,
+            env_settings,
+            TomlConfigSettingsSource(settings_cls),
+            file_secret_settings
+        )
 
-    secret_key: SecretStr
-    algorithm: str = "HS256"
-    access_token_expire_minutes: int = 30
-    standard_refresh_token_expire_minutes: int = 24 * 60  # 24 hours
-    long_lived_refresh_token_expire_minutes: int = 90 * 24 * 60  # 90 days
-    sliding_refresh_window_days: int = 7
-    refresh_token_prune_after_days: int = 14
+    # Environment
+    env: str = "DEV"
 
-    reset_token_expire_minutes: int = 60
+    # Database
+    db_name: str
+    db_host: str
+    db_username: str
+    db_password: SecretStr
 
-    mail_server: str = "localhost"
-    mail_port: int = 587
-    mail_username: str = ""
-    mail_password: SecretStr = SecretStr("")
-    mail_from: str = "noreply@example.com"
-    mail_use_tls: bool = True
+    # Tokens
+    jwt_secret_key: SecretStr
+    jwt_algorithm: str
 
-    frontend_url: str = "http://localhost:8000"
+    access_token_expire_minutes: int
+    reset_token_expire_minutes: int
+    standard_refresh_token_expire_minutes: int
+    long_lived_refresh_token_expire_minutes: int
+
+    sliding_refresh_window_days: int
+    refresh_token_prune_after_days: int
+
+    # Frontend
+    frontend_url: str
+
+    # Email
+    mail_server: str
+    mail_port: int
+
+    mail_system_email: str
+    mail_system_username: str
+    mail_system_password: SecretStr
+
+    mail_primary_email: str
+    mail_support_email: str
 
 
-settings: Settings = Settings()  # type: ignore[call-arg]  # loaded from .env file
+settings: Settings = Settings()  # type: ignore[call-arg]

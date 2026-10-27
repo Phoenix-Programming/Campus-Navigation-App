@@ -1,6 +1,9 @@
-from httpx import AsyncClient, Response
-from fastapi import status
+from types import SimpleNamespace
+from unittest.mock import AsyncMock
+
 import pytest
+from fastapi import status
+from httpx import AsyncClient, Response
 
 from backend.exceptions import (
     IncorrectCurrentPasswordError,
@@ -13,15 +16,16 @@ from backend.exceptions import (
     SamePasswordError,
     UserNotFoundError,
 )
-from backend.routes.api import user_routes
+from backend.main import app
+from backend.routes import dependencies as route_dependencies
 
 
 @pytest.mark.anyio
-async def test_register_user_success(client: AsyncClient, monkeypatch: pytest.MonkeyPatch) -> None:
-    async def fake_register_user(**_kwargs):
-        return {"id": 1, "username": "newuser", "email": "newuser@example.com"}
-
-    monkeypatch.setattr(user_routes.service, "register_user", fake_register_user)
+async def test_register_user_success(client: AsyncClient) -> None:
+    fake_service = SimpleNamespace(
+        register_user=AsyncMock(return_value={"id": 1, "username": "newuser", "email": "newuser@example.com"})
+    )
+    app.dependency_overrides[route_dependencies._get_user_service] = lambda: fake_service
 
     response: Response = await client.post(
         "/api/users/register",
@@ -33,11 +37,11 @@ async def test_register_user_success(client: AsyncClient, monkeypatch: pytest.Mo
 
 
 @pytest.mark.anyio
-async def test_register_user_conflict_maps_400(client: AsyncClient, monkeypatch: pytest.MonkeyPatch) -> None:
-    async def fake_register_user(**_kwargs):
-        raise NotUniqueError("email")
-
-    monkeypatch.setattr(user_routes.service, "register_user", fake_register_user)
+async def test_register_user_conflict_maps_400(client: AsyncClient) -> None:
+    fake_service = SimpleNamespace(
+        register_user=AsyncMock(side_effect=NotUniqueError("email"))
+    )
+    app.dependency_overrides[route_dependencies._get_user_service] = lambda: fake_service
 
     response: Response = await client.post(
         "/api/users/register",
@@ -49,11 +53,11 @@ async def test_register_user_conflict_maps_400(client: AsyncClient, monkeypatch:
 
 
 @pytest.mark.anyio
-async def test_login_user_success(client: AsyncClient, monkeypatch: pytest.MonkeyPatch) -> None:
-    async def fake_login_user(**_kwargs):
-        return {"access_token": "access", "refresh_token": "refresh", "token_type": "bearer"}
-
-    monkeypatch.setattr(user_routes.service, "login_user", fake_login_user)
+async def test_login_user_success(client: AsyncClient) -> None:
+    fake_service = SimpleNamespace(
+        login_user=AsyncMock(return_value={"access_token": "access", "refresh_token": "refresh", "token_type": "bearer"})
+    )
+    app.dependency_overrides[route_dependencies._get_user_service] = lambda: fake_service
 
     response: Response = await client.post(
         "/api/users/login",
@@ -65,11 +69,11 @@ async def test_login_user_success(client: AsyncClient, monkeypatch: pytest.Monke
 
 
 @pytest.mark.anyio
-async def test_login_user_bad_credentials_maps_401(client: AsyncClient, monkeypatch: pytest.MonkeyPatch) -> None:
-    async def fake_login_user(**_kwargs):
-        raise IncorrectUsernameOrPasswordError()
-
-    monkeypatch.setattr(user_routes.service, "login_user", fake_login_user)
+async def test_login_user_bad_credentials_maps_401(client: AsyncClient) -> None:
+    fake_service = SimpleNamespace(
+        login_user=AsyncMock(side_effect=IncorrectUsernameOrPasswordError())
+    )
+    app.dependency_overrides[route_dependencies._get_user_service] = lambda: fake_service
 
     response: Response = await client.post(
         "/api/users/login",
@@ -80,11 +84,11 @@ async def test_login_user_bad_credentials_maps_401(client: AsyncClient, monkeypa
 
 
 @pytest.mark.anyio
-async def test_refresh_token_success(client: AsyncClient, monkeypatch: pytest.MonkeyPatch) -> None:
-    async def fake_refresh_token(**_kwargs):
-        return {"access_token": "a", "refresh_token": "r", "token_type": "bearer"}
-
-    monkeypatch.setattr(user_routes.service, "refresh_token", fake_refresh_token)
+async def test_refresh_token_success(client: AsyncClient) -> None:
+    fake_service = SimpleNamespace(
+        refresh_token=AsyncMock(return_value={"access_token": "a", "refresh_token": "r", "token_type": "bearer"})
+    )
+    app.dependency_overrides[route_dependencies._get_user_service] = lambda: fake_service
 
     response: Response = await client.post("/api/users/refresh", json={"token": "t"})
 
@@ -93,11 +97,11 @@ async def test_refresh_token_success(client: AsyncClient, monkeypatch: pytest.Mo
 
 
 @pytest.mark.anyio
-async def test_refresh_token_invalid_maps_401(client: AsyncClient, monkeypatch: pytest.MonkeyPatch) -> None:
-    async def fake_refresh_token(**_kwargs):
-        raise InvalidOrExpiredRefreshToken()
-
-    monkeypatch.setattr(user_routes.service, "refresh_token", fake_refresh_token)
+async def test_refresh_token_invalid_maps_401(client: AsyncClient) -> None:
+    fake_service = SimpleNamespace(
+        refresh_token=AsyncMock(side_effect=InvalidOrExpiredRefreshToken())
+    )
+    app.dependency_overrides[route_dependencies._get_user_service] = lambda: fake_service
 
     response: Response = await client.post("/api/users/refresh", json={"token": "bad"})
 
@@ -113,11 +117,11 @@ async def test_get_current_user_success(client: AsyncClient) -> None:
 
 
 @pytest.mark.anyio
-async def test_forgot_password_success(client: AsyncClient, monkeypatch: pytest.MonkeyPatch) -> None:
-    async def fake_forgot_password(**_kwargs):
-        return {"message": "ok"}
-
-    monkeypatch.setattr(user_routes.service, "forgot_password", fake_forgot_password)
+async def test_forgot_password_success(client: AsyncClient) -> None:
+    fake_service = SimpleNamespace(
+        forgot_password=AsyncMock(return_value={"message": "ok"})
+    )
+    app.dependency_overrides[route_dependencies._get_user_service] = lambda: fake_service
 
     response: Response = await client.post("/api/users/forgot-password", json={"email": "test@example.com"})
 
@@ -125,11 +129,11 @@ async def test_forgot_password_success(client: AsyncClient, monkeypatch: pytest.
 
 
 @pytest.mark.anyio
-async def test_reset_password_invalid_token_maps_400(client: AsyncClient, monkeypatch: pytest.MonkeyPatch) -> None:
-    async def fake_reset_password(**_kwargs):
-        raise InvalidOrExpiredPasswordResetTokenError()
-
-    monkeypatch.setattr(user_routes.service, "reset_password", fake_reset_password)
+async def test_reset_password_invalid_token_maps_400(client: AsyncClient) -> None:
+    fake_service = SimpleNamespace(
+        reset_password=AsyncMock(side_effect=InvalidOrExpiredPasswordResetTokenError())
+    )
+    app.dependency_overrides[route_dependencies._get_user_service] = lambda: fake_service
 
     response: Response = await client.post(
         "/api/users/reset-password",
@@ -140,11 +144,11 @@ async def test_reset_password_invalid_token_maps_400(client: AsyncClient, monkey
 
 
 @pytest.mark.anyio
-async def test_change_password_error_mapping(client: AsyncClient, monkeypatch: pytest.MonkeyPatch) -> None:
-    async def fake_change_password(**_kwargs):
-        raise IncorrectCurrentPasswordError()
-
-    monkeypatch.setattr(user_routes.service, "change_password", fake_change_password)
+async def test_change_password_error_mapping(client: AsyncClient) -> None:
+    fake_service = SimpleNamespace(
+        change_password=AsyncMock(side_effect=IncorrectCurrentPasswordError())
+    )
+    app.dependency_overrides[route_dependencies._get_user_service] = lambda: fake_service
 
     response: Response = await client.patch(
         "/api/users/me/change-password",
@@ -154,11 +158,7 @@ async def test_change_password_error_mapping(client: AsyncClient, monkeypatch: p
 
     assert response.status_code == status.HTTP_400_BAD_REQUEST
 
-    async def fake_same_password(**_kwargs):
-        raise SamePasswordError()
-
-    monkeypatch.setattr(user_routes.service, "change_password", fake_same_password)
-
+    fake_service.change_password.side_effect = SamePasswordError()
     response = await client.patch(
         "/api/users/me/change-password",
         headers={"Authorization": "Bearer test"},
@@ -169,30 +169,22 @@ async def test_change_password_error_mapping(client: AsyncClient, monkeypatch: p
 
 
 @pytest.mark.anyio
-async def test_get_user_success_and_not_found(client: AsyncClient, monkeypatch: pytest.MonkeyPatch) -> None:
-    async def fake_get_user(**_kwargs):
-        return {"id": 1, "username": "testuser"}
-
-    monkeypatch.setattr(user_routes.service, "get_user", fake_get_user)
+async def test_get_user_success_and_not_found(client: AsyncClient) -> None:
+    fake_service = SimpleNamespace(get_user=AsyncMock(return_value={"id": 1, "username": "testuser"}))
+    app.dependency_overrides[route_dependencies._get_user_service] = lambda: fake_service
 
     response: Response = await client.get("/api/users/1")
     assert response.status_code == status.HTTP_200_OK
 
-    async def fake_get_user_not_found(**_kwargs):
-        raise UserNotFoundError()
-
-    monkeypatch.setattr(user_routes.service, "get_user", fake_get_user_not_found)
-
+    fake_service.get_user.side_effect = UserNotFoundError()
     response = await client.get("/api/users/1")
     assert response.status_code == status.HTTP_404_NOT_FOUND
 
 
 @pytest.mark.anyio
-async def test_update_user_mappings(client: AsyncClient, monkeypatch: pytest.MonkeyPatch) -> None:
-    async def fake_update_success(**_kwargs):
-        return {"id": 1, "username": "updated", "email": "updated@example.com"}
-
-    monkeypatch.setattr(user_routes.service, "update_user", fake_update_success)
+async def test_update_user_mappings(client: AsyncClient) -> None:
+    fake_service = SimpleNamespace(update_user=AsyncMock(return_value={"id": 1, "username": "updated", "email": "updated@example.com"}))
+    app.dependency_overrides[route_dependencies._get_user_service] = lambda: fake_service
 
     response: Response = await client.patch(
         "/api/users/1",
@@ -201,10 +193,7 @@ async def test_update_user_mappings(client: AsyncClient, monkeypatch: pytest.Mon
     )
     assert response.status_code == status.HTTP_200_OK
 
-    async def fake_update_forbidden(**_kwargs):
-        raise NotAuthorizedToUpdateUserError()
-
-    monkeypatch.setattr(user_routes.service, "update_user", fake_update_forbidden)
+    fake_service.update_user.side_effect = NotAuthorizedToUpdateUserError()
     response = await client.patch(
         "/api/users/1",
         headers={"Authorization": "Bearer test"},
@@ -212,10 +201,7 @@ async def test_update_user_mappings(client: AsyncClient, monkeypatch: pytest.Mon
     )
     assert response.status_code == status.HTTP_403_FORBIDDEN
 
-    async def fake_update_not_found(**_kwargs):
-        raise UserNotFoundError()
-
-    monkeypatch.setattr(user_routes.service, "update_user", fake_update_not_found)
+    fake_service.update_user.side_effect = UserNotFoundError()
     response = await client.patch(
         "/api/users/1",
         headers={"Authorization": "Bearer test"},
@@ -223,10 +209,7 @@ async def test_update_user_mappings(client: AsyncClient, monkeypatch: pytest.Mon
     )
     assert response.status_code == status.HTTP_404_NOT_FOUND
 
-    async def fake_update_not_unique(**_kwargs):
-        raise NotUniqueError("username")
-
-    monkeypatch.setattr(user_routes.service, "update_user", fake_update_not_unique)
+    fake_service.update_user.side_effect = NotUniqueError("username")
     response = await client.patch(
         "/api/users/1",
         headers={"Authorization": "Bearer test"},
@@ -236,25 +219,17 @@ async def test_update_user_mappings(client: AsyncClient, monkeypatch: pytest.Mon
 
 
 @pytest.mark.anyio
-async def test_delete_user_mappings(client: AsyncClient, monkeypatch: pytest.MonkeyPatch) -> None:
-    async def fake_delete_success(**_kwargs):
-        return None
-
-    monkeypatch.setattr(user_routes.service, "delete_user", fake_delete_success)
+async def test_delete_user_mappings(client: AsyncClient) -> None:
+    fake_service = SimpleNamespace(delete_user=AsyncMock(return_value=None))
+    app.dependency_overrides[route_dependencies._get_user_service] = lambda: fake_service
 
     response: Response = await client.delete("/api/users/1", headers={"Authorization": "Bearer test"})
     assert response.status_code == status.HTTP_204_NO_CONTENT
 
-    async def fake_delete_forbidden(**_kwargs):
-        raise NotAuthorizedToDeleteUserError()
-
-    monkeypatch.setattr(user_routes.service, "delete_user", fake_delete_forbidden)
+    fake_service.delete_user.side_effect = NotAuthorizedToDeleteUserError()
     response = await client.delete("/api/users/1", headers={"Authorization": "Bearer test"})
     assert response.status_code == status.HTTP_403_FORBIDDEN
 
-    async def fake_delete_not_found(**_kwargs):
-        raise UserNotFoundError()
-
-    monkeypatch.setattr(user_routes.service, "delete_user", fake_delete_not_found)
+    fake_service.delete_user.side_effect = UserNotFoundError()
     response = await client.delete("/api/users/1", headers={"Authorization": "Bearer test"})
     assert response.status_code == status.HTTP_404_NOT_FOUND
