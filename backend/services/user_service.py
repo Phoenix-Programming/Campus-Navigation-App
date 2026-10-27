@@ -2,6 +2,9 @@ from datetime import UTC, datetime, timedelta
 from fastapi import BackgroundTasks, Depends
 from fastapi.security import OAuth2PasswordRequestForm
 from typing import Annotated
+from backend.email_templates.password_reset_email import (
+    PWD_RESET_EMAIL_BODY, PWD_RESET_EMAIL_SUBJECT
+)
 from backend.exceptions import (
     IncorrectCurrentPasswordError, IncorrectUsernameOrPasswordError,
     InvalidOrExpiredPasswordResetTokenError, InvalidOrExpiredRefreshToken,
@@ -22,28 +25,27 @@ from backend.schema.active_refresh_token import ActiveRefreshToken
 from backend.schema.password_reset_token import PasswordResetToken
 from backend.schema.permissions import Permission
 from backend.schema.user import User
-from backend.utilities.db_connection import Database
-from backend.utilities.email import send_password_reset_email
+from backend.services.interfaces.email_service_interface import EmailServiceInterface
+from backend.services.interfaces.user_service_interface import UserServiceInterface
+from backend.services.email_service import EmailPriority
 from backend.repositories.user_repository import UserRepository
 
 
-class UserService:
-	def __init__(self) -> None:
-		self.repo: UserRepository = UserRepository()
+class UserService(UserServiceInterface):
+	def __init__(self, user_repo: UserRepository, email_service: EmailServiceInterface) -> None:
+		self.repo: UserRepository = user_repo
+
+		self.email_service: EmailServiceInterface = email_service
 
 
-	async def register_user(self, user_create_request: UserRegisterRequest, db: Database) -> User:
+	async def register_user(self, user_create_request: UserRegisterRequest) -> User:
 		result: User | None = await self.repo.get_user_by_username(
-			username=user_create_request.username,
-			db=db
+			username=user_create_request.username
 		)
 
 		if result: raise NotUniqueError("username")
 
-		result = await self.repo.get_user_by_email(
-			email=user_create_request.email,
-			db=db
-		)
+		result = await self.repo.get_user_by_email(email=user_create_request.email)
 
 		if result: raise NotUniqueError("email")
 
@@ -51,23 +53,21 @@ class UserService:
 			username=user_create_request.username,
 			email=user_create_request.email.lower(),
 			password_hash=hash_password(user_create_request.password),
-			role_name="user",
-			db=db
+			role_name="user"
 		)
 
 
 	async def login_user(
 		self,
 		form_data: Annotated[OAuth2PasswordRequestForm, Depends()],
-		remember_me: bool,
-		db: Database
+		remember_me: bool
 	) -> AccessRefreshTokenPair:
 		# get the user by either their username or email, depending on which they provided
 		usernameOrEmail: str = form_data.username
 		user: User | None = (
-      		await self.repo.get_user_by_email(email=usernameOrEmail, db=db)
+      		await self.repo.get_user_by_email(email=usernameOrEmail)
 			if '@' in usernameOrEmail
-			else await self.repo.get_user_by_username(username=usernameOrEmail, db=db)
+			else await self.repo.get_user_by_username(username=usernameOrEmail)
 		)
 
 		# verify the user exists and the password is correct, but don't reveal which one failed
@@ -75,7 +75,7 @@ class UserService:
 			raise IncorrectUsernameOrPasswordError()
 
 		# create the access and refresh tokens
-		access_token: str = await self._create_access_token(user_id=user.id, db=db)
+		access_token: str = await self._create_access_token(user_id=user.id)
 		refresh_token: str = await self._create_refresh_token(user.id)
 
 		# store the refresh token in the database
@@ -88,8 +88,7 @@ class UserService:
 			user_id=user.id,
 			token_hash=hash_token(refresh_token),
 			is_long_lived=remember_me,
-			expires_at=datetime.now(UTC) + timedelta(minutes=expire_minutes),
-			db=db
+			expires_at=datetime.now(UTC) + timedelta(minutes=expire_minutes)
 		)
 
 		return AccessRefreshTokenPair(
@@ -99,19 +98,12 @@ class UserService:
         )
 
 
-	async def refresh_token(
-    	self,
-      	refresh_token: str,
-       	db: Database
-    ) -> AccessRefreshTokenPair:
+	async def refresh_token(self, refresh_token: str) -> AccessRefreshTokenPair:
 		refresh_token_hash: str = hash_token(refresh_token)
 
 		# check that the refresh token is valid
 		active_refresh_token: ActiveRefreshToken | None = (
-      		await self.repo.get_matching_refresh_token(
-				token_hash=refresh_token_hash,
-				db=db
-			)
+      		await self.repo.get_matching_refresh_token(token_hash=refresh_token_hash)
 		)
 
 		if not active_refresh_token: raise InvalidOrExpiredRefreshToken()
@@ -119,10 +111,7 @@ class UserService:
 		# check that the refresh token hasn't been revoked, if it has, then this is a stolen
 		# refresh token and all the other refresh tokens for this user should be revoked
 		if active_refresh_token.is_revoked:
-			await self.repo.revoke_all_refresh_tokens_for_user(
-       			user_id=active_refresh_token.user_id,
-          		db=db
-        	)
+			await self.repo.revoke_all_refresh_tokens_for_user(user_id=active_refresh_token.user_id)
 			raise InvalidOrExpiredRefreshToken()
 
 		# check if the refresh token has expired
@@ -143,12 +132,11 @@ class UserService:
 			user_id=active_refresh_token.user_id,
         	token_hash=hash_token(new_refresh_token),
 			is_long_lived=active_refresh_token.is_long_lived,
-         	expires_at=active_refresh_token.expires_at,
-          	db=db
+         	expires_at=active_refresh_token.expires_at
         )
 
 		# create a new access token
-		new_access_token: str = await self._create_access_token(user_id=active_refresh_token.user_id, db=db)
+		new_access_token: str = await self._create_access_token(user_id=active_refresh_token.user_id)
 
 		return AccessRefreshTokenPair(
       		access_token=new_access_token,
@@ -160,14 +148,13 @@ class UserService:
 	async def forgot_password(
 		self,
 		request_data: ForgotPasswordRequest,
-		background_tasks: BackgroundTasks,
-		db: Database
+		background_tasks: BackgroundTasks
 	) -> dict[str, str]:
-		user: User | None = await self.repo.get_user_by_email(email=request_data.email, db=db)
+		user: User | None = await self.repo.get_user_by_email(email=request_data.email)
 
 		if user:
-			await self.repo.delete_all_password_reset_tokens_for_user(user=user, db=db)
-			await self.repo.revoke_all_refresh_tokens_for_user(user_id=user.id, db=db)
+			await self.repo.delete_all_password_reset_tokens_for_user(user=user)
+			await self.repo.revoke_all_refresh_tokens_for_user(user_id=user.id)
 
 			token: str = generate_reset_token()
 			token_hash: str = hash_token(token)
@@ -178,12 +165,11 @@ class UserService:
 			await self.repo.insert_password_reset_token(
 				user_id=user.id,
 				token_hash=token_hash,
-				expires_at=expires_at,
-				db=db
+				expires_at=expires_at
 			)
 
 			background_tasks.add_task(
-				send_password_reset_email,
+				self._send_password_reset_email,
 				to_email=user.email,
 				username=user.username,
 				token=token
@@ -194,37 +180,32 @@ class UserService:
 		}
 
 
-	async def reset_password(
-		self,
-		request_data: ResetPasswordRequest,
-		db: Database
-	) -> dict[str, str]:
+	async def reset_password(self, request_data: ResetPasswordRequest) -> dict[str, str]:
 		token_hash: str = hash_token(request_data.token)
 
 		reset_token: PasswordResetToken | None = (
-			await self.repo.get_password_reset_token_by_token_hash(token_hash=token_hash, db=db)
+			await self.repo.get_password_reset_token_by_token_hash(token_hash=token_hash)
 		)
 
 		if not reset_token: raise InvalidOrExpiredPasswordResetTokenError()
 
 		if reset_token.expires_at < datetime.now(UTC):
-			await self.repo.delete_password_reset_token(token=reset_token, db=db)
+			await self.repo.delete_password_reset_token(token=reset_token)
 
 			raise InvalidOrExpiredPasswordResetTokenError()
 
-		user: User | None = await self.repo.get_password_reset_token_owner(token=reset_token, db=db)
+		user: User | None = await self.repo.get_password_reset_token_owner(token=reset_token)
 
 		if not user:
 			raise InvalidOrExpiredPasswordResetTokenError()
 
 		await self.repo.update_user_password_hash(
       		user=user,
-        	password_hash=hash_password(request_data.new_password),
-			db=db
+        	password_hash=hash_password(request_data.new_password)
         )
 
-		await self.repo.delete_all_password_reset_tokens_for_user(user=user, db=db)
-		await self.repo.revoke_all_refresh_tokens_for_user(user_id=user.id, db=db)
+		await self.repo.delete_all_password_reset_tokens_for_user(user=user)
+		await self.repo.revoke_all_refresh_tokens_for_user(user_id=user.id)
 
 		return {
 			"message": "Password reset successfully. You can now log in with your new password."
@@ -234,8 +215,7 @@ class UserService:
 	async def change_password(
 		self,
 		password_data: ChangePasswordRequest,
-		current_user: CurrentUserContext,
-		db: Database
+		current_user: CurrentUserContext
 	) -> dict[str, str]:
 		if not verify_password(password_data.current_password, current_user.user.password_hash):
 			raise IncorrectCurrentPasswordError()
@@ -244,18 +224,17 @@ class UserService:
 
 		await self.repo.update_user_password_hash(
       		user=current_user.user,
-        	password_hash=hash_password(password_data.new_password),
-			db=db
+        	password_hash=hash_password(password_data.new_password)
         )
 
-		await self.repo.delete_all_password_reset_tokens_for_user(user=current_user.user, db=db)
-		await self.repo.revoke_all_refresh_tokens_for_user(user_id=current_user.user.id, db=db)
+		await self.repo.delete_all_password_reset_tokens_for_user(user=current_user.user)
+		await self.repo.revoke_all_refresh_tokens_for_user(user_id=current_user.user.id)
 
 		return {"message": "Password changed successfully."}
 
 
-	async def get_user(self, user_id: int, db: Database) -> User:
-		user: User | None = await self.repo.get_user_by_id(user_id=user_id, db=db)
+	async def get_user(self, user_id: int) -> User:
+		user: User | None = await self.repo.get_user_by_id(user_id=user_id)
 
 		if not user: raise UserNotFoundError()
 
@@ -266,63 +245,51 @@ class UserService:
 		self,
 		user_id: int,
 		user_update: UserUpdateRequest,
-		current_user: CurrentUserContext,
-		db: Database
+		current_user: CurrentUserContext
 	) -> User:
 		if user_id != current_user.user.id: raise NotAuthorizedToUpdateUserError()
 
-		user: User | None = await self.repo.get_user_by_id(user_id=user_id, db=db)
+		user: User | None = await self.repo.get_user_by_id(user_id=user_id)
 
 		if not user: raise UserNotFoundError()
 
 		result: User | None
 
 		if user_update.username and user_update.username.lower() != user.username.lower():
-			result = await self.repo.get_user_by_username(
-				username=user_update.username,
-				db=db
-			)
+			result = await self.repo.get_user_by_username(username=user_update.username)
 
 			if result: raise NotUniqueError("username")
 
 		if user_update.email and user_update.email.lower() != user.email.lower():
-			result = await self.repo.get_user_by_email(
-				email=user_update.email,
-				db=db
-			)
+			result = await self.repo.get_user_by_email(email=user_update.email)
 
 			if result: raise NotUniqueError("email")
 
 		return await self.repo.update_user(
       		user=current_user.user,
-        	**user_update.model_dump(exclude_unset=True),
-         	db=db
+        	**user_update.model_dump(exclude_unset=True)
         )
 
 
 	async def delete_user(
 		self,
 		user_id: int,
-		current_user: CurrentUserContext,
-		db: Database
+		current_user: CurrentUserContext
 	) -> None:
 		if user_id != current_user.user.id: raise NotAuthorizedToDeleteUserError()
 
-		user: User | None = await self.repo.get_user_by_id(user_id=user_id, db=db)
+		user: User | None = await self.repo.get_user_by_id(user_id=user_id)
 
 		if not user: raise UserNotFoundError()
 
-		await self.repo.delete_user(user=user, db=db)
+		await self.repo.delete_user(user=user)
 
 
-	async def _create_access_token(self, user_id: int, db: Database) -> str:
+	async def _create_access_token(self, user_id: int) -> str:
 		# create the access token with the user id as the subject
 		access_token_expires: timedelta = timedelta(minutes=settings.access_token_expire_minutes)
-		role_name: str | None = await self.repo.get_user_role_name(user_id=user_id, db=db)
-		permissions: list[Permission] = await self.repo.get_user_permissions(
-      		user_id=user_id,
-        	db=db
-        )
+		role_name: str | None = await self.repo.get_user_role_name(user_id=user_id)
+		permissions: list[Permission] = await self.repo.get_user_permissions(user_id=user_id)
 		access_token: str = create_token(
 			user_id,
 			permissions=[p.name for p in permissions],
@@ -342,3 +309,18 @@ class UserService:
 			token_type="refresh"
 		)
 		return refresh_token
+
+
+	async def _send_password_reset_email(self, to_email: str, username: str, token: str) -> None:
+		content: str = PWD_RESET_EMAIL_BODY.format(
+			username=username,
+			reset_url=f"{settings.frontend_url}/reset-password?token={token}",
+			reset_token_expire_minutes=settings.reset_token_expire_minutes
+		)
+
+		await self.email_service.send_email(
+			to=to_email,
+			subject=PWD_RESET_EMAIL_SUBJECT,
+			plain_text=content,
+			priority=EmailPriority.High
+		)

@@ -1,0 +1,8 @@
+# Environment
+env = "PROD"
+
+# Frontend
+frontend_url = "..."  # TBD: Will be finalized when IT gets us a subdomain
+
+# Email
+mail_system_email = "noreply.system.flpolycampusmap@gmail.com"

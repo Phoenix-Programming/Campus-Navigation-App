@@ -1,0 +1,8 @@
+# Environment
+env = "DEV"
+
+# Frontend
+frontend_url = "http://localhost:5173"
+
+# Email
+mail_system_email = "noreply.devsys.flpolycampusmap@gmail.com"

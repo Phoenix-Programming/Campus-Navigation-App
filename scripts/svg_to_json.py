@@ -1,4 +1,4 @@
-from svgelements import SVG, Ellipse, Circle
+from svgelements import SVG, Ellipse, Circle #type: ignore
 from dataclasses import dataclass
 from dataclasses import asdict
 from typing import Final
