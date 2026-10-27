@@ -59,16 +59,15 @@ async def populate() -> None:
 
 		for building_data in BUILDINGS:
 			async with AsyncSessionLocal() as db:
-				await db.execute(
-					insert(Building).values(
-						name=building_data["name"],
-						code=building_data["code"],
-						address=building_data["address"],
-						category_id=building_data["category_id"],
-						num_floors=building_data["num_floors"],
-						last_updated_by=first_user_id
-					)
+				building = Building(
+					name=building_data["name"],
+					code=building_data["code"],
+					address=building_data["address"],
+					category_id=building_data["category_id"],
+					num_floors=building_data["num_floors"],
+					last_updated_by=first_user_id
 				)
+				db.add(building)
 				await db.commit()
 
 		for floor_data in FLOORS:
