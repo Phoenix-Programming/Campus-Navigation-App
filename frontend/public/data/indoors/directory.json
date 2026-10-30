@@ -1,0 +1,8 @@
+{
+	"maps": [
+		{ "id": "istF1", "name": "IST - Floor 1", "buildingId": "ist", "file": "ist/istF1_noNodes.svg" },
+		{ "id": "istF2", "name": "IST - Floor 2", "buildingId": "ist", "file": "ist/istF2_noNodes.svg" },
+		{ "id": "barcF1", "name": "BARC - Floor 1", "buildingId": "barc", "file": "BARC/barcF1_noNodes.svg" },
+		{ "id": "barcF2", "name": "BARC - Floor 2", "buildingId": "barc", "file": "BARC/barcF2_noNodes.svg" }
+	]
+}

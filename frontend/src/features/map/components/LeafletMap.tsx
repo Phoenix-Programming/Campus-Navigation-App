@@ -1,14 +1,53 @@
 import { useEffect, useState } from "react";
-import { MapContainer, TileLayer, LayersControl, GeoJSON, ZoomControl } from "react-leaflet";
-import type { GeoJsonObject } from "geojson";
+import { MapContainer, TileLayer, LayersControl, GeoJSON, SVGOverlay, ZoomControl } from "react-leaflet";
+import L, { type LatLngBounds } from "leaflet";
+import type { FeatureCollection, GeoJsonObject } from "geojson";
 import type { LayerData, LayerConfig, LoadedLayer } from "@features/map/models/layers";
 import { showError } from "@features/notifications/services/notifications.service";
 import "@shared/styles/main.scss";
 
 const { BaseLayer, Overlay } = LayersControl;
 
+interface IndoorMapData {
+	id: string;
+	name: string;
+	buildingId: string;
+	file: string;
+}
+
+interface IndoorMapConfig {
+	maps: IndoorMapData[];
+}
+
+interface LoadedIndoorMap extends IndoorMapData {
+	svgMarkup: string;
+	svgAttributes: Record<string, string>;
+	bounds: LatLngBounds;
+}
+
+function IndoorSvgOverlay({ indoorMap }: { indoorMap: LoadedIndoorMap }) {
+	return (
+		<SVGOverlay
+			attributes={indoorMap.svgAttributes}
+			bounds={indoorMap.bounds}
+			interactive
+			eventHandlers={{
+				click: () => {
+					// Placeholder for indoor map click behavior.
+				},
+				mouseover: () => {
+					// Placeholder for indoor map hover behavior.
+				}
+			}}
+		>
+			<g dangerouslySetInnerHTML={{ __html: indoorMap.svgMarkup }} />
+		</SVGOverlay>
+	);
+}
+
 export default function LeafletMap() {
 	const [layers, setLayers] = useState<LoadedLayer[]>([]);
+	const [indoorMaps, setIndoorMaps] = useState<LoadedIndoorMap[]>([]);
 
 	useEffect(() => {
 		const loadLayers = async () => {
@@ -40,11 +79,68 @@ export default function LeafletMap() {
 
 				const loadedLayers: LoadedLayer[] = await Promise.all(layerPromises);
 				setLayers(loadedLayers);
+
+				const buildings = loadedLayers.find((layer) => layer.id === "buildings");
+				if (!buildings || buildings.data.type !== "FeatureCollection") {
+					throw new Error("Building features are unavailable for indoor map positioning.");
+				}
+				const buildingCollection = buildings.data as FeatureCollection;
+
+				const directoryResponse = await fetch("/data/indoors/directory.json");
+				if (!directoryResponse.ok) {
+					throw new Error(`Failed to load indoor map directory: ${directoryResponse.status}`);
+				}
+				const indoorConfig: IndoorMapConfig = await directoryResponse.json();
+
+				const loadedIndoorMaps = await Promise.all(
+					indoorConfig.maps.map(async (mapInfo): Promise<LoadedIndoorMap> => {
+						const buildingFeature = buildingCollection.features.find(
+							(feature) => feature.properties?.bld_id === mapInfo.buildingId
+						);
+						if (!buildingFeature) {
+							throw new Error(`Building ${mapInfo.buildingId} was not found for indoor map ${mapInfo.id}.`);
+						}
+
+						const response = await fetch(`/data/indoors/${mapInfo.file}`);
+						if (!response.ok) {
+							throw new Error(`Failed to load indoor map ${mapInfo.id}: ${response.status}`);
+						}
+
+						const svgText = await response.text();
+						const parsedDocument = new DOMParser().parseFromString(svgText, "image/svg+xml");
+						const svgElement = parsedDocument.querySelector("svg");
+						if (
+							!svgElement ||
+							svgElement.namespaceURI !== "http://www.w3.org/2000/svg" ||
+							parsedDocument.querySelector("parsererror")
+						) {
+							throw new Error(`Indoor map ${mapInfo.id} is not valid SVG.`);
+						}
+
+						const svgAttributes = Object.fromEntries(
+							Array.from(svgElement.attributes)
+								.filter(({ name }) => !["id", "width", "height"].includes(name))
+								.map(({ name, value }) => [name, value])
+						);
+						const bounds = L.geoJSON(buildingFeature).getBounds();
+						if (!bounds.isValid()) {
+							throw new Error(`Building bounds are invalid for indoor map ${mapInfo.id}.`);
+						}
+
+						return {
+							...mapInfo,
+							svgMarkup: svgElement.innerHTML,
+							svgAttributes,
+							bounds
+						};
+					})
+				);
+				setIndoorMaps(loadedIndoorMaps);
 			} catch (error) {
 				console.error("Error loading layers:", error);
 				showError(
 					error instanceof Error ? error.message : "The map layers could not be loaded.",
-					"Failed to Load Map Layers"
+					"Failed to Load Map Data"
 				);
 			}
 		};
@@ -103,6 +199,12 @@ export default function LeafletMap() {
 						</Overlay>
 					);
 				})}
+
+				{indoorMaps.map((indoorMap) => (
+					<Overlay key={indoorMap.id} checked={false} name={indoorMap.name}>
+						<IndoorSvgOverlay indoorMap={indoorMap} />
+					</Overlay>
+				))}
 			</LayersControl>
 		</MapContainer>
 	);
