@@ -1,0 +1,36 @@
+.header-row {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	column-gap: 10px;
+	margin: 0px 10px;
+
+	.left-side {
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		justify-content: flex-start;
+		column-gap: 10px;
+	}
+
+	.right-side {
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		justify-content: flex-end;
+		column-gap: 10px;
+	}
+
+	.selector-container {
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		justify-content: center;
+		column-gap: 10px;
+
+		:disabled {
+			opacity: 0.5;
+			cursor: not-allowed;
+		}
+	}
+}

@@ -1,51 +1,29 @@
-import React, { useEffect, useMemo, useRef, useState } from "react";
-import { clsx } from "clsx";
+import React, { useEffect, useRef, useState } from "react";
 import DragSelect from "dragselect";
-import { NodeType, type Node, type Edge, type Building, type IndoorMapData } from "../models/buildings_models";
+import { type Node, type Edge } from "../models/buildings_models";
 import { ClickableAreaTool, Tool, type DragSelectionMode } from "../models/indoor_map_editor_models";
-import { type SvgMapCoordinates, type SvgViewerHandle } from "../models/svg_viewer_models";
-import {
-	getBuildings as getBuildingsService,
-	getIndoorMapData as getIndoorMapDataService,
-	getMapReloadTargetFloor,
-	updateIndoorMap as updateIndoorMapService
-} from "../services/indoor_map_editor.service";
-import { buildClickableAreaPoints, canFinalizeClickableArea } from "../utils/clickable_area";
-import ConfirmationModal from "@shared/components/ConfirmationModal";
-import EdgeComponent, { isEdge } from "../components/EdgeComponent";
+import { type SvgViewerHandle } from "../models/svg_viewer_models";
+import { isEdge } from "../components/EdgeComponent";
+import { useClickableAreaEditor } from "../hooks/useClickableAreaEditor";
+import { useMapEditorKeyboard } from "../hooks/useMapEditorKeyboard";
+import { useMapLifecycle } from "../hooks/useMapLifecycle";
+import { useMapSelection } from "../hooks/useMapSelection";
+import { useMapToolState } from "../hooks/useMapToolState";
+import { useSvgDimensions } from "../hooks/useSvgDimensions";
 import BuildingModal from "../components/BuildingModal";
-import ClickableAreaToolbar from "../components/ClickableAreaToolbar";
-import IndoorGraphContextComponent from "../components/IndoorGraphContextComponent";
-import IndoorMapEditorToolbar from "../components/IndoorMapEditorToolbar";
-import NodeComponent, { isNode } from "../components/NodeComponent";
-import SvgViewerComponent from "../components/SvgViewerComponent";
+import ConfirmSaveDiscardModals from "../components/ConfirmSaveDiscardModals";
+import IndoorMapEditorHeader from "../components/IndoorMapEditorHeader";
+import IndoorMapEditorMap from "../components/IndoorMapEditorMap";
+import { isNode } from "../components/NodeComponent";
 import { showWarning } from "@features/notifications/services/notifications.service";
-import circleIcon from "@assets/icons/circle.svg";
-import lineIcon from "@assets/icons/remove.svg";
-import addIcon from "@assets/icons/add.svg";
-import editIcon from "@assets/icons/edit.svg";
-import saveIcon from "@assets/icons/save.svg";
-import "../styles/indoor-map-editor.scss";
 import "@shared/styles/main.scss";
 
 export default function IndoorMapEditor(): React.JSX.Element {
 	const svgViewerZoomStep: number = 0.1;
 	const isMacOS: boolean = /Mac|iPhone|iPad|iPod/i.test(navigator.platform);
-	const primaryModifierLabel: string = isMacOS ? "⌘" : "⌃";
-	const key = [
-		{ icon: circleIcon, label: "Room", className: "room" },
-		{ icon: circleIcon, label: "Room Door", className: "room-door" },
-		{ icon: circleIcon, label: "Hallway", className: "hallway" },
-		{ icon: circleIcon, label: "Staircase", className: "stairs" },
-		{ icon: circleIcon, label: "Elevator", className: "elevator" },
-		{ icon: circleIcon, label: "Entrance/Exit", className: "entrance-exit" },
-		{ icon: circleIcon, label: "Water Fountain", className: "water-fountain" },
-		{ icon: circleIcon, label: "Vending", className: "vending" },
-		{ icon: lineIcon, label: "Connection", className: "connection" }
-	];
 
-	const svgViewerRef = useRef<SvgViewerHandle>(null);
-	const mapContainerRef = useRef<HTMLDivElement>(null);
+	const svgViewerRef = useRef<SvgViewerHandle | null>(null);
+	const mapContainerRef = useRef<HTMLDivElement | null>(null);
 	const dragSelectRef = useRef<DragSelect | null>(null);
 	const dragSelectBaselineRef = useRef<{ nodeIds: Set<number>; edgeIds: Set<string> } | null>(null);
 	const nodesRef = useRef<Node[] | null>(null);
@@ -66,18 +44,6 @@ export default function IndoorMapEditor(): React.JSX.Element {
 		}>
 	>([]);
 
-	const [buildings, setBuildings] = useState<Building[]>([]);
-	const [selectedBuilding, setSelectedBuilding] = useState<Building | null>(null);
-	const [selectedFloor, setSelectedFloor] = useState<number | null>(null);
-	const [mapLoaded, setMapLoaded] = useState(false);
-	const [svg, setSvg] = useState<string | null>(null);
-	const [nodes, setNodes] = useState<Node[] | null>(null);
-	const [edges, setEdges] = useState<Edge[] | null>(null);
-	const [selectedNode, setSelectedNode] = useState<Node | null>(null);
-	const [selectedEdge, setSelectedEdge] = useState<Edge | null>(null);
-	const [selectedNodesAndEdges, setSelectedNodesAndEdges] = useState<Set<Node | Edge>>(new Set<Node | Edge>());
-	const [hoveredNode, setHoveredNode] = useState<Node | null>(null);
-	const [hoveredEdge, setHoveredEdge] = useState<Edge | null>(null);
 	const [selectedTool, setSelectedTool] = useState<Tool>(Tool.SingleSelect);
 	const [changesMade, setChangesMade] = useState(false);
 	const [showEditBuildingModal, setShowEditBuildingModal] = useState(false);
@@ -88,80 +54,122 @@ export default function IndoorMapEditor(): React.JSX.Element {
 	const [isShiftPressed, setIsShiftPressed] = useState(false);
 	const [isPrimaryModifierPressed, setIsPrimaryModifierPressed] = useState(false);
 	const [isDragSelecting, setIsDragSelecting] = useState(false);
-	const [clickableAreaEditingNodeId, setClickableAreaEditingNodeId] = useState<number | null>(null);
-	const [selectedClickableAreaTool, setSelectedClickableAreaTool] = useState<ClickableAreaTool>(
-		ClickableAreaTool.SelectNode
-	);
-	const [clickableAreaDraftPoints, setClickableAreaDraftPoints] = useState<SvgMapCoordinates[]>([]);
-	const [clickableAreaCursorPosition, setClickableAreaCursorPosition] = useState<SvgMapCoordinates | null>(null);
 	const draggedClickableAreaPointRef = useRef<{ nodeId: number; pointIndex: number } | null>(null);
 
-	const svgDimensions = useMemo<{ width: number; height: number }>(() => {
-		const widthMatch: RegExpMatchArray | null = svg?.match(/width\s*=\s*["']([^"']+)["']/i) ?? null;
-		const heightMatch: RegExpMatchArray | null = svg?.match(/height\s*=\s*["']([^"']+)["']/i) ?? null;
-		const viewBoxMatch: RegExpMatchArray | null = svg?.match(/viewBox\s*=\s*["']([^"']+)["']/i) ?? null;
+	const {
+		buildings,
+		setBuildings,
+		selectedBuilding,
+		setSelectedBuilding,
+		selectedFloor,
+		setSelectedFloor,
+		mapLoaded,
+		setMapLoaded,
+		svg,
+		setSvg,
+		nodes,
+		setNodes,
+		edges,
+		setEdges,
+		getBuildings,
+		getIndoorMapData,
+		loadMapData,
+		clearMapData,
+		refreshBuildings,
+		onSelectedBuildingChange,
+		onSelectedFloorChange,
+		postChangesToDatabase
+	} = useMapLifecycle();
 
-		if (widthMatch && heightMatch) {
-			const width: number = Number.parseFloat(widthMatch[1]);
-			const height: number = Number.parseFloat(heightMatch[1]);
+	const selection = useMapSelection({
+		nodes,
+		edges,
+		selectedTool,
+		setChangesMade,
+		makeConnection,
+		deleteEdge,
+		nodesHaveConnection
+	});
+	const {
+		selectedNode,
+		setSelectedNode,
+		selectedEdge,
+		setSelectedEdge,
+		selectedNodesAndEdges,
+		setSelectedNodesAndEdges,
+		hoveredNode,
+		setHoveredNode,
+		hoveredEdge,
+		setHoveredEdge,
+		isNodeSelected,
+		isEdgeSelected,
+		deleteSelectedItems,
+		onNodeClick,
+		onEdgeClick,
+		onHoveredNodeChange,
+		onHoveredEdgeChange
+	} = selection;
 
-			if (Number.isFinite(width) && Number.isFinite(height) && width > 0 && height > 0) return { width, height };
-		}
+	const toolState = useMapToolState({
+		selectedTool,
+		selectedNode,
+		selectedEdge,
+		selectedNodesAndEdges,
+		selectedClickableAreaTool: ClickableAreaTool.SelectNode,
+		clickableAreaEditingNodeId: null,
+		clickableAreaDraftPoints: [],
+		setSelectedTool,
+		setSelectedNode,
+		setSelectedEdge,
+		setSelectedNodesAndEdges,
+		setSelectedClickableAreaTool: () => undefined,
+		setClickableAreaEditingNodeId: () => undefined,
+		cancelClickableAreaEdit: () => undefined,
+		primaryModifierLabel: isMacOS ? "⌘" : "⌃"
+	});
+	const { onSelectedToolChange, getToolHintText } = toolState;
 
-		if (viewBoxMatch) {
-			const parts: number[] = viewBoxMatch[1]
-				.trim()
-				.split(/[\s,]+/)
-				.map(Number);
+	const svgDimensions = useSvgDimensions(svg);
 
-			if (parts.length >= 4 && Number.isFinite(parts[2]) && Number.isFinite(parts[3]) && parts[2] > 0 && parts[3] > 0) {
-				return { width: parts[2], height: parts[3] };
-			}
-		}
-
-		return { width: 100, height: 100 };
-	}, [svg]);
-
-	function getNodeTypeHexColor(nodeType: string): string {
-		switch (nodeType) {
-			case NodeType.room:
-				return "#262aff";
-			case NodeType.hallway:
-				return "#21ff37";
-			case NodeType.roomDoor:
-				return "#ff2626";
-			case NodeType.staircase:
-				return "#ffa500";
-			case NodeType.elevator:
-				return "#ffff00";
-			case NodeType.entranceExit:
-				return "#543b2b";
-			case NodeType.waterFountain:
-				return "#00ffff";
-			case NodeType.vending:
-				return "#03690a";
-			default:
-				return "#262aff";
-		}
-	}
-
-	function toRgba(hex: string, alpha: number): string {
-		const normalizedHex: string = hex.replace("#", "");
-		const value: string =
-			normalizedHex.length === 3
-				? normalizedHex
-						.split("")
-						.map((char) => char + char)
-						.join("")
-				: normalizedHex;
-		const intValue: number = Number.parseInt(value, 16);
-
-		const red: number = (intValue >> 16) & 255;
-		const green: number = (intValue >> 8) & 255;
-		const blue: number = intValue & 255;
-
-		return `rgba(${red}, ${green}, ${blue}, ${alpha})`;
-	}
+	const clickableArea = useClickableAreaEditor({
+		nodes,
+		setNodes,
+		selectedNode,
+		selectedTool,
+		svgDimensions,
+		setChangesMade,
+		mapContainerRef,
+		onSelectedNodeChange: setSelectedNode,
+		onCreateNode: (coordinates) => createNode(coordinates.x, coordinates.y, nodeTypeToCreate)
+	});
+	const {
+		clickableAreaEditingNodeId,
+		setClickableAreaEditingNodeId,
+		selectedClickableAreaTool,
+		setSelectedClickableAreaTool,
+		clickableAreaDraftPoints,
+		setClickableAreaDraftPoints,
+		clickableAreaCursorPosition,
+		setClickableAreaCursorPosition,
+		cancelClickableAreaEdit,
+		handleNodeClickEditClickableArea,
+		onMapClick,
+		onMapMouseMove,
+		onMapMouseLeave,
+		onClickableAreaToolChange,
+		onDeleteClickableAreaActionClick,
+		onClickableAreaPointPointerDown,
+		onClickableAreaPointPointerMove,
+		onClickableAreaPointPointerUp,
+		onClickableAreaPointMouseDown,
+		onClickableAreaPointClick,
+		finalizeClickableArea,
+		canMoveClickableAreaPoints,
+		canAddClickableAreaPoint,
+		canDeleteClickableAreaPoint,
+		canDeleteClickableArea,
+		draggedClickableAreaPointRef: clickableDragRef
+	} = clickableArea;
 
 	useEffect(() => {
 		getBuildings();
@@ -461,433 +469,6 @@ export default function IndoorMapEditor(): React.JSX.Element {
 		};
 	}, [mapLoaded, selectedTool, nodes, edges, isShiftPressed, isPrimaryModifierPressed, isMacOS]);
 
-	async function onSelectedBuildingChange(bld: Building): Promise<void> {
-		setSelectedFloor(null);
-		setSelectedBuilding(bld);
-		clearMapData();
-	}
-
-	async function onSelectedFloorChange(floor: number): Promise<void> {
-		setSelectedFloor(floor);
-		await loadMapData(selectedBuilding!.code, floor);
-	}
-
-	async function loadMapData(bld_code: string, floor: number): Promise<void> {
-		clearMapData();
-
-		await getIndoorMapData(bld_code, floor);
-	}
-
-	function clearMapData(): void {
-		setSvg(null);
-		setNodes(null);
-		setEdges(null);
-		setSelectedNode(null);
-		setSelectedEdge(null);
-		setSelectedNodesAndEdges(new Set<Node | Edge>());
-		setHoveredNode(null);
-		setHoveredEdge(null);
-		setMapLoaded(false);
-	}
-
-	async function getBuildings(): Promise<Building[]> {
-		const nextBuildings: Building[] = await getBuildingsService();
-		setBuildings(nextBuildings);
-		return nextBuildings;
-	}
-
-	async function refreshBuildings(buildingId?: number): Promise<void> {
-		const refreshedBuildings: Building[] = await getBuildings();
-
-		if (selectedBuilding === null) return;
-
-		const updatedSelectedBuilding: Building | null =
-			refreshedBuildings.find((building) => building.id === (buildingId ?? selectedBuilding.id)) ?? null;
-
-		if (updatedSelectedBuilding === null) {
-			setSelectedBuilding(null);
-			setSelectedFloor(null);
-			clearMapData();
-			return;
-		}
-
-		setSelectedBuilding(updatedSelectedBuilding);
-
-		const floorToReload: number | null = getMapReloadTargetFloor(selectedFloor, updatedSelectedBuilding);
-
-		if (floorToReload !== null) {
-			await loadMapData(updatedSelectedBuilding.code, floorToReload);
-			return;
-		}
-
-		if (selectedFloor === null) return;
-
-		setSelectedFloor(null);
-		clearMapData();
-	}
-
-	async function getIndoorMapData(bldCode: string, floor: number): Promise<void> {
-		const data: IndoorMapData = await getIndoorMapDataService(bldCode, floor);
-
-		setSvg(data.svg);
-		setNodes(data.nodes);
-		setEdges(data.edges);
-	}
-
-	function cancelClickableAreaEdit(): void {
-		setClickableAreaDraftPoints([]);
-		setClickableAreaCursorPosition(null);
-	}
-
-	function onSelectedToolChange(tool: Tool): void {
-		if (tool === selectedTool) return;
-
-		if (selectedTool === Tool.EditClickableArea) {
-			cancelClickableAreaEdit();
-			setClickableAreaEditingNodeId(null);
-			setSelectedClickableAreaTool(ClickableAreaTool.SelectNode);
-			draggedClickableAreaPointRef.current = null;
-		}
-
-		setSelectedTool(tool);
-
-		switch (tool) {
-			case Tool.SingleSelect:
-				if (selectedNodesAndEdges.size === 1) {
-					const firstItem: Node | Edge = Array.from(selectedNodesAndEdges)[0];
-					if (isNode(firstItem)) setSelectedNode(firstItem);
-					else if (isEdge(firstItem)) setSelectedEdge(firstItem);
-				}
-
-				setSelectedNodesAndEdges(new Set<Node | Edge>());
-				break;
-			case Tool.MultiSelect:
-				if (selectedNode) setSelectedNodesAndEdges(new Set<Node | Edge>([selectedNode]));
-				else if (selectedEdge) setSelectedNodesAndEdges(new Set<Node | Edge>([selectedEdge]));
-
-				setSelectedNode(null);
-				setSelectedEdge(null);
-				break;
-			case Tool.CreateNode:
-				setSelectedNode(null);
-				setSelectedEdge(null);
-				setSelectedNodesAndEdges(new Set<Node | Edge>());
-				break;
-			case Tool.SingleConnect:
-			case Tool.MultiConnect:
-				if (selectedNodesAndEdges.size === 1) {
-					const firstItem: Node | Edge = Array.from(selectedNodesAndEdges)[0];
-					if (isNode(firstItem)) setSelectedNode(firstItem);
-				}
-
-				setSelectedEdge(null);
-				setSelectedNodesAndEdges(new Set<Node | Edge>());
-				break;
-			case Tool.MoveNode:
-				setSelectedNode(null);
-				setSelectedEdge(null);
-				setSelectedNodesAndEdges(new Set<Node | Edge>());
-				break;
-			case Tool.EditClickableArea:
-				if (selectedNodesAndEdges.size === 1) {
-					const firstItem: Node | Edge = Array.from(selectedNodesAndEdges)[0];
-					if (isNode(firstItem)) setSelectedNode(firstItem);
-				}
-
-				setSelectedClickableAreaTool(ClickableAreaTool.SelectNode);
-
-				if (selectedNode) setClickableAreaEditingNodeId(selectedNode.id);
-
-				setSelectedEdge(null);
-				setSelectedNodesAndEdges(new Set<Node | Edge>());
-				cancelClickableAreaEdit();
-				break;
-		}
-	}
-
-	function getToolHintText(): string | null {
-		switch (selectedTool) {
-			case Tool.SingleSelect:
-				return `Click a node/edge to select${selectedNode || selectedEdge ? "/deselect" : ""} it`;
-			case Tool.MultiSelect:
-				return `Hold ⇧ and Drag to select${
-					selectedNodesAndEdges.size > 0 ? ` | Hold ⇧ + ${primaryModifierLabel} and Drag to deselect` : ""
-				}`;
-			case Tool.SingleConnect:
-				return "Click 2 nodes to create or break a connection";
-			case Tool.MultiConnect:
-				return selectedNode === null ? "Click a node to select it" : "Click other nodes to create connections";
-			case Tool.MoveNode:
-				return "Click and Drag a node to move it";
-			case Tool.CreateNode:
-				return "Click on the map to create a new node";
-			case Tool.EditClickableArea:
-				if (!selectedNode) return "Click a node to select it";
-
-				if (selectedClickableAreaTool === ClickableAreaTool.MovePoints)
-					return "Click and Drag a clickable area point to move it";
-
-				if (selectedClickableAreaTool === ClickableAreaTool.AddPoint)
-					return "Click between 2 existing clickable area points to add a new point";
-
-				if (selectedClickableAreaTool === ClickableAreaTool.DeletePoint)
-					return "Click a clickable area point to delete it";
-
-				if (selectedNode.clickable_area?.length)
-					return "Use Select, Move, Add Point, or Delete Point tools in the clickable area toolbar";
-
-				const numDraftPoints: number = clickableAreaDraftPoints.length;
-
-				return (
-					(numDraftPoints < 3
-						? "Click to designate the corners of the clickable area"
-						: "Press Enter to finalize the clickable area") + (numDraftPoints > 0 ? " | Press Esc to cancel" : "")
-				);
-		}
-	}
-
-	function onMapClick(coordinates: { x: number; y: number } | null): void {
-		if (selectedTool === Tool.CreateNode && coordinates) createNode(coordinates.x, coordinates.y, nodeTypeToCreate);
-
-		if (
-			selectedTool === Tool.EditClickableArea &&
-			selectedClickableAreaTool === ClickableAreaTool.AddPoint &&
-			coordinates
-		) {
-			const selectedEditableNode: Node | null = getSelectedClickableAreaNode();
-			const points = selectedEditableNode?.clickable_area;
-			if (!selectedEditableNode || !points || points.length < 3) return;
-
-			const insertIndex: number = getClosestEdgeInsertIndexForPoint(points, coordinates);
-			const nextPoints = [...points.slice(0, insertIndex), coordinates, ...points.slice(insertIndex)];
-
-			upsertNodeClickableArea(selectedEditableNode.id, nextPoints);
-			setChangesMade(true);
-			return;
-		}
-
-		if (
-			selectedTool === Tool.EditClickableArea &&
-			selectedClickableAreaTool === ClickableAreaTool.SelectNode &&
-			coordinates &&
-			clickableAreaEditingNodeId !== null
-		) {
-			const editingNode: Node | undefined = nodes?.find((node) => node.id === clickableAreaEditingNodeId);
-			if (!editingNode || editingNode.clickable_area?.length) return;
-
-			setClickableAreaDraftPoints((prevPoints) => {
-				const nextPoint = { x: coordinates.x, y: coordinates.y };
-				if (
-					prevPoints.some((point) => Math.abs(point.x - nextPoint.x) < 0.001 && Math.abs(point.y - nextPoint.y) < 0.001)
-				) {
-					return prevPoints;
-				}
-
-				return [...prevPoints, nextPoint];
-			});
-		}
-	}
-
-	function onMapMouseMove(coordinates: SvgMapCoordinates | null): void {
-		if (
-			selectedTool !== Tool.EditClickableArea ||
-			selectedClickableAreaTool !== ClickableAreaTool.SelectNode ||
-			clickableAreaEditingNodeId === null
-		) {
-			setClickableAreaCursorPosition(null);
-			return;
-		}
-
-		const editingNode: Node | undefined = nodes?.find((node) => node.id === clickableAreaEditingNodeId);
-		if (!editingNode || editingNode.clickable_area?.length) {
-			setClickableAreaCursorPosition(null);
-			return;
-		}
-
-		setClickableAreaCursorPosition(coordinates);
-	}
-
-	function onMapMouseLeave(): void {
-		if (selectedTool === Tool.EditClickableArea) setClickableAreaCursorPosition(null);
-	}
-
-	function onNodeClick(node: Node): void {
-		switch (selectedTool) {
-			case Tool.SingleSelect:
-				handleNodeClickSingleSelectTool(node);
-				break;
-			case Tool.MultiSelect:
-				handleNodeClickMultiSelectTool(node);
-				break;
-			case Tool.SingleConnect:
-				handleNodeClickSingleConnectTool(node);
-				break;
-			case Tool.MultiConnect:
-				handleNodeClickMultiConnectTool(node);
-				break;
-			case Tool.EditClickableArea:
-				handleNodeClickEditClickableArea(node);
-				break;
-		}
-	}
-
-	function handleNodeClickEditClickableArea(node: Node): void {
-		if (selectedClickableAreaTool !== ClickableAreaTool.SelectNode) return;
-
-		if (clickableAreaEditingNodeId === node.id) {
-			cancelClickableAreaEdit();
-			setClickableAreaEditingNodeId(null);
-			setSelectedNode(null);
-			return;
-		}
-
-		setSelectedNode(node);
-		setClickableAreaEditingNodeId(node.id);
-		setClickableAreaDraftPoints([]);
-		setClickableAreaCursorPosition(null);
-	}
-
-	function handleNodeClickSingleSelectTool(node: Node): void {
-		if (selectedNode === node) setSelectedNode(null);
-		else setSelectedNode(node);
-
-		setSelectedEdge(null);
-	}
-
-	function handleNodeClickMultiSelectTool(node: Node): void {
-		if (!selectedNodesAndEdges.has(node)) {
-			setSelectedNodesAndEdges(new Set(selectedNodesAndEdges).add(node));
-			return;
-		}
-
-		const newSet: Set<Node | Edge> = new Set(selectedNodesAndEdges);
-		newSet.delete(node);
-		setSelectedNodesAndEdges(newSet);
-	}
-
-	function handleNodeClickSingleConnectTool(node: Node): void {
-		if (selectedNode === null) return setSelectedNode(node);
-
-		if (selectedNode.id === node.id) return setSelectedNode(null);
-
-		if (nodesHaveConnection(selectedNode, node)) {
-			deleteEdge(selectedNode.id, node.id);
-			setSelectedNode(null);
-			return;
-		}
-
-		makeConnection(selectedNode, node);
-		setSelectedNode(null);
-	}
-
-	function handleNodeClickMultiConnectTool(node: Node): void {
-		if (selectedNode === null) return setSelectedNode(node);
-
-		if (selectedNode.id === node.id) return setSelectedNode(null);
-
-		if (nodesHaveConnection(selectedNode, node)) deleteEdge(selectedNode.id, node.id);
-		else makeConnection(selectedNode, node);
-	}
-
-	function moveNode(nodeId: number, newX: number, newY: number): void {
-		setNodes(
-			(prevNodes) => prevNodes?.map((node) => (node.id === nodeId ? { ...node, x: newX, y: newY } : node)) ?? null
-		);
-
-		setSelectedNode((prevNode) => (prevNode?.id === nodeId ? { ...prevNode, x: newX, y: newY } : prevNode));
-
-		setHoveredNode((prevNode) => (prevNode?.id === nodeId ? { ...prevNode, x: newX, y: newY } : prevNode));
-
-		setChangesMade(true);
-	}
-
-	function onEdgeClick(edge: Edge): void {
-		switch (selectedTool) {
-			case Tool.SingleSelect:
-				handleEdgeClickSingleSelectTool(edge);
-				break;
-			case Tool.MultiSelect:
-				handleEdgeClickMultiSelectTool(edge);
-				break;
-		}
-	}
-
-	function handleEdgeClickSingleSelectTool(edge: Edge): void {
-		if (selectedEdge === edge) setSelectedEdge(null);
-		else setSelectedEdge(edge);
-
-		setSelectedNode(null);
-	}
-
-	function handleEdgeClickMultiSelectTool(edge: Edge): void {
-		if (!selectedNodesAndEdges.has(edge)) {
-			setSelectedNodesAndEdges(new Set(selectedNodesAndEdges).add(edge));
-			return;
-		}
-
-		const newSet: Set<Node | Edge> = new Set(selectedNodesAndEdges);
-		newSet.delete(edge);
-		setSelectedNodesAndEdges(newSet);
-	}
-
-	function onHoveredNodeChange(node: Node | null): void {
-		setHoveredNode((prevNode) => (prevNode?.id === node?.id ? prevNode : node));
-	}
-
-	function onHoveredEdgeChange(edge: Edge | null): void {
-		setHoveredEdge((prevEdge) => (prevEdge?.id === edge?.id ? prevEdge : edge));
-	}
-
-	function isEditableTarget(target: EventTarget | null): boolean {
-		if (!(target instanceof HTMLElement)) return false;
-
-		const editableTagNames: string[] = ["INPUT", "TEXTAREA"];
-		return target.isContentEditable || editableTagNames.includes(target.tagName);
-	}
-
-	function deleteSelectedItems(): void {
-		if (!nodes || !edges) return;
-
-		const selectedNodeIds: Set<number> = new Set();
-		const selectedEdgeIds: Set<string> = new Set();
-
-		if (selectedNode) selectedNodeIds.add(selectedNode.id);
-		if (selectedEdge) selectedEdgeIds.add(selectedEdge.id);
-
-		for (const item of selectedNodesAndEdges) {
-			if (isNode(item)) selectedNodeIds.add(item.id);
-			if (isEdge(item)) selectedEdgeIds.add(item.id);
-		}
-
-		if (selectedNodeIds.size === 0 && selectedEdgeIds.size === 0) return;
-
-		setNodes((prevNodes) => prevNodes?.filter((node) => !selectedNodeIds.has(node.id)) ?? null);
-		setEdges(
-			(prevEdges) =>
-				prevEdges?.filter((edge) => {
-					if (selectedNodeIds.has(edge.source_node_id) || selectedNodeIds.has(edge.target_node_id)) return false;
-					return !selectedEdgeIds.has(edge.id);
-				}) ?? null
-		);
-
-		setSelectedNode(null);
-		setSelectedEdge(null);
-		setSelectedNodesAndEdges(new Set<Node | Edge>());
-
-		setHoveredNode((prevNode) => (prevNode && selectedNodeIds.has(prevNode.id) ? null : prevNode));
-		setHoveredEdge((prevEdge) => {
-			if (!prevEdge) return prevEdge;
-
-			const deletedWithNode: boolean =
-				selectedNodeIds.has(prevEdge.source_node_id) || selectedNodeIds.has(prevEdge.target_node_id);
-
-			if (deletedWithNode) return null;
-			return selectedEdgeIds.has(prevEdge.id) ? null : prevEdge;
-		});
-
-		setChangesMade(true);
-	}
-
 	function onZoomInButtonClicked(): void {
 		svgViewerRef.current?.zoomBy(svgViewerZoomStep);
 	}
@@ -896,40 +477,7 @@ export default function IndoorMapEditor(): React.JSX.Element {
 		svgViewerRef.current?.zoomBy(-svgViewerZoomStep);
 	}
 
-	useEffect(() => {
-		const onKeyDown = (event: KeyboardEvent): void => {
-			if (showCreateBuildingModal || showEditBuildingModal || savePending || discardPending) return;
-			if (isEditableTarget(event.target)) return;
-
-			if (selectedTool === Tool.EditClickableArea) {
-				if (event.key === "Escape") {
-					event.preventDefault();
-					cancelClickableAreaEdit();
-					return;
-				}
-
-				if (event.key === "Enter" && clickableAreaEditingNodeId !== null) {
-					event.preventDefault();
-					finalizeClickableArea();
-					return;
-				}
-			}
-
-			if (event.key !== "Delete" && event.key !== "Backspace") return;
-
-			const hasSelection: boolean = selectedNode !== null || selectedEdge !== null || selectedNodesAndEdges.size > 0;
-			if (!hasSelection) return;
-
-			event.preventDefault();
-			deleteSelectedItems();
-		};
-
-		window.addEventListener("keydown", onKeyDown);
-
-		return () => {
-			window.removeEventListener("keydown", onKeyDown);
-		};
-	}, [
+	useMapEditorKeyboard({
 		selectedNode,
 		selectedEdge,
 		selectedNodesAndEdges,
@@ -941,234 +489,11 @@ export default function IndoorMapEditor(): React.JSX.Element {
 		edges,
 		selectedTool,
 		clickableAreaEditingNodeId,
-		clickableAreaDraftPoints
-	]);
-
-	function isNodeSelected(node: Node): boolean {
-		return (
-			selectedNode?.id === node.id ||
-			Array.from(selectedNodesAndEdges).filter((n) => isNode(n) && n.id === node.id).length > 0
-		);
-	}
-
-	function isEdgeSelected(edge: Edge): boolean {
-		return (
-			selectedEdge?.id === edge.id ||
-			Array.from(selectedNodesAndEdges).filter((e) => isEdge(e) && e.id === edge.id).length > 0
-		);
-	}
-
-	function deleteClickableArea(nodeId: number): void {
-		setNodes(
-			(prevNodes) => prevNodes?.map((node) => (node.id === nodeId ? { ...node, clickable_area: null } : node)) ?? null
-		);
-		setSelectedNode((prevNode) => (prevNode?.id === nodeId ? { ...prevNode, clickable_area: null } : prevNode));
-		setClickableAreaDraftPoints([]);
-		setClickableAreaCursorPosition(null);
-		setChangesMade(true);
-	}
-
-	function getSelectedClickableAreaNode(): Node | null {
-		if (!selectedNode || clickableAreaEditingNodeId !== selectedNode.id) return null;
-		return selectedNode;
-	}
-
-	function upsertNodeClickableArea(nodeId: number, nextPoints: { x: number; y: number }[] | null): void {
-		setNodes(
-			(prevNodes) =>
-				prevNodes?.map((node) => (node.id === nodeId ? { ...node, clickable_area: nextPoints } : node)) ?? null
-		);
-
-		setSelectedNode((prevNode) =>
-			prevNode && prevNode.id === nodeId ? { ...prevNode, clickable_area: nextPoints } : prevNode
-		);
-	}
-
-	function getClosestEdgeInsertIndexForPoint(
-		points: { x: number; y: number }[],
-		targetPoint: { x: number; y: number }
-	): number {
-		let minDistanceSquared: number = Number.POSITIVE_INFINITY;
-		let insertIndex: number = 1;
-
-		for (let index = 0; index < points.length; index++) {
-			const nextIndex: number = (index + 1) % points.length;
-			const start = points[index];
-			const end = points[nextIndex];
-			const segmentDx: number = end.x - start.x;
-			const segmentDy: number = end.y - start.y;
-			const segmentLengthSquared: number = segmentDx * segmentDx + segmentDy * segmentDy;
-
-			let projectionRatio: number = 0;
-			if (segmentLengthSquared > 0) {
-				const projectedNumerator: number =
-					(targetPoint.x - start.x) * segmentDx + (targetPoint.y - start.y) * segmentDy;
-				projectionRatio = Math.min(Math.max(projectedNumerator / segmentLengthSquared, 0), 1);
-			}
-
-			const projectedPointX: number = start.x + projectionRatio * segmentDx;
-			const projectedPointY: number = start.y + projectionRatio * segmentDy;
-			const dx: number = targetPoint.x - projectedPointX;
-			const dy: number = targetPoint.y - projectedPointY;
-			const distanceSquared: number = dx * dx + dy * dy;
-
-			if (distanceSquared >= minDistanceSquared) continue;
-
-			minDistanceSquared = distanceSquared;
-			insertIndex = nextIndex;
-		}
-
-		return insertIndex;
-	}
-
-	function onClickableAreaToolChange(tool: ClickableAreaTool): void {
-		const selectedEditableNode: Node | null = getSelectedClickableAreaNode();
-		if (tool === ClickableAreaTool.MovePoints && !selectedEditableNode?.clickable_area?.length) return;
-		if (
-			tool === ClickableAreaTool.AddPoint &&
-			(!selectedEditableNode?.clickable_area || selectedEditableNode.clickable_area.length < 3)
-		)
-			return;
-		if (
-			tool === ClickableAreaTool.DeletePoint &&
-			(!selectedEditableNode?.clickable_area || selectedEditableNode.clickable_area.length <= 3)
-		)
-			return;
-
-		setSelectedClickableAreaTool(tool);
-		draggedClickableAreaPointRef.current = null;
-	}
-
-	function onDeleteClickableAreaActionClick(): void {
-		const selectedEditableNode: Node | null = getSelectedClickableAreaNode();
-		if (!selectedEditableNode?.clickable_area?.length) return;
-
-		deleteClickableArea(selectedEditableNode.id);
-		setSelectedClickableAreaTool(ClickableAreaTool.SelectNode);
-		draggedClickableAreaPointRef.current = null;
-	}
-
-	function getSvgCoordinatesFromPointerEvent(
-		event: React.PointerEvent<SVGCircleElement>
-	): { x: number; y: number } | null {
-		if (svgDimensions.width <= 0 || svgDimensions.height <= 0) return null;
-
-		const imageElement: Element | null = mapContainerRef.current?.querySelector(".viewer img") ?? null;
-		const viewerElement: Element | null = mapContainerRef.current?.querySelector(".viewer") ?? null;
-		const renderRect: DOMRect | null =
-			imageElement instanceof HTMLElement
-				? imageElement.getBoundingClientRect()
-				: viewerElement instanceof HTMLElement
-					? viewerElement.getBoundingClientRect()
-					: null;
-
-		if (!renderRect || renderRect.width <= 0 || renderRect.height <= 0) return null;
-
-		const normalizedX: number = (event.clientX - renderRect.left) / renderRect.width;
-		const normalizedY: number = (event.clientY - renderRect.top) / renderRect.height;
-
-		if (!Number.isFinite(normalizedX) || !Number.isFinite(normalizedY)) return null;
-
-		return {
-			x: Math.min(Math.max(normalizedX * svgDimensions.width, 0), svgDimensions.width),
-			y: Math.min(Math.max(normalizedY * svgDimensions.height, 0), svgDimensions.height)
-		};
-	}
-
-	function onClickableAreaPointPointerDown(
-		event: React.PointerEvent<SVGCircleElement>,
-		nodeId: number,
-		pointIndex: number
-	): void {
-		if (selectedTool !== Tool.EditClickableArea || selectedClickableAreaTool !== ClickableAreaTool.MovePoints) return;
-		if (clickableAreaEditingNodeId !== nodeId) return;
-
-		event.preventDefault();
-		event.stopPropagation();
-		draggedClickableAreaPointRef.current = { nodeId, pointIndex };
-		event.currentTarget.setPointerCapture(event.pointerId);
-	}
-
-	function onClickableAreaPointMouseDown(event: React.MouseEvent<SVGCircleElement>): void {
-		if (selectedTool !== Tool.EditClickableArea || selectedClickableAreaTool !== ClickableAreaTool.MovePoints) return;
-
-		event.preventDefault();
-		event.stopPropagation();
-	}
-
-	function onClickableAreaPointPointerMove(event: React.PointerEvent<SVGCircleElement>): void {
-		const activeDrag = draggedClickableAreaPointRef.current;
-		if (!activeDrag) return;
-
-		event.preventDefault();
-		event.stopPropagation();
-
-		const nextCoordinates = getSvgCoordinatesFromPointerEvent(event);
-		if (!nextCoordinates) return;
-
-		const selectedEditableNode: Node | null = getSelectedClickableAreaNode();
-		if (!selectedEditableNode?.clickable_area || selectedEditableNode.id !== activeDrag.nodeId) return;
-
-		const nextPoints = selectedEditableNode.clickable_area.map((point, index) =>
-			index === activeDrag.pointIndex ? { ...point, x: nextCoordinates.x, y: nextCoordinates.y } : point
-		);
-
-		upsertNodeClickableArea(activeDrag.nodeId, nextPoints);
-		setChangesMade(true);
-	}
-
-	function onClickableAreaPointPointerUp(event: React.PointerEvent<SVGCircleElement>): void {
-		if (draggedClickableAreaPointRef.current) {
-			event.preventDefault();
-			event.stopPropagation();
-			draggedClickableAreaPointRef.current = null;
-		}
-
-		if (event.currentTarget.hasPointerCapture(event.pointerId)) {
-			event.currentTarget.releasePointerCapture(event.pointerId);
-		}
-	}
-
-	function onClickableAreaPointClick(
-		event: React.MouseEvent<SVGCircleElement>,
-		nodeId: number,
-		pointIndex: number
-	): void {
-		if (selectedTool !== Tool.EditClickableArea || selectedClickableAreaTool !== ClickableAreaTool.DeletePoint) return;
-		if (clickableAreaEditingNodeId !== nodeId) return;
-
-		event.preventDefault();
-		event.stopPropagation();
-
-		const selectedEditableNode: Node | null = getSelectedClickableAreaNode();
-		const points = selectedEditableNode?.clickable_area;
-		if (!points || points.length <= 3) return;
-
-		const nextPoints = points.filter((_, index) => index !== pointIndex);
-		upsertNodeClickableArea(nodeId, nextPoints);
-
-		if (nextPoints.length <= 3) setSelectedClickableAreaTool(ClickableAreaTool.SelectNode);
-
-		setChangesMade(true);
-	}
-
-	function finalizeClickableArea(): void {
-		if (clickableAreaEditingNodeId === null || !canFinalizeClickableArea(clickableAreaDraftPoints)) return;
-
-		const finalizedArea = clickableAreaDraftPoints.map((point) => ({ x: point.x, y: point.y }));
-
-		setNodes(
-			(prevNodes) =>
-				prevNodes?.map((node) =>
-					node.id === clickableAreaEditingNodeId ? { ...node, clickable_area: finalizedArea } : node
-				) ?? null
-		);
-		setSelectedNode((prevNode) =>
-			prevNode && prevNode.id === clickableAreaEditingNodeId ? { ...prevNode, clickable_area: finalizedArea } : prevNode
-		);
-		cancelClickableAreaEdit();
-		setChangesMade(true);
-	}
+		clickableAreaDraftPoints,
+		deleteSelectedItems,
+		cancelClickableAreaEdit,
+		finalizeClickableArea
+	});
 
 	function createNode(x: number, y: number, nodeType: string): void {
 		const widthMatch = svg?.match(/width\s*=\s*["']([^"']+)["']/i);
@@ -1364,410 +689,93 @@ export default function IndoorMapEditor(): React.JSX.Element {
 		setSavePending(false);
 	}
 
-	async function postChangesToDatabase(): Promise<void> {
-		await updateIndoorMapService(selectedBuilding!.code, selectedFloor!, nodes!, edges!);
+	function moveNode(nodeId: number, newX: number, newY: number): void {
+		setNodes(
+			(prevNodes) => prevNodes?.map((node) => (node.id === nodeId ? { ...node, x: newX, y: newY } : node)) ?? null
+		);
+		setSelectedNode((prevNode) => (prevNode?.id === nodeId ? { ...prevNode, x: newX, y: newY } : prevNode));
+		setHoveredNode((prevNode) => (prevNode?.id === nodeId ? { ...prevNode, x: newX, y: newY } : prevNode));
+		setChangesMade(true);
 	}
-
-	const selectedClickableAreaNode: Node | null = getSelectedClickableAreaNode();
-	const canMoveClickableAreaPoints: boolean = Boolean(selectedClickableAreaNode?.clickable_area?.length);
-	const canAddClickableAreaPoint: boolean = Boolean(
-		selectedClickableAreaNode?.clickable_area && selectedClickableAreaNode.clickable_area.length >= 3
-	);
-	const canDeleteClickableAreaPoint: boolean = Boolean(
-		selectedClickableAreaNode?.clickable_area && selectedClickableAreaNode.clickable_area.length > 3
-	);
-	const canDeleteClickableArea: boolean = Boolean(selectedClickableAreaNode?.clickable_area?.length);
 
 	return (
 		<>
-			<div className="header-row">
-				<div className="left-side">
-					{/* Building Dropdown */}
-					<div className="selector-container">
-						<p>Building:</p>
-						<select
-							value={selectedBuilding?.code || ""}
-							onChange={(e) => onSelectedBuildingChange(buildings.find((b) => b.code === e.target.value)!)}
-							disabled={changesMade}
-						>
-							<option value="" disabled>
-								---
-							</option>
+			<IndoorMapEditorHeader
+				buildings={buildings}
+				selectedBuilding={selectedBuilding}
+				selectedFloor={selectedFloor}
+				selectedTool={selectedTool}
+				nodeTypeToCreate={nodeTypeToCreate}
+				changesMade={changesMade}
+				onSelectedBuildingChange={onSelectedBuildingChange}
+				onSelectedFloorChange={onSelectedFloorChange}
+				onNodeTypeChange={setNodeTypeToCreate}
+				onCreateBuilding={() => setShowCreateBuildingModal(true)}
+				onEditBuilding={() => setShowEditBuildingModal(true)}
+				onDiscard={() => setDiscardPending(true)}
+				onSave={() => setSavePending(true)}
+			/>
 
-							{buildings.length > 0 &&
-								buildings.map((building) => (
-									<option key={building.code} value={building.code}>
-										{building.code}
-									</option>
-								))}
-						</select>
-					</div>
-
-					{/* Floor Dropdown */}
-					{selectedBuilding && (
-						<div className="selector-container">
-							<p>Floor:</p>
-							<select
-								value={selectedFloor || ""}
-								onChange={(e) => onSelectedFloorChange(parseInt(e.target.value))}
-								disabled={changesMade}
-							>
-								<option value="" disabled>
-									---
-								</option>
-
-								{Array.from({ length: selectedBuilding?.num_floors || 0 }, (_, i) => (
-									<option key={i + 1} value={i + 1}>
-										{i + 1}
-									</option>
-								))}
-							</select>
-						</div>
-					)}
-
-					{/* Create Building Button */}
-					{!selectedBuilding && (
-						<button
-							onClick={() => {
-								setShowCreateBuildingModal(true);
-							}}
-							className="outline-button secondary"
-						>
-							<img src={addIcon} alt="create icon" />
-							Create Building
-						</button>
-					)}
-
-					{/* Edit Building Button */}
-					{selectedBuilding && (
-						<button
-							onClick={() => {
-								setShowEditBuildingModal(true);
-							}}
-							disabled={selectedBuilding === null || changesMade}
-							className="outline-button secondary"
-						>
-							<img src={editIcon} alt="edit icon" />
-							Edit Building
-						</button>
-					)}
-				</div>
-
-				{/* Node Type Dropdown */}
-				{selectedTool === Tool.CreateNode && (
-					<div className="selector-container">
-						<p>New Node's Type:</p>
-
-						<select value={nodeTypeToCreate} onChange={(e) => setNodeTypeToCreate(e.target.value)}>
-							{Object.values(NodeType).map((type) => (
-								<option key={type} value={type}>
-									{type.charAt(0).toUpperCase() + type.slice(1)}
-								</option>
-							))}
-						</select>
-					</div>
-				)}
-
-				<div className="right-side">
-					{/* Discard Button */}
-					<button
-						onClick={() => {
-							setDiscardPending(true);
-						}}
-						disabled={!changesMade}
-						className="outline-button danger"
-					>
-						Discard
-					</button>
-
-					{/* Save Button */}
-					<button
-						onClick={() => {
-							setSavePending(true);
-						}}
-						disabled={!changesMade}
-						className="button primary"
-					>
-						<img src={saveIcon} alt="save icon" />
-						Save
-					</button>
-				</div>
-			</div>
-
-			{/* Editor */}
 			{mapLoaded && (
-				<div className="editor">
-					<div ref={mapContainerRef} className="map">
-						{getToolHintText() && (
-							<div
-								style={{
-									position: "absolute",
-									top: 12,
-									left: "50%",
-									transform: "translateX(-50%)",
-									background: "rgba(0, 0, 0, 0.65)",
-									color: "#fff",
-									padding: "6px 10px",
-									borderRadius: 8,
-									fontSize: 12,
-									lineHeight: 1.3,
-									pointerEvents: "none",
-									zIndex: 10
-								}}
-							>
-								{getToolHintText()}
-							</div>
-						)}
-
-						<SvgViewerComponent
-							ref={svgViewerRef}
-							svg={svg!}
-							allowPan={
-								selectedTool !== Tool.CreateNode &&
-								(selectedTool !== Tool.MultiSelect || !isShiftPressed)
-							}
-							selectedTool={selectedTool}
-							isClickableAreaDraftActive={clickableAreaEditingNodeId !== null}
-							onMapClick={onMapClick}
-							onMapMouseMove={onMapMouseMove}
-							onMapMouseLeave={onMapMouseLeave}
-						>
-							{selectedTool === Tool.EditClickableArea && (
-								<div
-									style={{
-										position: "absolute",
-										inset: 0,
-										zIndex: 2,
-										pointerEvents: "none"
-									}}
-								>
-									<svg
-										viewBox={`0 0 ${svgDimensions.width} ${svgDimensions.height}`}
-										preserveAspectRatio="none"
-										style={{ width: "100%", height: "100%" }}
-									>
-										{nodes!.map((node) => {
-											const area = node.clickable_area;
-											if (area && area.length >= 3) {
-												return (
-													<g key={node.id}>
-														<polygon
-															points={buildClickableAreaPoints(area)}
-															fill={toRgba(getNodeTypeHexColor(node.type), 0.12)}
-															stroke={toRgba(getNodeTypeHexColor(node.type), 0.45)}
-															strokeWidth={0.5}
-														/>
-														{area.map((point, index) => (
-															<circle
-																key={`${node.id}-${index}`}
-																cx={point.x}
-																cy={point.y}
-																r={
-																	(selectedClickableAreaTool === ClickableAreaTool.MovePoints ||
-																		selectedClickableAreaTool === ClickableAreaTool.DeletePoint) &&
-																	clickableAreaEditingNodeId === node.id
-																		? 1.6
-																		: 1
-																}
-																fill="rgba(255, 255, 255, 0.8)"
-																stroke="rgba(255, 255, 255, 0.9)"
-																strokeWidth={0.5}
-																style={{
-																	cursor:
-																		(selectedClickableAreaTool === ClickableAreaTool.MovePoints ||
-																			selectedClickableAreaTool === ClickableAreaTool.DeletePoint) &&
-																		clickableAreaEditingNodeId === node.id
-																			? selectedClickableAreaTool === ClickableAreaTool.MovePoints
-																				? "move"
-																				: "pointer"
-																			: "default",
-																	pointerEvents:
-																		(selectedClickableAreaTool === ClickableAreaTool.MovePoints ||
-																			selectedClickableAreaTool === ClickableAreaTool.DeletePoint) &&
-																		clickableAreaEditingNodeId === node.id
-																			? "all"
-																			: "none"
-																}}
-																onPointerDown={(event) => onClickableAreaPointPointerDown(event, node.id, index)}
-																onPointerMove={onClickableAreaPointPointerMove}
-																onPointerUp={onClickableAreaPointPointerUp}
-																onPointerCancel={onClickableAreaPointPointerUp}
-																onMouseDown={onClickableAreaPointMouseDown}
-																onClick={(event) => onClickableAreaPointClick(event, node.id, index)}
-															/>
-														))}
-													</g>
-												);
-											}
-
-											if (clickableAreaEditingNodeId === node.id) {
-												const previewPoints = [
-													...clickableAreaDraftPoints,
-													...(clickableAreaCursorPosition ? [clickableAreaCursorPosition] : [])
-												];
-
-												if (previewPoints.length === 0) return null;
-
-												return (
-													<g key={node.id}>
-														<polygon
-															points={buildClickableAreaPoints(clickableAreaDraftPoints, clickableAreaCursorPosition)}
-															fill={toRgba(getNodeTypeHexColor(node.type), 0.12)}
-															stroke={toRgba(getNodeTypeHexColor(node.type), 0.45)}
-															strokeWidth={0.5}
-														/>
-														{previewPoints.map((point, index) => (
-															<circle
-																key={`${node.id}-draft-${index}`}
-																cx={point.x}
-																cy={point.y}
-																r={1}
-																fill="rgba(255, 255, 255, 0.8)"
-																stroke="rgba(255, 255, 255, 0.9)"
-																strokeWidth={0.5}
-															/>
-														))}
-													</g>
-												);
-											}
-
-											return null;
-										})}
-									</svg>
-								</div>
-							)}
-
-							{edges!.map((edge) => {
-								const sourceNode = nodes!.find((node) => node.id === edge.source_node_id);
-								const targetNode = nodes!.find((node) => node.id === edge.target_node_id);
-
-								if (!sourceNode || !targetNode) return null;
-
-								return (
-									<EdgeComponent
-										key={edge.id}
-										edge={edge}
-										sourceNode={sourceNode}
-										targetNode={targetNode}
-										isSelected={isEdgeSelected(edge)}
-										selectedTool={selectedTool}
-										onEdgeClick={onEdgeClick}
-										setHoveredEdge={onHoveredEdgeChange}
-									/>
-								);
-							})}
-
-							{nodes!.map((node) => (
-								<NodeComponent
-									key={node.id}
-									node={node}
-									isSelected={isNodeSelected(node)}
-									selectedTool={selectedTool}
-									onNodeClick={onNodeClick}
-									setHoveredNode={onHoveredNodeChange}
-									moveNode={moveNode}
-								/>
-							))}
-						</SvgViewerComponent>
-					</div>
-
-					{selectedTool === Tool.EditClickableArea && (
-						<div className="clickable-area-toolbar">
-							<ClickableAreaToolbar
-								selectedTool={selectedClickableAreaTool}
-								onToolChange={onClickableAreaToolChange}
-								onDeleteArea={onDeleteClickableAreaActionClick}
-								canMovePoints={canMoveClickableAreaPoints}
-								canAddPoint={canAddClickableAreaPoint}
-								canDeletePoint={canDeleteClickableAreaPoint}
-								canDeleteArea={canDeleteClickableArea}
-							/>
-						</div>
-					)}
-
-					<div className="toolbar">
-						<IndoorMapEditorToolbar
-							selectedTool={selectedTool}
-							setSelectedTool={onSelectedToolChange}
-							zoomStep={svgViewerZoomStep}
-							onZoomIn={onZoomInButtonClicked}
-							onZoomOut={onZoomOutButtonClicked}
-						/>
-					</div>
-
-					{/* Map Key */}
-					<div className="key-container">
-						<span className="key-title">Key</span>
-						{key.map((item, index) => (
-							<div key={index} className="key-item">
-								<img src={item.icon} alt={item.label} className={clsx("key-icon", item.className)} />
-								<span>{item.label}</span>
-							</div>
-						))}
-					</div>
-
-					<div className="context-overlays">
-						{/* Contextual information about the hovered node/edge */}
-						{((hoveredNode && hoveredNode !== selectedNode) || (hoveredEdge && hoveredEdge !== selectedEdge)) &&
-							(selectedNodesAndEdges.size !== 1 ||
-								(hoveredNode !== (Array.from(selectedNodesAndEdges)[0] as Node) &&
-									hoveredEdge !== (Array.from(selectedNodesAndEdges)[0] as Edge))) && (
-								<IndoorGraphContextComponent
-									nodes={hoveredNode ? [hoveredNode] : []}
-									edges={hoveredEdge ? [hoveredEdge] : []}
-									isHovered={true}
-								/>
-							)}
-
-						{/* Contextual information about the selected node/edge */}
-						{(selectedNode || selectedEdge || selectedNodesAndEdges.size > 0) && (
-							<IndoorGraphContextComponent
-								nodes={
-									selectedNode
-										? [selectedNode]
-										: selectedNodesAndEdges.size > 0
-											? Array.from(selectedNodesAndEdges).filter(isNode)
-											: []
-								}
-								edges={
-									selectedEdge
-										? [selectedEdge]
-										: selectedNodesAndEdges.size > 0
-											? Array.from(selectedNodesAndEdges).filter(isEdge)
-											: []
-								}
-								isHovered={false}
-								updateNode={updateNode}
-								deleteNode={deleteNode}
-								deleteEdge={deleteEdge}
-							/>
-						)}
-					</div>
-
-					{/* Save confirmation modal */}
-					<ConfirmationModal
-						isOpen={savePending}
-						title="Confirm Save Changes"
-						content="Are you sure you want to save the changes? This action will be made live immediately to all users."
-						onClose={() => {
-							setSavePending(false);
-						}}
-						onConfirm={saveChanges}
-					/>
-
-					{/* Discard confirmation modal */}
-					<ConfirmationModal
-						isOpen={discardPending}
-						title="Confirm Discard Changes"
-						content="Are you sure you want to discard the changes? This action cannot be undone."
-						onClose={() => {
-							setDiscardPending(false);
-						}}
-						onConfirm={discardChanges}
-						isDanger={true}
-					/>
-				</div>
+				<IndoorMapEditorMap
+					svgViewerRef={svgViewerRef}
+					mapContainerRef={mapContainerRef}
+					svg={svg!}
+					svgDimensions={svgDimensions}
+					nodes={nodes!}
+					edges={edges!}
+					selectedTool={selectedTool}
+					selectedNode={selectedNode}
+					selectedEdge={selectedEdge}
+					selectedNodesAndEdges={selectedNodesAndEdges}
+					hoveredNode={hoveredNode}
+					hoveredEdge={hoveredEdge}
+					selectedClickableAreaTool={selectedClickableAreaTool}
+					clickableAreaEditingNodeId={clickableAreaEditingNodeId}
+					clickableAreaDraftPoints={clickableAreaDraftPoints}
+					clickableAreaCursorPosition={clickableAreaCursorPosition}
+					isShiftPressed={isShiftPressed}
+					canMoveClickableAreaPoints={canMoveClickableAreaPoints}
+					canAddClickableAreaPoint={canAddClickableAreaPoint}
+					canDeleteClickableAreaPoint={canDeleteClickableAreaPoint}
+					canDeleteClickableArea={canDeleteClickableArea}
+					getToolHintText={getToolHintText}
+					onMapClick={onMapClick}
+					onMapMouseMove={onMapMouseMove}
+					onMapMouseLeave={onMapMouseLeave}
+					onNodeClick={onNodeClick}
+					onClickableAreaNodeSelect={handleNodeClickEditClickableArea}
+					onEdgeClick={onEdgeClick}
+					onHoveredNodeChange={onHoveredNodeChange}
+					onHoveredEdgeChange={onHoveredEdgeChange}
+					onClickableAreaToolChange={onClickableAreaToolChange}
+					onDeleteClickableAreaActionClick={onDeleteClickableAreaActionClick}
+					onClickableAreaPointPointerDown={onClickableAreaPointPointerDown}
+					onClickableAreaPointPointerMove={onClickableAreaPointPointerMove}
+					onClickableAreaPointPointerUp={onClickableAreaPointPointerUp}
+					onClickableAreaPointMouseDown={onClickableAreaPointMouseDown}
+					onClickableAreaPointClick={onClickableAreaPointClick}
+					onZoomIn={onZoomInButtonClicked}
+					onZoomOut={onZoomOutButtonClicked}
+					onToolSelect={onSelectedToolChange}
+					svgViewerZoomStep={svgViewerZoomStep}
+					moveNode={moveNode}
+					isNodeSelected={isNodeSelected}
+					isEdgeSelected={isEdgeSelected}
+					updateNode={updateNode}
+					deleteNode={deleteNode}
+					deleteEdge={deleteEdge}
+				/>
 			)}
+
+			<ConfirmSaveDiscardModals
+				savePending={savePending}
+				discardPending={discardPending}
+				onSaveClose={() => setSavePending(false)}
+				onSaveConfirm={saveChanges}
+				onDiscardClose={() => setDiscardPending(false)}
+				onDiscardConfirm={discardChanges}
+			/>
 
 			{/* Create Building Modal */}
 			{showCreateBuildingModal && (

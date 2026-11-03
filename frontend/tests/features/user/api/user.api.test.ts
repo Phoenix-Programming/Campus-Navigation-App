@@ -18,6 +18,10 @@ vi.mock("@features/notifications/services/notifications.service", () => ({
 
 describe("user api", () => {
 	beforeEach(() => {
+		vi.restoreAllMocks();
+		vi.spyOn(console, "error").mockImplementation(() => undefined);
+		vi.spyOn(console, "warn").mockImplementation(() => undefined);
+		vi.spyOn(console, "log").mockImplementation(() => undefined);
 		vi.clearAllMocks();
 	});
 

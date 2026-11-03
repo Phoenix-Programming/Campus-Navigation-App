@@ -116,7 +116,9 @@ describe("notifications service", () => {
 		});
 		expect(hookState?.notifications).toHaveLength(0);
 
-		root.unmount();
+		React.act(() => {
+			root.unmount();
+		});
 		container.remove();
 	});
 

@@ -5,6 +5,7 @@ export default defineConfig({
 	test: {
 		globals: true,
 		environment: "jsdom",
+		setupFiles: ["./vitest.setup.ts"],
 		coverage: {
 			enabled: true,
 			reporter: ["text", "json-summary", "html"],
@@ -18,8 +19,8 @@ export default defineConfig({
 	},
 	resolve: {
 		alias: {
-			'@': path.resolve(process.cwd(), "./"),
-			'@public': path.resolve(process.cwd(), "./public"),
+			"@": path.resolve(process.cwd(), "./"),
+			"@public": path.resolve(process.cwd(), "./public"),
 			"@assets": path.resolve(process.cwd(), "./src/assets"),
 			"@features": path.resolve(process.cwd(), "./src/features"),
 			"@shared": path.resolve(process.cwd(), "./src/shared")
