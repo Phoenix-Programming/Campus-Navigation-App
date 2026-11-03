@@ -15,7 +15,8 @@ POSTGRES_CONVENTION = {
 }
 
 engine: AsyncEngine = create_async_engine(
-    f"postgresql+psycopg://{settings.db_username}:{settings.db_password.get_secret_value()}@{settings.db_host}/{settings.db_name}"
+    f"postgresql+psycopg://{settings.db_username}:{settings.db_password.get_secret_value()}@{settings.db_host}/{settings.db_name}",
+    echo=settings.env == "DEV"
 )
 
 AsyncSessionLocal = async_sessionmaker(
