@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
-import { MapContainer, TileLayer, LayersControl, GeoJSON, SVGOverlay, ZoomControl, useMap } from "react-leaflet";
-import L, { type LatLngBounds } from "leaflet";
+import { MapContainer, TileLayer, LayersControl, GeoJSON, ZoomControl } from "react-leaflet";
+import L from "leaflet";
 import type { FeatureCollection, GeoJsonObject } from "geojson";
 import type { LayerData, LayerConfig, LoadedLayer } from "@features/map/models/layers";
+import IndoorSvgOverlay, { type IndoorMapOverlayData } from "@features/map/components/IndoorSvgOverlay";
 import { showError } from "@features/notifications/services/notifications.service";
 import "@shared/styles/main.scss";
 
@@ -31,46 +32,9 @@ interface IndoorMapConfig {
 	buildings: IndoorBuildingData[];
 }
 
-interface LoadedIndoorMap extends IndoorFloorData {
-	buildingId: string;
-	svgMarkup: string;
-	svgAttributes: Record<string, string>;
-	svgTransform: string | undefined;
-	bounds: LatLngBounds;
-}
-
-function IndoorSvgOverlay({ indoorMap }: { indoorMap: LoadedIndoorMap }) {
-	const map = useMap();
-
-	return (
-		<SVGOverlay
-			attributes={indoorMap.svgAttributes}
-			bounds={indoorMap.bounds}
-			interactive
-			eventHandlers={{
-				add: () =>
-					map.fitBounds(indoorMap.bounds, {
-						padding: [16, 16],
-						maxZoom: 19,
-						animate: true,
-						duration: 1
-					}),
-				click: () => {
-					// Placeholder for indoor map click behavior.
-				},
-				mouseover: () => {
-					// Placeholder for indoor map hover behavior.
-				}
-			}}
-		>
-			<g transform={indoorMap.svgTransform} dangerouslySetInnerHTML={{ __html: indoorMap.svgMarkup }} />
-		</SVGOverlay>
-	);
-}
-
 export default function LeafletMap() {
 	const [layers, setLayers] = useState<LoadedLayer[]>([]);
-	const [indoorMaps, setIndoorMaps] = useState<LoadedIndoorMap[]>([]);
+	const [indoorMaps, setIndoorMaps] = useState<IndoorMapOverlayData[]>([]);
 
 	useEffect(() => {
 		const loadLayers = async () => {
@@ -117,7 +81,7 @@ export default function LeafletMap() {
 
 				const loadedIndoorMaps = await Promise.all(
 					indoorConfig.buildings.flatMap((buildingInfo) =>
-						buildingInfo.floors.map(async (floorInfo): Promise<LoadedIndoorMap> => {
+						buildingInfo.floors.map(async (floorInfo): Promise<IndoorMapOverlayData> => {
 							const buildingFeature = buildingCollection.features.find(
 								(feature) => feature.properties?.bld_id === buildingInfo.id
 							);
