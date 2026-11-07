@@ -39,34 +39,39 @@ export default function WelcomeBox({ onOpenChange }: WelcomeBoxProps) {
             description: "Use the map controls to plan a route across campus."
         }
     }
+    const isWelcomeOpen = welcomeState < Object.keys(steps).length;
+
     return (
         <>
             {/*flip through pages until reaching the end of the steps*/}
-            {welcomeState != Object.keys(steps).length && (
-                <div className="welcome-box" onClick={() => undefined}>
-                    <WelcomeTabs
-                        steps={Object.values(steps)}
-                        activeStep={welcomeState}
-                        onSelect={setwelcomeState}
-                    />
+            {isWelcomeOpen && (
+                <>
+                    <div className="welcome-underlay" aria-hidden="true" />
+                    <div className="welcome-box" onClick={() => undefined}>
+                        <WelcomeTabs
+                            steps={Object.values(steps)}
+                            activeStep={welcomeState}
+                            onSelect={setwelcomeState}
+                        />
 
 
-                    {/*Title and description that changes with the current step*/ }
-                    <div className="welcome-title">{steps[welcomeState].title}</div>
-                    <div className="welcome-description">{steps[welcomeState].description}</div>
+                        {/*Title and description that changes with the current step*/}
+                        <div className="welcome-title">{steps[welcomeState].title}</div>
+                        <div className="welcome-description">{steps[welcomeState].description}</div>
 
 
-                    <button className="previous-button" onClick={() => setwelcomeState(welcomeState!= 0?welcomeState - 1:welcomeState)}>
-                        Previous
-                    </button>
-                    <button className="next-button" onClick={() => {
-                        const nextState = welcomeState + 1;
-                        setwelcomeState(nextState);
-                        onOpenChange(nextState < Object.keys(steps).length);
-                    }}>
-                        Next
-                    </button>
-                </div>
+                        <button className="previous-button" onClick={() => setwelcomeState(welcomeState != 0 ? welcomeState - 1 : welcomeState)}>
+                            Previous
+                        </button>
+                        <button className="next-button" onClick={() => {
+                            const nextState = welcomeState + 1;
+                            setwelcomeState(nextState);
+                            onOpenChange(nextState < Object.keys(steps).length);
+                        }}>
+                            Next
+                        </button>
+                    </div>
+                </>
             )}
         </>
     )

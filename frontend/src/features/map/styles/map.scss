@@ -18,7 +18,7 @@
   	border: 8px solid #5d0f73;
 }
 
-.map-page.map-underlay-active .map-container::after {
+.map-page.map-underlay-active:not(.map-welcome-active) .map-container::after {
 	content: "";
 	position: absolute;
 	inset: 0;

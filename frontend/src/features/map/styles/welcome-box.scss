@@ -1,5 +1,14 @@
+.welcome-underlay {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background: rgba(0, 0, 0, 0.7);
+    pointer-events: auto;
+}
+
 .welcome-box {
     position: absolute;
+    z-index: 2;
     pointer-events: auto;
     width: var(--welcomewidth);
     height: var(--welcomeheight);
