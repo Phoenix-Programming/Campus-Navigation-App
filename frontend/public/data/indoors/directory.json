@@ -1,8 +1,24 @@
 {
-	"maps": [
-		{ "id": "istF1", "name": "IST - Floor 1", "buildingId": "ist", "file": "ist/istF1_noNodes.svg" },
-		{ "id": "istF2", "name": "IST - Floor 2", "buildingId": "ist", "file": "ist/istF2_noNodes.svg" },
-		{ "id": "barcF1", "name": "BARC - Floor 1", "buildingId": "barc", "file": "BARC/barcF1_noNodes.svg" },
-		{ "id": "barcF2", "name": "BARC - Floor 2", "buildingId": "barc", "file": "BARC/barcF2_noNodes.svg" }
+	"buildings": [
+		{
+			"id": "ist",
+			"positionOffset": { "latitude": 0, "longitude": 0 },
+			"rotationOffsetDegrees": 48,
+			"scale": 1.55,
+			"floors": [
+				{ "id": "istF1", "name": "IST - Floor 1", "file": "ist/istF1_noNodes.svg" },
+				{ "id": "istF2", "name": "IST - Floor 2", "file": "ist/istF2_noNodes.svg" }
+			]
+		},
+		{
+			"id": "barc",
+			"positionOffset": { "latitude": 0.00004, "longitude": -0.00005 },
+			"rotationOffsetDegrees": -9,
+			"scale": 1.45,
+			"floors": [
+				{ "id": "barcF1", "name": "BARC - Floor 1", "file": "BARC/barcF1_noNodes.svg" },
+				{ "id": "barcF2", "name": "BARC - Floor 2", "file": "BARC/barcF2_noNodes.svg" }
+			]
+		}
 	]
 }

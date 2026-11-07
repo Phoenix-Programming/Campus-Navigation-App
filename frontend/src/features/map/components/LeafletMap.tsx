@@ -13,23 +13,29 @@ interface PositionOffset {
 	longitude: number;
 }
 
-interface IndoorMapData {
+interface IndoorFloorData {
 	id: string;
 	name: string;
-	buildingId: string;
 	file: string;
+}
+
+interface IndoorBuildingData {
+	id: string;
 	positionOffset: PositionOffset;
-	rotationDegrees: number;
+	rotationOffsetDegrees: number;
+	scale: number;
+	floors: IndoorFloorData[];
 }
 
 interface IndoorMapConfig {
-	maps: IndoorMapData[];
+	buildings: IndoorBuildingData[];
 }
 
-interface LoadedIndoorMap extends IndoorMapData {
+interface LoadedIndoorMap extends IndoorFloorData {
+	buildingId: string;
 	svgMarkup: string;
 	svgAttributes: Record<string, string>;
-	rotationTransform: string | undefined;
+	svgTransform: string | undefined;
 	bounds: LatLngBounds;
 }
 
@@ -57,7 +63,7 @@ function IndoorSvgOverlay({ indoorMap }: { indoorMap: LoadedIndoorMap }) {
 				}
 			}}
 		>
-			<g transform={indoorMap.rotationTransform} dangerouslySetInnerHTML={{ __html: indoorMap.svgMarkup }} />
+			<g transform={indoorMap.svgTransform} dangerouslySetInnerHTML={{ __html: indoorMap.svgMarkup }} />
 		</SVGOverlay>
 	);
 }
@@ -110,66 +116,69 @@ export default function LeafletMap() {
 				const indoorConfig: IndoorMapConfig = await directoryResponse.json();
 
 				const loadedIndoorMaps = await Promise.all(
-					indoorConfig.maps.map(async (mapInfo): Promise<LoadedIndoorMap> => {
-						const buildingFeature = buildingCollection.features.find(
-							(feature) => feature.properties?.bld_id === mapInfo.buildingId
-						);
-						if (!buildingFeature) {
-							throw new Error(`Building ${mapInfo.buildingId} was not found for indoor map ${mapInfo.id}.`);
-						}
+					indoorConfig.buildings.flatMap((buildingInfo) =>
+						buildingInfo.floors.map(async (floorInfo): Promise<LoadedIndoorMap> => {
+							const buildingFeature = buildingCollection.features.find(
+								(feature) => feature.properties?.bld_id === buildingInfo.id
+							);
+							if (!buildingFeature) {
+								throw new Error(`Building ${buildingInfo.id} was not found for floor ${floorInfo.id}.`);
+							}
 
-						const response = await fetch(`/data/indoors/${mapInfo.file}`);
-						if (!response.ok) {
-							throw new Error(`Failed to load indoor map ${mapInfo.id}: ${response.status}`);
-						}
+							const response = await fetch(`/data/indoors/${floorInfo.file}`);
+							if (!response.ok) {
+								throw new Error(`Failed to load indoor map ${floorInfo.id}: ${response.status}`);
+							}
 
-						const svgText = await response.text();
-						const parsedDocument = new DOMParser().parseFromString(svgText, "image/svg+xml");
-						const svgElement = parsedDocument.querySelector("svg");
-						if (
-							!svgElement ||
-							svgElement.namespaceURI !== "http://www.w3.org/2000/svg" ||
-							parsedDocument.querySelector("parsererror")
-						) {
-							throw new Error(`Indoor map ${mapInfo.id} is not valid SVG.`);
-						}
+							const svgText = await response.text();
+							const parsedDocument = new DOMParser().parseFromString(svgText, "image/svg+xml");
+							const svgElement = parsedDocument.querySelector("svg");
+							if (
+								!svgElement ||
+								svgElement.namespaceURI !== "http://www.w3.org/2000/svg" ||
+								parsedDocument.querySelector("parsererror")
+							) {
+								throw new Error(`Indoor map ${floorInfo.id} is not valid SVG.`);
+							}
 
-						const svgAttributes = Object.fromEntries(
-							Array.from(svgElement.attributes)
-								.filter(({ name }) => !["id", "width", "height"].includes(name))
-								.map(({ name, value }) => [name, value])
-						);
-						const viewBox = svgElement.viewBox.baseVal;
-						if (viewBox.width <= 0 || viewBox.height <= 0) {
-							throw new Error(`Indoor map ${mapInfo.id} has an invalid SVG viewBox.`);
-						}
+							const svgAttributes = Object.fromEntries(
+								Array.from(svgElement.attributes)
+									.filter(({ name }) => !["id", "width", "height"].includes(name))
+									.map(({ name, value }) => [name, value])
+							);
+							const viewBox = svgElement.viewBox.baseVal;
+							if (viewBox.width <= 0 || viewBox.height <= 0) {
+								throw new Error(`Indoor map ${floorInfo.id} has an invalid SVG viewBox.`);
+							}
 
-						const buildingBounds = L.geoJSON(buildingFeature).getBounds();
-						const bounds = L.latLngBounds(
-							[
-								buildingBounds.getSouthWest().lat + mapInfo.positionOffset.latitude,
-								buildingBounds.getSouthWest().lng + mapInfo.positionOffset.longitude
-							],
-							[
-								buildingBounds.getNorthEast().lat + mapInfo.positionOffset.latitude,
-								buildingBounds.getNorthEast().lng + mapInfo.positionOffset.longitude
-							]
-						);
-						if (!bounds.isValid()) {
-							throw new Error(`Building bounds are invalid for indoor map ${mapInfo.id}.`);
-						}
+							const buildingBounds = L.geoJSON(buildingFeature).getBounds();
+							const bounds = L.latLngBounds(
+								[
+									buildingBounds.getSouthWest().lat + buildingInfo.positionOffset.latitude,
+									buildingBounds.getSouthWest().lng + buildingInfo.positionOffset.longitude
+								],
+								[
+									buildingBounds.getNorthEast().lat + buildingInfo.positionOffset.latitude,
+									buildingBounds.getNorthEast().lng + buildingInfo.positionOffset.longitude
+								]
+							);
+							if (!bounds.isValid()) {
+								throw new Error(`Building bounds are invalid for indoor map ${floorInfo.id}.`);
+							}
 
-						return {
-							...mapInfo,
-							svgMarkup: svgElement.innerHTML,
-							svgAttributes,
-							rotationTransform:
-								mapInfo.rotationDegrees === 0
-									? undefined
-									: `rotate(${mapInfo.rotationDegrees} ${viewBox.x + viewBox.width / 2} ${viewBox.y + viewBox.height / 2})`,
-							bounds
-						};
-					})
+							return {
+								...floorInfo,
+								buildingId: buildingInfo.id,
+								svgMarkup: svgElement.innerHTML,
+								svgAttributes,
+								svgTransform:
+									buildingInfo.rotationOffsetDegrees === 0 && buildingInfo.scale === 1
+										? undefined
+										: `translate(${viewBox.x + viewBox.width / 2} ${viewBox.y + viewBox.height / 2}) rotate(${buildingInfo.rotationOffsetDegrees}) scale(${buildingInfo.scale}) translate(${-viewBox.x - viewBox.width / 2} ${-viewBox.y - viewBox.height / 2})`,
+								bounds
+							};
+						})
+					)
 				);
 				setIndoorMaps(loadedIndoorMaps);
 			} catch (error) {
