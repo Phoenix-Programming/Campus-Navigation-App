@@ -8,6 +8,7 @@ import { showError } from "@features/notifications/services/notifications.servic
 import "@shared/styles/main.scss";
 
 const { BaseLayer, Overlay } = LayersControl;
+const SVG_BOUNDS_PADDING = 0.05;
 
 interface PositionOffset {
 	latitude: number;
@@ -32,7 +33,11 @@ interface IndoorMapConfig {
 	buildings: IndoorBuildingData[];
 }
 
-export default function LeafletMap() {
+interface LeafletMapProps {
+	onIndoorMapFocusChange: (id: string, isFocused: boolean) => void;
+}
+
+export default function LeafletMap({ onIndoorMapFocusChange }: LeafletMapProps) {
 	const [layers, setLayers] = useState<LoadedLayer[]>([]);
 	const [indoorMaps, setIndoorMaps] = useState<IndoorMapOverlayData[]>([]);
 
@@ -105,15 +110,22 @@ export default function LeafletMap() {
 								throw new Error(`Indoor map ${floorInfo.id} is not valid SVG.`);
 							}
 
+							const viewBox = svgElement.viewBox.baseVal;
+							if (viewBox.width <= 0 || viewBox.height <= 0) {
+								throw new Error(`Indoor map ${floorInfo.id} has an invalid SVG viewBox.`);
+							}
+
 							const svgAttributes = Object.fromEntries(
 								Array.from(svgElement.attributes)
 									.filter(({ name }) => !["id", "width", "height"].includes(name))
 									.map(({ name, value }) => [name, value])
 							);
-							const viewBox = svgElement.viewBox.baseVal;
-							if (viewBox.width <= 0 || viewBox.height <= 0) {
-								throw new Error(`Indoor map ${floorInfo.id} has an invalid SVG viewBox.`);
-							}
+							svgAttributes.viewBox = [
+								viewBox.x - viewBox.width * SVG_BOUNDS_PADDING,
+								viewBox.y - viewBox.height * SVG_BOUNDS_PADDING,
+								viewBox.width * (1 + SVG_BOUNDS_PADDING * 2),
+								viewBox.height * (1 + SVG_BOUNDS_PADDING * 2)
+							].join(" ");
 
 							const buildingBounds = L.geoJSON(buildingFeature).getBounds();
 							const bounds = L.latLngBounds(
@@ -125,7 +137,7 @@ export default function LeafletMap() {
 									buildingBounds.getNorthEast().lat + buildingInfo.positionOffset.latitude,
 									buildingBounds.getNorthEast().lng + buildingInfo.positionOffset.longitude
 								]
-							);
+							).pad(SVG_BOUNDS_PADDING);
 							if (!bounds.isValid()) {
 								throw new Error(`Building bounds are invalid for indoor map ${floorInfo.id}.`);
 							}
@@ -182,7 +194,7 @@ export default function LeafletMap() {
 			zoomControl={false}
 			zoomSnap={0}
 			wheelPxPerZoomLevel={15}
-			minZoom={17}
+			minZoom={16}
 			maxZoom={20}
 			className="map-container"
 			maxBounds={[
@@ -211,7 +223,7 @@ export default function LeafletMap() {
 
 				{indoorMaps.map((indoorMap) => (
 					<Overlay key={indoorMap.id} checked={false} name={indoorMap.name}>
-						<IndoorSvgOverlay indoorMap={indoorMap} />
+						<IndoorSvgOverlay indoorMap={indoorMap} onFocusChange={onIndoorMapFocusChange} />
 					</Overlay>
 				))}
 			</LayersControl>

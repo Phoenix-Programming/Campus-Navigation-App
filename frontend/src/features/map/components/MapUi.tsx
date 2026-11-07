@@ -6,21 +6,24 @@ import QuickSettings from "./QuickSettings";
 import MapSettings from "./MapSettings";
 import "../styles/map-ui.scss";
 
+type MapUiProps = {
+    onWelcomeOpenChange: (isOpen: boolean) => void;
+    showControls: boolean;
+};
 
-export default function MapUi(): React.ReactElement {
+export default function MapUi({ onWelcomeOpenChange, showControls }: MapUiProps): React.ReactElement {
     return (
         <div className="map-ui">
-            <WelcomeBox/>
+            <WelcomeBox onOpenChange={onWelcomeOpenChange}/>
 
-
-            {/* Top bar containing search and quick access/settings buttons */}
-            <div className="topbar">
-                <SearchBar/>
-                <QuickAccess/>
-                <QuickSettings/>
-                <MapSettings/>
-            </div>
-
+            {showControls && (
+                <div className="topbar">
+                    <SearchBar/>
+                    <QuickAccess/>
+                    <QuickSettings/>
+                    <MapSettings/>
+                </div>
+            )}
         </div>
     )
 }

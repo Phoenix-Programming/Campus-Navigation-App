@@ -2,6 +2,9 @@ import { useState } from 'react';
 import WelcomeTabs from './WelcomeTabs';
 import "../styles/welcome-box.scss";
 
+type WelcomeBoxProps = {
+    onOpenChange: (isOpen: boolean) => void;
+};
 
 export type Step = {
     step: number;
@@ -11,7 +14,7 @@ export type Step = {
 };
 
 
-export default function WelcomeBox() {
+export default function WelcomeBox({ onOpenChange }: WelcomeBoxProps) {
     const [welcomeState, setwelcomeState] = useState<number>(0);
 
 
@@ -56,7 +59,11 @@ export default function WelcomeBox() {
                     <button className="previous-button" onClick={() => setwelcomeState(welcomeState!= 0?welcomeState - 1:welcomeState)}>
                         Previous
                     </button>
-                    <button className="next-button" onClick={() => setwelcomeState(welcomeState + 1)}>
+                    <button className="next-button" onClick={() => {
+                        const nextState = welcomeState + 1;
+                        setwelcomeState(nextState);
+                        onOpenChange(nextState < Object.keys(steps).length);
+                    }}>
                         Next
                     </button>
                 </div>

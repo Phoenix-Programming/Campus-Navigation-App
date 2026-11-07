@@ -17,3 +17,16 @@
 	box-sizing: border-box;
   	border: 8px solid #5d0f73;
 }
+
+.map-page.map-underlay-active .map-container::after {
+	content: "";
+	position: absolute;
+	inset: 0;
+	z-index: 500;
+	background: rgba(0, 0, 0, 0.5);
+	pointer-events: none;
+}
+
+.map-page.map-welcome-active .map-container .leaflet-control {
+	visibility: hidden;
+}
