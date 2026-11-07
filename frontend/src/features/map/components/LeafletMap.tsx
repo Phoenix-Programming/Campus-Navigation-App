@@ -19,6 +19,8 @@ interface IndoorFloorData {
 	id: string;
 	name: string;
 	file: string;
+	defaultVisible?: boolean;
+	focusOnAdd?: boolean;
 }
 
 interface IndoorBuildingData {
@@ -222,7 +224,7 @@ export default function LeafletMap({ onIndoorMapFocusChange }: LeafletMapProps) 
 				})}
 
 				{indoorMaps.map((indoorMap) => (
-					<Overlay key={indoorMap.id} checked={false} name={indoorMap.name}>
+					<Overlay key={indoorMap.id} checked={indoorMap.defaultVisible ?? false} name={indoorMap.name}>
 						<IndoorSvgOverlay indoorMap={indoorMap} onFocusChange={onIndoorMapFocusChange} />
 					</Overlay>
 				))}

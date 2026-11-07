@@ -6,7 +6,13 @@
 			"rotationOffsetDegrees": 48,
 			"scale": 1.55,
 			"floors": [
-				{ "id": "istF1", "name": "IST - Floor 1", "file": "ist/istF1_noNodes.svg" },
+				{
+					"id": "istF1",
+					"name": "IST - Floor 1",
+					"file": "ist/istF1_noNodes.svg",
+					"defaultVisible": true,
+					"focusOnAdd": false
+				},
 				{ "id": "istF2", "name": "IST - Floor 2", "file": "ist/istF2_noNodes.svg" }
 			]
 		},
@@ -16,7 +22,13 @@
 			"rotationOffsetDegrees": -9,
 			"scale": 1.45,
 			"floors": [
-				{ "id": "barcF1", "name": "BARC - Floor 1", "file": "BARC/barcF1_noNodes.svg" },
+				{
+					"id": "barcF1",
+					"name": "BARC - Floor 1",
+					"file": "BARC/barcF1_noNodes.svg",
+					"defaultVisible": true,
+					"focusOnAdd": false
+				},
 				{ "id": "barcF2", "name": "BARC - Floor 2", "file": "BARC/barcF2_noNodes.svg" }
 			]
 		}

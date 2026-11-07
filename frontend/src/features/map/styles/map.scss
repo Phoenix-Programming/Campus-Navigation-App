@@ -30,3 +30,22 @@
 .map-page.map-welcome-active .map-container .leaflet-control {
 	visibility: hidden;
 }
+
+.indoor-svg-artwork {
+	filter: brightness(0);
+	opacity: 0.3;
+	transition:
+		filter 150ms ease,
+		opacity 150ms ease;
+}
+
+.indoor-svg-artwork:hover {
+	filter: none;
+	opacity: 1;
+}
+
+.indoor-svg-artwork.indoor-svg-artwork-focused,
+.indoor-svg-artwork.indoor-svg-artwork-focused:hover {
+	filter: brightness(1.4);
+	opacity: 1;
+}

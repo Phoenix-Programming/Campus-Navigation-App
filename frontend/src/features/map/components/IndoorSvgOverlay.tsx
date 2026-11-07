@@ -10,6 +10,8 @@ export interface IndoorMapOverlayData {
 	svgAttributes: Record<string, string>;
 	svgTransform: string | undefined;
 	bounds: LatLngBounds;
+	defaultVisible?: boolean;
+	focusOnAdd?: boolean;
 }
 
 interface IndoorSvgOverlayProps {
@@ -21,6 +23,24 @@ export default function IndoorSvgOverlay({ indoorMap, onFocusChange }: IndoorSvg
 	const map = useMap();
 	const [isFocused, setIsFocused] = useState(false);
 	const focusZoom = useRef(0);
+
+	const focusIndoorMap = () => {
+		focusZoom.current = Math.max(
+			map.getMinZoom(),
+			Math.min(19, map.getBoundsZoom(indoorMap.bounds, false, L.point(16, 16)))
+		);
+		setIsFocused(true);
+		onFocusChange(indoorMap.id, true);
+		map.once("moveend", () => {
+			focusZoom.current = map.getZoom();
+		});
+		map.fitBounds(indoorMap.bounds, {
+			padding: [16, 16],
+			maxZoom: 19,
+			animate: true,
+			duration: 1
+		});
+	};
 
 	useEffect(() => {
 		if (!isFocused) return;
@@ -51,36 +71,22 @@ export default function IndoorSvgOverlay({ indoorMap, onFocusChange }: IndoorSvg
 			interactive
 			eventHandlers={{
 				add: () => {
-					focusZoom.current = Math.max(
-						map.getMinZoom(),
-						Math.min(19, map.getBoundsZoom(indoorMap.bounds, false, L.point(16, 16)))
-					);
-					setIsFocused(true);
-					onFocusChange(indoorMap.id, true);
-					map.once("moveend", () => {
-						focusZoom.current = map.getZoom();
-					});
-					map.fitBounds(indoorMap.bounds, {
-						padding: [16, 16],
-						maxZoom: 19,
-						animate: true,
-						duration: 1
-					});
+					if (indoorMap.focusOnAdd === false) return;
+					focusIndoorMap();
 				},
 				remove: () => {
 					focusZoom.current = 0;
 					setIsFocused(false);
 					onFocusChange(indoorMap.id, false);
 				},
-				click: () => {
-					// Placeholder for indoor map click behavior.
-				},
-				mouseover: () => {
-					// Placeholder for indoor map hover behavior.
-				}
+				click: focusIndoorMap
 			}}
 		>
-			<g transform={indoorMap.svgTransform} dangerouslySetInnerHTML={{ __html: indoorMap.svgMarkup }} />
+			<g
+				className={`indoor-svg-artwork${isFocused ? " indoor-svg-artwork-focused" : ""}`}
+				transform={indoorMap.svgTransform}
+				dangerouslySetInnerHTML={{ __html: indoorMap.svgMarkup }}
+			/>
 		</SVGOverlay>
 	);
 }
