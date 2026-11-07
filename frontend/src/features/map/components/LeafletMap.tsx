@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { MapContainer, TileLayer, LayersControl, GeoJSON, SVGOverlay, ZoomControl } from "react-leaflet";
+import { MapContainer, TileLayer, LayersControl, GeoJSON, SVGOverlay, ZoomControl, useMap } from "react-leaflet";
 import L, { type LatLngBounds } from "leaflet";
 import type { FeatureCollection, GeoJsonObject } from "geojson";
 import type { LayerData, LayerConfig, LoadedLayer } from "@features/map/models/layers";
@@ -8,11 +8,18 @@ import "@shared/styles/main.scss";
 
 const { BaseLayer, Overlay } = LayersControl;
 
+interface PositionOffset {
+	latitude: number;
+	longitude: number;
+}
+
 interface IndoorMapData {
 	id: string;
 	name: string;
 	buildingId: string;
 	file: string;
+	positionOffset: PositionOffset;
+	rotationDegrees: number;
 }
 
 interface IndoorMapConfig {
@@ -22,16 +29,26 @@ interface IndoorMapConfig {
 interface LoadedIndoorMap extends IndoorMapData {
 	svgMarkup: string;
 	svgAttributes: Record<string, string>;
+	rotationTransform: string | undefined;
 	bounds: LatLngBounds;
 }
 
 function IndoorSvgOverlay({ indoorMap }: { indoorMap: LoadedIndoorMap }) {
+	const map = useMap();
+
 	return (
 		<SVGOverlay
 			attributes={indoorMap.svgAttributes}
 			bounds={indoorMap.bounds}
 			interactive
 			eventHandlers={{
+				add: () =>
+					map.fitBounds(indoorMap.bounds, {
+						padding: [16, 16],
+						maxZoom: 19,
+						animate: true,
+						duration: 1
+					}),
 				click: () => {
 					// Placeholder for indoor map click behavior.
 				},
@@ -40,7 +57,7 @@ function IndoorSvgOverlay({ indoorMap }: { indoorMap: LoadedIndoorMap }) {
 				}
 			}}
 		>
-			<g dangerouslySetInnerHTML={{ __html: indoorMap.svgMarkup }} />
+			<g transform={indoorMap.rotationTransform} dangerouslySetInnerHTML={{ __html: indoorMap.svgMarkup }} />
 		</SVGOverlay>
 	);
 }
@@ -122,7 +139,22 @@ export default function LeafletMap() {
 								.filter(({ name }) => !["id", "width", "height"].includes(name))
 								.map(({ name, value }) => [name, value])
 						);
-						const bounds = L.geoJSON(buildingFeature).getBounds();
+						const viewBox = svgElement.viewBox.baseVal;
+						if (viewBox.width <= 0 || viewBox.height <= 0) {
+							throw new Error(`Indoor map ${mapInfo.id} has an invalid SVG viewBox.`);
+						}
+
+						const buildingBounds = L.geoJSON(buildingFeature).getBounds();
+						const bounds = L.latLngBounds(
+							[
+								buildingBounds.getSouthWest().lat + mapInfo.positionOffset.latitude,
+								buildingBounds.getSouthWest().lng + mapInfo.positionOffset.longitude
+							],
+							[
+								buildingBounds.getNorthEast().lat + mapInfo.positionOffset.latitude,
+								buildingBounds.getNorthEast().lng + mapInfo.positionOffset.longitude
+							]
+						);
 						if (!bounds.isValid()) {
 							throw new Error(`Building bounds are invalid for indoor map ${mapInfo.id}.`);
 						}
@@ -131,6 +163,10 @@ export default function LeafletMap() {
 							...mapInfo,
 							svgMarkup: svgElement.innerHTML,
 							svgAttributes,
+							rotationTransform:
+								mapInfo.rotationDegrees === 0
+									? undefined
+									: `rotate(${mapInfo.rotationDegrees} ${viewBox.x + viewBox.width / 2} ${viewBox.y + viewBox.height / 2})`,
 							bounds
 						};
 					})
