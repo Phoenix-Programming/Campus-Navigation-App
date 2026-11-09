@@ -11,7 +11,7 @@ from .mixins.update_logging_mixin import UpdateLoggingMixin
 class IndoorNode(IdMixin, UpdateLoggingMixin, Base):
 	__tablename__ = "indoor_nodes"
 
-	building_id: Mapped[int] = mapped_column(ForeignKey("buildings.id"), nullable=False)
+	building_id: Mapped[int] = mapped_column(ForeignKey("buildings.location_id"), nullable=False)
 	floor_id: Mapped[int] = mapped_column(ForeignKey("floors.id"), nullable=False)
 	node_type_id: Mapped[int] = mapped_column(ForeignKey("node_types.id"), nullable=False)
 	label: Mapped[str] = mapped_column(String, nullable=True)
