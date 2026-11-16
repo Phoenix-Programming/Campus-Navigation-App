@@ -4,8 +4,9 @@
 
 ### Prerequisites
 
-- [Node.js (version 18 or higher)](https://nodejs.org/en/download)
-- [Python 3.14](https://www.python.org/downloads/)
+- [Node.js (version 24)](https://nodejs.org/en/download)
+- [Python (version 3.14)](https://www.python.org/downloads/)
+- [PostgreSQL (version 18)](https://www.postgresql.org/download/)
 - npm package manager
 - Git
 
@@ -34,9 +35,7 @@ python3 -m venv .venv
 
 #### Install Poetry
 
-```bash
-curl -sSL https://install.python-poetry.org | python3 -
-```
+Install Poetry, a dependency management tool for Python, by following the [official installation instructions](https://python-poetry.org/docs/#installation).
 
 #### Install Python Dependencies
 

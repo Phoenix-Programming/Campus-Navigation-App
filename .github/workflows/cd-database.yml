@@ -1,0 +1,103 @@
+name: Database Deploy
+
+on:
+  workflow_dispatch:
+    inputs:
+      major-version:
+        description: 'Major version number'
+        required: true
+        default: '1'
+      minor-version:
+        description: 'Minor version number'
+        required: true
+        default: '0'
+      patch-version:
+        description: 'Patch version number'
+        required: true
+        default: '0'
+      pre-release-tag:
+        description: 'Pre-release tag (alpha, beta, or rc) (optional)'
+        required: false
+        default: ''
+      pre-release-number:
+        description: 'Pre-release number (start from 0) (required if pre-release tag is provided)'
+        required: false
+        default: ''
+
+env:
+  MAJOR_VERSION: ${{ github.event.inputs.major-version }}
+  MINOR_VERSION: ${{ github.event.inputs.minor-version }}
+  PATCH_VERSION: ${{ github.event.inputs.patch-version }}
+  PRE_RELEASE_TAG: ${{ github.event.inputs.pre-release-tag }}
+  PRE_RELEASE_NUMBER: ${{ github.event.inputs.pre-release-number }}
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    if: github.ref == 'refs/heads/main'
+
+    env:
+      SERVER_HOST: ${{ secrets.SERVER_HOST }}
+      SERVER_USER: ${{ secrets.SERVER_USER }}
+      SERVER_SSH_KEY: ${{ secrets.SERVER_SSH_KEY }}
+      SERVER_PORT: ${{ secrets.SERVER_PORT }}
+      IMG_NAME: campus-map-database
+
+    steps:
+      - name: Build version string
+        run: |
+          VERSION="${{ env.MAJOR_VERSION }}.${{ env.MINOR_VERSION }}.${{ env.PATCH_VERSION }}"
+          if [ -n "${{ env.PRE_RELEASE_TAG }}" ]; then
+            VERSION="${VERSION}-${{ env.PRE_RELEASE_TAG }}"
+            if [ -n "${{ env.PRE_RELEASE_NUMBER }}" ]; then
+              VERSION="${VERSION}.${{ env.PRE_RELEASE_NUMBER }}"
+            fi
+          fi
+          echo "VERSION=${VERSION}" >> $GITHUB_ENV
+
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v4
+
+      - name: Build Docker image
+        run: |
+          docker build -t ${{ env.IMG_NAME }}:${{ env.VERSION }} ./backend
+
+      - name: Save as tarball
+        run: |
+          docker save ${{ env.IMG_NAME }}:${{ env.VERSION }} -o ${{ env.IMG_NAME }}_${{ env.VERSION }}.tar
+
+      - name: Transfer tarball to server
+        uses: appleboy/scp-action@v1
+        with:
+          host: ${{ env.SERVER_HOST }}
+          username: ${{ env.SERVER_USER }}
+          key: ${{ env.SERVER_SSH_KEY }}
+          port: ${{ env.SERVER_PORT }}
+          source: "${{ env.IMG_NAME }}_${{ env.VERSION }}.tar"
+          target: "~/campus-map/"
+
+      - name: Load Docker image on server
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ env.SERVER_HOST }}
+          username: ${{ env.SERVER_USER }}
+          key: ${{ env.SERVER_SSH_KEY }}
+          port: ${{ env.SERVER_PORT }}
+          script: |
+            # Navigate to the application directory
+            cd ~/campus-map/
+
+            # Load the Docker image from the tarball
+            docker load -i ${{ env.IMG_NAME }}_${{ env.VERSION }}.tar
+
+            # Restart the database service using the Docker Compose
+            docker compose up -d --force-recreate --no-deps database
+
+            # Clean up the tarball
+            rm ${{ env.IMG_NAME }}_${{ env.VERSION }}.tar

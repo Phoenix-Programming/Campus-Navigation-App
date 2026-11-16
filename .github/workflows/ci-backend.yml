@@ -1,4 +1,4 @@
-name: CI
+name: Backend CI
 
 on:
   workflow_dispatch:
@@ -6,6 +6,12 @@ on:
   pull_request:
     branches:
       - "**"
+
+    types: [opened, synchronize, reopened]
+
+    paths:
+      - "backend/**"
+      - ".github/workflows/ci-backend.yml"
 
   push:
     branches:
@@ -15,35 +21,19 @@ permissions:
   contents: read
 
 jobs:
-  test:
+  build-and-test:
     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        node-version: [22.x, 24.x]
-
     steps:
-      - name: Checkout Repository
+      - name: Checkout repository
         uses: actions/checkout@v4
         with:
           fetch-depth: 1
-
-      - name: Set up Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ matrix.node-version }}
-          cache: "npm"
-          cache-dependency-path: ./frontend/package-lock.json
 
       - name: Set up Python 3.14
         uses: actions/setup-python@v6
         with:
           python-version: 3.14
-
-      - name: Install npm dependencies
-        run: |
-          cd frontend
-          npm ci
 
       - name: Install Poetry
         run: |
@@ -51,7 +41,7 @@ jobs:
           pip3 install poetry
           poetry config virtualenvs.in-project true
 
-      - name: Cache poetry dependencies
+      - name: Cache Poetry dependencies
         id: cache-deps
         uses: actions/cache@v5
         with:
@@ -60,16 +50,6 @@ jobs:
 
       - name: Install Python dependencies
         run: poetry install --with dev
-
-      - name: Build the frontend
-        run: |
-          cd frontend
-          npm run build --if-present
-
-      - name: Run frontend tests
-        run: |
-          cd frontend
-          npm test
 
       - name: Run backend tests
         run: poetry run poe test
