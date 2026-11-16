@@ -20,6 +20,7 @@ export interface UpdateBuildingRequest {
 	name: string;
 	code: string;
 	address: string;
+	description: string;
 	num_floors: number;
 	floor_svgs: (string | null)[] | null;
 }
@@ -44,6 +45,7 @@ export interface BuildingData {
 	name: string;
 	code: string;
 	address: string;
+	description: string;
 	num_floors: number;
 	floor_svgs: string[] | { [floorNumber: number]: string };
 }

@@ -277,6 +277,7 @@ export async function getBuildingData(bld_id: number): Promise<BuildingData> {
 			name: "",
 			code: "",
 			address: "",
+			description: "",
 			num_floors: 0,
 			floor_svgs: []
 		}
@@ -289,10 +290,11 @@ export async function updateBuilding(
 	name: string,
 	code: string,
 	address: string,
+	description: string,
 	numFloors: number,
 	svgs: (string | null)[] | null
 ): Promise<void> {
-	await updateBuildingApi(bld_id, categoryType, name, code, address, numFloors, svgs);
+	await updateBuildingApi(bld_id, categoryType, name, code, address, description, numFloors, svgs);
 }
 
 export async function createBuilding(
@@ -300,8 +302,9 @@ export async function createBuilding(
 	name: string,
 	code: string,
 	address: string,
+	description: string,
 	numFloors: number,
 	svgs: (string | null)[] | null
 ) {
-	await createBuildingApi(categoryType, name, code, address, numFloors, svgs);
+	await createBuildingApi(categoryType, name, code, address, description, numFloors, svgs);
 }

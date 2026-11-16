@@ -42,6 +42,7 @@ export default function BuildingModal({ bld_id, onClose, onBuildingSaved }: Buil
 	const [buildingName, setBuildingName] = useState<string>("");
 	const [buildingCode, setBuildingCode] = useState<string>("");
 	const [buildingAddress, setBuildingAddress] = useState<string>("");
+	const [buildingDescription, setBuildingDescription] = useState<string>("");
 	const [numFloors, setNumFloors] = useState<number>(1);
 	const [floorSvgs, setFloorSvgs] = useState<{ [floorNumber: number]: string }>({});
 	const [sessionUploadedFloors, setSessionUploadedFloors] = useState<Set<number>>(new Set());
@@ -60,6 +61,7 @@ export default function BuildingModal({ bld_id, onClose, onBuildingSaved }: Buil
 		buildingName: string;
 		buildingCode: string;
 		buildingAddress: string;
+		buildingDescription: string;
 		numFloors: number;
 		floorSvgs: { [floorNumber: number]: string };
 	} | null>(null);
@@ -90,6 +92,7 @@ export default function BuildingModal({ bld_id, onClose, onBuildingSaved }: Buil
 				buildingName !== initialFormRef.current.buildingName ||
 				buildingCode !== initialFormRef.current.buildingCode ||
 				buildingAddress !== initialFormRef.current.buildingAddress ||
+				buildingDescription !== initialFormRef.current.buildingDescription ||
 				numFloors !== initialFormRef.current.numFloors ||
 				JSON.stringify(floorSvgs) !== JSON.stringify(initialFormRef.current.floorSvgs) ||
 				Object.keys(stagedGraphDataByFloor).length > 0
@@ -100,6 +103,7 @@ export default function BuildingModal({ bld_id, onClose, onBuildingSaved }: Buil
 		buildingName,
 		buildingCode,
 		buildingAddress,
+		buildingDescription,
 		numFloors,
 		floorSvgs,
 		stagedGraphDataByFloor
@@ -123,6 +127,7 @@ export default function BuildingModal({ bld_id, onClose, onBuildingSaved }: Buil
 		setBuildingName(response.name);
 		setBuildingCode(response.code);
 		setBuildingAddress(response.address);
+		setBuildingDescription(response.description);
 		setNumFloors(response.num_floors);
 		setFloorSvgs(normalizedFloorSvgs);
 		setSessionUploadedFloors(new Set());
@@ -137,6 +142,7 @@ export default function BuildingModal({ bld_id, onClose, onBuildingSaved }: Buil
 			buildingName: response.name,
 			buildingCode: response.code,
 			buildingAddress: response.address,
+			buildingDescription: response.description,
 			numFloors: response.num_floors,
 			floorSvgs: normalizedFloorSvgs
 		};
@@ -346,6 +352,7 @@ export default function BuildingModal({ bld_id, onClose, onBuildingSaved }: Buil
 				buildingName,
 				buildingCode,
 				buildingAddress,
+				buildingDescription,
 				numFloors,
 				svgs
 			);
@@ -376,7 +383,7 @@ export default function BuildingModal({ bld_id, onClose, onBuildingSaved }: Buil
 
 			const svgs: (string | null)[] | null = buildFloorSvgCreatePayload(floorSvgs, numFloors);
 
-			await createBuildingService(buildingCategoryType!, buildingName, buildingCode, buildingAddress, numFloors, svgs);
+			await createBuildingService(buildingCategoryType!, buildingName, buildingCode, buildingAddress, buildingDescription, numFloors, svgs);
 
 			await persistStagedGraphData(buildingCode.trim());
 
@@ -397,13 +404,15 @@ export default function BuildingModal({ bld_id, onClose, onBuildingSaved }: Buil
 			buildingCategoryType,
 			buildingName,
 			buildingCode,
-			buildingAddress
+			buildingAddress,
+			buildingDescription
 		});
 		return (
 			buildingCategoryType !== null &&
 			buildingName.trim() !== "" &&
 			buildingCode.trim() !== "" &&
-			buildingAddress.trim() !== ""
+			buildingAddress.trim() !== "" &&
+			buildingDescription.trim() !== ""
 		);
 	}
 
@@ -445,6 +454,7 @@ export default function BuildingModal({ bld_id, onClose, onBuildingSaved }: Buil
 		buildingName.trim() !== "" ||
 		buildingCode.trim() !== "" ||
 		buildingAddress.trim() !== "" ||
+		buildingDescription.trim() !== "" ||
 		numFloors !== 1 ||
 		Object.keys(floorSvgs).length > 0 ||
 		Object.keys(stagedGraphDataByFloor).length > 0;
@@ -490,7 +500,7 @@ export default function BuildingModal({ bld_id, onClose, onBuildingSaved }: Buil
 
 				{/* Body */}
 				{(bld_id === undefined ||
-					(buildingCategoryType !== null && buildingName && buildingCode && buildingAddress && numFloors !== null)) && (
+					(buildingCategoryType !== null && buildingName && buildingCode && buildingAddress && buildingDescription && numFloors !== null)) && (
 					<div className="modal-body">
 						{bld_id !== undefined && (
 							<div className="item same-row">
@@ -561,6 +571,16 @@ export default function BuildingModal({ bld_id, onClose, onBuildingSaved }: Buil
 								onChange={(e) => setBuildingAddress(e.target.value)}
 								style={{ width: "400px" }}
 								required
+							/>
+						</div>
+
+						<div className="item">
+							<label className="label">Description</label>
+							<textarea
+								value={buildingDescription!}
+								onChange={(e) => setBuildingDescription(e.target.value)}
+								style={{ width: "400px", height: "100px" }}
+								placeholder="Enter a description for the building"
 							/>
 						</div>
 

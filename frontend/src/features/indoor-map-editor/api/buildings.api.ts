@@ -112,6 +112,7 @@ export async function updateBuilding(
 	buildingName: string,
 	buildingCode: string,
 	buildingAddress: string,
+	buildingDescription: string,
 	numFloors: number,
 	svgs: (string | null)[] | null
 ): Promise<void> {
@@ -121,6 +122,7 @@ export async function updateBuilding(
 			name: buildingName,
 			code: buildingCode,
 			address: buildingAddress,
+			description: buildingDescription,
 			num_floors: numFloors,
 			floor_svgs: svgs
 		};
@@ -140,6 +142,7 @@ export async function createBuilding(
 	name: string,
 	code: string,
 	address: string,
+	description: string,
 	numFloors: number,
 	svgs: (string | null)[] | null
 ): Promise<void> {
@@ -149,6 +152,7 @@ export async function createBuilding(
 			name: name,
 			code: code,
 			address: address,
+			description: description,
 			num_floors: numFloors,
 			floor_svgs: svgs
 		};
