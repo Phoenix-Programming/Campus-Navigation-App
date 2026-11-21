@@ -1,12 +1,14 @@
 from fastapi import APIRouter
 from typing import Final
-from .user_routes import router as user_router
 from .building_routes import router as building_router
+from .faculty_routes import router as faculty_router
+from .user_routes import router as user_router
 
 
 _api_routers: Final[list[APIRouter]] = [
 	user_router,
- 	building_router
+ 	building_router,
+	faculty_router
 ]
 
 
