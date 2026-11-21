@@ -6,6 +6,7 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from backend.schema.mixins.update_logging_mixin import UpdateLoggingMixin
 from backend.utilities.db_connection import Base
+from backend.schema.mixins.id_mixin import IdMixin
 
 # Prevent circular import issues with type checking
 if TYPE_CHECKING:
@@ -15,10 +16,9 @@ if TYPE_CHECKING:
 	from backend.schema.special_operating_hours import SpecialOperatingHours
 
 
-class Location(UpdateLoggingMixin, Base):
+class Location(IdMixin, UpdateLoggingMixin, Base):
 	__tablename__ = "locations"
 
-	id: Mapped[int] = mapped_column(primary_key=True)
 	location_type_id: Mapped[int] = mapped_column(ForeignKey("location_types.type"), nullable=False)
 	name: Mapped[str] = mapped_column(String, unique=True, nullable=False)
 	description: Mapped[str | None] = mapped_column(String, nullable=True)
