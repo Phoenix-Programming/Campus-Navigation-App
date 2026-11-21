@@ -4,11 +4,11 @@ from typing import TYPE_CHECKING
 from sqlalchemy import String
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from backend.utilities.db_connection import Base
+from .employees_in_departments import employees_in_departments
 from .mixins.id_mixin import IdMixin
 
 if TYPE_CHECKING:
 	from backend.schema.employee import Employee
-	from backend.schema.office import Office
 
 
 class Department(IdMixin, Base):
@@ -16,5 +16,7 @@ class Department(IdMixin, Base):
 
 	name: Mapped[str] = mapped_column(String(128), unique=True, nullable=False)
 
-	employees: Mapped[list["Employee"]] = relationship(back_populates="department")
-	offices: Mapped[list["Office"]] = relationship(back_populates="department")
+	employees: Mapped[list["Employee"]] = relationship(
+     	secondary=employees_in_departments,
+		back_populates="departments"
+    )

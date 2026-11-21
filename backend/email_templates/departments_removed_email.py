@@ -11,7 +11,7 @@ DEPARTMENTS_REMOVED_EMAIL_HTML: str = """
 
         <p>Please review the removed department(s) listed below.</p>
 
-        {new_departments_table}
+        {removed_departments_table}
     </body>
 </html>
 """

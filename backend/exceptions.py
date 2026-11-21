@@ -79,13 +79,9 @@ class NodeTypeNotFoundError(NotFoundError):
         super().__init__(msg=f"Node type '{node_type}' not found.")
 
 class DepartmentNotFoundError(NotFoundError):
-    def __init__(self, department_id: int):
-        super().__init__(msg=f"Department with id {department_id} not found.")
+    def __init__(self, department_name: str):
+        super().__init__(msg=f"Department with name {department_name} not found.")
 
-class OfficeNotFoundError(NotFoundError):
-    def __init__(self, office_id: int):
-        super().__init__(msg=f"Office with id {office_id} not found.")
-
-class EmployeeNotFoundError(NotFoundError):
-    def __init__(self, employee_id: int):
-        super().__init__(msg=f"Employee with id {employee_id} not found.")
+class RoomNotFoundError(NotFoundError):
+    def __init__(self, room_name: str):
+        super().__init__(msg=f"Room with name {room_name} not found.")

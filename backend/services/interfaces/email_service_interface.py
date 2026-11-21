@@ -12,7 +12,7 @@ class EmailServiceInterface(ABC):
         bcc: str | list[str] | None = None,
         reply_to: str | None = None,
         subject: str,
-        plain_text: str,
+        plain_text: str | None = None,
         html_content: str | None = None,
         priority: EmailPriority = EmailPriority.Normal
     ) -> bool: pass

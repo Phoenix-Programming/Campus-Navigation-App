@@ -1,8 +1,7 @@
 from sqlalchemy import Result, select
-from backend.exceptions import DepartmentNotFoundError, OfficeNotFoundError, EmployeeNotFoundError
+from backend.exceptions import DepartmentNotFoundError, RoomNotFoundError
 from backend.schema.department import Department
 from backend.schema.employee import Employee
-from backend.schema.office import Office
 from backend.utilities.db_connection import Database
 from .interfaces.faculty_repository_interface import FacultyRepositoryInterface
 
@@ -12,12 +11,22 @@ class FacultyRepository(FacultyRepositoryInterface):
 		self.db = db
 
 
-	async def get_department_by_id(self, department_id: int) -> Department | None:
+	async def get_all_departments(self) -> list[Department]:
+		result: Result[Department] = await self.db.execute(select(Department))
+
+		return list(result.scalars().all())
+
+
+	async def get_department_by_name(self, name: str) -> Department | None:
 		result: Result[Department] = await self.db.execute(
-      		select(Department).where(Department.id == department_id)
+      		select(Department).where(Department.name == name)
         )
 
-		return result.scalars().first()
+		department: Department | None = result.scalar_one_or_none()
+
+		if department is None: raise DepartmentNotFoundError(name)
+
+		return department
 
 
 	async def insert_department(self, name: str) -> Department:
@@ -34,14 +43,7 @@ class FacultyRepository(FacultyRepositoryInterface):
 			raise
 
 
-	async def delete_department(self, department_id: int) -> None:
-		result: Result[Department] = await self.db.execute(
-      		select(Department).where(Department.id == department_id)
-		)
-		department: Department | None = result.scalars().first()
-
-		if department is None: raise DepartmentNotFoundError(department_id)
-
+	async def delete_department(self, department: Department) -> None:
 		await self.db.delete(department)
 
 		try:
@@ -51,55 +53,25 @@ class FacultyRepository(FacultyRepositoryInterface):
 			raise
 
 
-	async def insert_office(self, room_id: int, office_category_id: int, department_id: int) -> None:
-		from backend.schema.office import Office
+	async def get_all_employees(self) -> list[Employee]:
+		result: Result[Employee] = await self.db.execute(select(Employee))
 
-		new_office: Office = Office(
-			room_id=room_id,
-			office_category_id=office_category_id,
-			department_id=department_id
-		)
-		self.db.add(new_office)
-
-		try:
-			await self.db.commit()
-			await self.db.refresh(new_office)
-		except:
-			await self.db.rollback()
-			raise
-
-
-	async def delete_office(self, office_id: int) -> None:
-		result: Result[Office] = await self.db.execute(
-      		select(Office).where(Office.id == office_id)
-        )
-		office: Office | None = result.scalars().first()
-
-		if office is None: raise OfficeNotFoundError(office_id)
-
-		await self.db.delete(office)
-
-		try:
-			await self.db.commit()
-		except:
-			await self.db.rollback()
-			raise
+		return list(result.scalars().all())
 
 
 	async def insert_employee(
      	self,
-      	department_id: int,
-       	office_id: int,
+      	departments: list[Department],
         title: str,
         first_name: str,
         last_name: str,
+       	room_id: int | None = None,
         email: str | None = None,
         website: str | None = None,
         phone: str | None = None
-    ) -> None:
+    ) -> Employee:
 		new_employee: Employee = Employee(
-			department_id=department_id,
-			office_id=office_id,
+			room_id=room_id,
 			title=title,
 			first_name=first_name,
 			last_name=last_name,
@@ -109,60 +81,19 @@ class FacultyRepository(FacultyRepositoryInterface):
 		)
 		self.db.add(new_employee)
 
+		new_employee.departments.extend(departments)
+
 		try:
 			await self.db.commit()
 			await self.db.refresh(new_employee)
+
+			return new_employee
 		except:
 			await self.db.rollback()
 			raise
 
 
-	async def update_employee(
-	 	self,
-		employee_id: int,
-       	department_id: int | None = None,
-	  	office_id: int | None = None,
-	  	title: str | None = None,
-	  	first_name: str | None = None,
-	  	last_name: str | None = None,
-	  	email: str | None = None,
-	  	website: str | None = None,
-	  	phone: str | None = None
-	) -> Employee:
-		result: Result[Employee] = await self.db.execute(
-	  		select(Employee).where(Employee.id == employee_id)
-		)
-		employee: Employee | None = result.scalars().first()
-
-		if employee is None: raise EmployeeNotFoundError(employee_id)
-
-		if department_id is not None: employee.department_id = department_id
-		if office_id is not None: employee.office_id = office_id
-		if title is not None: employee.title = title
-		if first_name is not None: employee.first_name = first_name
-		if last_name is not None: employee.last_name = last_name
-		if email is not None: employee.email = email
-		if website is not None: employee.website = website
-		if phone is not None: employee.phone = phone
-
-		try:
-			await self.db.commit()
-			await self.db.refresh(employee)
-
-			return employee
-		except:
-			await self.db.rollback()
-			raise
-
-
-	async def delete_employee(self, employee_id: int) -> None:
-		result: Result[Employee] = await self.db.execute(
-	  		select(Employee).where(Employee.id == employee_id)
-		)
-		employee: Employee | None = result.scalars().first()
-
-		if employee is None: raise EmployeeNotFoundError(employee_id)
-
+	async def delete_employee(self, employee: Employee) -> None:
 		await self.db.delete(employee)
 
 		try:
@@ -170,3 +101,15 @@ class FacultyRepository(FacultyRepositoryInterface):
 		except:
 			await self.db.rollback()
 			raise
+
+
+	async def get_room_by_name(self, name: str) -> Room | None:
+		result: Result[Room] = await self.db.execute(
+      		select(Room).where(Room.name == name)
+        )
+
+		room: Room | None = result.scalar_one_or_none()
+
+		if room is None: raise RoomNotFoundError(name)
+
+		return room
