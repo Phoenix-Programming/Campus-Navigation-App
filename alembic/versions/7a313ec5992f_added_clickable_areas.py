@@ -1,8 +1,8 @@
-"""Added clickable area to indoor nodes
+"""added clickable areas
 
-Revision ID: 36233ce1bd1d
-Revises: 01ee53eda9de
-Create Date: 2026-10-19 23:14:07.367064
+Revision ID: 7a313ec5992f
+Revises: 6408841a7f5d
+Create Date: 2026-11-23 21:01:53.314868
 
 """
 from typing import Sequence, Union
@@ -13,8 +13,8 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision: str = '36233ce1bd1d'
-down_revision: Union[str, Sequence[str], None] = '01ee53eda9de'
+revision: str = '7a313ec5992f'
+down_revision: Union[str, Sequence[str], None] = '6408841a7f5d'
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
 
