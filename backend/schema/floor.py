@@ -16,7 +16,7 @@ if TYPE_CHECKING:
 class Floor(IdMixin, UpdateLoggingMixin, Base):
 	__tablename__ = "floors"
 
-	building_id: Mapped[int] = mapped_column(ForeignKey("buildings.id"), nullable=False)
+	building_id: Mapped[int] = mapped_column(ForeignKey("buildings.location_id"), nullable=False)
 	floor_num: Mapped[int] = mapped_column(nullable=False)
 	svg: Mapped[str] = mapped_column(String, nullable=False)
 
