@@ -57,6 +57,8 @@ export interface Node {
 	x: number;
 	y: number;
 	clickable_area?: { x: number; y: number }[] | null;
+	room_identifier?: string;
+	room_official_name?: string;
 }
 
 export interface Edge {

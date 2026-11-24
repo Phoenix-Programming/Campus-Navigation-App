@@ -11,7 +11,13 @@ interface InspectorPanelProps {
 	selectedNodesAndEdges: Set<Node | Edge>;
 	hoveredNode: Node | null;
 	hoveredEdge: Edge | null;
-	updateNode?: (nodeId: number, newLabel: string | null, newType: string | null) => void;
+	updateNode?: (
+		nodeId: number,
+		newLabel: string | null,
+		newType: string | null,
+		newRoomIdentifier: string | null,
+		newRoomOfficialName: string | null
+	) => void;
 	deleteNode?: (nodeId: number) => void;
 	deleteEdge?: (nodeAId: number, nodeBId: number) => void;
 }

@@ -1,5 +1,4 @@
 import React from "react";
-import clsx from "clsx";
 import { NodeType, type Node, type Edge } from "../models/buildings_models";
 import deleteIcon from "@assets/icons/delete.svg";
 import "../styles/indoor-graph-context-component.scss";
@@ -8,7 +7,13 @@ interface IndoorGraphContextProps {
 	nodes: Node[];
 	edges: Edge[];
 	isHovered: boolean;
-	updateNode?: (nodeId: number, newLabel: string | null, newType: string | null) => void;
+	updateNode?: (
+		nodeId: number,
+		newLabel: string | null,
+		newType: string | null,
+		newRoomIdentifier: string | null,
+		newRoomOfficialName: string | null
+	) => void;
 	deleteNode?: (nodeId: number) => void;
 	deleteEdge?: (nodeAId: number, nodeBId: number) => void;
 }
@@ -31,11 +36,19 @@ export default function IndoorGraphContextComponent({
 	const edge: Edge | null = isSingleEdge ? edges[0] : null;
 
 	function setSelectedNodeType(newType: string): void {
-		updateNode!(node!.id, null, newType);
+		updateNode!(node!.id, null, newType, null, null);
 	}
 
 	function setSelectedNodeLabel(newLabel: string): void {
-		updateNode!(node!.id, newLabel, null);
+		updateNode!(node!.id, newLabel, null, null, null);
+	}
+
+	function setNodeRoomIdentifier(roomIdentifier: string) {
+		updateNode!(node!.id, null, null, roomIdentifier, null);
+	}
+
+	function setNodeRoomOfficialName(roomOfficialName: string): void {
+		updateNode!(node!.id, null, null, null, roomOfficialName);
 	}
 
 	function getTitle(): string {
@@ -64,6 +77,12 @@ export default function IndoorGraphContextComponent({
 					<>
 						<span>Label: {node!.label}</span>
 						<span className="capitalize">Type: {node!.type}</span>
+						{node!.type === "room" && (
+							<>
+								<span>Rm Identifier: {node!.room_identifier}</span>
+								<span>Rm Official Name: {node!.room_official_name}</span>
+							</>
+						)}
 					</>
 				) : (
 					<>
@@ -93,6 +112,32 @@ export default function IndoorGraphContextComponent({
 								))}
 							</select>
 						</div>
+
+						{node?.type === "room" && (
+							<>
+								<div className="kv-pair">
+									<span>Rm Identifier:</span>
+
+									<input
+										value={node?.room_identifier}
+										onChange={(e) => setNodeRoomIdentifier(e.target.value)}
+										placeholder="IST-1012"
+										style={{ height: "24px" }}
+									/>
+								</div>
+
+								<div className="kv-pair">
+									<span>Rm Official Name:</span>
+
+									<input
+										value={node?.room_official_name}
+										onChange={(e) => setNodeRoomOfficialName(e.target.value)}
+										placeholder="Barnett Research Lab"
+										style={{ height: "24px" }}
+									/>
+								</div>
+							</>
+						)}
 					</>
 				)}
 

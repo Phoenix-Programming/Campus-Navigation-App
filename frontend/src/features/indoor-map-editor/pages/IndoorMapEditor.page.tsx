@@ -568,17 +568,32 @@ export default function IndoorMapEditor(): React.JSX.Element {
 		setChangesMade(true);
 	}
 
-	function updateNode(nodeId: number, newLabel: string | null, newType: string | null): void {
+	function updateNode(
+		nodeId: number,
+		newLabel: string | null,
+		newType: string | null,
+		newRoomIdentifier: string | null,
+		newRoomOfficialName: string | null
+	): void {
 		let updatedNode: Node | null = null;
 
 		setNodes((prevNodes) =>
 			prevNodes!.map((node) => {
 				if (node.id !== nodeId) return node;
 
+				let label: string = newLabel !== null ? newLabel : node.label;
+				let type: string = newType !== null ? newType : node.type;
+				let roomIdentifier: string | undefined =
+					newRoomIdentifier !== null ? newRoomIdentifier : node.room_identifier;
+				let roomOfficialName: string | undefined =
+					newRoomOfficialName !== null ? newRoomOfficialName : node.room_official_name;
+
 				updatedNode = {
 					...node,
-					label: newLabel !== null ? newLabel : node.label,
-					type: newType !== null ? newType : node.type
+					label: label,
+					type: type,
+					room_identifier: type === "room" ? roomIdentifier : undefined,
+					room_official_name: type ==="room" ? roomOfficialName : undefined
 				};
 
 				return updatedNode;
