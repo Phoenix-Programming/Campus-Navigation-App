@@ -4,7 +4,7 @@ from typing import TYPE_CHECKING, Optional
 from sqlalchemy import ForeignKey, String
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from backend.utilities.db_connection import Base
-from .employees_in_departments import employees_in_departments
+from .faculty_member_in_departments import employees_in_departments
 from .mixins.id_mixin import IdMixin
 
 if TYPE_CHECKING:
@@ -12,8 +12,8 @@ if TYPE_CHECKING:
 	from backend.schema.room import Room
 
 
-class Employee(IdMixin, Base):
-	__tablename__ = "employees"
+class FacultyMember(IdMixin, Base):
+	__tablename__ = "faculty"
 
 	room_id: Mapped[Optional[int]] = mapped_column(ForeignKey("rooms.id"), nullable=True)
 	title: Mapped[str] = mapped_column(String(64), nullable=False)
@@ -25,6 +25,6 @@ class Employee(IdMixin, Base):
 
 	departments: Mapped[list["Department"]] = relationship(
      	secondary=employees_in_departments,
-      	back_populates="employees"
+      	back_populates="faculty"
     )
-	office: Mapped[Optional["Room"]] = relationship(back_populates="employees", foreign_keys=[room_id])
+	office: Mapped[Optional["Room"]] = relationship(back_populates="faculty", foreign_keys=[room_id])

@@ -1,7 +1,8 @@
 from sqlalchemy import Result, select
 from backend.exceptions import DepartmentNotFoundError, RoomNotFoundError
 from backend.schema.department import Department
-from backend.schema.employee import Employee
+from backend.schema.faculty_member import FacultyMember
+from backend.schema.room import Room
 from backend.utilities.db_connection import Database
 from .interfaces.faculty_repository_interface import FacultyRepositoryInterface
 
@@ -53,25 +54,25 @@ class FacultyRepository(FacultyRepositoryInterface):
 			raise
 
 
-	async def get_all_employees(self) -> list[Employee]:
-		result: Result[Employee] = await self.db.execute(select(Employee))
+	async def get_all_faculty(self) -> list[FacultyMember]:
+		result: Result[FacultyMember] = await self.db.execute(select(FacultyMember))
 
 		return list(result.scalars().all())
 
 
-	async def insert_employee(
+	async def insert_faculty_member(
      	self,
       	departments: list[Department],
         title: str,
         first_name: str,
         last_name: str,
-       	room_id: int | None = None,
+       	room: Room | None = None,
         email: str | None = None,
         website: str | None = None,
         phone: str | None = None
-    ) -> Employee:
-		new_employee: Employee = Employee(
-			room_id=room_id,
+    ) -> FacultyMember:
+		new_faculty_member: FacultyMember = FacultyMember(
+			room_id=room.location_id if room is not None else None,
 			title=title,
 			first_name=first_name,
 			last_name=last_name,
@@ -79,22 +80,22 @@ class FacultyRepository(FacultyRepositoryInterface):
 			website=website,
 			phone=phone
 		)
-		self.db.add(new_employee)
+		self.db.add(new_faculty_member)
 
-		new_employee.departments.extend(departments)
+		new_faculty_member.departments.extend(departments)
 
 		try:
 			await self.db.commit()
-			await self.db.refresh(new_employee)
+			await self.db.refresh(new_faculty_member)
 
-			return new_employee
+			return new_faculty_member
 		except:
 			await self.db.rollback()
 			raise
 
 
-	async def delete_employee(self, employee: Employee) -> None:
-		await self.db.delete(employee)
+	async def delete_faculty_member(self, faculty_member: FacultyMember) -> None:
+		await self.db.delete(faculty_member)
 
 		try:
 			await self.db.commit()

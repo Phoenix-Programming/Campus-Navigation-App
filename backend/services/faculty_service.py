@@ -1,3 +1,4 @@
+from datetime import datetime
 from tabulate import tabulate
 from backend.email_templates.departments_added_email import (
     DEPARTMENTS_ADDED_EMAIL_SUBJECT, DEPARTMENTS_ADDED_EMAIL_HTML
@@ -5,18 +6,21 @@ from backend.email_templates.departments_added_email import (
 from backend.email_templates.departments_removed_email import (
 	DEPARTMENTS_REMOVED_EMAIL_SUBJECT, DEPARTMENTS_REMOVED_EMAIL_HTML
 )
-from backend.email_templates.employees_added_email import (
-	EMPLOYEES_ADDED_EMAIL_SUBJECT, EMPLOYEES_ADDED_EMAIL_HTML
+from backend.email_templates.faculty_added_email import (
+	FACULTY_ADDED_EMAIL_SUBJECT, FACULTY_ADDED_EMAIL_HTML
 )
-from backend.email_templates.employees_removed_email import (
-	EMPLOYEES_REMOVED_EMAIL_SUBJECT, EMPLOYEES_REMOVED_EMAIL_HTML
+from backend.email_templates.faculty_removed_email import (
+	FACULTY_REMOVED_EMAIL_SUBJECT, FACULTY_REMOVED_EMAIL_HTML
 )
-from backend.models.faculty import FacultyMember
+from backend.email_templates.faculty_web_scraping_error_email import (
+	FACULTY_WEB_SCRAPING_ERROR_EMAIL_SUBJECT, FACULTY_WEB_SCRAPING_ERROR_EMAIL_BODY
+)
+from backend.models.faculty import ScrapedFacultyMember
 from backend.repositories.interfaces.faculty_repository_interface import FacultyRepositoryInterface
 from backend.schema.department import Department
-from backend.schema.employee import Employee
+from backend.schema.faculty_member import FacultyMember
+from backend.schema.room import Room
 from backend.settings import settings
-from backend.utilities.scrape_faculty import get_faculty_list
 from .interfaces.email_service_interface import EmailServiceInterface
 from .interfaces.faculty_service_interface import FacultyServiceInterface
 
@@ -31,9 +35,7 @@ class FacultyService(FacultyServiceInterface):
 		self.email_service: EmailServiceInterface = email_service
 
 
-	async def scrape_faculty_data(self) -> None:
-		up_to_date_faculty: list[FacultyMember] = await get_faculty_list()  # TODO: Update get_faculty_list to return FacultyMembers instead of str
-
+	async def update_faculty_data(self, up_to_date_faculty: list[ScrapedFacultyMember]) -> None:
 		# Gather department information
 		up_to_date_departments: set[str] = set(
       		[d for fm in up_to_date_faculty for d in fm.departments]
@@ -59,19 +61,19 @@ class FacultyService(FacultyServiceInterface):
       		new_departments
     	)
 
-		# Gather employee information
-		existing_employees: list[Employee] = await self.faculty_repository.get_all_employees()
-		new_faculty: list[FacultyMember] = [
+		# Gather faculty information
+		existing_faculty: list[FacultyMember] = await self.faculty_repository.get_all_faculty()
+		new_faculty: list[ScrapedFacultyMember] = [
       		fm for fm in up_to_date_faculty
-        	if self._does_scraped_faculty_member_exist(fm, existing_employees)
+        	if not self._does_scraped_faculty_member_exist(fm, existing_faculty)
         ]
-		stale_employees: list[Employee] = [
-			e for e in existing_employees
-			if self._is_employee_in_scraped_faculty_members(e, up_to_date_faculty)
+		stale_faculty: list[FacultyMember] = [
+			e for e in existing_faculty
+			if not self._is_faculty_member_in_scraped_faculty_members(e, up_to_date_faculty)
 		]
 
-		# Add new employees
-		employees_added: list[Employee] = []
+		# Add new faculty
+		faculty_added: list[FacultyMember] = []
 
 		for fm in new_faculty:
 			departments: list[Department] = [
@@ -79,12 +81,15 @@ class FacultyService(FacultyServiceInterface):
           		if d.name in fm.departments
             ]
 
-			room_id: int | FileNotFoundError = await self.faculty_repository.get_room_by_name(fm.office_name)
+			room: Room | None = (
+       			await self.faculty_repository.get_room_by_name(fm.office_name)
+   				if fm.office_name is not None else None
+			)
 
-			employees_added.append(await self.faculty_repository.insert_employee(
+			faculty_added.append(await self.faculty_repository.insert_faculty_member(
 				departments=departments,
-				room_id=room_id,
-				title = fm.title,
+				room=room,
+				title=fm.title,
 				first_name=fm.first_name,
 				last_name=fm.last_name,
 				email=fm.email,
@@ -92,17 +97,17 @@ class FacultyService(FacultyServiceInterface):
 				phone=fm.phone
 			))
 
-		employees_added_formatted_content: str = self._format_employees_added_email(
-			employees_added
+		faculty_added_formatted_content: str = self._format_faculty_added_email(
+			faculty_added
 		)
 
-		# Remove stale employees
-		employees_removed_formatted_content: str = self._format_employees_removed_email(
-			stale_employees
+		# Remove stale faculty
+		faculty_removed_formatted_content: str = self._format_faculty_removed_email(
+			stale_faculty
 		)
 
-		for e in stale_employees:
-			await self.faculty_repository.delete_employee(e)
+		for e in stale_faculty:
+			await self.faculty_repository.delete_faculty_member(e)
 
 		# Remove stale departments
 		departments_removed_formatted_content: str = self._format_departments_removed_email(
@@ -116,17 +121,28 @@ class FacultyService(FacultyServiceInterface):
 		await self._send_faculty_scraping_update_emails(
 			departments_added_formatted_content=departments_added_formatted_content,
 			departments_removed_formatted_content=departments_removed_formatted_content,
-			employees_added_formatted_content=employees_added_formatted_content,
-			employees_removed_formatted_content=employees_removed_formatted_content
+			faculty_added_formatted_content=faculty_added_formatted_content,
+			faculty_removed_formatted_content=faculty_removed_formatted_content
+		)
+
+
+	async def send_faculty_web_scraping_error(self, error: Exception) -> None:
+		await self.email_service.send_email(
+			to=settings.mail_support_email,
+			subject=FACULTY_WEB_SCRAPING_ERROR_EMAIL_SUBJECT,
+			plain_text=FACULTY_WEB_SCRAPING_ERROR_EMAIL_BODY.format(
+				fail_time=datetime.now().astimezone(),
+				error=str(error)
+			)
 		)
 
 
 	def _does_scraped_faculty_member_exist(
      	self,
-      	faculty_member: FacultyMember,
-       	employees: list[Employee]
+      	faculty_member: ScrapedFacultyMember,
+       	faculty: list[FacultyMember]
     ) -> bool:
-		for e in employees:
+		for e in faculty:
 			if (
        			faculty_member.first_name == e.first_name and
           		faculty_member.last_name == e.last_name and
@@ -140,20 +156,20 @@ class FacultyService(FacultyServiceInterface):
 		return False
 
 
-	def _is_employee_in_scraped_faculty_members(
+	def _is_faculty_member_in_scraped_faculty_members(
      	self,
-        employee: Employee,
-        faculty_members: list[FacultyMember]
+        faculty_member: FacultyMember,
+        faculty_members: list[ScrapedFacultyMember]
     ) -> bool:
 		for fm in faculty_members:
 			if (
-       			fm.first_name == employee.first_name and
-          		fm.last_name == employee.last_name and
-				fm.title == employee.title and
-				set(fm.departments) == set(employee.departments) and
-				fm.email == employee.email and
-				fm.phone == employee.phone and
-				fm.website == employee.website
+       			fm.first_name == faculty_member.first_name and
+          		fm.last_name == faculty_member.last_name and
+				fm.title == faculty_member.title and
+				set(fm.departments) == set(faculty_member.departments) and
+				fm.email == faculty_member.email and
+				fm.phone == faculty_member.phone and
+				fm.website == faculty_member.website
 			): return True
 
 		return False
@@ -181,20 +197,20 @@ class FacultyService(FacultyServiceInterface):
 		)
 
 
-	def _format_employees_added_email(self, employees: list[Employee]) -> str:
-		return EMPLOYEES_ADDED_EMAIL_HTML.format(
-			num_employees_added=len(employees),
-			new_employees_table=tabulate(
+	def _format_faculty_added_email(self, faculty: list[FacultyMember]) -> str:
+		return FACULTY_ADDED_EMAIL_HTML.format(
+			num_faculty_added=len(faculty),
+			new_faculty_table=tabulate(
        			[[
 					e.first_name,
 					e.last_name,
 					e.title,
 					"; ".join([d.name for d in e.departments]),
-					e.office.room.name if e.office is not None else None,
+					e.office.name if e.office is not None else None,
 					e.email,
 					e.phone,
 					e.website
-                ] for e in employees],
+                ] for e in faculty],
           		headers=[
                 	"FName",
 					"LName",
@@ -210,20 +226,20 @@ class FacultyService(FacultyServiceInterface):
 		)
 
 
-	def _format_employees_removed_email(self, employees: list[Employee]) -> str:
-		return EMPLOYEES_REMOVED_EMAIL_HTML.format(
-			num_employees_removed=len(employees),
-			removed_employees_table=tabulate(
+	def _format_faculty_removed_email(self, faculty: list[FacultyMember]) -> str:
+		return FACULTY_REMOVED_EMAIL_HTML.format(
+			num_faculty_removed=len(faculty),
+			removed_faculty_table=tabulate(
        			[[
 					e.first_name,
 					e.last_name,
 					e.title,
 					"; ".join([d.name for d in e.departments]),
-					e.office.room.name if e.office is not None else None,
+					e.office.name if e.office is not None else None,
 					e.email,
 					e.phone,
 					e.website
-                ] for e in employees],
+                ] for e in faculty],
           		headers=[
                 	"FName",
 					"LName",
@@ -243,14 +259,14 @@ class FacultyService(FacultyServiceInterface):
      	self,
       	departments_added_formatted_content: str | None,
       	departments_removed_formatted_content: str | None,
-      	employees_added_formatted_content: str | None,
-      	employees_removed_formatted_content: str | None
+      	faculty_added_formatted_content: str | None,
+      	faculty_removed_formatted_content: str | None
     ) -> None:
 		for subject, content in [
       		(DEPARTMENTS_ADDED_EMAIL_SUBJECT, departments_added_formatted_content),
       		(DEPARTMENTS_REMOVED_EMAIL_SUBJECT, departments_removed_formatted_content),
-      		(EMPLOYEES_ADDED_EMAIL_SUBJECT, employees_added_formatted_content),
-      		(EMPLOYEES_REMOVED_EMAIL_SUBJECT, employees_removed_formatted_content)
+      		(FACULTY_ADDED_EMAIL_SUBJECT, faculty_added_formatted_content),
+      		(FACULTY_REMOVED_EMAIL_SUBJECT, faculty_removed_formatted_content)
         ]:
 			await self.email_service.send_email(
 				to=settings.mail_support_email,

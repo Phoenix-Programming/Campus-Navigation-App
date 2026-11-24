@@ -1,13 +1,15 @@
+import re
 import requests
 import json
 from bs4 import BeautifulSoup, Tag
+from backend.models.faculty import ScrapedFacultyMember
 
 FACULTY_URL: str = 'https://floridapoly.edu/faculty/'
 HEADERS: dict[str, str] = {
 	'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
 }
 
-def get_faculty_list() -> str:
+def get_faculty_list() -> list[ScrapedFacultyMember] | None:
 	"""Scrapes faculty information off of the Florida Poly Faculty & Staff Directory website
 
 	Returns:
@@ -23,31 +25,56 @@ def get_faculty_list() -> str:
 	soup.prettify()
 
 	var_tag: Tag | None = soup.find("script", id="opted-static-directory-js-js-extra")
-	if not var_tag:
-		print("Script tag not found")
-		return r'{}'
+	if not var_tag: return None
 
-	variable: str = var_tag.text.strip()[31:-1]
+	variable: str = var_tag.text[var_tag.text.index('{'):var_tag.text.rindex(';')]
+	print(variable)
 	faculty_raw: list[dict[str, str]] = json.loads(variable)['data']['Report_Entry']
-	faculty: list[dict[str, str | None]] = []
+	faculty: list[ScrapedFacultyMember] = []
 
 	for f in faculty_raw:
-		faculty.append({
-			'firstName': f.get('firstName'),
-			'lastName': f.get('lastName'),
-			'title': f.get('Title'),
-			'department': f.get('Organizations_group'),
-			'page': (
-	   			'https://floridapoly.edu/faculty/bios/' + str(f.get('firstName')).replace(' ', '-') + '-' + str(f.get('lastName')).replace(' ', '-') + '/?email=' + str(f.get('email'))
-		  		if f.get('firstName') and f.get('lastName') and f.get('email')
-				else None
-			),
-			'email': f.get('email'),
-			'phone': f.get('phone'),
-			'officeLocation': f.get('Location'),
-			'office': f.get('Office')
-		})
+		first_name: str | None = f.get('firstName')
+		if first_name is None: raise ValueError("first_name cannot be None")
 
-	json_obj: str = json.dumps(faculty)
+		last_name: str | None = f.get('lastName')
+		if last_name is None: raise ValueError("last_name cannot be None")
 
-	return json_obj
+		title: str | None = f.get('Title')
+		if title is None: raise ValueError("title cannot be None")
+
+		departments_raw: str | None = f.get('Organizations_group')
+		if departments_raw is None: raise ValueError("departments_raw cannot be None")
+		departments: list[str] = re.split(r'[,;]+', departments_raw)
+
+		email: str | None = f.get('email')
+		if email is None: raise ValueError("email cannot be None")
+
+		website: str = (
+			'https://floridapoly.edu/faculty/bios/' +
+   			first_name.replace(' ', '-') +
+      		'-' +
+        	last_name.replace(' ', '-') +
+         	'/?email=' +
+          	email
+		)
+		phone: str | None = f.get('phone')
+		if not phone: phone = None
+
+		office_name: str | None = f.get('Office')
+		if not office_name: office_name = None
+
+		faculty.append(ScrapedFacultyMember(
+			first_name=first_name,
+			last_name=last_name,
+			title=title,
+			departments=departments,
+			website=website,
+			email=email,
+			phone=phone,
+			office_name=office_name
+		))
+
+	return faculty
+
+
+if __name__ == "__main__": print(get_faculty_list())

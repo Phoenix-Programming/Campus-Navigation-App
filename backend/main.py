@@ -7,6 +7,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from backend.routes.api_routes import router as api_router
 from backend.settings import settings
 from backend.tasks.prune_refresh_tokens import prune_refresh_tokens
+from backend.tasks.scrape_faculty_data import scrape_faculty_data
 from backend.utilities.db_connection import engine
 
 
@@ -19,6 +20,7 @@ async def lifespan(_app: FastAPI):
     scheduler: AsyncIOScheduler = AsyncIOScheduler()
 
     scheduler.add_job(prune_refresh_tokens, CronTrigger(hour=2, minute=0, second=0))
+    scheduler.add_job(scrape_faculty_data, CronTrigger(hour=0, minute=0, second=0))
 
     scheduler.start()
 

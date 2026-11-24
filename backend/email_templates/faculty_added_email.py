@@ -1,7 +1,7 @@
-EMPLOYEES_ADDED_EMAIL_SUBJECT: str = "Alert: {num_employees_added} University Employee(s) Added"
+FACULTY_ADDED_EMAIL_SUBJECT: str = "Alert: {num_employees_added} University Employee(s) Added"
 
 
-EMPLOYEES_ADDED_EMAIL_HTML: str = """
+FACULTY_ADDED_EMAIL_HTML: str = """
 <html>
     <body>
         <p>

@@ -1,7 +1,7 @@
-EMPLOYEES_REMOVED_EMAIL_SUBJECT: str = "Alert: {num_employees_removed} University Employee(s) Removed"
+FACULTY_REMOVED_EMAIL_SUBJECT: str = "Alert: {num_employees_removed} University Employee(s) Removed"
 
 
-EMPLOYEES_REMOVED_EMAIL_HTML: str = """
+FACULTY_REMOVED_EMAIL_HTML: str = """
 <html>
     <body>
         <p>

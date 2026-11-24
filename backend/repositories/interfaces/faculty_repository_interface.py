@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 from backend.schema.department import Department
-from backend.schema.employee import Employee
+from backend.schema.faculty_member import FacultyMember
 from backend.schema.room import Room
 
 
@@ -18,23 +18,23 @@ class FacultyRepositoryInterface(ABC):
     async def delete_department(self, department: Department) -> None: pass
 
     @abstractmethod
-    async def get_all_employees(self) -> list[Employee]: pass
+    async def get_all_faculty(self) -> list[FacultyMember]: pass
 
     @abstractmethod
-    async def insert_employee(
+    async def insert_faculty_member(
         self,
         departments: list[Department],
         title: str,
         first_name: str,
         last_name: str,
-        room_id: int | None,
+        room: Room | None,
         email: str | None = None,
         website: str | None = None,
         phone: str | None = None
-    ) -> Employee: pass
+    ) -> FacultyMember: pass
 
     @abstractmethod
-    async def delete_employee(self, employee: Employee) -> None: pass
+    async def delete_faculty_member(self, faculty_member: FacultyMember) -> None: pass
 
     @abstractmethod
     async def get_room_by_name(self, name: str) -> Room | None: pass
